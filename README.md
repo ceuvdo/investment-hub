@@ -20,6 +20,16 @@ python pipeline/build_data.py
 
 Raw responses are cached in `pipeline/cache/` for 12 hours. Add `--fresh` to refetch everything. A full run takes about 1–2 minutes. On GitHub, `.github/workflows/refresh-data.yml` does this every day at 06:15 UTC and commits the new data. You can also start it by hand from the Actions tab.
 
+## Deploy to Cloudflare Pages
+
+Node.js and Wrangler are installed on `E:\tools` because drive C: is full. The script reads `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID` from the user environment variables, so the token never appears in commands or logs.
+
+```powershell
+.\deploy.ps1
+```
+
+On the first run it creates the `investment-hub` project. After that, every run publishes a new version to `https://investment-hub.pages.dev`, or to a similar address if that name is taken. Only `*.html`, `assets/` and `data/` are uploaded.
+
 ## Where the numbers come from
 
 | Data | Source | How often |
