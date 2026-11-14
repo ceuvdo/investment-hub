@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Methodology and sources</title>
+<meta name="description" content="How every number in the catalog is measured, where it comes from and how much to trust it.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Onest:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/site.css">
+<script src="data/catalog.js"></script>
+<script src="assets/js/core.js"></script>
+</head>
+<body>
+<div id="top"></div>
+<main class="wrap sec">
+<article class="prose" style="padding-top:28px">
+  <h1 class="h2" style="font-size:36px">Methodology and sources</h1>
+  <p class="lead" style="margin-top:14px">The catalog shows what happened, measured the same way for every kind of investment, with a source and a date next to each number. It does not give advice or forecasts.</p>
+  <p class="disclaimer"><b>Not investment advice.</b> Past returns do not predict future ones. Nothing here is a recommendation to buy or sell. Rankings and liquidity ratings never depend on whether a platform pays us.</p>
+
+  <h2>Where numbers come from</h2>
+  <table>
+    <tr><th>Level</th><th>What it means</th><th>Examples</th></tr>
+    <tr><td><span class="trust market">market price</span></td><td>Daily prices of something you can actually buy, from an exchange feed.</td><td>ETFs, stocks, coins, currencies, listed clubs</td></tr>
+    <tr><td><span class="trust">index</span></td><td>A published index built by a statistics body or an industry provider.</td><td>BIS house prices, NCREIF, Liv-ex, Cambridge Associates</td></tr>
+    <tr><td><span class="trust">report</span></td><td>A study, survey or annual report; usually yearly and with a lag.</td><td>Knight Frank Wealth Report, BizBuySell, academic studies</td></tr>
+    <tr><td><span class="trust">platform figure</span></td><td>Returns stated by the platform that sells the product. Treat with care.</td><td>Mintos, Fundrise, Royalty Exchange</td></tr>
+    <tr><td><span class="trust">estimate</span></td><td>Expert estimate without a full data set.</td><td>Typical selling times, some fees</td></tr>
+  </table>
+  <p>An empty field is shown as “no data”. That is more honest than a made-up figure: some markets (domains, game accounts, athlete income deals) simply have no reliable public statistics.</p>
+
+  <h2>How metrics are calculated</h2>
+  <table>
+    <tr><th>Metric</th><th>Definition</th></tr>
+    <tr><td>Return, 1 year</td><td>Change from the close 365 days ago to the latest close. For funds and shares it uses prices adjusted for dividends, so it is a total return.</td></tr>
+    <tr><td>Return, 5 and 10 years</td><td>Compound annual growth rate over the period. Shown only if the history really reaches back that far.</td></tr>
+    <tr><td>Swing</td><td>Annualised standard deviation of weekly log returns over the last 3 years (quarterly changes for house price indexes, last 10 years).</td></tr>
+    <tr><td>Worst drop</td><td>Largest fall from a previous peak, weekly closes over the last ~10 years (full history for house price indexes), with the dates.</td></tr>
+    <tr><td>Vs stocks</td><td>Correlation of weekly returns with the S&amp;P 500 ETF (SPY) over 3 years.</td></tr>
+    <tr><td>Volume, 30 days</td><td>Sum of daily exchange volume × close, in US dollars, for US-dollar listings.</td></tr>
+    <tr><td>Liquidity 1–5</td><td>5: sells in seconds on an exchange. 4: minutes to days. 3: days to a few weeks. 2: weeks. 1: months or years, or locked.</td></tr>
+    <tr><td>Group figures</td><td>Median of the ways in the group that have a figure. The number of ways used is shown on hover.</td></tr>
+    <tr><td>Way headline</td><td>Where a way has a listed proxy (for example a hedge fund replication ETF), the first tracked asset is the headline and the industry index is shown next to it as “report”.</td></tr>
+    <tr><td>Deposits</td><td>World Bank deposit interest rate and consumer price inflation, latest year per country; real return = rate minus inflation.</td></tr>
+  </table>
+  <p>House price indexes are nominal and in local currency: rent, maintenance and taxes are not included. Annualised figures from cumulative published changes (for example Knight Frank 5- and 10-year changes) are converted by us and marked so.</p>
+
+  <h2>Update schedule</h2>
+  <p>Market data is rebuilt by one script (<code>pipeline/build_data.py</code>); the build time is shown at the top of every page. Index and report figures are checked when a new edition is published. Last build: <span class="mono" id="built"></span>.</p>
+
+  <h2 id="sources">All sources (<span id="n-src"></span>)</h2>
+  <div id="srcs"></div>
+
+  <h2 id="photos">Photo credits</h2>
+  <table>
+    <tr><th>Photo</th><th>Source and licence</th></tr>
+    <tr><td>Public markets</td><td>New York Stock Exchange trading floor, Library of Congress (LCCN 2011634218), public domain, via Wikimedia Commons</td></tr>
+    <tr><td>Cash and yield</td><td>“Stack of coins 0214 (cropped)”, Wikimedia Commons, CC0</td></tr>
+    <tr><td>Crypto</td><td>“Bitcoin BTC golden coin with the symbol”, Wikimedia Commons, <a class="link" href="https://creativecommons.org/licenses/by-sa/2.0/" target="_blank" rel="noopener">CC BY-SA 2.0</a>; author as named on the <a class="link" href="https://commons.wikimedia.org/w/index.php?search=Bitcoin+BTC+golden+coin+with+the+symbol" target="_blank" rel="noopener">Commons file page</a></td></tr>
+    <tr><td>Funds</td><td>“Foggy London skyscrapers”, Unsplash via Wikimedia Commons, CC0</td></tr>
+    <tr><td>Property</td><td>Apartment building on Avenida Almirante Reis, Lisbon, Wikimedia Commons, CC0</td></tr>
+    <tr><td>Businesses</td><td>“Green New York coffee shop entrance”, Unsplash via Wikimedia Commons, CC0</td></tr>
+    <tr><td>Collectibles</td><td>T206 Honus Wagner card (1909), public domain</td></tr>
+    <tr><td>Games</td><td>Nintendo Switch Pro Controller, Wikimedia Commons, public domain</td></tr>
+    <tr><td>Sport</td><td>“Adidas soccer ball on a grass pitch”, Unsplash via Wikimedia Commons, CC0</td></tr>
+  </table>
+
+  <h2 id="suggest">Suggest an asset or a source</h2>
+  <p>Missing a way to invest, or know a better data source for one of the “no data” fields? Tell us; the catalog grows by asset class and by country.</p>
+</article>
+</main>
+<script>
+(function () {
+  var K = window.K, C = K.C, esc = K.esc;
+  K.header('meth');
+  document.getElementById('built').textContent = C.meta.built;
+  var map = {};
+  function add(s, url, trust, what) {
+    if (!s) return;
+    var key = s.split(',')[0].split(' (')[0].trim();
+    var e = map[key] || (map[key] = { name: key, urls: {}, trust: trust, what: {} });
+    if (url) e.urls[url] = 1; if (what) e.what[what] = 1;
+  }
+  add('Yahoo Finance', 'https://finance.yahoo.com', 'market', 'prices of ' + C.assets.filter(function (a) { return a.source === 'Yahoo Finance'; }).length + ' ETFs, stocks, coins, currencies and clubs');
+  add('BIS residential property prices via FRED', 'https://fred.stlouisfed.org', 'index', 'house prices in ' + C.assets.filter(function (a) { return a.currency === 'index'; }).length + ' countries');
+  add('World Bank', 'https://data.worldbank.org', 'index', 'deposit rates and inflation, ' + C.deposits.length + ' countries');
+  add('DefiLlama yields', 'https://defillama.com/yields', 'market', 'staking and lending yields');
+  C.ways.forEach(function (w) {
+    Object.keys(w.metrics).forEach(function (k) { var m = w.metrics[k]; if (m && m.source && !/Yahoo Finance|DefiLlama|World Bank|BIS/.test(m.source)) add(m.source, m.url, m.trust, w.name); });
+    (w.examples || []).forEach(function (e) { if (e.source) add(e.source, e.url, 'report', w.name); });
+  });
+  var list = Object.keys(map).map(function (k) { return map[k]; }).sort(function (a, b) { return a.name.localeCompare(b.name); });
+  document.getElementById('n-src').textContent = list.length;
+  document.getElementById('srcs').innerHTML = '<table>' + list.map(function (s) {
+    var urls = Object.keys(s.urls).slice(0, 3);
+    return '<tr><td style="min-width:200px">' + esc(s.name) + '<br>' + K.trust(s.trust) + '</td><td>' + esc(Object.keys(s.what).slice(0, 6).join(', ')) + '<br>' +
+      urls.map(function (u) { return '<a class="src" href="' + esc(u) + '" target="_blank" rel="noopener">' + esc(u.replace(/^https?:\/\/(www\.)?/, '').split('/')[0]) + '</a>'; }).join(' · ') + '</td></tr>';
+  }).join('') + '</table>';
+  K.footer();
+})();
+</script>
+</body>
+</html>

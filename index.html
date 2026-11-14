@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>kapitalog: everything you can invest in</title>
+<meta name="description" content="A free, independent catalog of 64 ways to invest: return, risk, volume and the cost of getting out, with a source and date next to every number.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Onest:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/site.css">
+<script src="data/catalog.js"></script>
+<script src="assets/js/core.js"></script>
+</head>
+<body>
+<div id="top"></div>
+<main>
+<section class="wrap hero">
+  <div class="hero-l">
+    <h1>Everything you can invest in, <span>from a deposit to a hedge fund</span></h1>
+    <p class="lead">Return, risk, volume and the real cost of getting out, measured the same way for stocks, crypto, funds, property, businesses and collectibles. A source and a date next to every number.</p>
+    <div class="search">
+      <label><span class="muted">%SEARCH%</span><span class="sr">Search the catalog</span>
+        <input id="q" type="search" placeholder="Ticker, fund, country, wine, watch, club" autocomplete="off">
+        <a class="btn acc" href="map.html">Browse</a></label>
+      <div class="results" id="res" hidden></div>
+    </div>
+    <div class="budget"><span class="muted" style="margin-right:4px">What can I buy with</span>
+      <a href="map.html?b=1">$100</a><a href="map.html?b=2">$1,000</a><a href="map.html?b=3">$25,000</a><a href="map.html?b=4">$250,000+</a></div>
+  </div>
+  <div class="card race" id="race"></div>
+</section>
+
+<section class="wrap sec" id="classes">
+  <div class="sec-h"><h2 class="h2" id="g-title">Nine groups, 64 ways to invest</h2><a class="link" href="map.html">Open the full map →</a></div>
+  <div class="groups" id="groups"></div>
+</section>
+
+<section class="wrap sec" id="rating">
+  <div class="card" style="overflow:hidden">
+    <div class="pad" style="display:flex;flex-wrap:wrap;gap:14px;align-items:center;justify-content:space-between">
+      <h2 class="h3">Cross-asset rankings</h2>
+      <div class="pills" id="pills"></div>
+    </div>
+    <div id="rank"></div>
+    <div class="tbl-foot"><a class="link" href="rankings.html" id="all-rank">Full rankings →</a><span class="note" id="rank-src"></span></div>
+  </div>
+</section>
+
+<section class="wrap sec grid-auto">
+  <div class="card pad" style="display:flex;flex-direction:column;gap:12px">
+    <h2 class="h4">Risk, in numbers</h2>
+    <div style="display:flex;flex-direction:column;gap:10px;font-size:14px">
+      <div><b>Swing.</b> <span class="muted">How far the price typically moves in a year (annualised volatility, last 3 years).</span></div>
+      <div><b>Worst drop.</b> <span class="muted">The deepest fall from a peak in the last 10 years.</span></div>
+      <div><b>Vs stocks.</b> <span class="muted">Correlation with the S&amp;P 500: 1.00 moves in step, 0 is unrelated.</span></div>
+      <div><b>Flags.</b> <span class="muted">Fakes, lock-ups, counterparty and legal risk, on each way's page.</span></div>
+    </div>
+  </div>
+  <div class="card pad" style="display:flex;flex-direction:column;gap:12px">
+    <h2 class="h4">Liquidity, in numbers</h2>
+    <div style="display:flex;flex-direction:column;gap:10px;font-size:14px">
+      <div><b>Volume.</b> <span class="muted">Money traded in the last 30 days.</span></div>
+      <div><b>Time to sell.</b> <span class="muted">How long a sale at the market price takes.</span></div>
+      <div><b>Cost to exit.</b> <span class="muted">Fees, commissions and spreads paid when selling.</span></div>
+      <div><b>Rating 1–5.</b> <span class="muted">5 sells in seconds, 1 takes months or years.</span></div>
+    </div>
+    <a class="link" href="methodology.html" style="font-size:14px">Methodology →</a>
+  </div>
+  <div class="card pad" style="display:flex;flex-direction:column;gap:12px">
+    <div style="display:flex;justify-content:space-between;align-items:baseline"><h2 class="h4">Biggest moves, 30 days</h2><span class="note">all tracked assets</span></div>
+    <div id="movers"></div>
+  </div>
+</section>
+
+<section class="wrap sec">
+  <div class="sec-h"><h2 class="h2">Head to head, real numbers</h2><a class="link" href="compare.html">Compare anything →</a></div>
+  <div class="grid-auto" id="h2h"></div>
+</section>
+</main>
+<script>
+(function () {
+  var K = window.K, C = K.C, esc = K.esc;
+  K.header('home');
+  document.querySelector('.search label .muted').innerHTML = K.ICON.search;
+  K.attachSearch(document.getElementById('q'), document.getElementById('res'));
+  document.getElementById('g-title').textContent = 'Nine groups, ' + C.meta.n_ways + ' ways to invest';
+
+  // return vs risk by group
+  var gs = C.groups.slice().sort(function (a, b) { return (K.num(b.ret_1y) ? b.ret_1y : -999) - (K.num(a.ret_1y) ? a.ret_1y : -999); });
+  var vals = gs.filter(function (g) { return K.num(g.ret_1y); }).map(function (g) { return g.ret_1y; });
+  var lo = Math.min(0, Math.min.apply(null, vals)), hi = Math.max(0, Math.max.apply(null, vals)), span = hi - lo || 1;
+  var zero = (-lo / span) * 100;
+  var h = '<div style="display:flex;justify-content:space-between;align-items:baseline;gap:12px"><span class="cap" style="font-size:13px;letter-spacing:.08em">Return vs risk, last 12 months</span><span class="mono note">median per group</span></div>' +
+    '<div class="race-row cap"><span>Group</span><span>Return</span><span style="text-align:right">1 year</span><span style="text-align:right">Swing</span></div><div style="display:flex;flex-direction:column;gap:10px">';
+  gs.forEach(function (g) {
+    var v = g.ret_1y, w = K.num(v) ? Math.abs(v) / span * 100 : 0, left = K.num(v) && v < 0 ? zero - w : zero;
+    h += '<a class="race-row" href="class.html?g=' + g.slug + '" title="' + (g.ret_1y_n ? 'median of ' + g.ret_1y_n + ' ways with a 1-year figure' : 'no 1-year figures yet') + '"><span class="nm">' + esc(g.name) + '</span>' +
+      '<span class="bar" aria-hidden="true"><span class="zero" style="left:' + zero + '%"></span>' + (K.num(v) ? '<i style="left:' + left + '%;width:' + Math.max(1, w) + '%;background:' + (v < 0 ? 'var(--down)' : 'var(--acc)') + '"></i>' : '') + '</span>' +
+      '<span class="mono" style="text-align:right;font-size:13px">' + K.pctc(v) + '</span><span class="mono muted" style="text-align:right;font-size:13px">' + (K.num(g.swing) ? g.swing.toFixed(0) + '%' : '–') + '</span></a>';
+  });
+  h += '</div><div class="note" style="border-top:1px solid var(--line);padding-top:14px">Each group shows the median 1-year return of its ways that have a figure (market prices, indexes and reports; hover a row for the count). Swing = typical yearly price move. Higher return almost always came with a bigger swing.</div>';
+  document.getElementById('race').innerHTML = h;
+
+  // group tiles
+  var SELL = { 5: 'seconds', 4: 'minutes to days', 3: 'days to weeks', 2: 'weeks', 1: 'months' };
+  document.getElementById('groups').innerHTML = C.groups.map(function (g) {
+    var ws = C.ways.filter(function (w) { return w.group === g.slug; });
+    var ex = ws.slice(0, 5).map(function (w) { return w.name; }).join(', ');
+    var liqs = ws.map(function (w) { return w.liq; });
+    return '<a class="card gcard" href="class.html?g=' + g.slug + '"><img src="assets/img/' + g.img + '" alt="" loading="lazy" style="object-position:' + g.pos + '">' +
+      '<div><div class="t"><span>' + esc(g.name) + '</span><span class="mono acc" style="font-size:12px;white-space:nowrap">' + g.n + ' ways</span></div><div class="note" style="margin-top:4px">' + esc(ex) + '</div></div>' +
+      '<div class="two"><div class="tile"><div class="k">Return, 1 year (median)</div><div class="v">' + K.pctc(g.ret_1y) + '</div></div>' +
+      '<div class="tile"><div class="k">Risk: yearly swing</div><div class="v">' + (K.num(g.swing) ? g.swing.toFixed(0) + '%' : '<span class="nodata">no data</span>') + '</div></div>' +
+      '<div class="tile"><div class="k">Volume, 30 days</div><div class="v">' + K.big(g.vol30) + '</div></div>' +
+      '<div class="tile"><div class="k">Fastest to sell</div><div class="v">' + SELL[Math.max.apply(null, liqs)] + '</div></div></div></a>';
+  }).join('');
+
+  // rankings (top assets by group)
+  var picks = [['all', 'All'], ['public', 'Public markets'], ['crypto', 'Crypto'], ['funds', 'Funds'], ['property', 'Property'], ['sport', 'Sport and games']];
+  var cur = 'all';
+  function drawRank() {
+    var rows = C.assets.filter(function (a) { return a.currency !== 'index' && (cur === 'all' || a.group === cur || (cur === 'sport' && a.group === 'games')); });
+    if (cur === 'all') { // a diverse top: best 1y per way
+      var seen = {}; rows = rows.slice().sort(function (a, b) { return (b.ret_1y || -999) - (a.ret_1y || -999); }).filter(function (a) { if (seen[a.way]) return false; seen[a.way] = 1; return true; });
+    }
+    rows = rows.slice().sort(function (a, b) { return (b.ret_1y || -999) - (a.ret_1y || -999); }).slice(0, 12);
+    K.rankTable(document.getElementById('rank'), rows, { sort: 'ret_1y', dir: -1, mobileLimit: 8 });
+    document.getElementById('pills').innerHTML = picks.map(function (p) { return '<button class="pill" aria-pressed="' + (p[0] === cur) + '" data-p="' + p[0] + '">' + p[1] + '</button>'; }).join('');
+    document.querySelectorAll('#pills .pill').forEach(function (b) { b.onclick = function () { cur = b.dataset.p; drawRank(); }; });
+  }
+  drawRank();
+  var spy = K.byId.spy;
+  document.getElementById('rank-src').innerHTML = 'Prices: Yahoo Finance, close ' + (spy ? esc(K.fmtDate(spy.asof)) : '') + '. Returns include dividends where paid. ' + (cur === 'all' ? 'Top item per way.' : '');
+  document.getElementById('all-rank').textContent = 'Full rankings: ' + C.assets.length + ' assets →';
+
+  // movers
+  var mv = C.assets.filter(function (a) { return K.num(a.chg_30d); }).sort(function (a, b) { return Math.abs(b.chg_30d) - Math.abs(a.chg_30d); }).slice(0, 5);
+  document.getElementById('movers').innerHTML = mv.map(function (a) {
+    return '<div style="display:flex;justify-content:space-between;align-items:center;gap:12px;padding:8px 0;border-bottom:1px solid var(--line2)"><div style="min-width:0"><a href="' + K.assetHref(a) + '" style="font-weight:500;display:block">' + esc(a.name) + '</a><span class="note" style="font-size:12px">' + esc(a.way) + '</span></div><span class="mono ' + K.cls(a.chg_30d) + '" style="white-space:nowrap">' + K.arrow(a.chg_30d) + K.pct(Math.abs(a.chg_30d)).replace('+', '') + '</span></div>';
+  }).join('') + '<div class="note" style="padding-top:8px">Yahoo Finance, to ' + esc(K.fmtDate(mv[0].asof)) + '</div>';
+
+  // head-to-head cards from real data
+  function card(ids, title, accent) {
+    var as = ids.map(function (i) { return K.byId[i]; }).filter(Boolean);
+    if (as.length < 2) return '';
+    var line = as.map(function (a) { return esc(a.name.split(' (')[0]) + ' ' + K.pct(a.ret_10y != null ? a.ret_10y : a.ret_5y) + '/yr'; }).join(' vs ');
+    var per = as[0].ret_10y != null && as[1].ret_10y != null ? '10 years' : '5 years';
+    return '<a class="card" href="compare.html?ids=' + ids.join(',') + '" style="' + (accent ? 'background:var(--acc);color:var(--on-acc);border-color:var(--acc);' : '') + 'padding:26px;display:flex;flex-direction:column;gap:28px;min-height:220px">' +
+      '<span class="mono" style="font-size:12px;text-transform:uppercase;letter-spacing:.08em;' + (accent ? '' : 'color:var(--muted)') + '">Head to head · ' + per + '</span>' +
+      '<span style="font-family:var(--ff-h);font-weight:' + (accent ? 700 : 500) + ';font-size:22px;line-height:1.25;margin-top:auto">' + title + '</span>' +
+      '<span class="mono" style="font-size:13px;' + (accent ? '' : 'color:var(--muted)') + '">' + line + '</span></a>';
+  }
+  document.getElementById('h2h').innerHTML =
+    card(['btc', 'gld', 'spy'], 'Bitcoin, gold or the S&amp;P 500: the last ten years', true) +
+    card(['manu', 'bvb', 'vt'], 'Football clubs vs the world stock market') +
+    card(['vnq', 'hp_us', 'hp_pl'], 'Owning a home vs owning REIT shares');
+  K.footer();
+})();
+</script>
+</body>
+</html>

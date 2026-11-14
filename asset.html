@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Asset</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Onest:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/site.css">
+<script src="data/catalog.js"></script>
+<script src="data/series.js"></script>
+<script src="assets/js/core.js"></script>
+</head>
+<body>
+<div id="top"></div>
+<div class="wrap" style="padding:0"><div class="crumbs" id="crumbs"></div></div>
+<main class="wrap" id="main"></main>
+<script>
+(function () {
+  var K = window.K, C = K.C, esc = K.esc;
+  K.header('rank');
+  var a = K.byId[K.q('id')] || C.assets[0];
+  var w = K.waysByName[a.way], g = K.groupsBySlug[a.group];
+  var spy = K.byId.spy;
+  document.title = a.name + ': price, return, risk';
+  document.getElementById('crumbs').innerHTML = '<a href="map.html">Catalog</a> / <a href="class.html?g=' + g.slug + '">' + esc(g.name) + '</a> / <a href="' + K.wayHref(w) + '">' + esc(w.name) + '</a> / <span>' + esc(a.name) + '</span>';
+  var isIdx = a.currency === 'index';
+  function ch(v, lbl) { return K.num(v) ? '<span class="' + K.cls(v) + '">' + K.arrow(v) + K.pct(Math.abs(v)).replace('+', '') + ' <small>' + lbl + '</small></span>' : ''; }
+  var exit = w.metrics.exit_cost, sell = w.metrics.time_to_sell;
+
+  var h = '<section class="a-head"><div style="flex:1 1 520px;min-width:0;display:flex;flex-direction:column;gap:14px">' +
+    '<div style="display:flex;flex-wrap:wrap;gap:8px"><span class="chip">' + esc(w.name) + '</span><span class="chip">' + esc(a.sub) + '</span><span class="chip mono">' + esc(a.symbol) + '</span></div>' +
+    '<h1>' + esc(a.name) + '</h1><p class="lead" style="font-size:16px">' + esc(w.desc) + ' ' + (isIdx ? 'Shown as an index of prices, not a price you can pay.' : 'Returns below include dividends where the asset pays them.') + '</p></div>' +
+    '<div class="card pad" style="flex:0 1 420px;display:flex;flex-direction:column;gap:12px"><span class="note">' + (isIdx ? 'Index level, ' : 'Last close, ') + esc(a.asof) + '</span><span class="a-price">' + K.money(a.price, a.currency) + '</span>' +
+    '<div class="chg">' + ch(a.chg_30d, '30d') + ch(a.ret_1y, '1y') + ch(a.dd, 'worst drop') + '</div>' +
+    '<div style="display:flex;flex-wrap:wrap;gap:10px"><button class="btn acc" id="wl"></button><a class="btn" href="compare.html?ids=' + a.id + (a.id !== 'spy' ? ',spy' : ',btc') + ',gld">Compare</a></div>' +
+    '<span class="note">' + K.trust(a.trust) + ' <a class="src" href="' + esc(a.url) + '" target="_blank" rel="noopener">' + esc(a.source) + '</a> · history from ' + esc(a.history_from) + '</span></div></section>';
+
+  function tileS(k, v, s) { return '<div class="stat"><span class="k">' + k + '</span><span class="v">' + v + '</span><span class="s">' + s + '</span></div>'; }
+  h += '<section class="stats sec" style="padding-bottom:40px">' +
+    tileS('Return, 5 years', K.pctc(a.ret_5y), 'per year') + tileS('Return, 10 years', K.pctc(a.ret_10y), 'per year') +
+    tileS('Risk: yearly swing', K.num(a.swing) ? a.swing.toFixed(0) + '%' : K.pct(null), 'S&amp;P 500: ' + (spy && K.num(spy.swing) ? spy.swing.toFixed(0) + '%' : '–')) +
+    tileS('Worst drop', '<span class="down">' + K.pct(a.dd, 0) + '</span>', esc(a.dd_span || '')) +
+    tileS('Volume, 30 days', K.big(a.vol30_usd), a.vol30_usd ? 'exchange-reported' : (a.currency === 'USD' ? '' : 'non-USD listing or index')) +
+    tileS('Moves with stocks', K.corr(a.corr), '1.00 = moves in step') + '</section>';
+
+  h += '<section class="split"><div class="card pad" style="flex:2 1 560px"><div style="display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px;align-items:center;margin-bottom:10px"><h2 class="h3">Price vs the stock market</h2><div class="pills" id="rng"></div></div><div class="legend" id="lg" style="margin-bottom:10px"></div><div id="chart"></div></div>' +
+    '<div class="card pad" style="flex:1 1 300px;display:flex;flex-direction:column;gap:12px"><h2 class="h3">How easy it is to sell</h2>' +
+    '<div style="display:flex;align-items:baseline;gap:10px"><span class="mono" style="font-size:36px">' + w.liq + '<span class="muted" style="font-size:18px">/5</span></span><span class="muted">' + ['', 'very low', 'low', 'medium', 'high', 'very high'][w.liq] + ' liquidity</span></div>' + K.liq(w.liq) +
+    '<div class="k1000"><span class="muted">Time to sell</span><b>' + esc(a.sell) + '</b></div><div class="k1000"><span class="muted">Minimum ticket</span><b>' + esc(a.min) + '</b></div>' +
+    '<div class="k1000"><span class="muted">Volume, 30 days</span><b>' + K.big(a.vol30_usd) + '</b></div>' +
+    (exit && exit.text ? '<div class="k1000" style="flex-direction:column;gap:4px"><span class="muted">Cost to exit, this way of investing</span><span style="font-size:14px">' + esc(exit.text) + '</span>' + K.src(exit) + '</div>' : '') +
+    (sell && sell.text && sell.text !== a.sell ? '<div class="note">' + esc(w.name) + ' in general: ' + esc(sell.text) + '</div>' : '') + '</div></section>';
+
+  function grow(r, yrs) { return K.num(r) ? Math.round(1000 * Math.pow(1 + r / 100, yrs)) : null; }
+  var g1 = K.num(a.ret_1y) ? Math.round(1000 * (1 + a.ret_1y / 100)) : null, g5 = grow(a.ret_5y, 5), g10 = grow(a.ret_10y, 10);
+  var sim = C.assets.filter(function (x) { return x.id !== a.id && K.num(x.swing) && K.num(x.ret_1y) && x.currency !== 'index'; }).sort(function (x, y) {
+    var dx = Math.abs(x.swing - a.swing) + Math.abs(x.ret_5y - a.ret_5y || 0) * 0.5, dy = Math.abs(y.swing - a.swing) + Math.abs(y.ret_5y - a.ret_5y || 0) * 0.5; return dx - dy; }).slice(0, 5);
+  h += '<section class="split"><div class="card pad"><span class="cap" style="font-size:13px">If you had put in $1,000</span>' +
+    [['a year ago', g1], ['5 years ago', g5], ['10 years ago', g10]].map(function (r) { return '<div class="k1000"><span class="muted">' + r[0] + '</span><b class="' + K.cls(r[1] - 1000) + '">' + (r[1] ? '$' + r[1].toLocaleString('en-US') : '<span class="nodata">not enough history</span>') + '</b></div>'; }).join('') +
+    '<p class="note" style="margin-bottom:0">Before taxes and selling costs. ' + (isIdx ? 'Price index only: rent and costs of owning are not included.' : 'Dividends reinvested where paid.') + '</p></div>' +
+    '<div class="card pad"><h2 class="h3" style="margin-bottom:6px">Similar risk and return</h2>' + sim.map(function (x) {
+      return '<div class="ex"><div><a href="' + K.assetHref(x) + '" style="font-weight:500">' + esc(x.name) + '</a><div class="note">' + esc(x.way) + ' · swing ' + x.swing.toFixed(0) + '%</div></div><span class="v">' + K.pctc(x.ret_1y) + ' <span class="muted" style="font-size:11px">1y</span></span></div>'; }).join('') + '</div></section>';
+  h += '<p class="disclaimer" style="margin-bottom:32px">Not investment advice. Figures describe the past and are computed from ' + esc(a.source) + ' data; see the <a class="link" href="methodology.html">methodology</a>.</p>';
+  document.getElementById('main').innerHTML = h;
+
+  var b = document.getElementById('wl');
+  function wlTxt() { b.textContent = K.inWl(a.id) ? '★ In watchlist' : '☆ Add to watchlist'; }
+  wlTxt(); b.onclick = function () { K.toggleWl(a.id); wlTxt(); };
+
+  var range = '5y';
+  var lines = [{ id: a.id, label: a.name, short: a.name.split(' (')[0], color: 'var(--acc)', m: window.SERIES[a.id].m, v: window.SERIES[a.id].v }];
+  if (a.id !== 'spy' && window.SERIES.spy) lines.push({ id: 'spy', label: 'S&P 500 ETF', short: 'S&P 500', color: 'var(--muted)', dash: '6 6', m: window.SERIES.spy.m, v: window.SERIES.spy.v });
+  function drawChart() {
+    document.getElementById('rng').innerHTML = ['1y', '5y', '10y', 'all'].map(function (r) { return '<button class="pill" style="height:34px" aria-pressed="' + (r === range) + '" data-r="' + r + '">' + r.toUpperCase() + '</button>'; }).join('');
+    document.querySelectorAll('#rng .pill').forEach(function (x) { x.onclick = function () { range = x.dataset.r; drawChart(); }; });
+    var res = K.lineChart(document.getElementById('chart'), lines, { from: K.fromMonth(range), label: a.name + ' vs the S&P 500, value of $1,000' });
+    document.getElementById('lg').innerHTML = lines.map(function (l, i) { var p = (res[i].end / 1000 - 1) * 100; return '<span><i style="background:' + l.color + '"></i>' + esc(l.short) + ' <span class="mono ' + K.cls(p) + '">' + K.pct(p, 0) + '</span></span>'; }).join('') + '<span class="note">since ' + esc(res[0].from) + '</span>';
+  }
+  drawChart();
+  K.footer();
+})();
+</script>
+</body>
+</html>

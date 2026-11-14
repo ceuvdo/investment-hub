@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Way to invest</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Onest:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/site.css">
+<script src="data/catalog.js"></script>
+<script src="data/series.js"></script>
+<script src="assets/js/core.js"></script>
+</head>
+<body>
+<div id="top"></div>
+<div class="wrap" style="padding:0"><div class="crumbs" id="crumbs"></div></div>
+<main class="wrap" id="main"></main>
+<script>
+(function () {
+  var K = window.K, C = K.C, esc = K.esc;
+  K.header('map');
+  var w = K.waysBySlug[K.q('w')] || C.ways[0];
+  var g = K.groupsBySlug[w.group];
+  document.title = w.name + ': return, risk and how fast you can sell';
+  document.getElementById('crumbs').innerHTML = '<a href="map.html">Catalog</a> / <a href="class.html?g=' + g.slug + '">' + esc(g.name) + '</a> / <span>' + esc(w.name) + '</span>';
+  var m = w.metrics, assets = w.assets.map(function (id) { return K.byId[id]; }).filter(Boolean);
+
+  var LABEL = {
+    ret_1y: ['Return, 1 year', 'pct'], ret_5y: ['Return, 5 years', 'pct', 'per year'], ret_10y: ['Return, 10 years', 'pct', 'per year'],
+    yield: ['Yield / income', 'pct', 'per year'], real_yield: ['Real yield', 'pct', 'after inflation'], swing: ['Risk: yearly swing', 'pct0'],
+    dd: ['Worst drop', 'pct0'], corr: ['Moves with stocks', 'corr'], vol30: ['Volume, 30 days', 'big'],
+    time_to_sell: ['Time to sell', 'text'], exit_cost: ['Cost to exit', 'text'], min_ticket: ['Minimum ticket', 'text'], market_size: ['Market size', 'text']
+  };
+  function val(k, x) {
+    var t = LABEL[k] ? LABEL[k][1] : 'pct';
+    if (t === 'text' || !K.num(x.value)) return x.text ? '<span style="font-family:var(--ff);font-size:16px;line-height:1.35">' + esc(x.text) + '</span>' : (K.num(x.value) ? K.pctc(x.value) : '<span class="nodata">no data</span>');
+    if (t === 'pct0') return (k === 'dd' ? '<span class="down">' + K.pct(x.value, 0) + '</span>' : x.value.toFixed(0) + '%');
+    if (t === 'corr') return K.corr(x.value);
+    if (t === 'big') return K.big(x.value);
+    return K.pctc(x.value);
+  }
+  function stat(k, x, extra) {
+    var L = LABEL[k] || [k.replace(/_/g, ' '), 'pct'];
+    return '<div class="stat"><span class="k">' + esc(L[0]) + (extra ? ' <span class="muted">' + extra + '</span>' : '') + '</span><span class="v">' + val(k, x) + '</span>' +
+      (L[2] && K.num(x.value) ? '<span class="s">' + L[2] + '</span>' : '') +
+      (x.period ? '<span class="s">' + esc(x.period) + '</span>' : '') +
+      '<span class="s">' + K.trust(x.trust) + ' ' + K.src(x) + '</span>' + (x.note ? '<span class="s">' + esc(x.note) + '</span>' : '') + '</div>';
+  }
+  var order = ['ret_1y', 'ret_5y', 'ret_10y', 'yield', 'real_yield', 'swing', 'dd', 'corr', 'vol30', 'time_to_sell', 'exit_cost', 'min_ticket', 'market_size'];
+  var keys = order.filter(function (k) { return m[k] && (K.num(m[k].value) || m[k].text); });
+  var reportKeys = Object.keys(m).filter(function (k) { return /_report$/.test(k) && m[k] && (K.num(m[k].value) || m[k].text); });
+
+  var h = '<section style="display:flex;flex-direction:column;gap:14px;padding:8px 0 28px">' +
+    '<div style="display:flex;flex-wrap:wrap;gap:8px"><span class="chip">' + esc(g.name) + '</span><span class="chip">' + K.ENTRY[w.entry] + '</span><span class="chip">' + w.risk + ' risk</span><span class="chip">liquidity ' + w.liq + '/5</span></div>' +
+    '<h1 class="h2" style="font-size:38px">' + esc(w.name) + '</h1><p class="lead">' + esc(w.desc) + '</p></section>';
+  h += '<section class="sec"><div class="sec-h"><h2 class="h3">The numbers</h2><span class="note">Every figure links to its source.</span></div>' +
+    (keys.length ? '<div class="stats">' + keys.map(function (k) { return stat(k, m[k]); }).join('') + '</div>' : '<div class="card empty">No published figures found yet for this way. That is an honest gap, not a zero: <a class="link" href="methodology.html#suggest">suggest a source →</a></div>');
+  if (reportKeys.length) h += '<h3 class="h4" style="margin:28px 0 14px">Published figures for the whole market</h3><div class="stats">' + reportKeys.map(function (k) { return stat(k.replace('_report', ''), m[k], '(report)'); }).join('') + '</div>' +
+    '<p class="note" style="margin-top:10px">The top row uses a listed asset that trades every day; this row comes from industry indexes and reports of the private market itself. They measure different things, so both are shown.</p>';
+  if (w.note) h += '<p class="disclaimer" style="margin-top:18px"><b>Caveats.</b> ' + esc(w.note) + '</p>';
+  h += '</section>';
+
+  if (assets.length) {
+    var chartable = assets.filter(function (a) { return window.SERIES[a.id]; }).slice(0, 6);
+    h += '<section class="sec"><div class="card pad"><div style="display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px;align-items:center;margin-bottom:12px"><h2 class="h3">Growth of $1,000</h2><div class="pills" id="rng"></div></div><div class="legend" id="lg" style="margin-bottom:10px"></div><div id="chart"></div></div></section>';
+    h += '<section class="sec"><div class="sec-h"><h2 class="h3">Tracked: ' + assets.length + '</h2></div><div class="card" style="overflow:hidden" id="tbl"></div></section>';
+  }
+  if (w.yields && w.yields.length) {
+    h += '<section class="sec"><div class="sec-h"><h2 class="h3">Live on-chain yields</h2><span class="note">DefiLlama, ' + esc(w.yields[0].asof) + '</span></div><div class="card" style="overflow:hidden"><div class="tbl-wrap"><table class="tbl"><thead><tr><th class="l">Pool</th><th>APY now</th><th>APY, 30-day avg</th><th>Money in pool</th><th class="l">Chain</th></tr></thead><tbody>' +
+      w.yields.map(function (y) { return '<tr><td><a href="' + esc(y.url) + '" target="_blank" rel="noopener" style="font-family:var(--ff);font-weight:600">' + esc(y.name) + '</a></td><td>' + K.pctc(y.apy, 2) + '</td><td>' + K.pctc(y.apy_30d, 2) + '</td><td>' + K.big(y.tvl_usd) + '</td><td class="l muted">' + esc(y.chain) + '</td></tr>'; }).join('') +
+      '</tbody></table></div><div class="tbl-foot"><span class="note">Yields change daily and are paid in the coin itself, so the coin\'s price swing comes on top.</span></div></div></section>';
+  }
+  if (w.slug === 'savings-and-deposits') {
+    h += '<section class="sec"><div class="sec-h"><h2 class="h3">Deposit rates in ' + C.deposits.length + ' countries</h2><input id="dq" type="search" placeholder="Find a country" class="btn" style="font-weight:400;min-width:220px"></div>' +
+      '<div class="card" style="overflow:hidden"><div class="tbl-wrap"><table class="tbl" id="dep"><thead><tr><th class="l"><button data-k="country">Country</button></th><th><button data-k="rate">Deposit rate</button></th><th><button data-k="infl">Inflation</button></th><th><button data-k="real">Real return</button></th><th>Year</th></tr></thead><tbody></tbody></table></div>' +
+      '<div class="tbl-foot"><span class="note">World Bank: deposit interest rate (FR.INR.DPST) and consumer price inflation (FP.CPI.TOTL.ZG), latest year available per country. Real return = rate minus inflation.</span><a class="src" href="https://data.worldbank.org/indicator/FR.INR.DPST" target="_blank" rel="noopener">data.worldbank.org</a></div></div></section>';
+  }
+  if (w.examples && w.examples.length) {
+    h += '<section class="sec"><div class="card pad"><h2 class="h3" style="margin-bottom:8px">Reference points</h2>' + w.examples.map(function (e) {
+      return '<div class="ex"><div><div style="font-weight:500">' + esc(e.name) + '</div><div class="note">' + (e.url ? '<a class="src" href="' + esc(e.url) + '" target="_blank" rel="noopener">' + esc(e.source || 'source') + '</a>' : esc(e.source || '')) + (e.asof ? ' · ' + esc(e.asof) : '') + '</div></div><div class="v">' + esc(e.value) + '</div></div>';
+    }).join('') + '</div></section>';
+  }
+  var sib = C.ways.filter(function (x) { return x.group === w.group && x.slug !== w.slug; });
+  h += '<section class="sec"><div class="sec-h"><h2 class="h3">More in ' + esc(g.name) + '</h2><a class="link" href="class.html?g=' + g.slug + '">The whole group →</a></div><div class="pills">' + sib.map(function (x) { return '<a class="pill" href="' + K.wayHref(x) + '">' + esc(x.name) + '</a>'; }).join('') + '</div></section>';
+  h += '<p class="disclaimer" style="margin-bottom:32px">Not investment advice. The catalog shows what happened, with sources; it does not say what to buy. Past returns do not predict future ones.</p>';
+  document.getElementById('main').innerHTML = h;
+
+  if (assets.length) {
+    var range = '5y';
+    var lines = assets.filter(function (a) { return window.SERIES[a.id]; }).slice(0, 6).map(function (a, i) {
+      var s = window.SERIES[a.id]; return { id: a.id, label: a.name, short: a.name.split(' (')[0], color: i === 0 ? 'var(--acc)' : K.color(a.id), dash: i ? ['', '8 5', '2 5', '12 4 2 4', '4 4', ''][i] : '', m: s.m, v: s.v };
+    });
+    var quarterly = w.slug === 'apartments-and-houses';
+    function drawChart() {
+      document.getElementById('rng').innerHTML = ['1y', '5y', '10y', 'all'].map(function (r) { return '<button class="pill" style="height:34px" aria-pressed="' + (r === range) + '" data-r="' + r + '">' + r.toUpperCase() + '</button>'; }).join('');
+      document.querySelectorAll('#rng .pill').forEach(function (b) { b.onclick = function () { range = b.dataset.r; drawChart(); }; });
+      var res = K.lineChart(document.getElementById('chart'), lines, { from: K.fromMonth(range), label: 'Growth of $1,000 in ' + w.name });
+      document.getElementById('lg').innerHTML = lines.map(function (l, i) { var r = res[i]; return '<span><i style="background:' + l.color + '"></i>' + esc(l.short) + ' <span class="mono ' + K.cls(r.end - 1000) + '">$' + Math.round(r.end).toLocaleString('en-US') + '</span></span>'; }).join('') +
+        '<span class="note">from ' + esc(res[0].from) + (quarterly ? ', quarterly index' : ', monthly, dividends reinvested where paid') + '</span>';
+    }
+    drawChart();
+    K.rankTable(document.getElementById('tbl'), assets, { sort: 'ret_1y', dir: -1 });
+  }
+  if (w.slug === 'savings-and-deposits') {
+    var st = { k: 'real', d: -1 }, f = '';
+    var hash = location.hash.replace('#c-', '');
+    function drawDep() {
+      var rows = C.deposits.filter(function (d) { return !f || d.country.toLowerCase().indexOf(f) >= 0; }).sort(function (a, b) {
+        var x = a[st.k], y = b[st.k]; if (typeof x === 'string') return st.d * x.localeCompare(y); if (!K.num(x)) return 1; if (!K.num(y)) return -1; return st.d * (x - y); });
+      document.querySelector('#dep tbody').innerHTML = rows.map(function (d) {
+        return '<tr id="c-' + d.iso + '"' + (d.iso === hash ? ' style="outline:2px solid var(--acc)"' : '') + '><td style="font-family:var(--ff)">' + esc(d.country) + '</td><td>' + d.rate.toFixed(2) + '%</td><td>' + (K.num(d.infl) ? d.infl.toFixed(1) + '%' : '–') + '</td><td>' + K.pctc(d.real) + '</td><td class="muted">' + esc(d.rate_year) + (d.infl_year && d.infl_year !== d.rate_year ? ' / ' + esc(d.infl_year) : '') + '</td></tr>'; }).join('');
+    }
+    drawDep();
+    document.getElementById('dq').oninput = function (e) { f = e.target.value.toLowerCase().trim(); drawDep(); };
+    document.querySelectorAll('#dep th button').forEach(function (b) { b.onclick = function () { if (st.k === b.dataset.k) st.d = -st.d; else { st.k = b.dataset.k; st.d = b.dataset.k === 'country' ? 1 : -1; } drawDep(); }; });
+    if (hash) setTimeout(function () { var r = document.getElementById('c-' + hash); if (r) r.scrollIntoView({ block: 'center' }); }, 50);
+  }
+  K.footer();
+})();
+</script>
+</body>
+</html>

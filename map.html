@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Every way to invest: the map</title>
+<meta name="description" content="All 64 ways to invest in nine groups, filtered by budget, risk and how fast you can sell.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Onest:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/site.css">
+<script src="data/catalog.js"></script>
+<script src="assets/js/core.js"></script>
+</head>
+<body>
+<div id="top"></div>
+<main class="wrap">
+  <section style="padding:28px 0 28px;display:flex;flex-direction:column;gap:18px">
+    <h1 class="h2" style="font-size:36px" id="title">Every way to invest</h1>
+    <p class="lead" style="max-width:720px">Nine groups, from a bank deposit to a racehorse share. Pick a budget to see what is open to you; each way shows its latest measured return, how risky it is and how fast you can get out.</p>
+    <div style="display:flex;flex-wrap:wrap;gap:12px 28px;align-items:center">
+      <div class="pills" id="budget" role="group" aria-label="Budget"></div>
+      <div class="pills" id="risk" role="group" aria-label="Risk"></div>
+    </div>
+    <div class="note" id="count"></div>
+  </section>
+  <section class="map-groups sec" id="groups"></section>
+</main>
+<script>
+(function () {
+  var K = window.K, C = K.C, esc = K.esc;
+  K.header('map');
+  var budget = parseInt(K.q('b') || '5', 10), risk = K.q('r') || 'all';
+  function headline(w) {
+    var m = w.metrics;
+    var order = [['ret_1y', '1y'], ['ret_5y', '5y/yr'], ['ret_10y', '10y/yr'], ['yield', 'yield'], ['real_yield', 'real']];
+    for (var i = 0; i < order.length; i++) {
+      var x = m[order[i][0]];
+      if (x && K.num(x.value)) return '<span title="' + esc((x.source || '') + (x.asof ? ' · ' + x.asof : '')) + '">' + K.pctc(x.value) + ' <span class="muted" style="font-size:11px">' + order[i][1] + '</span></span>';
+    }
+    return '<span class="nodata">no figure yet</span>';
+  }
+  function draw() {
+    var shown = 0;
+    document.getElementById('budget').innerHTML = [[1, '$100'], [2, '$1,000'], [3, '$25,000'], [4, '$250,000+'], [5, 'Any budget']].map(function (p) {
+      return '<button class="pill" aria-pressed="' + (p[0] === budget) + '" data-b="' + p[0] + '">' + p[1] + '</button>'; }).join('');
+    document.getElementById('risk').innerHTML = [['all', 'Any risk'], ['low', 'Low'], ['medium', 'Medium'], ['high', 'High']].map(function (p) {
+      return '<button class="pill" aria-pressed="' + (p[0] === risk) + '" data-r="' + p[0] + '">' + p[1] + '</button>'; }).join('');
+    document.getElementById('groups').innerHTML = C.groups.map(function (g) {
+      var all = C.ways.filter(function (w) { return w.group === g.slug; });
+      var ws = all.filter(function (w) { return (budget === 5 || w.entry <= budget) && (risk === 'all' || w.risk === risk); });
+      shown += ws.length;
+      return '<div class="card pad" style="display:flex;flex-direction:column;gap:6px' + (ws.length ? '' : ';opacity:.55') + '">' +
+        '<div style="display:flex;justify-content:space-between;align-items:baseline;gap:12px"><a class="h4" href="class.html?g=' + g.slug + '">' + esc(g.name) + '</a><span class="mono note">' + ws.length + ' of ' + all.length + '</span></div>' +
+        '<div class="note" style="margin-bottom:6px">' + esc(g.note) + '</div>' +
+        (ws.length ? ws.map(function (w) {
+          return '<div class="way"><a href="' + K.wayHref(w) + '">' + esc(w.name) + '</a><span class="r">' + headline(w) + '</span>' +
+            '<span class="meta"><span>' + K.ENTRY[w.entry] + '</span><span>' + K.liq(w.liq) + ' liquidity</span><span class="' + (w.risk === 'high' ? 'down' : '') + '">' + w.risk + ' risk</span>' + (w.assets.length ? '<span>' + w.assets.length + ' tracked</span>' : '') + '</span></div>';
+        }).join('') : '<div class="note">Nothing here for this filter.</div>') + '</div>';
+    }).join('');
+    document.getElementById('count').textContent = 'Showing ' + shown + ' of ' + C.ways.length + ' ways. Figures: latest 1-year return where measured, otherwise the longest published return or the current yield; hover for the source.';
+    document.querySelectorAll('[data-b]').forEach(function (b) { b.onclick = function () { budget = +b.dataset.b; sync(); }; });
+    document.querySelectorAll('[data-r]').forEach(function (b) { b.onclick = function () { risk = b.dataset.r; sync(); }; });
+  }
+  function sync() { history.replaceState(null, '', '?b=' + budget + (risk !== 'all' ? '&r=' + risk : '')); draw(); }
+  draw();
+  K.footer();
+})();
+</script>
+</body>
+</html>

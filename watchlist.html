@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Your watchlist</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Onest:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/site.css">
+<script src="data/catalog.js"></script>
+<script src="assets/js/core.js"></script>
+</head>
+<body>
+<div id="top"></div>
+<main class="wrap">
+  <section style="padding:28px 0 24px;display:flex;flex-direction:column;gap:14px">
+    <h1 class="h2" style="font-size:36px">Watchlist</h1>
+    <p class="lead">Saved in this browser only. No account, nothing sent anywhere.</p>
+    <div id="act"></div>
+  </section>
+  <section class="sec"><div class="card" style="overflow:hidden" id="rank"></div></section>
+</main>
+<script>
+(function () {
+  var K = window.K;
+  K.header('wl');
+  var ids = K.wl().filter(function (i) { return K.byId[i]; });
+  if (ids.length) {
+    K.rankTable(document.getElementById('rank'), ids.map(function (i) { return K.byId[i]; }));
+    document.getElementById('act').innerHTML = '<a class="btn acc" href="compare.html?ids=' + ids.slice(0, 4).join(',') + '">Compare ' + Math.min(4, ids.length) + ' of them</a>';
+  } else {
+    document.getElementById('rank').innerHTML = '<div class="empty">Nothing saved yet. Open any asset and press “Add to watchlist”. <a class="link" href="rankings.html">Browse rankings →</a></div>';
+  }
+  K.footer();
+})();
+</script>
+</body>
+</html>

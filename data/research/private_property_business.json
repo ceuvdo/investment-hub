@@ -1,0 +1,1485 @@
+{
+ "generated": "2026-11-14",
+ "ways": [
+  {
+   "way": "Peer-to-peer lending",
+   "group": "Cash and yield",
+   "metrics": {
+    "ret_1y": {
+     "value": 9.9,
+     "period": "calendar year 2025",
+     "source": "Mintos historical performance (net return = annualised gross return minus annualised loss rate)",
+     "url": "https://www.mintos.com/en/statistics/historical-performance/",
+     "asof": "2026",
+     "trust": "platform",
+     "note": "Platform-stated; uses Mintos' own recovery estimates for loans from suspended lending companies."
+    },
+    "ret_5y_ann": {
+     "value": 6.81,
+     "period": "2021-2025, compounded from Mintos annual net returns",
+     "source": "Mintos historical performance",
+     "url": "https://www.mintos.com/en/statistics/historical-performance/",
+     "asof": "2026",
+     "trust": "platform",
+     "note": "Computed by us from platform-stated annual figures (6.1, -1.2, 10.4, 9.3, 9.9)."
+    },
+    "ret_10y_ann": {
+     "value": 8.53,
+     "period": "2016-2025, compounded from Mintos annual net returns",
+     "source": "Mintos historical performance",
+     "url": "https://www.mintos.com/en/statistics/historical-performance/",
+     "asof": "2026",
+     "trust": "platform",
+     "note": "Computed by us from platform-stated annual figures."
+    },
+    "yield": null,
+    "volatility": null,
+    "max_drawdown": {
+     "value": -1.2,
+     "period": "worst calendar year (2022); not a peak-to-trough drawdown",
+     "source": "Mintos historical performance",
+     "url": "https://www.mintos.com/en/statistics/historical-performance/",
+     "asof": "2026",
+     "trust": "platform",
+     "note": "Only annual figures published."
+    },
+    "time_to_sell": null,
+    "exit_cost": null,
+    "min_ticket": null,
+    "market_size": null
+   },
+   "examples": [
+    {
+     "name": "Mintos net return 2025",
+     "value": "9.9%",
+     "source": "Mintos",
+     "url": "https://www.mintos.com/en/statistics/historical-performance/",
+     "asof": "2026"
+    },
+    {
+     "name": "Mintos net return 2022 (lender suspensions after Russia/Ukraine)",
+     "value": "-1.2%",
+     "source": "Mintos",
+     "url": "https://www.mintos.com/en/statistics/historical-performance/",
+     "asof": "2026"
+    },
+    {
+     "name": "Mintos net return 2020",
+     "value": "4.3%",
+     "source": "Mintos",
+     "url": "https://www.mintos.com/en/statistics/historical-performance/",
+     "asof": "2026"
+    }
+   ],
+   "note": "Single-platform data (Mintos). Other P2P platforms have had much worse default experience. No independent cross-platform P2P index found."
+  },
+  {
+   "way": "Private loans to businesses",
+   "group": "Cash and yield",
+   "metrics": {
+    "ret_1y": {
+     "value": 9.3,
+     "period": "calendar year 2025",
+     "source": "Cliffwater Direct Lending Index (CDLI) 2025 results press release",
+     "url": "https://cliffwaterdev-staging.azurewebsites.net/files/docs/CliffwaterPressRelease_CDLI_2025_Results.pdf",
+     "asof": "2026-03-31",
+     "trust": "index",
+     "note": "Proxy: unlevered, gross-of-fee returns on ~21,000 US middle-market loans held by BDCs; direct/retail business lending will differ. URL is on a Cliffwater staging domain."
+    },
+    "ret_5y_ann": null,
+    "ret_10y_ann": null,
+    "yield": {
+     "value": 10.4,
+     "period": "interest income, calendar year 2025",
+     "source": "Cliffwater Direct Lending Index (CDLI) 2025 results press release",
+     "url": "https://cliffwaterdev-staging.azurewebsites.net/files/docs/CliffwaterPressRelease_CDLI_2025_Results.pdf",
+     "asof": "2026-03-31",
+     "trust": "index",
+     "note": "Includes 0.7% payment-in-kind income."
+    },
+    "volatility": null,
+    "max_drawdown": null,
+    "time_to_sell": null,
+    "exit_cost": null,
+    "min_ticket": null,
+    "market_size": {
+     "text": "CDLI covers ~21,000 US middle-market loans totalling $549bn; Funding Circle (UK SME lending platform) extended GBP 2,453m of credit in FY2025",
+     "source": "Cliffwater CDLI press release; Funding Circle FY2025 results",
+     "url": "https://cliffwaterdev-staging.azurewebsites.net/files/docs/CliffwaterPressRelease_CDLI_2025_Results.pdf",
+     "asof": "2026-03",
+     "trust": "report"
+    }
+   },
+   "examples": [
+    {
+     "name": "Funding Circle institutional investors' annualised net return",
+     "value": "~5 percentage points above their cost of capital (company-reported spread, FY2025)",
+     "source": "Funding Circle FY2025 results",
+     "url": "https://corporate.fundingcircle.com/media/newsroom/full-year-2025-results",
+     "asof": "2026-03-05"
+    },
+    {
+     "name": "CDLI 20-year average return",
+     "value": "9.6% per year, only one negative year (2008)",
+     "source": "Cliffwater",
+     "url": "https://cliffwaterdev-staging.azurewebsites.net/files/docs/CliffwaterPressRelease_CDLI_2025_Results.pdf",
+     "asof": "2026-03-31"
+    }
+   ],
+   "note": "No public index for retail/direct SME lending; CDLI used as an institutional proxy."
+  },
+  {
+   "way": "Structured notes",
+   "group": "Cash and yield",
+   "metrics": {
+    "ret_1y": null,
+    "ret_5y_ann": null,
+    "ret_10y_ann": null,
+    "yield": null,
+    "volatility": null,
+    "max_drawdown": null,
+    "time_to_sell": null,
+    "exit_cost": null,
+    "min_ticket": null,
+    "market_size": {
+     "text": "US: almost $180bn notional across 53.7K structured notes in 2025 (record); $192.16bn in first nine months of 2026. Global volumes ~$1.94tn in 2025.",
+     "source": "Structured Retail Products (SRP)",
+     "url": "https://www.structuredretailproducts.com/insights/85206/us-september-2026-sales-rise-13-as-annual-record-comes-into-view",
+     "asof": "2026-10",
+     "trust": "report"
+    }
+   },
+   "examples": [
+    {
+     "name": "US structured products sales, Jan-Sep 2026",
+     "value": "$192.16bn",
+     "source": "SRP",
+     "url": "https://www.structuredretailproducts.com/insights/85206/us-september-2026-sales-rise-13-as-annual-record-comes-into-view",
+     "asof": "2026-10"
+    },
+    {
+     "name": "Raymond James US structured products sales 2025",
+     "value": "$8.1bn (+44.6% YoY)",
+     "source": "SRP",
+     "url": "https://www.structuredretailproducts.com/insights/82518/raymond-james-reports-us81bn-structured-products-sales-in-2025",
+     "asof": "2026-01"
+    }
+   ],
+   "note": "No published aggregate return index for structured notes; outcomes depend on each note's payoff, underlying and issuer credit. Returns left null."
+  },
+  {
+   "way": "Royalties: music, books, patents",
+   "group": "Cash and yield",
+   "metrics": {
+    "ret_1y": null,
+    "ret_5y_ann": null,
+    "ret_10y_ann": null,
+    "yield": {
+     "value": 13.3,
+     "period": "average yield across completed Royalty Exchange deals (cumulative, undated)",
+     "source": "Royalty Exchange: Understanding music royalty types (2025 guide)",
+     "url": "https://royaltyexchange.com/blog/understanding-music-royalty-types-a-beginners-guide-2025",
+     "asof": "2025",
+     "trust": "platform",
+     "note": "Marketing figure with no published methodology; a purchase yield, not a realised total return."
+    },
+    "volatility": null,
+    "max_drawdown": null,
+    "time_to_sell": null,
+    "exit_cost": null,
+    "min_ticket": null,
+    "market_size": {
+     "text": "Royalty Exchange: 2,300+ completed deals, ~$190m in transactions (cumulative)",
+     "source": "Royalty Exchange",
+     "url": "https://royaltyexchange.com/blog/understanding-music-royalty-types-a-beginners-guide-2025",
+     "asof": "2025",
+     "trust": "platform"
+    }
+   },
+   "examples": [
+    {
+     "name": "Median trailing entry yield on 2,460 Royalty Exchange deals",
+     "value": "16.6% (interquartile ~12-24%)",
+     "source": "AltStreet platform review",
+     "url": "https://altstreet.investments/platforms/reviews/royalty-exchange",
+     "asof": "2026-05-26"
+    },
+    {
+     "name": "Closing multiples by catalog age",
+     "value": "~4x (0-3 yrs), 5-7x (3-10 yrs), ~8x+ (10+ yrs) of annual royalties",
+     "source": "Royalty Exchange blog",
+     "url": "https://royaltyexchange.com/blog/music-multiple-mania-what-buyers-are-really-paying-for-music-catalogs-and-why",
+     "asof": "undated"
+    }
+   ],
+   "note": "Music only; no public data found for book or patent royalty returns. Royalty income usually decays, so yield overstates total return."
+  },
+  {
+   "way": "Market-making vaults",
+   "group": "Crypto and on-chain",
+   "metrics": {
+    "ret_1y": null,
+    "ret_5y_ann": null,
+    "ret_10y_ann": null,
+    "yield": {
+     "value": 7,
+     "period": "trailing ~30-day APR, Aug 2026",
+     "source": "Datawallet: Hyperliquid HLP explained",
+     "url": "https://www.datawallet.com/crypto/hyperliquid-hlp-explained",
+     "asof": "2026-08",
+     "trust": "estimate",
+     "note": "Historical quarterly APR roughly 15-30% per DefiLlama-based figures in the same article; highly variable."
+    },
+    "volatility": null,
+    "max_drawdown": {
+     "value": -12,
+     "period": "upper end of quarterly drawdowns (range 5-12%)",
+     "source": "Datawallet: Hyperliquid HLP explained",
+     "url": "https://www.datawallet.com/crypto/hyperliquid-hlp-explained",
+     "asof": "2026-08",
+     "trust": "estimate",
+     "note": ""
+    },
+    "time_to_sell": {
+     "text": "4-day lock-up from most recent deposit (a new deposit resets it)",
+     "source": "Datawallet",
+     "url": "https://www.datawallet.com/crypto/hyperliquid-hlp-explained",
+     "asof": "2026-08",
+     "trust": "estimate"
+    },
+    "exit_cost": null,
+    "min_ticket": null,
+    "market_size": {
+     "text": "HLP TVL ~$184m (Aug 2026), peak $603.9m (Sep 2025); cumulative PnL ~$136.9m since May 2023 (to 30 Jun 2026)",
+     "source": "Datawallet",
+     "url": "https://www.datawallet.com/crypto/hyperliquid-hlp-explained",
+     "asof": "2026-08",
+     "trust": "estimate"
+    }
+   },
+   "examples": [
+    {
+     "name": "HLP profit around 10 Oct 2025 liquidation cascade",
+     "value": "~$40m in one weekend; two events = ~41% of lifetime profit",
+     "source": "Datawallet",
+     "url": "https://www.datawallet.com/crypto/hyperliquid-hlp-explained",
+     "asof": "2026-08"
+    }
+   ],
+   "note": "Returns are lumpy and event-driven; no audited track record; secondary-source data."
+  },
+  {
+   "way": "Prediction markets",
+   "group": "Crypto and on-chain",
+   "metrics": {
+    "ret_1y": null,
+    "ret_5y_ann": null,
+    "ret_10y_ann": null,
+    "yield": null,
+    "volatility": null,
+    "max_drawdown": null,
+    "time_to_sell": null,
+    "exit_cost": {
+     "text": "Effective fee take roughly 1.2% of volume on Kalshi vs ~0.3% on Polymarket (May 2026); Polymarket introduced taker fees in 2026",
+     "source": "Sacra research (as summarised in search results)",
+     "url": "https://sacra.com/research/polymarket-at-375m-year-revenue/",
+     "asof": "2026-05",
+     "trust": "estimate"
+    },
+    "min_ticket": null,
+    "market_size": {
+     "text": "Kalshi + Polymarket + Polymarket US combined ~$50.6bn volume in July 2026 (record); Kalshi ~$37.7bn of it",
+     "source": "The Block",
+     "url": "https://www.theblock.co/post/410382",
+     "asof": "2026-08-03",
+     "trust": "report"
+    }
+   },
+   "examples": [
+    {
+     "name": "Kalshi revenue 2025",
+     "value": "$260m (vs $24m in 2024)",
+     "source": "Sacra (search summary)",
+     "url": "https://sacra.com/research/polymarket-at-375m-year-revenue/",
+     "asof": "2026"
+    },
+    {
+     "name": "Kalshi monthly volume, April 2026",
+     "value": "$14.81bn",
+     "source": "DeFi Rate",
+     "url": "https://defirate.com/?p=10520",
+     "asof": "2026-05"
+    }
+   ],
+   "note": "Zero-sum contracts after fees; no meaningful aggregate investor return figure exists."
+  },
+  {
+   "way": "NFTs",
+   "group": "Crypto and on-chain",
+   "metrics": {
+    "ret_1y": null,
+    "ret_5y_ann": null,
+    "ret_10y_ann": null,
+    "yield": null,
+    "volatility": null,
+    "max_drawdown": null,
+    "time_to_sell": null,
+    "exit_cost": null,
+    "min_ticket": null,
+    "market_size": {
+     "text": "~$5.5bn total NFT trading volume in 2025, down from $13.7bn in 2024",
+     "source": "The Block 2026 NFTs & Gaming Outlook",
+     "url": "https://www.theblock.co/post/382794/2026-nfts-gaming-outlook",
+     "asof": "2025-12-31",
+     "trust": "report"
+    }
+   },
+   "examples": [
+    {
+     "name": "NFT trading volume Q2 2025",
+     "value": "$823m (-80% YoY), DappRadar",
+     "source": "Cryptorank (DappRadar data)",
+     "url": "https://cryptorank.io/news/feed/87d71-nft-trading-falls-fifth-consecutive-quarter-down-80-to-823m-dappradar-reports",
+     "asof": "2025-07"
+    },
+    {
+     "name": "NFT trading volume 2024",
+     "value": "$13.7bn (-19% vs 2023), DappRadar",
+     "source": "The Block",
+     "url": "https://www.theblock.co/news/web3/2025-01-15-nft-trading-volume-2024-334700",
+     "asof": "2025-01-15"
+    }
+   ],
+   "note": "No reliable broad NFT return index found for 2025-26; the volume collapse implies deeply negative returns for most holders since 2021-22."
+  },
+  {
+   "way": "Node and validator ownership",
+   "group": "Crypto and on-chain",
+   "metrics": {
+    "ret_1y": null,
+    "ret_5y_ann": null,
+    "ret_10y_ann": null,
+    "yield": {
+     "value": 2.9,
+     "period": "Ethereum network average staking APR, Feb 2026 (2.91%); range ~2.8-3.3%",
+     "source": "stakefish: The State of Ethereum in 2026",
+     "url": "https://blog.stake.fish/the-state-of-ethereum-in-2026/",
+     "asof": "2026-04-21",
+     "trust": "report",
+     "note": "Paid in ETH; fiat total return depends mainly on ETH price."
+    },
+    "volatility": null,
+    "max_drawdown": null,
+    "time_to_sell": {
+     "text": "Depends on validator exit queue; entry queue peaked at 71 days in Feb 2026",
+     "source": "stakefish",
+     "url": "https://blog.stake.fish/the-state-of-ethereum-in-2026/",
+     "asof": "2026-04-21",
+     "trust": "report"
+    },
+    "exit_cost": null,
+    "min_ticket": null,
+    "market_size": {
+     "text": "~37m ETH staked (30%+ of supply), ~900,000+ active validators",
+     "source": "stakefish",
+     "url": "https://blog.stake.fish/the-state-of-ethereum-in-2026/",
+     "asof": "2026-04-21",
+     "trust": "report"
+    }
+   },
+   "examples": [
+    {
+     "name": "ETH staking APR, early 2023",
+     "value": "5%+ (when ~15m ETH was staked)",
+     "source": "stakefish",
+     "url": "https://blog.stake.fish/the-state-of-ethereum-in-2026/",
+     "asof": "2026-04-21"
+    }
+   ],
+   "note": "Ethereum only. Yields fall as more ETH is staked."
+  },
+  {
+   "way": "Lending and liquidity pools",
+   "group": "Crypto and on-chain",
+   "metrics": {
+    "ret_1y": null,
+    "ret_5y_ann": null,
+    "ret_10y_ann": null,
+    "yield": {
+     "value": 4.4,
+     "period": "USDC supply APY weighted across 22 DeFi lending pools, snapshot 14 Nov 2026",
+     "source": "DeFi Rate (DefiLlama yields data)",
+     "url": "https://defirate.com/lend/snapshot/2026-11-14T1158",
+     "asof": "2026-11-14",
+     "trust": "report",
+     "note": "Point-in-time variable rate. Aave USDC: Ethereum 3.78%, Base 5.28%, Arbitrum 2.97%."
+    },
+    "volatility": null,
+    "max_drawdown": null,
+    "time_to_sell": null,
+    "exit_cost": null,
+    "min_ticket": null,
+    "market_size": null
+   },
+   "examples": [
+    {
+     "name": "Aave USDC on Ethereum supply APY",
+     "value": "3.78% ($2.8bn supplied)",
+     "source": "DeFi Rate / DefiLlama",
+     "url": "https://defirate.com/lend/snapshot/2026-11-14T1158",
+     "asof": "2026-11-14"
+    },
+    {
+     "name": "Uniswap v3 LPs with negative returns (impermanent loss > fees)",
+     "value": "49.5% of LPs in pools studied",
+     "source": "Loesch et al., arXiv 2111.09192",
+     "url": "https://web3.arxiv.org/pdf/2111.09192",
+     "asof": "2021-11"
+    }
+   ],
+   "note": "Variable rates that change daily; smart-contract risk not reflected. LP returns depend heavily on price volatility (impermanent loss)."
+  },
+  {
+   "way": "Venture capital funds",
+   "group": "Funds and private markets",
+   "metrics": {
+    "ret_1y": {
+     "value": 21.1,
+     "period": "calendar year 2025",
+     "source": "Cambridge Associates US Venture Capital Index",
+     "url": "https://www.cambridgeassociates.com/wp-content/uploads/2026/07/2026-07-US-PE-VC-Benchmark-Commentary-CY2025-Data-PUBLIC.pdf",
+     "asof": "2026-07-30",
+     "trust": "index",
+     "note": "Pooled net IRR (net of fees and carry). Nasdaq mPME: 21.3%."
+    },
+    "ret_5y_ann": {
+     "value": 10.2,
+     "period": "5 years to 31 Dec 2025",
+     "source": "Cambridge Associates US Venture Capital Index",
+     "url": "https://www.cambridgeassociates.com/wp-content/uploads/2026/07/2026-07-US-PE-VC-Benchmark-Commentary-CY2025-Data-PUBLIC.pdf",
+     "asof": "2026-07-30",
+     "trust": "index",
+     "note": "Nasdaq mPME: 14.0%."
+    },
+    "ret_10y_ann": {
+     "value": 14.9,
+     "period": "10 years to 31 Dec 2025",
+     "source": "Cambridge Associates US Venture Capital Index",
+     "url": "https://www.cambridgeassociates.com/wp-content/uploads/2026/07/2026-07-US-PE-VC-Benchmark-Commentary-CY2025-Data-PUBLIC.pdf",
+     "asof": "2026-07-30",
+     "trust": "index",
+     "note": "Nasdaq mPME: 17.8%."
+    },
+    "yield": null,
+    "volatility": null,
+    "max_drawdown": null,
+    "time_to_sell": null,
+    "exit_cost": null,
+    "min_ticket": null,
+    "market_size": {
+     "text": "US VC: >15,000 deals worth >$320bn in 2025 (NVCA/PitchBook); CA index funds called $61bn and distributed $42bn in 2025",
+     "source": "Cambridge Associates",
+     "url": "https://www.cambridgeassociates.com/insight/us-pe-vc-benchmark-commentary-calendar-year-2025/",
+     "asof": "2026-07-30",
+     "trust": "report"
+    }
+   },
+   "examples": [
+    {
+     "name": "CA US VC 20-year return",
+     "value": "12.9% p.a. (to Dec 2025)",
+     "source": "Cambridge Associates",
+     "url": "https://www.cambridgeassociates.com/wp-content/uploads/2026/07/2026-07-US-PE-VC-Benchmark-Commentary-CY2025-Data-PUBLIC.pdf",
+     "asof": "2026-07-30"
+    },
+    {
+     "name": "CA US VC 3-year return",
+     "value": "8.7% p.a. (to Dec 2025)",
+     "source": "Cambridge Associates",
+     "url": "https://www.cambridgeassociates.com/wp-content/uploads/2026/07/2026-07-US-PE-VC-Benchmark-Commentary-CY2025-Data-PUBLIC.pdf",
+     "asof": "2026-07-30"
+    }
+   ],
+   "note": "Appraisal-based IRRs; fund dispersion is very wide; capital typically locked 10+ years."
+  },
+  {
+   "way": "Angel deals in startups",
+   "group": "Funds and private markets",
+   "metrics": {
+    "ret_1y": null,
+    "ret_5y_ann": null,
+    "ret_10y_ann": null,
+    "yield": null,
+    "volatility": null,
+    "max_drawdown": null,
+    "time_to_sell": null,
+    "exit_cost": null,
+    "min_ticket": null,
+    "market_size": null
+   },
+   "examples": [
+    {
+     "name": "Returns to angel investors in groups (Wiltbank & Boeker, Kauffman/ACEF)",
+     "value": "2.6x mean multiple, ~3.5-yr avg hold, ~27% IRR; 52% of exits below 1x; 7% above 10x",
+     "source": "Angel Capital Association",
+     "url": "https://www.angelcapitalassociation.org/data/Documents/Resources/AngelGroupResarch/1d - Resources - Research/6 RSCH_-_ACEF_-_Returns_to_Angel_Investor_in_Groups.pdf",
+     "asof": "2007-11"
+    },
+    {
+     "name": "Angel Resource Institute update (Kauffman-funded)",
+     "value": "2.5x mean multiple, ~22% IRR; 70% of exits below 1x; median below 1x",
+     "source": "Angel Resource Institute",
+     "url": "https://angelresourceinstitute.org/reports/tracking-angel-returns-2017-update.pdf",
+     "asof": "2017"
+    }
+   ],
+   "note": "Only older studies (2007, 2016/17); figures are gross mean multiples/IRRs on exited deals, heavily skewed by a few winners, not horizon returns, so return fields are left null."
+  },
+  {
+   "way": "Private equity",
+   "group": "Funds and private markets",
+   "metrics": {
+    "ret_1y": {
+     "value": 8.7,
+     "period": "calendar year 2025",
+     "source": "Cambridge Associates US Private Equity Index (buyout + growth equity)",
+     "url": "https://www.cambridgeassociates.com/wp-content/uploads/2026/07/2026-07-US-PE-VC-Benchmark-Commentary-CY2025-Data-PUBLIC.pdf",
+     "asof": "2026-07-30",
+     "trust": "index",
+     "note": "Pooled net IRR. S&P 500 mPME: 17.9%."
+    },
+    "ret_5y_ann": {
+     "value": 11.7,
+     "period": "5 years to 31 Dec 2025",
+     "source": "Cambridge Associates US Private Equity Index",
+     "url": "https://www.cambridgeassociates.com/wp-content/uploads/2026/07/2026-07-US-PE-VC-Benchmark-Commentary-CY2025-Data-PUBLIC.pdf",
+     "asof": "2026-07-30",
+     "trust": "index",
+     "note": "S&P 500 mPME: 14.9%."
+    },
+    "ret_10y_ann": {
+     "value": 15.2,
+     "period": "10 years to 31 Dec 2025",
+     "source": "Cambridge Associates US Private Equity Index",
+     "url": "https://www.cambridgeassociates.com/wp-content/uploads/2026/07/2026-07-US-PE-VC-Benchmark-Commentary-CY2025-Data-PUBLIC.pdf",
+     "asof": "2026-07-30",
+     "trust": "index",
+     "note": "S&P 500 mPME: 15.1%."
+    },
+    "yield": null,
+    "volatility": null,
+    "max_drawdown": null,
+    "time_to_sell": null,
+    "exit_cost": null,
+    "min_ticket": null,
+    "market_size": {
+     "text": "Total private capital AUM ~$16.7tn (Dec 2025, PitchBook); global PE dry powder ~$1.3-1.7tn; global PE fundraising $407.6bn in 2025 (nine-year low, KPMG)",
+     "source": "PitchBook Q2 2026 Global Private Market Fundraising Report; KPMG Pulse of PE",
+     "url": "https://pitchbook.brightspotcdn.com/74/45/4f36da844589a606c5cea79f2aeb/q2-2026-global-private-market-fundraising-report.pdf",
+     "asof": "2026",
+     "trust": "report"
+    }
+   },
+   "examples": [
+    {
+     "name": "CA US PE 20-year return",
+     "value": "13.2% p.a. (to Dec 2025)",
+     "source": "Cambridge Associates",
+     "url": "https://www.cambridgeassociates.com/wp-content/uploads/2026/07/2026-07-US-PE-VC-Benchmark-Commentary-CY2025-Data-PUBLIC.pdf",
+     "asof": "2026-07-30"
+    },
+    {
+     "name": "CA US PE 2025: growth equity vs buyouts",
+     "value": "11.9% vs 7.6%",
+     "source": "Cambridge Associates",
+     "url": "https://www.cambridgeassociates.com/wp-content/uploads/2026/07/2026-07-US-PE-VC-Benchmark-Commentary-CY2025-Data-PUBLIC.pdf",
+     "asof": "2026-07-30"
+    }
+   ],
+   "note": "Appraisal-based and smoothed; distribution yield below average for 4th consecutive year."
+  },
+  {
+   "way": "Hedge funds",
+   "group": "Funds and private markets",
+   "metrics": {
+    "ret_1y": {
+     "value": 12.5,
+     "period": "calendar year 2025",
+     "source": "HFRI Fund Weighted Composite Index",
+     "url": "https://www.hfr.com/media/market-commentary/hfri-surges-to-strongest-annual-gain-since-2009-as-risks-opportunities-evolve/",
+     "asof": "2026-01-22",
+     "trust": "index",
+     "note": "Initial estimate +12.6%; strongest year since 2009. Equity Hedge +17.1%, Event-Driven +10.9%, Macro +7.2%, Relative Value +7.5%. HFR page seen in search results; direct fetch returned 404."
+    },
+    "ret_5y_ann": null,
+    "ret_10y_ann": null,
+    "yield": null,
+    "volatility": null,
+    "max_drawdown": null,
+    "time_to_sell": null,
+    "exit_cost": null,
+    "min_ticket": null,
+    "market_size": {
+     "text": "Global hedge fund industry capital passed $5 trillion",
+     "source": "HFR",
+     "url": "https://www.hfr.com/media/market-commentary/global-hedge-fund-industry-capital-surges-past-historic-5-trillion-milestone/",
+     "asof": "2026",
+     "trust": "report",
+     "note": "Exact as-of quarter not verified (page seen in search results; fetch returned 404)."
+    }
+   },
+   "examples": [
+    {
+     "name": "HFRI Equity Hedge (Total) 2025",
+     "value": "+17.1%",
+     "source": "HFR",
+     "url": "https://www.hfr.com/media/market-commentary/hfri-surges-to-strongest-annual-gain-since-2009-as-risks-opportunities-evolve/",
+     "asof": "2026-01"
+    },
+    {
+     "name": "HFRI Macro (Total) 2025",
+     "value": "+7.2%",
+     "source": "HFR",
+     "url": "https://www.hfr.com/media/market-commentary/hfri-surges-to-strongest-annual-gain-since-2009-as-risks-opportunities-evolve/",
+     "asof": "2026-01"
+    }
+   ],
+   "note": "5y/10y annualised figures not retrieved."
+  },
+  {
+   "way": "Market-making and quant funds",
+   "group": "Funds and private markets",
+   "metrics": {
+    "ret_1y": {
+     "value": 10.2,
+     "period": "calendar year 2025, Citadel Wellington flagship (net)",
+     "source": "Bloomberg",
+     "url": "https://www.bloomberg.com/news/articles/2026-01-02/citadel-s-flagship-hedge-fund-wellington-climbed-10-2-last-year",
+     "asof": "2026-01-02",
+     "trust": "report",
+     "note": "Single fund, based on people familiar with the figures; not an index."
+    },
+    "ret_5y_ann": null,
+    "ret_10y_ann": null,
+    "yield": null,
+    "volatility": null,
+    "max_drawdown": null,
+    "time_to_sell": null,
+    "exit_cost": null,
+    "min_ticket": null,
+    "market_size": null
+   },
+   "examples": [
+    {
+     "name": "Millennium Management 2025",
+     "value": "~10.5% net",
+     "source": "Hedgeweek",
+     "url": "https://www.hedgeweek.com/millennium-and-citadel-post-double-digit-2025-gains-but-lag-smaller-hedge-funds/",
+     "asof": "2026-01"
+    },
+    {
+     "name": "D.E. Shaw Composite 2025",
+     "value": "~18.5%",
+     "source": "Fortune",
+     "url": "https://fortune.com/2026/01/02/top-hedge-fund-performers-2025-bridgewater-de-shaw-citadel-millennium/",
+     "asof": "2026-01-02"
+    }
+   ],
+   "note": "No public index for quant/market-making funds; leading firms are largely closed to new investors. Press-reported estimates."
+  },
+  {
+   "way": "Private credit funds",
+   "group": "Funds and private markets",
+   "metrics": {
+    "ret_1y": {
+     "value": 9.3,
+     "period": "calendar year 2025",
+     "source": "Cliffwater Direct Lending Index (CDLI)",
+     "url": "https://cliffwaterdev-staging.azurewebsites.net/files/docs/CliffwaterPressRelease_CDLI_2025_Results.pdf",
+     "asof": "2026-03-31",
+     "trust": "index",
+     "note": "Unlevered, gross of fees. Preqin private credit: 8.3% over 12 months to Q1 2026."
+    },
+    "ret_5y_ann": {
+     "value": 8.6,
+     "period": "5-year horizon IRR to end-2024",
+     "source": "PitchBook H1 2025 Global Private Debt Report",
+     "url": "https://pitchbook.brightspotcdn.com/a7/b9/cea7abbf0976b65c715b477a159f/h1-2025-global-private-debt-report.pdf",
+     "asof": "2025",
+     "trust": "index",
+     "note": "Older edition; net fund IRR, different methodology from CDLI."
+    },
+    "ret_10y_ann": {
+     "value": 8.1,
+     "period": "10-year horizon IRR to end-2024",
+     "source": "PitchBook H1 2025 Global Private Debt Report",
+     "url": "https://pitchbook.brightspotcdn.com/a7/b9/cea7abbf0976b65c715b477a159f/h1-2025-global-private-debt-report.pdf",
+     "asof": "2025",
+     "trust": "index",
+     "note": ""
+    },
+    "yield": {
+     "value": 10.4,
+     "period": "interest income, calendar year 2025",
+     "source": "Cliffwater Direct Lending Index (CDLI)",
+     "url": "https://cliffwaterdev-staging.azurewebsites.net/files/docs/CliffwaterPressRelease_CDLI_2025_Results.pdf",
+     "asof": "2026-03-31",
+     "trust": "index",
+     "note": ""
+    },
+    "volatility": null,
+    "max_drawdown": null,
+    "time_to_sell": null,
+    "exit_cost": null,
+    "min_ticket": null,
+    "market_size": {
+     "text": "Private credit AUM ~$2.28tn (2025 est.), projected ~$4.5tn by 2030",
+     "source": "Preqin (as summarised in search results)",
+     "url": "https://preqin.com/data/private-credit",
+     "asof": "2025",
+     "trust": "estimate"
+    }
+   },
+   "examples": [
+    {
+     "name": "CDLI 20-year average return",
+     "value": "9.6% p.a., only negative year 2008",
+     "source": "Cliffwater",
+     "url": "https://cliffwaterdev-staging.azurewebsites.net/files/docs/CliffwaterPressRelease_CDLI_2025_Results.pdf",
+     "asof": "2026-03-31"
+    },
+    {
+     "name": "CDLI coverage",
+     "value": "~21,000 loans, $549bn assets",
+     "source": "Cliffwater",
+     "url": "https://cliffwaterdev-staging.azurewebsites.net/files/docs/CliffwaterPressRelease_CDLI_2025_Results.pdf",
+     "asof": "2026-03-31"
+    }
+   ],
+   "note": "CDLI is gross of fees; fund investors earn less after fees."
+  },
+  {
+   "way": "Pre-IPO shares",
+   "group": "Funds and private markets",
+   "metrics": {
+    "ret_1y": null,
+    "ret_5y_ann": null,
+    "ret_10y_ann": null,
+    "yield": null,
+    "volatility": null,
+    "max_drawdown": null,
+    "time_to_sell": null,
+    "exit_cost": null,
+    "min_ticket": null,
+    "market_size": {
+     "text": "Total private secondary market ~$226-240bn in 2025 (mostly LP fund stakes and GP-led deals); direct secondaries in company shares estimated $40-155bn (midpoint $97.6bn) for Q2 2025-Q1 2026 (PitchBook)",
+     "source": "Evercore/Jefferies and PitchBook (as summarised in search results)",
+     "url": "https://www.crowdfundinsider.com/?p=262121",
+     "asof": "2026",
+     "trust": "estimate"
+    }
+   },
+   "examples": [
+    {
+     "name": "Forge Private Market Index, October 2026",
+     "value": "+6.1% for the month (cap-weighted FAPMI +2.4%)",
+     "source": "Forge Global",
+     "url": "https://forgeglobal.com/insights/october-highlights-private-capital-backed-the-buildout-as-public-market-pulled-back/",
+     "asof": "2026-11"
+    },
+    {
+     "name": "Company tender offers 2025",
+     "value": "~$35bn",
+     "source": "Nasdaq Private Market",
+     "url": "https://www.nasdaqprivatemarket.com/secondary-scene-npm-annual-private-market-report/",
+     "asof": "2026"
+    }
+   ],
+   "note": "Forge index page blocked fetching, so annual index returns could not be verified; return fields left null. Pricing is sparse and stale."
+  },
+  {
+   "way": "Funds of funds",
+   "group": "Funds and private markets",
+   "metrics": {
+    "ret_1y": null,
+    "ret_5y_ann": null,
+    "ret_10y_ann": null,
+    "yield": null,
+    "volatility": null,
+    "max_drawdown": null,
+    "time_to_sell": null,
+    "exit_cost": null,
+    "min_ticket": null,
+    "market_size": null
+   },
+   "examples": [
+    {
+     "name": "Preqin: secondaries outperformed buyout, growth and fund-of-funds strategies in recent vintages",
+     "value": "qualitative",
+     "source": "Preqin (search summary)",
+     "url": "https://cdn-website-ssr-core.white.k8s.preqin.com/insights/research/reports/preqin-benchmarks-private-markets-performance-data-q3-2025",
+     "asof": "2025-12"
+    }
+   ],
+   "note": "No public fund-of-funds benchmark returns found (Preqin/CA FoF benchmarks are paywalled). Expect underlying PE/VC returns minus an extra fee layer."
+  },
+  {
+   "way": "Equity crowdfunding",
+   "group": "Funds and private markets",
+   "metrics": {
+    "ret_1y": null,
+    "ret_5y_ann": null,
+    "ret_10y_ann": null,
+    "yield": null,
+    "volatility": null,
+    "max_drawdown": null,
+    "time_to_sell": null,
+    "exit_cost": null,
+    "min_ticket": null,
+    "market_size": null
+   },
+   "examples": [
+    {
+     "name": "Average IRR on UK equity crowdfunding (5 platforms incl. Crowdcube, Seedrs) since Feb 2011",
+     "value": "2.17%",
+     "source": "AltFi report via MoneyWeek",
+     "url": "https://moneyweek.com/416885/who-prospers-after-emerging-from-the-dragons-den-of-crowdfunding",
+     "asof": "c. 2017"
+    },
+    {
+     "name": "Crowdcube-funded firms (2011-15) that later failed",
+     "value": "18% (another paper on the same sample: 10%)",
+     "source": "Academic study (Signori & Vismara)",
+     "url": "https://scinapse.io/papers/2767486661",
+     "asof": "c. 2017"
+    }
+   ],
+   "note": "Data is old and UK-focused; no current independent return study for Wefunder/StartEngine/Republic found. Return fields left null."
+  },
+  {
+   "way": "Apartments and houses",
+   "group": "Property and land",
+   "metrics": {
+    "ret_1y": {
+     "value": 1.4,
+     "period": "annual nominal house price change, Q1 2026, weighted average of 55 markets (price only, excludes rent)",
+     "source": "Knight Frank Global House Price Index Q1 2026",
+     "url": "https://www.knightfrank.co.uk/site-assets/research/report-pdfs/global-house-price-index/ghpi-2026-q1.pdf",
+     "asof": "2026-07",
+     "trust": "index",
+     "note": "Real (inflation-adjusted) change about -1.7% to -1.8%. Q2 2026 edition not found."
+    },
+    "ret_5y_ann": null,
+    "ret_10y_ann": {
+     "value": 4.9,
+     "period": "10-year average annual total return to Q2 2026, US institutional apartments",
+     "source": "NCREIF NPI Apartment (RCLCO Q2 2026 summary)",
+     "url": "https://www.rclco.com/wp-content/uploads/2026/08/Q2-2026-NCREIF-Results-Summary.pdf",
+     "asof": "2026-08",
+     "trust": "index",
+     "note": "US institutional, unlevered, gross of fees; not global."
+    },
+    "yield": {
+     "value": 4.4,
+     "period": "trailing-4Q income return, US institutional apartments, Q2 2026",
+     "source": "NCREIF NPI Apartment (RCLCO Q2 2026 summary)",
+     "url": "https://www.rclco.com/wp-content/uploads/2026/08/Q2-2026-NCREIF-Results-Summary.pdf",
+     "asof": "2026-08",
+     "trust": "index",
+     "note": "Net operating income yield. Global gross rental yields vary, e.g. Portugal 4.29%, UAE 4.94%, Denmark 4.11% (Global Property Guide, Q2 2026)."
+    },
+    "volatility": null,
+    "max_drawdown": null,
+    "time_to_sell": null,
+    "exit_cost": null,
+    "min_ticket": null,
+    "market_size": null
+   },
+   "examples": [
+    {
+     "name": "Turkey nominal house price growth (Q1 2026)",
+     "value": "26.2% (real -3.5%)",
+     "source": "Knight Frank",
+     "url": "https://www.knightfrank.co.uk/site-assets/research/report-pdfs/global-house-price-index/ghpi-2026-q1.pdf",
+     "asof": "2026-07"
+    },
+    {
+     "name": "Portugal average gross rental yield",
+     "value": "4.29% (Q2 2026)",
+     "source": "Global Property Guide",
+     "url": "https://www.globalpropertyguide.com/Europe/Portugal/Rental-Yields",
+     "asof": "2026"
+    },
+    {
+     "name": "UAE average gross rental yield",
+     "value": "4.94% (Q2 2026)",
+     "source": "Global Property Guide",
+     "url": "https://www.globalpropertyguide.com/Middle-East/United-Arab-Emirates/Rental-Yields",
+     "asof": "2026"
+    }
+   ],
+   "note": "No single global total-return figure; combine local price growth with rental yield. Net yields typically 1.5-2 points below gross (Global Property Guide). BIS data not retrieved."
+  },
+  {
+   "way": "Rental property shares",
+   "group": "Property and land",
+   "metrics": {
+    "ret_1y": {
+     "value": 6.24,
+     "period": "calendar year 2025, Fundrise advisory-client accounts",
+     "source": "Fundrise track record",
+     "url": "https://fundrise.com/track-record",
+     "asof": "2026",
+     "trust": "platform",
+     "note": "Platform-stated; not individual investor results."
+    },
+    "ret_5y_ann": {
+     "value": 5.36,
+     "period": "2021-2025, compounded from Fundrise annual advisory-client returns",
+     "source": "Fundrise track record",
+     "url": "https://fundrise.com/track-record",
+     "asof": "2026",
+     "trust": "platform",
+     "note": "Computed by us from platform-stated annual returns."
+    },
+    "ret_10y_ann": null,
+    "yield": {
+     "value": 3.9,
+     "period": "2025 average annualised dividend yield across Arrived long-term rentals",
+     "source": "Arrived 2025 Year in Review",
+     "url": "https://arrived.com/blog/Arrived-Q4-2025-financial-performance",
+     "asof": "2026",
+     "trust": "platform",
+     "note": "Income only; Arrived Single Family Residential Fund 4.9% annualised in Q2 2026."
+    },
+    "volatility": null,
+    "max_drawdown": {
+     "value": -7.45,
+     "period": "worst calendar year (2023), Fundrise advisory clients",
+     "source": "Fundrise track record",
+     "url": "https://fundrise.com/track-record",
+     "asof": "2026",
+     "trust": "platform",
+     "note": "Annual figure, not peak-to-trough."
+    },
+    "time_to_sell": null,
+    "exit_cost": null,
+    "min_ticket": null,
+    "market_size": null
+   },
+   "examples": [
+    {
+     "name": "Fundrise advisory-client returns 2018-2025",
+     "value": "8.81, 9.16, 7.31, 22.99, 1.50, -7.45, 5.75, 6.24 (%)",
+     "source": "Fundrise",
+     "url": "https://fundrise.com/track-record",
+     "asof": "2026"
+    },
+    {
+     "name": "Arrived SFR Fund annualised dividend, Q2 2026",
+     "value": "4.9%",
+     "source": "Arrived",
+     "url": "https://arrived.com/blog/arrived-q2-2026-financial-performance",
+     "asof": "2026"
+    }
+   ],
+   "note": "Platform-stated figures; NAVs are appraisal-based; redemption limits apply."
+  },
+  {
+   "way": "Commercial property",
+   "group": "Property and land",
+   "metrics": {
+    "ret_1y": {
+     "value": 5.0,
+     "period": "trailing 4 quarters to Q2 2026",
+     "source": "NCREIF Property Index (NPI), RCLCO Q2 2026 summary",
+     "url": "https://www.rclco.com/wp-content/uploads/2026/08/Q2-2026-NCREIF-Results-Summary.pdf",
+     "asof": "2026-08",
+     "trust": "index",
+     "note": "Unlevered, gross of fees. Q3 2026 quarterly total: 1.41%."
+    },
+    "ret_5y_ann": null,
+    "ret_10y_ann": {
+     "value": 4.8,
+     "period": "10 years to Q2 2026 (average annual)",
+     "source": "NCREIF NPI, RCLCO Q2 2026 summary",
+     "url": "https://www.rclco.com/wp-content/uploads/2026/08/Q2-2026-NCREIF-Results-Summary.pdf",
+     "asof": "2026-08",
+     "trust": "index",
+     "note": "Vs REITs 6.1% and S&P 500 13.6% over the same period."
+    },
+    "yield": {
+     "value": 4.7,
+     "period": "trailing-year income return to Q2 2026",
+     "source": "NCREIF NPI, RCLCO Q2 2026 summary",
+     "url": "https://www.rclco.com/wp-content/uploads/2026/08/Q2-2026-NCREIF-Results-Summary.pdf",
+     "asof": "2026-08",
+     "trust": "index",
+     "note": ""
+    },
+    "volatility": null,
+    "max_drawdown": null,
+    "time_to_sell": null,
+    "exit_cost": null,
+    "min_ticket": null,
+    "market_size": {
+     "text": "NPI: 13,160 properties worth ~$943bn (Q2 2026)",
+     "source": "NCREIF NPI press release 2Q2026",
+     "url": "https://ncreif.org/__static/jdj5jdewjhnou3vmywrsudbrsghqcmjx/NPI-Press-Release-2Q2026(2).pdf",
+     "asof": "2026-07-25",
+     "trust": "index"
+    }
+   },
+   "examples": [
+    {
+     "name": "NPI quarterly total return Q3 2026",
+     "value": "1.41% (income 1.18%, appreciation 0.22%)",
+     "source": "NCREIF",
+     "url": "https://ncreif.org/indices/index-returns/",
+     "asof": "2026-10"
+    },
+    {
+     "name": "MSCI Global Quarterly Property Index 2025",
+     "value": "5.1% local currency (~0.6% capital growth, ~4.5% income)",
+     "source": "UBS Asset Management citing MSCI (search summary)",
+     "url": "https://hub.ipe.com/asset-manager/ubs-asset-management-europe-real-estate/415564.supplier",
+     "asof": "2026"
+    },
+    {
+     "name": "NPI office trailing-4Q total return",
+     "value": "3.8% (Q2 2026)",
+     "source": "RCLCO",
+     "url": "https://www.rclco.com/wp-content/uploads/2026/08/Q2-2026-NCREIF-Results-Summary.pdf",
+     "asof": "2026-08"
+    }
+   ],
+   "note": "US institutional data; appraisal-based, so understates volatility."
+  },
+  {
+   "way": "Farmland",
+   "group": "Property and land",
+   "metrics": {
+    "ret_1y": {
+     "value": 0.2,
+     "period": "calendar year 2025",
+     "source": "NCREIF Farmland Property Index (via FarmTogether)",
+     "url": "https://farmtogether.com/learn/blog/2025-farmland-year-end-results-dispersion-within-a-durable-asset-class",
+     "asof": "2026-03-04",
+     "trust": "index",
+     "note": "Income ~3.05%, appreciation ~-2.8%. Annual cropland +3.52%, permanent cropland -5.43%. Q3 2026 quarter +0.88% (NCREIF)."
+    },
+    "ret_5y_ann": null,
+    "ret_10y_ann": null,
+    "yield": {
+     "value": 3.05,
+     "period": "income return, calendar year 2025",
+     "source": "NCREIF Farmland Property Index (via FarmTogether)",
+     "url": "https://farmtogether.com/learn/blog/2025-farmland-year-end-results-dispersion-within-a-durable-asset-class",
+     "asof": "2026-03-04",
+     "trust": "index",
+     "note": ""
+    },
+    "volatility": null,
+    "max_drawdown": {
+     "value": -1.03,
+     "period": "worst calendar year (2024, the index's first negative year)",
+     "source": "NCREIF Farmland (via secondary summaries)",
+     "url": "https://farmtogether.com/learn/blog/2025-farmland-year-end-results-dispersion-within-a-durable-asset-class",
+     "asof": "2026-03",
+     "trust": "index",
+     "note": "Annual figure only."
+    },
+    "time_to_sell": null,
+    "exit_cost": null,
+    "min_ticket": null,
+    "market_size": {
+     "text": "US farm real estate average $4,500/acre (+3.4% in 2026), cropland $6,020/acre; total US farm real estate ~$3.6tn (ERS)",
+     "source": "USDA NASS Land Values 2026 Summary",
+     "url": "https://release.nass.usda.gov/reports/land0726.pdf",
+     "asof": "2026-07",
+     "trust": "report"
+    }
+   },
+   "examples": [
+    {
+     "name": "NCREIF Farmland Q3 2026 quarterly total return",
+     "value": "0.88% (income 0.82%, appreciation 0.06%)",
+     "source": "NCREIF",
+     "url": "https://ncreif.org/indices/index-returns/",
+     "asof": "2026-10"
+    },
+    {
+     "name": "USDA US farm real estate value change, 2026",
+     "value": "+3.4% to $4,500/acre",
+     "source": "USDA NASS",
+     "url": "https://release.nass.usda.gov/reports/land0726.pdf",
+     "asof": "2026-07"
+    },
+    {
+     "name": "NCREIF Farmland 20-yr annualised total return",
+     "value": "~9.57%",
+     "source": "Secondary summaries (FarmTogether/Farmonaut)",
+     "url": "https://farmtogether.com/learn/blog/2025-farmland-year-end-results-dispersion-within-a-durable-asset-class",
+     "asof": "2026"
+    }
+   ],
+   "note": "2025 figures from secondary sources citing NCREIF Q4 2025; NCREIF member data not accessed directly."
+  },
+  {
+   "way": "Forest and timber",
+   "group": "Property and land",
+   "metrics": {
+    "ret_1y": {
+     "value": 4.6,
+     "period": "calendar year 2025",
+     "source": "NCREIF Timberland Property Index (via Angel Investors Network)",
+     "url": "https://angelinvestorsnetwork.com/topics/ncreif-timberland-index",
+     "asof": "2026",
+     "trust": "index",
+     "note": "Secondary source. NCREIF quarterly: Q2 2026 +0.95%, Q3 2026 +0.63%."
+    },
+    "ret_5y_ann": null,
+    "ret_10y_ann": {
+     "value": 5.4,
+     "period": "10 years to mid-2026 (annualised)",
+     "source": "NCREIF Timberland Index (via Angel Investors Network, Jul 2026)",
+     "url": "https://angelinvestorsnetwork.com/real-estate/timber-reit-investing-inflation-hedge-accredited-investors-2026",
+     "asof": "2026-07",
+     "trust": "index",
+     "note": "Secondary source; not verified against NCREIF member data."
+    },
+    "yield": null,
+    "volatility": null,
+    "max_drawdown": null,
+    "time_to_sell": null,
+    "exit_cost": null,
+    "min_ticket": null,
+    "market_size": null
+   },
+   "examples": [
+    {
+     "name": "NCREIF Timberland Q3 2026 quarterly total return",
+     "value": "0.63% (income 0.40%, appreciation 0.23%)",
+     "source": "NCREIF",
+     "url": "https://ncreif.org/indices/index-returns/",
+     "asof": "2026-10"
+    },
+    {
+     "name": "Timberland return components 1995-2025 (30 yrs)",
+     "value": "EBITDDA 3.4% + appreciation 3.4% annualised",
+     "source": "Forisk",
+     "url": "https://forisk.com/timberland-returns-comparing-the-drivers-of-performance-1995-2025/",
+     "asof": "2026-06-05"
+    }
+   ],
+   "note": "Index heavily weighted to the US South; appraisal-based."
+  },
+  {
+   "way": "Parking and storage units",
+   "group": "Property and land",
+   "metrics": {
+    "ret_1y": {
+     "value": 6.8,
+     "period": "trailing 4 quarters to Q2 2026, US self-storage",
+     "source": "NCREIF NPI Self Storage (RCLCO Q2 2026 summary)",
+     "url": "https://www.rclco.com/wp-content/uploads/2026/08/Q2-2026-NCREIF-Results-Summary.pdf",
+     "asof": "2026-08",
+     "trust": "index",
+     "note": "Unlevered institutional properties."
+    },
+    "ret_5y_ann": null,
+    "ret_10y_ann": {
+     "value": 9.7,
+     "period": "10-year average annual total return to Q2 2026, US self-storage",
+     "source": "NCREIF NPI Self Storage (RCLCO Q2 2026 summary)",
+     "url": "https://www.rclco.com/wp-content/uploads/2026/08/Q2-2026-NCREIF-Results-Summary.pdf",
+     "asof": "2026-08",
+     "trust": "index",
+     "note": ""
+    },
+    "yield": {
+     "value": 4.3,
+     "period": "trailing-4Q income return, Q2 2026, US self-storage",
+     "source": "NCREIF NPI Self Storage (RCLCO Q2 2026 summary)",
+     "url": "https://www.rclco.com/wp-content/uploads/2026/08/Q2-2026-NCREIF-Results-Summary.pdf",
+     "asof": "2026-08",
+     "trust": "index",
+     "note": ""
+    },
+    "volatility": null,
+    "max_drawdown": null,
+    "time_to_sell": null,
+    "exit_cost": null,
+    "min_ticket": null,
+    "market_size": {
+     "text": "Self-storage is 2.7% of NPI market value (NPI ~$943bn)",
+     "source": "RCLCO / NCREIF",
+     "url": "https://www.rclco.com/wp-content/uploads/2026/08/Q2-2026-NCREIF-Results-Summary.pdf",
+     "asof": "2026-08",
+     "trust": "index"
+    }
+   },
+   "examples": [],
+   "note": "Self-storage only; no public return index for parking found."
+  },
+  {
+   "way": "Property development projects",
+   "group": "Property and land",
+   "metrics": {
+    "ret_1y": null,
+    "ret_5y_ann": null,
+    "ret_10y_ann": null,
+    "yield": null,
+    "volatility": null,
+    "max_drawdown": null,
+    "time_to_sell": null,
+    "exit_cost": null,
+    "min_ticket": null,
+    "market_size": null
+   },
+   "examples": [
+    {
+     "name": "EstateGuru reported average investor return",
+     "value": "10.4% (Apr 2025); historical average 10.17%",
+     "source": "EstateGuru figures via P2P Empire review",
+     "url": "https://p2pempire.com/review/estateguru",
+     "asof": "2025"
+    },
+    {
+     "name": "EstateGuru outstanding portfolio in default",
+     "value": "over 50% (Jun 2025)",
+     "source": "P2P Empire review",
+     "url": "https://p2pempire.com/review/estateguru",
+     "asof": "2025-06"
+    },
+    {
+     "name": "Crowdestate portfolio in recovery",
+     "value": "11.3% (Jul 2025)",
+     "source": "P2P Empire review",
+     "url": "https://p2pempire.com/review/crowdestate",
+     "asof": "2025-07"
+    }
+   ],
+   "note": "Stated platform returns conflict with very high default levels; no independent return index. Return fields left null."
+  },
+  {
+   "way": "Buying a small business",
+   "group": "Businesses",
+   "metrics": {
+    "ret_1y": null,
+    "ret_5y_ann": null,
+    "ret_10y_ann": null,
+    "yield": null,
+    "volatility": null,
+    "max_drawdown": null,
+    "time_to_sell": {
+     "text": "Median ~149 days on market (Q3 2025); restaurants ~194 days (Q2 2026)",
+     "source": "BizBuySell Insight Report",
+     "url": "https://m.bizbuysell.com/news/bizbuysell-2025-third-quarter-insight-report",
+     "asof": "2025-10",
+     "trust": "report"
+    },
+    "exit_cost": null,
+    "min_ticket": null,
+    "market_size": {
+     "text": "2,132 US small businesses reported sold in Q3 2026 (-7% YoY); median sale price $350,000 (+17% YoY)",
+     "source": "BizBuySell Q3 2026 Insight Report",
+     "url": "https://finviz.com/news/404656/bizbuysell-releases-q3-2026-insight-report",
+     "asof": "2026-10-20",
+     "trust": "report"
+    }
+   },
+   "examples": [
+    {
+     "name": "Median sale price, Q3 2026",
+     "value": "$350,000",
+     "source": "BizBuySell",
+     "url": "https://finviz.com/news/404656/bizbuysell-releases-q3-2026-insight-report",
+     "asof": "2026-10-20"
+    },
+    {
+     "name": "Market-wide average cash-flow multiple, Q3 2026",
+     "value": "+2.6% YoY (absolute value not retrieved)",
+     "source": "BizBuySell",
+     "url": "https://finviz.com/news/404656/bizbuysell-releases-q3-2026-insight-report",
+     "asof": "2026-10-20"
+    }
+   ],
+   "note": "Investor return depends on owner labour; multiples are on seller's discretionary earnings (SDE)."
+  },
+  {
+   "way": "Franchises",
+   "group": "Businesses",
+   "metrics": {
+    "ret_1y": null,
+    "ret_5y_ann": null,
+    "ret_10y_ann": null,
+    "yield": null,
+    "volatility": null,
+    "max_drawdown": null,
+    "time_to_sell": null,
+    "exit_cost": null,
+    "min_ticket": null,
+    "market_size": {
+     "text": "US: ~845,000 franchise establishments, $921.4bn output, ~8.9m jobs forecast for 2026",
+     "source": "IFA / FRANdata 2026 Franchising Economic Outlook",
+     "url": "https://www.franchise.org/2026/02/ifa-predicts-steady-growth-for-franchising-in-2026-economic-outlook",
+     "asof": "2026-02",
+     "trust": "report"
+    }
+   },
+   "examples": [],
+   "note": "No published franchisee return index; unit economics vary by brand (see each brand's Franchise Disclosure Document Item 19)."
+  },
+  {
+   "way": "Websites and online stores",
+   "group": "Businesses",
+   "metrics": {
+    "ret_1y": null,
+    "ret_5y_ann": null,
+    "ret_10y_ann": null,
+    "yield": null,
+    "volatility": null,
+    "max_drawdown": null,
+    "time_to_sell": null,
+    "exit_cost": null,
+    "min_ticket": null,
+    "market_size": {
+     "text": "Empire Flippers transacted $45.6m in 2025 (vs $38.3m in 2024)",
+     "source": "Empire Flippers 2026 State of the Industry Report",
+     "url": "https://info.empireflippers.com/hubfs/2026%20Lead%20Magnets/2026%20State%20of%20the%20Industry%20Report.pdf",
+     "asof": "2026",
+     "trust": "platform"
+    }
+   },
+   "examples": [
+    {
+     "name": "Flippa average profit multiples, H1 2026",
+     "value": "SaaS 2.47x, content 2.32x, ecommerce 1.55x, app 2.62x (annual profit)",
+     "source": "Flippa H1 2026 Insights Report",
+     "url": "https://flippa.com/blog/the-new-era-of-digital-ma-flippas-h1-2026-insights-report/",
+     "asof": "2026-07-24"
+    },
+    {
+     "name": "Empire Flippers average content-site multiple 2025",
+     "value": "~24x monthly profit (~2x annual)",
+     "source": "Empire Flippers",
+     "url": "https://empireflippers.com/is-selling-your-amazon-fba-still-worth-it-in-2025-heres-the-truth/",
+     "asof": "2025-07"
+    },
+    {
+     "name": "Flippa content-business sales, H1 2026",
+     "value": "-39% half-on-half",
+     "source": "Flippa",
+     "url": "https://flippa.com/blog/the-new-era-of-digital-ma-flippas-h1-2026-insights-report/",
+     "asof": "2026-07-24"
+    }
+   ],
+   "note": "Multiples of ~1.5-2.5x annual profit imply high earnings yields but large risk of traffic/platform loss; no return index."
+  },
+  {
+   "way": "Domains",
+   "group": "Businesses",
+   "metrics": {
+    "ret_1y": null,
+    "ret_5y_ann": null,
+    "ret_10y_ann": null,
+    "yield": null,
+    "volatility": null,
+    "max_drawdown": null,
+    "time_to_sell": null,
+    "exit_cost": null,
+    "min_ticket": null,
+    "market_size": {
+     "text": "Escrow.com domain transaction revenue $395m in 2025 (+5.6% YoY)",
+     "source": "DNJournal coverage of Escrow.com Domain Investment Index",
+     "url": "https://www.dnjournal.com/archive/lowdown/2026/posts/0302.htm",
+     "asof": "2026-03",
+     "trust": "report"
+    }
+   },
+   "examples": [
+    {
+     "name": "Median reported domain sale price 2025",
+     "value": "~$549 (+7%); total reported sales ~$244m",
+     "source": "NameExperts (broker blog, unverified)",
+     "url": "https://nameexperts.com/blog/domain-market-trends/",
+     "asof": "2026"
+    }
+   ],
+   "note": "No domain portfolio return index; most held domains never sell."
+  },
+  {
+   "way": "Vending and laundromats",
+   "group": "Businesses",
+   "metrics": {
+    "ret_1y": null,
+    "ret_5y_ann": null,
+    "ret_10y_ann": null,
+    "yield": {
+     "value": 30.6,
+     "period": "median owner earnings ($76,560) / median sale price ($250,000), laundromats sold 2021-2025",
+     "source": "BizBuySell laundromat valuation benchmarks",
+     "url": "https://www.bizbuysell.com/learning-center/valuation-benchmarks/laundromats-coin-laundry/",
+     "asof": "2026",
+     "trust": "report",
+     "note": "Derived by us from BizBuySell medians; SDE is before paying the owner for their labour and before capex, so not comparable to a passive yield."
+    },
+    "volatility": null,
+    "max_drawdown": null,
+    "time_to_sell": null,
+    "exit_cost": null,
+    "min_ticket": null,
+    "market_size": {
+     "text": "Laundromats: median sale price $250,000 (2021-25), $287,000 in 2025; vending businesses: median sale price $83,500",
+     "source": "BizBuySell valuation benchmarks",
+     "url": "https://www.bizbuysell.com/learning-center/valuation-benchmarks/laundromats-coin-laundry/",
+     "asof": "2026",
+     "trust": "report"
+    }
+   },
+   "examples": [
+    {
+     "name": "Laundromat median earnings multiple (sold, 2021-25)",
+     "value": "3.50x SDE; 2025 average 4.12x",
+     "source": "BizBuySell",
+     "url": "https://www.bizbuysell.com/learning-center/valuation-benchmarks/laundromats-coin-laundry/",
+     "asof": "2026"
+    },
+    {
+     "name": "Vending business median earnings multiple (sold, 2021-25)",
+     "value": "2.15x SDE; median revenue $71,000",
+     "source": "BizBuySell",
+     "url": "https://bizbuysell.com/learning-center/valuation-benchmarks/vending-machine-business",
+     "asof": "2026"
+    }
+   ],
+   "note": "BizBuySell benchmark figures seen via search results (direct fetch blocked)."
+  },
+  {
+   "way": "Revenue-share deals",
+   "group": "Businesses",
+   "metrics": {
+    "ret_1y": null,
+    "ret_5y_ann": null,
+    "ret_10y_ann": null,
+    "yield": null,
+    "volatility": null,
+    "max_drawdown": null,
+    "time_to_sell": null,
+    "exit_cost": null,
+    "min_ticket": null,
+    "market_size": {
+     "text": "Revenue-based financing market estimates for 2025 range ~$4-10bn ($9.77bn per The Business Research Company)",
+     "source": "The Business Research Company (market research estimate)",
+     "url": "https://www.marketresearch.com/Business-Research-Company-v4006/Revenue-Based-Financing-Global-42203237",
+     "asof": "2025",
+     "trust": "estimate",
+     "note": "Estimates differ widely by definition."
+    }
+   },
+   "examples": [],
+   "note": "No published investor return data for revenue-share deals; returns are capped by contract terms."
+  }
+ ]
+}

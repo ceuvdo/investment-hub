@@ -1,0 +1,878 @@
+{
+ "generated": "2026-11-14",
+ "ways": [
+  {
+   "way": "Trading cards",
+   "group": "Collectibles",
+   "metrics": {
+    "ret_1y": {
+     "value": 28.0,
+     "period": "2025 year-to-date (autumn 2025 reading, not full calendar year)",
+     "source": "Card Ladder CL50 index via cllct",
+     "url": "https://www.cllct.com/sports-collectibles/sports-cards/move-over-baseball-basketball-cards-have-ruled-the-market-in-2025",
+     "asof": "2025",
+     "trust": "index",
+     "note": "Approximate ('roughly 28%'); 29 of 35 Card Ladder indexes were up YTD in 2025. No trailing-12-month CL50 figure for 2026 found (cardladder.com blocked fetch)."
+    },
+    "ret_5y_ann": null,
+    "ret_10y_ann": null,
+    "volatility": null,
+    "max_drawdown": null,
+    "time_to_sell": null,
+    "exit_cost": {
+     "text": "eBay US final value fee 13.25% up to $7,500 (2.35% on portion above) for Sports Trading Cards / CCG, plus per-order fee; grading costs extra",
+     "source": "eBay Seller Center, January 2025 seller update",
+     "url": "https://www.ebay.com/sellercenter/resources/seller-updates/2025-january/final-value-fee",
+     "asof": "2025-01",
+     "trust": "platform"
+    },
+    "min_ticket": {
+     "text": "Very low: average tracked card sale ~$116 in Oct 2026 (9.2m transactions)",
+     "source": "Sports Illustrated Collectibles citing Card Ladder",
+     "url": "https://www.si.com/collectibles/over-1-billion-dollars-of-card-sales-in-october",
+     "asof": "2026-11-02",
+     "trust": "report"
+    },
+    "market_size": {
+     "text": "$1.07bn tracked card sales in October 2026 (first month above $1bn; Jan 2026: $445m)",
+     "source": "Sports Illustrated Collectibles citing Card Ladder",
+     "url": "https://www.si.com/collectibles/over-1-billion-dollars-of-card-sales-in-october",
+     "asof": "2026-11-02",
+     "trust": "report",
+     "note": "Card Ladder-tracked platforms only; monthly, not annual"
+    }
+   },
+   "examples": [
+    {
+     "name": "2018 Bowman Chrome Shohei Ohtani RC PSA 10",
+     "value": "+373% over 12 months",
+     "source": "Sports Illustrated Collectibles",
+     "url": "https://www.si.com/collectibles/gold-silver-stocks-baseball-cards-outperforming-traditional-assets",
+     "asof": "2026-04-19"
+    },
+    {
+     "name": "1952 Topps Mickey Mantle PSA 5",
+     "value": "+112% over 12 months",
+     "source": "Sports Illustrated Collectibles",
+     "url": "https://www.si.com/collectibles/gold-silver-stocks-baseball-cards-outperforming-traditional-assets",
+     "asof": "2026-04-19"
+    }
+   ],
+   "note": "Card Ladder pages returned 403, so no direct 2026 index level. Card indexes fell sharply in 2022-23 per press reports (not verified at source). Fees exclude grading, shipping and taxes."
+  },
+  {
+   "way": "Watches",
+   "group": "Collectibles",
+   "metrics": {
+    "ret_1y": {
+     "value": 5.1,
+     "period": "12 months to Q4 2025",
+     "source": "Knight Frank Wealth Report 2026, KFLII (Q4 2025 results table)",
+     "url": "https://www.galivel.com/media/files/the_wealth_report_2026_knight_frank_ok_compressed.pdf",
+     "asof": "2026-03",
+     "trust": "index",
+     "note": "Watches (WatchCharts) component"
+    },
+    "ret_5y_ann": {
+     "value": 1.7,
+     "period": "5 years to Q4 2025 (annualized from cumulative +9.0%)",
+     "source": "Knight Frank Wealth Report 2026, KFLII (Q4 2025 results table)",
+     "url": "https://www.galivel.com/media/files/the_wealth_report_2026_knight_frank_ok_compressed.pdf",
+     "asof": "2026-03",
+     "trust": "index",
+     "note": "Watches (WatchCharts) component; annualized by us from published 5-year cumulative change"
+    },
+    "ret_10y_ann": null,
+    "volatility": null,
+    "max_drawdown": null,
+    "time_to_sell": null,
+    "exit_cost": {
+     "text": "Chrono24 private seller: flat 6.5% commission, no listing fee; consignment option 14-25%",
+     "source": "Grailr online watch marketplace guide (secondary)",
+     "url": "https://grailr.watch/blog/online-watch-marketplace-guide",
+     "asof": "2026",
+     "trust": "estimate",
+     "note": "Not confirmed on Chrono24's own fee page"
+    },
+    "min_ticket": null,
+    "market_size": null
+   },
+   "examples": [
+    {
+     "name": "WatchCharts Overall Market Index",
+     "value": "+1.4% in Q3 2026; 0.0% in Sep 2026",
+     "source": "WatchCharts market update",
+     "url": "https://watchcharts.com/articles/p/9508/october-2026-watch-market-update",
+     "asof": "2026-10"
+    },
+    {
+     "name": "WatchCharts Patek Philippe Market Index",
+     "value": "+12.1% in 2025 (Rolex index +4.6%)",
+     "source": "Knight Frank, KFLII article",
+     "url": "https://www.knightfrank.com/research/article/2026/4/knight-frank-luxury-investment-index-luxury-holds-steady",
+     "asof": "2026-04-23"
+    }
+   ],
+   "note": "KFLII 10-year watch figure is n/a. WatchCharts index recovered from early 2025 after eleven straight quarterly declines (secondary-market prices fell from the 2022 peak)."
+  },
+  {
+   "way": "Sneakers",
+   "group": "Collectibles",
+   "metrics": {
+    "ret_1y": null,
+    "ret_5y_ann": null,
+    "ret_10y_ann": null,
+    "volatility": null,
+    "max_drawdown": null,
+    "time_to_sell": null,
+    "exit_cost": {
+     "text": "StockX: 3% payment processing + transaction fee by Seller Level (7% at top level; ~9-9.5% at Level 1 per third-party guides)",
+     "source": "StockX Help Center, seller fees",
+     "url": "https://stockx.com/help/articles/What-are-StockXs-fees-for-sellers",
+     "asof": "2026",
+     "trust": "platform"
+    },
+    "min_ticket": null,
+    "market_size": null
+   },
+   "examples": [
+    {
+     "name": "Running silhouettes on StockX",
+     "value": "Sales +45% y/y in 2025 (trading cards +339%)",
+     "source": "StockX Big Facts 2025 via SGB Media",
+     "url": "https://sgbonline.com/stockx-2025-big-facts/",
+     "asof": "2025-11"
+    },
+    {
+     "name": "Vans average resale price premium on StockX",
+     "value": "Rose from +12% to +69% (H1 2026 report)",
+     "source": "StockX H1 2026 report via DBusiness",
+     "url": "https://www.dbusiness.com/daily-news/report-saucony-is-fastest-growing-sneaker-brand-on-stockx-trading-card-prices-soar/",
+     "asof": "2026"
+    }
+   ],
+   "note": "No published sneaker price index with 1y/5y/10y returns found; StockX reports sales growth and price premiums, not investment returns. No credible resale market-size figure found."
+  },
+  {
+   "way": "Art",
+   "group": "Collectibles",
+   "metrics": {
+    "ret_1y": {
+     "value": 3.6,
+     "period": "12 months to Q4 2025",
+     "source": "Knight Frank Wealth Report 2026, KFLII (Q4 2025 results table)",
+     "url": "https://www.galivel.com/media/files/the_wealth_report_2026_knight_frank_ok_compressed.pdf",
+     "asof": "2026-03",
+     "trust": "index",
+     "note": "Art (top 100 artists) component"
+    },
+    "ret_5y_ann": {
+     "value": -2.9,
+     "period": "5 years to Q4 2025 (annualized from cumulative -13.8%)",
+     "source": "Knight Frank Wealth Report 2026, KFLII (Q4 2025 results table)",
+     "url": "https://www.galivel.com/media/files/the_wealth_report_2026_knight_frank_ok_compressed.pdf",
+     "asof": "2026-03",
+     "trust": "index",
+     "note": "Art (top 100 artists) component; annualized by us from published 5-year cumulative change"
+    },
+    "ret_10y_ann": {
+     "value": -0.8,
+     "period": "10 years to Q4 2025 (annualized from cumulative -8.1%)",
+     "source": "Knight Frank Wealth Report 2026, KFLII (Q4 2025 results table)",
+     "url": "https://www.galivel.com/media/files/the_wealth_report_2026_knight_frank_ok_compressed.pdf",
+     "asof": "2026-03",
+     "trust": "index",
+     "note": "Art (top 100 artists) component; annualized by us from published 10-year cumulative change"
+    },
+    "volatility": null,
+    "max_drawdown": null,
+    "time_to_sell": null,
+    "exit_cost": {
+     "text": "Sotheby's buyer's premium from Feb 2026: 28% up to $2m, 22% $2m-$8m, 15% above $8m (paid by buyer; seller commission is separate/negotiated)",
+     "source": "The Art Newspaper",
+     "url": "https://www.theartnewspaper.com/2026/02/17/sothebys-adjusts-buyers-premiums-fee-structures-securitisation",
+     "asof": "2026-02-17",
+     "trust": "report"
+    },
+    "min_ticket": null,
+    "market_size": {
+     "text": "$59.6bn global art sales in 2025 (+4%); dealers $34.8bn; online $9.2bn",
+     "source": "Art Basel & UBS Global Art Market Report 2026",
+     "url": "https://www.artbasel.com/stories/the-art-basel-and-ubs-global-art-market-report-2026",
+     "asof": "2026-03-12",
+     "trust": "report"
+    }
+   },
+   "examples": [
+    {
+     "name": "KFLII Art (Impressionist)",
+     "value": "+13.6% in 2025; 10y -0.0%",
+     "source": "Knight Frank Wealth Report 2026",
+     "url": "https://www.galivel.com/media/files/the_wealth_report_2026_knight_frank_ok_compressed.pdf",
+     "asof": "2026-03"
+    },
+    {
+     "name": "KFLII Art (contemporary)",
+     "value": "-6.0% in 2025; 5y -17.8%; 10y -0.3%",
+     "source": "Knight Frank Wealth Report 2026",
+     "url": "https://www.galivel.com/media/files/the_wealth_report_2026_knight_frank_ok_compressed.pdf",
+     "asof": "2026-03"
+    },
+    {
+     "name": "Impressionist auction sales",
+     "value": "US$1.04bn in 2025, +80.4%",
+     "source": "Knight Frank KFLII article",
+     "url": "https://www.knightfrank.com/research/article/2026/4/knight-frank-luxury-investment-index-luxury-holds-steady",
+     "asof": "2026-04-23"
+    }
+   ],
+   "note": "KFLII 2026 splits art into six segments; 'top 100 artists' used as the headline. Old Masters: +1.7% 1y, 10y +2.2% cumulative. Sotheby's tiers per press report, not verified on sothebys.com."
+  },
+  {
+   "way": "Wine and whisky",
+   "group": "Collectibles",
+   "metrics": {
+    "ret_1y": {
+     "value": 4.4,
+     "period": "12 months to September 2026",
+     "source": "Liv-ex data via Vinetur",
+     "url": "https://www.vinetur.com/en/20261008108617/italian-collectible-wines-led-the-fine-wine-market-through-september.html",
+     "asof": "2026-10-08",
+     "trust": "index",
+     "note": "Liv-ex Fine Wine 100; YTD Jan-Sep 2026 +2.1%. Calendar 2025 was -2.5% (KFLII)."
+    },
+    "ret_5y_ann": {
+     "value": 0.0,
+     "period": "5 years to Q4 2025 (annualized from cumulative +0.2%)",
+     "source": "Knight Frank Wealth Report 2026, KFLII (Q4 2025 results table)",
+     "url": "https://www.galivel.com/media/files/the_wealth_report_2026_knight_frank_ok_compressed.pdf",
+     "asof": "2026-03",
+     "trust": "index",
+     "note": "Wine (Liv-ex 100) component; annualized by us from published 5-year cumulative change"
+    },
+    "ret_10y_ann": {
+     "value": 3.0,
+     "period": "10 years to Q4 2025 (annualized from cumulative +34.1%)",
+     "source": "Knight Frank Wealth Report 2026, KFLII (Q4 2025 results table)",
+     "url": "https://www.galivel.com/media/files/the_wealth_report_2026_knight_frank_ok_compressed.pdf",
+     "asof": "2026-03",
+     "trust": "index",
+     "note": "Wine (Liv-ex 100) component; annualized by us from published 10-year cumulative change"
+    },
+    "volatility": null,
+    "max_drawdown": {
+     "value": -25.0,
+     "period": "2022 peak to end-2025 (approx.)",
+     "source": "Knight Frank KFLII article",
+     "url": "https://www.knightfrank.com/research/article/2026/4/knight-frank-luxury-investment-index-luxury-holds-steady",
+     "asof": "2026-04-23",
+     "trust": "index",
+     "note": "Text says wine lost 'almost 25%' since the 2022 peak; value approximate"
+    },
+    "time_to_sell": null,
+    "exit_cost": null,
+    "min_ticket": null,
+    "market_size": null
+   },
+   "examples": [
+    {
+     "name": "Liv-ex Fine Wine 1000",
+     "value": "+2.2% over 12 months to Sep 2026; +1.3% YTD",
+     "source": "Vinetur citing Liv-ex",
+     "url": "https://www.vinetur.com/en/20261008108617/italian-collectible-wines-led-the-fine-wine-market-through-september.html",
+     "asof": "2026-10-08"
+    },
+    {
+     "name": "KFLII Whisky (Rare Whisky 101 data)",
+     "value": "-10.9% in 2025; 5y -19.6%; 10y +111.9% (cumulative)",
+     "source": "Knight Frank Wealth Report 2026",
+     "url": "https://www.galivel.com/media/files/the_wealth_report_2026_knight_frank_ok_compressed.pdf",
+     "asof": "2026-03"
+    },
+    {
+     "name": "Liv-ex Burgundy 100",
+     "value": "-4.8% in 2025; 10y +105.8% (cumulative)",
+     "source": "Knight Frank Wealth Report 2026",
+     "url": "https://www.galivel.com/media/files/the_wealth_report_2026_knight_frank_ok_compressed.pdf",
+     "asof": "2026-03"
+    }
+   ],
+   "note": "Returns shown are for wine (Liv-ex 100). Whisky is much more volatile: worst KFLII performer in 2025 (-10.9%) but best over 10 years (+111.9%, ~7.8%/yr). No Liv-ex index point level found for Oct 2026. Exit cost/time-to-sell not found from a reliable source."
+  },
+  {
+   "way": "Classic cars",
+   "group": "Collectibles",
+   "metrics": {
+    "ret_1y": {
+     "value": -3.7,
+     "period": "12 months to Q4 2025",
+     "source": "Knight Frank Wealth Report 2026, KFLII (Q4 2025 results table)",
+     "url": "https://www.galivel.com/media/files/the_wealth_report_2026_knight_frank_ok_compressed.pdf",
+     "asof": "2026-03",
+     "trust": "index",
+     "note": "Cars (HAGI Top) component"
+    },
+    "ret_5y_ann": {
+     "value": 3.3,
+     "period": "5 years to Q4 2025 (annualized from cumulative +17.4%)",
+     "source": "Knight Frank Wealth Report 2026, KFLII (Q4 2025 results table)",
+     "url": "https://www.galivel.com/media/files/the_wealth_report_2026_knight_frank_ok_compressed.pdf",
+     "asof": "2026-03",
+     "trust": "index",
+     "note": "Cars (HAGI Top) component; annualized by us from published 5-year cumulative change"
+    },
+    "ret_10y_ann": {
+     "value": 2.8,
+     "period": "10 years to Q4 2025 (annualized from cumulative +31.3%)",
+     "source": "Knight Frank Wealth Report 2026, KFLII (Q4 2025 results table)",
+     "url": "https://www.galivel.com/media/files/the_wealth_report_2026_knight_frank_ok_compressed.pdf",
+     "asof": "2026-03",
+     "trust": "index",
+     "note": "Cars (HAGI Top) component; annualized by us from published 10-year cumulative change"
+    },
+    "volatility": null,
+    "max_drawdown": null,
+    "time_to_sell": null,
+    "exit_cost": null,
+    "min_ticket": null,
+    "market_size": null
+   },
+   "examples": [
+    {
+     "name": "Hagerty Market Rating",
+     "value": "58.59 (June 2026); Hagerty Market Index 172.5",
+     "source": "CarPro citing Hagerty",
+     "url": "https://www.carpro.com/blog/collector-car-markets-cools-off-a-bit",
+     "asof": "2026-07-21"
+    },
+    {
+     "name": "Hagerty Blue Chip Index vs Hagerty Hundred",
+     "value": "75.54 vs 48.32 (June 2026)",
+     "source": "CarPro citing Hagerty",
+     "url": "https://www.carpro.com/blog/collector-car-markets-cools-off-a-bit",
+     "asof": "2026-07-21"
+    }
+   ],
+   "note": "KFLII car component is based on HAGI data. Hagerty Market Rating has been declining since the summer-2022 peak. No reliable auction fee/time-to-sell figure collected."
+  },
+  {
+   "way": "LEGO sets",
+   "group": "Collectibles",
+   "metrics": {
+    "ret_1y": null,
+    "ret_5y_ann": null,
+    "ret_10y_ann": {
+     "value": 11.0,
+     "period": "Average annual return 1987-2015 (not a 10-year window)",
+     "source": "Dobrynskaya & Kishilova, 'LEGO - The Toy of Smart Investors', HSE WP BRP 80/FE/2020",
+     "url": "https://wp.hse.ru/data/2020/09/16/1583081489/80FE2020.pdf",
+     "asof": "2020-09",
+     "trust": "report",
+     "note": "'At least 11%' nominal (8% real), before transaction costs; Sharpe ratio 0.4; multifactor alpha 4-5%. Older academic study; long-period average placed in ret_10y_ann for lack of a better field."
+    },
+    "volatility": null,
+    "max_drawdown": null,
+    "time_to_sell": null,
+    "exit_cost": null,
+    "min_ticket": null,
+    "market_size": null
+   },
+   "examples": [],
+   "note": "No recent (2025-2026) published LEGO price index found. Returns are gross of retailer/marketplace fees, storage and shipping; retired sealed sets only."
+  },
+  {
+   "way": "Coins and banknotes",
+   "group": "Collectibles",
+   "metrics": {
+    "ret_1y": {
+     "value": 2.1,
+     "period": "Calendar 2024",
+     "source": "Knight Frank Wealth Report 2025 KFLII via Upstox",
+     "url": "https://upstox.com/news/business-news/latest-updates/prices-of-art-fine-wine-rare-whisky-coloured-diamonds-furniture-decline-in-2024-knight-frank/article-150278",
+     "asof": "2025-03-05",
+     "trust": "index",
+     "note": "Coins dropped from the expanded 2026 KFLII table, so latest KFLII coin figure is for 2024"
+    },
+    "ret_5y_ann": null,
+    "ret_10y_ann": null,
+    "volatility": null,
+    "max_drawdown": {
+     "value": -59.7,
+     "period": "All-time high 1 May 1989 ($181,088.48) to 31 Oct 2025 ($73,056.57)",
+     "source": "PCGS3000 index (PCGS)",
+     "url": "https://www.pcgs.com/prices/coin-index/pcgs3000",
+     "asof": "2025-10-31",
+     "trust": "index",
+     "note": "Computed by us from PCGS-published values seen in search snippets; pcgs.com returned 403 on direct fetch"
+    },
+    "time_to_sell": null,
+    "exit_cost": null,
+    "min_ticket": null,
+    "market_size": null
+   },
+   "examples": [
+    {
+     "name": "PCGS3000 rare coin index",
+     "value": "$73,056.57 on 31 Oct 2025 (~+1.4% y/y vs $72,061.66); ~$73,087 on 17 Jun 2026",
+     "source": "PCGS (via search snapshots)",
+     "url": "https://www.pcgs.com/prices/coin-index/pcgs3000",
+     "asof": "2026-06-17"
+    }
+   ],
+   "note": "US rare coins only; banknotes not covered by any index found. PCGS figures come from cached snapshots and may be approximate."
+  },
+  {
+   "way": "Comics",
+   "group": "Collectibles",
+   "metrics": {
+    "ret_1y": {
+     "value": -1.23,
+     "period": "Calendar 2025",
+     "source": "GoCollect Silver Age CPI, 2025 year in review",
+     "url": "https://gocollect.com/blog/cpi-2025-year-in-review",
+     "asof": "2026-01",
+     "trust": "index",
+     "note": "Segment index; Golden Age CPI +5.44% over the past year; Big Spenders Club index ~+1%"
+    },
+    "ret_5y_ann": null,
+    "ret_10y_ann": null,
+    "volatility": null,
+    "max_drawdown": null,
+    "time_to_sell": null,
+    "exit_cost": null,
+    "min_ticket": null,
+    "market_size": null
+   },
+   "examples": [
+    {
+     "name": "Superman #1 CGC 9.0",
+     "value": "$9.12m at Heritage, Nov 2025",
+     "source": "GoCollect, State of the comic book market 2025",
+     "url": "https://gocollect.com/blog/state-of-the-comic-book-market-2025",
+     "asof": "2025-11"
+    },
+    {
+     "name": "Detective Comics #1 CGC 8.5",
+     "value": "$638,250, March 2026",
+     "source": "mycomicscollection.com (secondary)",
+     "url": "https://mycomicscollection.com/en/blog/comics-market-review-2026/",
+     "asof": "2026-03"
+    }
+   ],
+   "note": "GoCollect describes a long bear market with most segments >20% below all-time highs (post-MCU peak). PSA entered comic grading in 2025."
+  },
+  {
+   "way": "Handbags",
+   "group": "Collectibles",
+   "metrics": {
+    "ret_1y": {
+     "value": -0.2,
+     "period": "12 months to Q4 2025",
+     "source": "Knight Frank Wealth Report 2026, KFLII (Q4 2025 results table)",
+     "url": "https://www.galivel.com/media/files/the_wealth_report_2026_knight_frank_ok_compressed.pdf",
+     "asof": "2026-03",
+     "trust": "index",
+     "note": "Handbags (Hermes Birkin) component"
+    },
+    "ret_5y_ann": null,
+    "ret_10y_ann": null,
+    "volatility": null,
+    "max_drawdown": null,
+    "time_to_sell": null,
+    "exit_cost": null,
+    "min_ticket": null,
+    "market_size": null
+   },
+   "examples": [
+    {
+     "name": "Jane Birkin's original Hermes Birkin prototype",
+     "value": "~$10.1m (EUR 8.6m) at Sotheby's Paris, July 2025 - auction record",
+     "source": "ABC13 / AP",
+     "url": "https://abc13.com/post/jane-birkins-original-herms-bag-sells-auction-whopping-86-million-euros/17066649/",
+     "asof": "2025-07"
+    },
+    {
+     "name": "Hermes Birkin 30 Togo (2020+)",
+     "value": "Average resale price $26,400 in 2026 vs Birkin 25 Togo retail $13,500",
+     "source": "Sotheby's, Complete guide to buying and selling a Birkin",
+     "url": "https://www.sothebys.com/en/articles/complete-guide-to-buying-and-selling-a-birkin",
+     "asof": "2026"
+    }
+   ],
+   "note": "KFLII 2025 handbag series covers Birkin/Kelly only; 5y/10y n/a in the 2026 table. First negative year for the bag segment in years."
+  },
+  {
+   "way": "Jewellery and gemstones",
+   "group": "Collectibles",
+   "metrics": {
+    "ret_1y": {
+     "value": -1.0,
+     "period": "12 months to Q4 2025",
+     "source": "Knight Frank Wealth Report 2026, KFLII (Q4 2025 results table)",
+     "url": "https://www.galivel.com/media/files/the_wealth_report_2026_knight_frank_ok_compressed.pdf",
+     "asof": "2026-03",
+     "trust": "index",
+     "note": "Colour diamonds (Fancy Color Research Foundation) component"
+    },
+    "ret_5y_ann": {
+     "value": 0.9,
+     "period": "5 years to Q4 2025 (annualized from cumulative +4.6%)",
+     "source": "Knight Frank Wealth Report 2026, KFLII (Q4 2025 results table)",
+     "url": "https://www.galivel.com/media/files/the_wealth_report_2026_knight_frank_ok_compressed.pdf",
+     "asof": "2026-03",
+     "trust": "index",
+     "note": "Colour diamonds (Fancy Color Research Foundation) component; annualized by us from published 5-year cumulative change"
+    },
+    "ret_10y_ann": {
+     "value": 0.3,
+     "period": "10 years to Q4 2025 (annualized from cumulative +3.1%)",
+     "source": "Knight Frank Wealth Report 2026, KFLII (Q4 2025 results table)",
+     "url": "https://www.galivel.com/media/files/the_wealth_report_2026_knight_frank_ok_compressed.pdf",
+     "asof": "2026-03",
+     "trust": "index",
+     "note": "Colour diamonds (Fancy Color Research Foundation) component; annualized by us from published 10-year cumulative change"
+    },
+    "volatility": null,
+    "max_drawdown": null,
+    "time_to_sell": null,
+    "exit_cost": null,
+    "min_ticket": null,
+    "market_size": null
+   },
+   "examples": [
+    {
+     "name": "KFLII Jewellery",
+     "value": "+2.3% in 2024",
+     "source": "Knight Frank Wealth Report 2025 via Upstox",
+     "url": "https://upstox.com/news/business-news/latest-updates/prices-of-art-fine-wine-rare-whisky-coloured-diamonds-furniture-decline-in-2024-knight-frank/article-150278",
+     "asof": "2025-03-05"
+    }
+   ],
+   "note": "Returns are for fancy coloured diamonds (KFLII 2026); collectible jewellery was not in the 2026 KFLII table (+2.3% in 2024). Auction premiums/dealer spreads can be large; not quantified."
+  },
+  {
+   "way": "Skins and cases (CS2)",
+   "group": "Games and digital items",
+   "metrics": {
+    "ret_1y": null,
+    "ret_5y_ann": null,
+    "ret_10y_ann": null,
+    "volatility": null,
+    "max_drawdown": {
+     "value": -38.4,
+     "period": "Peak 15 Oct 2025 ($10.41bn) to 29 Sep 2026 ($6.42bn)",
+     "source": "Pricempire market cap via Esports.ru",
+     "url": "https://esports.ru/counter-strike-2/news/chto-proiskhodit-s-rynkom-skinov-v-cs2-sentyabr-2026/",
+     "asof": "2026-09-29",
+     "trust": "platform",
+     "note": "Pricempire revised its database; earlier reports put the Oct 2025 peak near $6bn, so peak figures differ by source. 30-day -8.9%, 90-day -18.3%."
+    },
+    "time_to_sell": {
+     "text": "Steam Market sales are near-instant for liquid items, but traded items carry 7-day Trade Protection (reversible) since 15 Jul 2025; third-party sites often hold payouts 7 days",
+     "source": "PC Gamer",
+     "url": "https://www.pcgamer.com/games/fps/steam-will-let-you-reverse-your-last-7-days-of-cs2-and-soon-other-trades-if-you-accidentally-swap-your-usd10-000-ak-47-for-some-magic-beans",
+     "asof": "2025-07",
+     "trust": "report"
+    },
+    "exit_cost": {
+     "text": "Steam Community Market ~15% (5% Steam fee + 10% CS2 game fee), proceeds only as Steam Wallet credit; third-party cash-out sites charge separately",
+     "source": "take.skin, Steam market tax guide (secondary, cites Steam FAQ)",
+     "url": "https://take.skin/blog/how-steam-market-tax-works",
+     "asof": "2026",
+     "trust": "platform"
+    },
+    "min_ticket": null,
+    "market_size": {
+     "text": "~$6.42bn estimated CS2 skin market cap (29 Sep 2026)",
+     "source": "Pricempire via Esports.ru",
+     "url": "https://esports.ru/counter-strike-2/news/chto-proiskhodit-s-rynkom-skinov-v-cs2-sentyabr-2026/",
+     "asof": "2026-09-29",
+     "trust": "platform",
+     "note": "Third-party estimate; Valve publishes no supply data"
+    }
+   },
+   "examples": [
+    {
+     "name": "CS2 skin market cap (Pricempire)",
+     "value": "$6.42bn on 29 Sep 2026; peak $10.41bn",
+     "source": "Esports.ru citing Pricempire",
+     "url": "https://esports.ru/counter-strike-2/news/chto-proiskhodit-s-rynkom-skinov-v-cs2-sentyabr-2026/",
+     "asof": "2026-09-29"
+    }
+   ],
+   "note": "No reliable 1-year return: Pricempire revised its methodology, so values a year apart are not comparable. Valve can change rules (e.g. trade-up/trade-protection updates) and crash prices overnight."
+  },
+  {
+   "way": "In-game currencies",
+   "group": "Games and digital items",
+   "metrics": {
+    "ret_1y": null,
+    "ret_5y_ann": null,
+    "ret_10y_ann": null,
+    "volatility": null,
+    "max_drawdown": null,
+    "time_to_sell": null,
+    "exit_cost": null,
+    "min_ticket": null,
+    "market_size": {
+     "text": "Online game asset trading estimated $8.6bn-$21.4bn in 2025 (in-game currency the largest segment, ~31-38.5%)",
+     "source": "Dataintelo / Market Intelo syndicated reports",
+     "url": "https://dataintelo.com/report/in-game-asset-trading-market",
+     "asof": "2025",
+     "trust": "estimate",
+     "note": "Wide range; methodologies undisclosed; Market Intelo: https://marketintelo.com/report/in-game-asset-trading-market"
+    }
+   },
+   "examples": [],
+   "note": "No price index or return data exists. Most real-money trading of game currencies breaches publisher terms of service; balances can be devalued or banned at any time."
+  },
+  {
+   "way": "Game accounts and rare items",
+   "group": "Games and digital items",
+   "metrics": {
+    "ret_1y": null,
+    "ret_5y_ann": null,
+    "ret_10y_ann": null,
+    "volatility": null,
+    "max_drawdown": null,
+    "time_to_sell": null,
+    "exit_cost": null,
+    "min_ticket": null,
+    "market_size": null
+   },
+   "examples": [],
+   "note": "No published index, returns, fee or market-size data found from a credible source. Account sales typically violate game terms of service (accounts can be banned/reclaimed); treat as speculative."
+  },
+  {
+   "way": "Virtual land",
+   "group": "Games and digital items",
+   "metrics": {
+    "ret_1y": null,
+    "ret_5y_ann": null,
+    "ret_10y_ann": null,
+    "volatility": null,
+    "max_drawdown": {
+     "value": -95.0,
+     "period": "2021 average floor (2.86 ETH) to June 2024 (0.13 ETH), The Sandbox",
+     "source": "CoinGecko study via CryptoSlate",
+     "url": "https://cryptoslate.com/metaverse-land-prices-down-72-on-average-from-highs/",
+     "asof": "2024-08-07",
+     "trust": "report",
+     "note": "Decentraland -89%, Otherdeed -85%; average across metaverse lands -72%. Measured in ETH."
+    },
+    "time_to_sell": null,
+    "exit_cost": null,
+    "min_ticket": null,
+    "market_size": null
+   },
+   "examples": [
+    {
+     "name": "Republic Realm 576-parcel Sandbox estate",
+     "value": "Bought for $4.3m in late 2021; ~$65,583 floor-equivalent in Mar 2026",
+     "source": "KuCoin News",
+     "url": "https://www.kucoin.com/news/flash/metaverse-land-prices-collapse-99-8-as-24m-plot-now-worth-9-000",
+     "asof": "2026-03-19"
+    },
+    {
+     "name": "Decentraland Fashion District estate (116 parcels)",
+     "value": "Bought for ~$2.4m Nov 2021; ~$8,929 floor-equivalent in Mar 2026",
+     "source": "KuCoin News",
+     "url": "https://www.kucoin.com/news/flash/metaverse-land-prices-collapse-99-8-as-24m-plot-now-worth-9-000",
+     "asof": "2026-03-19"
+    }
+   ],
+   "note": "Floor-equivalent values are estimates, not sales. Liquidity is thin; prices also depend on ETH/MANA/SAND token prices."
+  },
+  {
+   "way": "Club shares",
+   "group": "Sport",
+   "metrics": {
+    "ret_1y": null,
+    "ret_5y_ann": null,
+    "ret_10y_ann": null,
+    "volatility": null,
+    "max_drawdown": null,
+    "time_to_sell": null,
+    "exit_cost": null,
+    "min_ticket": null,
+    "market_size": null
+   },
+   "examples": [
+    {
+     "name": "Manchester United (MANU)",
+     "value": "-9.42% YTD to 17 Sep 2025; Borussia Dortmund +13.79%; FC Porto +41.82%",
+     "source": "Finder UK, football club shares league table",
+     "url": "https://www.finder.com/uk/share-trading/share-trading-research/football-club-shares-league-table",
+     "asof": "2025-09-17"
+    },
+    {
+     "name": "Pele Index decade comparison (2014-2024, local currency)",
+     "value": "Man Utd -3.3%, Juventus +12.6%, Dortmund -22.2%, Celtic ~+94% (cumulative)",
+     "source": "Euronews",
+     "url": "https://www.euronews.com/business/2026/06/13/are-football-stocks-a-good-investment-the-pele-index-has-an-answer",
+     "asof": "2026-06-13"
+    },
+    {
+     "name": "Juventus shares",
+     "value": "-30.6% in Q1 2026 (Man Utd +5.7%)",
+     "source": "Anadolu Agency",
+     "url": "https://www.aa.com.tr/en/sports/leading-soccer-clubs-post-falling-shares-in-q1/3907841",
+     "asof": "2026-04"
+    }
+   ],
+   "note": "No full-year STOXX Europe Football Index return found. Listed clubs trade like normal equities (exchange-listed, broker fees apply) but are illiquid and driven by sporting results; most pay no dividends."
+  },
+  {
+   "way": "Player cards",
+   "group": "Sport",
+   "metrics": {
+    "ret_1y": {
+     "value": 29.0,
+     "period": "2025 year-to-date (autumn 2025 reading)",
+     "source": "Card Ladder Basketball Index via cllct",
+     "url": "https://www.cllct.com/sports-collectibles/sports-cards/move-over-baseball-basketball-cards-have-ruled-the-market-in-2025",
+     "asof": "2025",
+     "trust": "index",
+     "note": "Baseball Index +17% over same period. Physical sports cards; overlaps with 'Trading cards'."
+    },
+    "ret_5y_ann": null,
+    "ret_10y_ann": null,
+    "volatility": null,
+    "max_drawdown": null,
+    "time_to_sell": null,
+    "exit_cost": {
+     "text": "eBay US 13.25% final value fee on Sports Trading Cards up to $7,500",
+     "source": "eBay Seller Center",
+     "url": "https://www.ebay.com/sellercenter/resources/seller-updates/2025-january/final-value-fee",
+     "asof": "2025-01",
+     "trust": "platform"
+    },
+    "min_ticket": null,
+    "market_size": {
+     "text": "Sorare (digital football player cards) revenue EUR 43m in 2024, down from EUR 59m in 2023",
+     "source": "SBC News",
+     "url": "https://sbcnews.co.uk/featurednews/2025/06/13/sorare-close-to-the-red/",
+     "asof": "2025-06-13",
+     "trust": "report",
+     "note": "Digital/NFT player-card segment only"
+    }
+   },
+   "examples": [
+    {
+     "name": "2018 Bowman Chrome Shohei Ohtani RC PSA 10",
+     "value": "+373% over 12 months",
+     "source": "Sports Illustrated Collectibles",
+     "url": "https://www.si.com/collectibles/gold-silver-stocks-baseball-cards-outperforming-traditional-assets",
+     "asof": "2026-04-19"
+    }
+   ],
+   "note": "No Panini/Topps-published price index found. Digital player cards (Sorare) have shrunk sharply since 2022, with staff cuts in 2025."
+  },
+  {
+   "way": "Match-worn shirts and memorabilia",
+   "group": "Sport",
+   "metrics": {
+    "ret_1y": null,
+    "ret_5y_ann": null,
+    "ret_10y_ann": null,
+    "volatility": null,
+    "max_drawdown": null,
+    "time_to_sell": null,
+    "exit_cost": null,
+    "min_ticket": null,
+    "market_size": {
+     "text": "Sports memorabilia market estimated $26.1bn in 2025 (other estimates range ~$13bn-$39bn)",
+     "source": "Market Intelo (syndicated report)",
+     "url": "https://marketintelo.com/report/sports-memorabilia-market",
+     "asof": "2025",
+     "trust": "estimate",
+     "note": "Estimates vary wildly by definition"
+    }
+   },
+   "examples": [
+    {
+     "name": "Babe Ruth 1932 'Called Shot' World Series jersey",
+     "value": "$24.12m at Heritage Auctions (Aug 2024) - sports memorabilia record",
+     "source": "cllct",
+     "url": "https://cllct.com/sports-collectibles/auctions/babe-ruth-called-shot-jersey-sells-for-hobby-record",
+     "asof": "2024-08"
+    },
+    {
+     "name": "Michael Jordan 1998 Finals Game 1 'Last Dance' jersey",
+     "value": "$10.1m at Sotheby's, Sep 2022",
+     "source": "The Value",
+     "url": "https://en.thevalue.com/articles/michael-jordan-last-dance-jersey-auction-sothebys-most-expensive-game-worn-sports-memorabilia",
+     "asof": "2022-09"
+    }
+   ],
+   "note": "No price index exists. Photo-matching/authentication risk is significant. Fractional platforms struggled: Rally flagged going-concern risk and pivoted to a fund (Jul 2026, https://air.withvincent.com/p/air-7-14-26); Collectable investors filed a class action (2026)."
+  },
+  {
+   "way": "Racehorse shares",
+   "group": "Sport",
+   "metrics": {
+    "ret_1y": null,
+    "ret_5y_ann": null,
+    "ret_10y_ann": null,
+    "volatility": null,
+    "max_drawdown": null,
+    "time_to_sell": null,
+    "exit_cost": {
+     "text": "Ongoing costs dominate: BHA estimates average annual cost of owning a racehorse at GBP 16,500 (sole owner); syndicates pass training fees through monthly",
+     "source": "Raceshare, costs of owning a racehorse",
+     "url": "https://raceshare.com/news/the-costs-of-owning-a-racehorse",
+     "asof": "2025",
+     "trust": "estimate"
+    },
+    "min_ticket": {
+     "text": "Typical syndicate share GBP 1,500-2,000 one-off for 12 months of racing; e.g. 2.5% share GBP 1,255 upfront + GBP 80/month; micro-shares from GBP 25",
+     "source": "Racing Post feature; Racing Club",
+     "url": "https://racingpost.com/news/features/series/so-whats-it-like-to-be-a-part-of-the-value-racing-club-apIP58n4Hn71",
+     "asof": "2025",
+     "trust": "platform",
+     "note": "Micro-share figure from https://racingclub.com/buy-shares-in-a-racehorse/yorkshire"
+    },
+    "market_size": null
+   },
+   "examples": [],
+   "note": "No return data published; syndicate shares are usually leisure spending with expected financial loss and little or no resale market (not sourced as a figure)."
+  },
+  {
+   "way": "Athlete income deals",
+   "group": "Sport",
+   "metrics": {
+    "ret_1y": null,
+    "ret_5y_ann": null,
+    "ret_10y_ann": null,
+    "volatility": null,
+    "max_drawdown": null,
+    "time_to_sell": null,
+    "exit_cost": {
+     "text": "No assured way to sell units (no secondary market); Finlete deals carry a 20-25.7% management fee plus 8.5% and $1,000 to the broker-dealer",
+     "source": "AltStreet Finlete review (seen in search; page blocked direct fetch); Tech Funding News",
+     "url": "https://altstreet.investments/platforms/reviews/finlete",
+     "asof": "2026-09-21",
+     "trust": "report"
+    },
+    "min_ticket": {
+     "text": "$100 per unit (Agentiq Ronny Cruz offering, up to ~$1.29m); non-accredited investors capped at 10% of income/net worth",
+     "source": "Tech Funding News",
+     "url": "https://techfundingnews.com/agentiq-raises-4m-from-defy-vc-to-let-fans-buy-a-stake-in-athletes-future-income/",
+     "asof": "2026-10-07",
+     "trust": "platform"
+    },
+    "market_size": null
+   },
+   "examples": [
+    {
+     "name": "Finlete athlete agreement",
+     "value": "One agreement fully impaired as of 31 Dec 2025 (company annual report)",
+     "source": "AltStreet Finlete review",
+     "url": "https://altstreet.investments/platforms/reviews/finlete",
+     "asof": "2026-09-21"
+    }
+   ],
+   "note": "No realised return data. Earlier models struggled: Vestible exited athlete income-sharing; Big League Advantage faces lawsuits from players. Injury/career risk can wipe out payouts."
+  }
+ ]
+}

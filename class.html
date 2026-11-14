@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Asset group</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Onest:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/site.css">
+<script src="data/catalog.js"></script>
+<script src="data/series.js"></script>
+<script src="assets/js/core.js"></script>
+</head>
+<body>
+<div id="top"></div>
+<div class="wrap" style="padding:0"><div class="crumbs" id="crumbs"></div></div>
+<main class="wrap" id="main"></main>
+<script>
+(function () {
+  var K = window.K, C = K.C, esc = K.esc;
+  K.header('map');
+  var g = K.groupsBySlug[K.q('g')] || C.groups[0];
+  document.title = g.name + ': returns, risk and liquidity';
+  document.getElementById('crumbs').innerHTML = '<a href="map.html">Catalog</a> / <span>' + esc(g.name) + '</span>';
+  var ways = C.ways.filter(function (w) { return w.group === g.slug; });
+  var assets = C.assets.filter(function (a) { return a.group === g.slug; });
+  var tab = K.q('w') || 'all';
+
+  function fig(m, k) { var x = m[k]; return x && K.num(x.value) ? '<span title="' + esc((x.source || '') + ' · ' + (x.asof || '')) + '">' + K.pctc(x.value) + '</span>' : '<span class="nodata">–</span>'; }
+  function txt(m, k) { var x = m[k]; return x && x.text ? '<span title="' + esc(x.source || '') + '">' + esc(x.text) + '</span>' : '<span class="nodata">–</span>'; }
+  var trustOf = function (w) { var t = {}; Object.keys(w.metrics).forEach(function (k) { var x = w.metrics[k]; if (x && x.trust && K.num(x.value)) t[x.trust] = 1; }); return Object.keys(t).map(K.trust).join(' '); };
+
+  var h = '<section class="split" style="padding-top:8px">' +
+    '<div style="display:flex;flex-direction:column;gap:18px"><img class="cover" src="assets/img/' + g.img + '" alt="" style="object-position:' + g.pos + '">' +
+    '<h1 class="h2" style="font-size:40px">' + esc(g.name) + '</h1><p class="lead" style="margin:0">' + esc(g.about) + '</p>' +
+    '<div style="display:flex;flex-wrap:wrap;gap:10px"><a class="btn acc" href="compare.html?ids=' + assets.slice(0, 3).map(function (a) { return a.id; }).join(',') + '">Compare inside this group</a><a class="btn" href="map.html">All groups</a></div></div>' +
+    '<div class="card pad" style="display:flex;flex-direction:column;gap:16px"><div style="display:flex;justify-content:space-between;align-items:baseline;gap:12px"><span class="cap" style="font-size:13px">Tracked assets, equal weight · 5 years</span><span class="mono" id="g-chg"></span></div><div id="g-chart"></div>' +
+    '<div class="stats" style="grid-template-columns:repeat(3,minmax(0,1fr))">' +
+    '<div class="tile"><div class="k">Ways to invest</div><div class="v">' + ways.length + '</div></div>' +
+    '<div class="tile"><div class="k">Assets with live prices</div><div class="v">' + assets.length + '</div></div>' +
+    '<div class="tile"><div class="k">Median 1-year return</div><div class="v">' + K.pctc(g.ret_1y) + '</div></div></div>' +
+    '<div class="note" id="g-note"></div></div></section>';
+
+  h += '<section class="sec"><div class="pills" id="tabs" style="margin-bottom:18px"></div><div class="card" style="overflow:hidden"><div class="tbl-wrap"><table class="tbl"><thead><tr>' +
+    '<th class="l">Way</th><th>1 year</th><th>5y / yr</th><th>10y / yr</th><th>Yield</th><th>Swing</th><th>Worst drop</th><th class="l">Liquidity</th><th class="l">Time to sell</th><th class="l">Cost to exit</th><th class="l">Data</th></tr></thead><tbody id="ways"></tbody></table></div>' +
+    '<div class="tbl-foot"><span class="note">Hover a number for its source and date. Full sources on each way page.</span></div></div></section>';
+  h += '<section class="sec"><div class="sec-h"><h2 class="h3" id="a-title">Tracked assets</h2></div><div class="card" style="overflow:hidden" id="assets"></div></section>';
+  document.getElementById('main').innerHTML = h;
+
+  function draw() {
+    document.getElementById('tabs').innerHTML = [['all', 'All', ways.length]].concat(ways.map(function (w) { return [w.slug, w.name, w.assets.length]; })).map(function (t) {
+      return '<button class="pill" aria-pressed="' + (t[0] === tab) + '" data-t="' + t[0] + '">' + esc(t[1]) + (t[0] !== 'all' && t[2] ? ' <span class="n">' + t[2] + '</span>' : '') + '</button>'; }).join('');
+    document.querySelectorAll('#tabs .pill').forEach(function (b) { b.onclick = function () { tab = b.dataset.t; history.replaceState(null, '', '?g=' + g.slug + (tab !== 'all' ? '&w=' + tab : '')); draw(); }; });
+    var ws = ways.filter(function (w) { return tab === 'all' || w.slug === tab; });
+    document.getElementById('ways').innerHTML = ws.map(function (w) {
+      var m = w.metrics;
+      return '<tr><td><a href="' + K.wayHref(w) + '" style="font-family:var(--ff);font-weight:600">' + esc(w.name) + '</a><br><small class="muted" style="font-family:var(--ff)">' + K.ENTRY[w.entry] + ' · ' + w.risk + ' risk</small></td>' +
+        '<td>' + fig(m, 'ret_1y') + '</td><td>' + fig(m, 'ret_5y') + '</td><td>' + fig(m, 'ret_10y') + '</td><td>' + fig(m, 'yield') + '</td>' +
+        '<td>' + (m.swing && K.num(m.swing.value) ? m.swing.value.toFixed(0) + '%' : '<span class="nodata">–</span>') + '</td><td class="down">' + (m.dd && K.num(m.dd.value) ? K.pct(m.dd.value, 0) : '<span class="nodata">–</span>') + '</td>' +
+        '<td class="l">' + K.liq(w.liq) + '</td><td class="l sell" style="white-space:normal;min-width:120px">' + txt(m, 'time_to_sell') + '</td><td class="l sell" style="white-space:normal;min-width:140px">' + txt(m, 'exit_cost') + '</td><td class="l">' + (trustOf(w) || '<span class="nodata">none yet</span>') + '</td></tr>';
+    }).join('');
+    var as = assets.filter(function (a) { return tab === 'all' || a.way_slug === tab; });
+    document.getElementById('a-title').textContent = 'Tracked assets' + (tab === 'all' ? '' : ': ' + K.waysBySlug[tab].name) + ' (' + as.length + ')';
+    var el = document.getElementById('assets');
+    if (as.length) K.rankTable(el, as, { sort: 'ret_1y', dir: -1 });
+    else el.innerHTML = '<div class="empty">No live price feed for this way yet: figures above come from published indexes and reports. <a class="link" href="' + (tab === 'all' ? 'methodology.html' : 'way.html?w=' + tab) + '">See the sources →</a></div>';
+  }
+  draw();
+
+  // equal-weight group line over 5 years
+  var from = K.fromMonth('5y');
+  var ids = assets.filter(function (a) { return window.SERIES[a.id] && a.currency !== 'index'; }).map(function (a) { return a.id; });
+  if (ids.length) {
+    var months = {}; ids.forEach(function (id) { window.SERIES[id].m.forEach(function (m) { if (m >= from) months[m] = 1; }); });
+    var ms = Object.keys(months).sort();
+    var use = ids.filter(function (id) { var s = window.SERIES[id]; return s.m[0] <= ms[0]; });
+    if (!use.length) use = ids;
+    var vs = ms.map(function (m) {
+      var acc = 0, n = 0;
+      use.forEach(function (id) { var s = window.SERIES[id], i0 = s.m.indexOf(ms[0]), i = s.m.indexOf(m); if (i0 >= 0 && i >= 0) { acc += s.v[i] / s.v[i0]; n++; } });
+      return n ? acc / n * 1000 : null;
+    });
+    var ok = ms.map(function (m, i) { return [m, vs[i]]; }).filter(function (x) { return x[1]; });
+    var res = K.lineChart(document.getElementById('g-chart'), [{ id: 'g', label: g.name, short: 'Group', m: ok.map(function (x) { return x[0]; }), v: ok.map(function (x) { return x[1]; }) }], { h: 170, label: 'Equal-weight value of $1,000 in the tracked assets of ' + g.name });
+    var chg = (res[0].end / 1000 - 1) * 100;
+    document.getElementById('g-chg').innerHTML = '<span class="' + K.cls(chg) + '">' + K.arrow(chg) + K.pct(Math.abs(chg)).replace('+', '') + '</span>';
+    document.getElementById('g-note').textContent = '$1,000 split equally across ' + use.length + ' tracked assets with 5 years of history, monthly. Source: Yahoo Finance' + (g.slug === 'property' ? ' (house price indexes are on the Apartments and houses page)' : '') + '.';
+  } else {
+    document.getElementById('g-chart').innerHTML = '<div class="empty" style="padding:24px 0">No asset here has a live price feed; returns below come from published indexes and reports.</div>';
+  }
+  K.footer();
+})();
+</script>
+</body>
+</html>

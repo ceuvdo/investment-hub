@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Compare anything with anything</title>
+<meta name="description" content="Put an index fund, a coin, a football club and a house price index on the same axes: return, risk and what it costs to get out.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Onest:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/site.css">
+<script src="data/catalog.js"></script>
+<script src="data/series.js"></script>
+<script src="assets/js/core.js"></script>
+</head>
+<body>
+<div id="top"></div>
+<main class="wrap">
+  <section style="padding:28px 0 28px;display:flex;flex-direction:column;gap:18px">
+    <h1 class="h2" style="font-size:36px">Compare anything with anything</h1>
+    <p class="lead">An index fund, a coin, a football club and a country's house prices on the same axes: return, risk, and what it costs to get your money back out.</p>
+    <div class="picked" id="picked"></div>
+  </section>
+  <section class="sec"><div class="card pad">
+    <div style="display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px;align-items:center;margin-bottom:10px"><h2 class="h3" id="ct">Growth of $1,000</h2><div class="pills" id="rng"></div></div>
+    <div class="legend" id="lg" style="margin-bottom:10px"></div><div id="chart"></div>
+  </div></section>
+  <section class="sec"><div class="card" style="overflow:hidden"><div class="tbl-wrap"><table class="tbl cmp" id="mt"></table></div>
+    <div class="tbl-foot"><span class="note"><span class="acc">Highlighted</span> = best on that metric. Prices: Yahoo Finance; house prices: BIS via FRED.</span></div></div></section>
+  <section class="sec callouts" id="calls"></section>
+</main>
+<script>
+(function () {
+  var K = window.K, C = K.C, esc = K.esc;
+  K.header('cmp');
+  var ids = (K.q('ids') || 'spy,btc,gld').split(',').filter(function (i) { return K.byId[i]; }).slice(0, 4);
+  var range = '5y';
+  var PAL = ['var(--text)', 'var(--acc)', '#a99bc4', '#77b3a8'], DASH = ['', '10 5', '2 6', '6 3'];
+  function sync() { history.replaceState(null, '', '?ids=' + ids.join(',')); draw(); }
+  function draw() {
+    var as = ids.map(function (i) { return K.byId[i]; });
+    document.getElementById('picked').innerHTML = as.map(function (a, i) {
+      return '<span class="pick"><i style="background:' + PAL[i] + '"></i><span style="font-weight:600">' + esc(a.name) + '</span><span class="note">' + esc(a.way) + '</span><button aria-label="Remove ' + esc(a.name) + '" data-rm="' + a.id + '"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button></span>';
+    }).join('') + (ids.length < 4 ? '<span class="search" style="min-width:260px;flex:0 1 320px"><label style="height:48px;border-radius:12px"><span class="sr">Add asset</span><input id="add" type="search" placeholder="+ Add asset: name or ticker" autocomplete="off"></label><div class="results" id="addres" hidden style="top:54px"></div></span>' : '');
+    document.querySelectorAll('[data-rm]').forEach(function (b) { b.onclick = function () { ids = ids.filter(function (i) { return i !== b.dataset.rm; }); sync(); }; });
+    var add = document.getElementById('add');
+    if (add) {
+      var box = document.getElementById('addres');
+      add.oninput = function () {
+        var v = add.value.toLowerCase().trim(); if (!v) { box.hidden = true; return; }
+        var hits = C.assets.filter(function (a) { return ids.indexOf(a.id) < 0 && (a.name + ' ' + a.symbol + ' ' + a.way + ' ' + a.sub).toLowerCase().indexOf(v) >= 0; }).slice(0, 10);
+        box.innerHTML = hits.length ? hits.map(function (a) { return '<a href="#" data-add="' + a.id + '"><span>' + esc(a.name) + '</span><small>' + esc(a.way) + '</small></a>'; }).join('') : '<div class="empty">No tracked asset matches.</div>';
+        box.hidden = false;
+        box.querySelectorAll('[data-add]').forEach(function (x) { x.onclick = function (e) { e.preventDefault(); ids.push(x.dataset.add); sync(); }; });
+      };
+    }
+    if (!as.length) { document.getElementById('chart').innerHTML = '<div class="empty">Add an asset to start.</div>'; document.getElementById('mt').innerHTML = ''; document.getElementById('calls').innerHTML = ''; return; }
+
+    document.getElementById('rng').innerHTML = ['1y', '5y', '10y'].map(function (r) { return '<button class="pill" style="height:34px" aria-pressed="' + (r === range) + '" data-r="' + r + '">' + r.toUpperCase() + '</button>'; }).join('');
+    document.querySelectorAll('#rng .pill').forEach(function (b) { b.onclick = function () { range = b.dataset.r; draw(); }; });
+    var lines = as.map(function (a, i) { var s = window.SERIES[a.id]; return { id: a.id, label: a.name, short: a.name.split(' (')[0], color: PAL[i], dash: DASH[i], m: s.m, v: s.v }; });
+    var res = K.lineChart(document.getElementById('chart'), lines, { from: K.fromMonth(range), fill: false, label: 'Growth of $1,000 in ' + as.map(function (a) { return a.name; }).join(', ') });
+    document.getElementById('ct').textContent = 'Growth of $1,000 since ' + res[0].from;
+    document.getElementById('lg').innerHTML = lines.map(function (l, i) { return '<span><i style="background:' + l.color + '"></i>' + esc(l.short) + ' <span class="mono ' + K.cls(res[i].end - 1000) + '">$' + Math.round(res[i].end).toLocaleString('en-US') + '</span></span>'; }).join('') + '<span class="note">common start date, monthly</span>';
+
+    // metrics table: [label, hint, getter, best: 'max'|'min'|null, fmt]
+    var wOf = function (a) { return K.waysByName[a.way]; };
+    var M = [
+      ['Return, 1 year', 'price change incl. dividends', function (a) { return a.ret_1y; }, 'max', K.pctc],
+      ['Return, 5 years', 'per year', function (a) { return a.ret_5y; }, 'max', K.pctc],
+      ['Return, 10 years', 'per year', function (a) { return a.ret_10y; }, 'max', K.pctc],
+      ['Return, 30 days', '', function (a) { return a.chg_30d; }, null, K.pctc],
+      ['Yearly swing', 'lower is calmer', function (a) { return a.swing; }, 'min', function (v) { return K.num(v) ? v.toFixed(0) + '%' : K.pct(null); }],
+      ['Worst drop', 'last 10 years', function (a) { return a.dd; }, 'max', function (v) { return '<span class="down">' + K.pct(v, 0) + '</span>'; }],
+      ['Moves with stocks', '1.00 = in step', function (a) { return a.corr; }, 'min', K.corr],
+      ['Volume, 30 days', '', function (a) { return a.vol30_usd; }, 'max', K.big],
+      ['Liquidity', '1–5', function (a) { return wOf(a).liq; }, 'max', function (v) { return K.liq(v) + ' ' + v; }],
+      ['Time to sell', '', function (a) { return a.sell; }, null, function (v) { return '<span style="font-family:var(--ff)">' + esc(v) + '</span>'; }],
+      ['Cost to exit', 'this way of investing', function (a) { var x = wOf(a).metrics.exit_cost; return x && x.text; }, null, function (v) { return v ? '<span class="h">' + esc(v) + '</span>' : '<span class="nodata">no data</span>'; }],
+      ['Minimum ticket', '', function (a) { return a.min; }, null, function (v) { return '<span style="font-family:var(--ff)">' + esc(v) + '</span>'; }],
+      ['Data', '', function (a) { return a.source + ' · ' + a.asof; }, null, function (v) { return '<span class="h">' + esc(v) + '</span>'; }]
+    ];
+    var t = '<thead><tr><th class="l">Metric</th>' + as.map(function (a, i) { return '<th><span style="display:inline-block;width:10px;height:10px;border-radius:3px;background:' + PAL[i] + ';margin-right:6px"></span>' + esc(a.name.split(' (')[0]) + '</th>'; }).join('') + '</tr></thead><tbody>';
+    M.forEach(function (m) {
+      var vals = as.map(m[2]);
+      var nums = vals.filter(K.num), best = null;
+      if (m[3] && nums.length > 1) best = m[3] === 'max' ? Math.max.apply(null, nums) : Math.min.apply(null, nums.map(function (v) { return m[0] === 'Moves with stocks' ? Math.abs(v) : v; }));
+      t += '<tr><td><div style="font-family:var(--ff)">' + m[0] + '</div>' + (m[1] ? '<div class="h">' + m[1] + '</div>' : '') + '</td>' + vals.map(function (v) {
+        var isBest = best != null && K.num(v) && (m[0] === 'Moves with stocks' ? Math.abs(v) === best : v === best);
+        return '<td class="' + (isBest ? 'best' : '') + '">' + m[4](v) + '</td>'; }).join('') + '</tr>';
+    });
+    document.getElementById('mt').innerHTML = t + '</tbody>';
+
+    if (as.length > 1) {
+      var key = range === '1y' ? 'ret_1y' : range === '10y' ? 'ret_10y' : 'ret_5y';
+      var withR = as.filter(function (a) { return K.num(a[key]); });
+      var top = withR.slice().sort(function (x, y) { return y[key] - x[key]; })[0];
+      var calm = as.filter(function (a) { return K.num(a.swing); }).sort(function (x, y) { return x.swing - y.swing; })[0];
+      var easy = as.slice().sort(function (x, y) { return wOf(y).liq - wOf(x).liq; })[0];
+      var calls = '';
+      if (top) calls += '<div class="card callout"><span class="cap">Highest return, ' + range + '</span><span class="t">' + esc(top.name) + '</span><span class="note">' + K.pct(top[key]) + (key === 'ret_1y' ? '' : ' a year') + ', with a ' + (K.num(top.swing) ? top.swing.toFixed(0) + '%' : 'unknown') + ' yearly swing and a worst drop of ' + K.pct(top.dd, 0) + '.</span></div>';
+      if (calm) calls += '<div class="card callout"><span class="cap">Calmest ride</span><span class="t">' + esc(calm.name) + '</span><span class="note">Typical yearly move of ' + calm.swing.toFixed(0) + '%' + (top && top !== calm && K.num(top.swing) ? ' against ' + top.swing.toFixed(0) + '% for ' + esc(top.name.split(' (')[0]) : '') + '.</span></div>';
+      if (easy) calls += '<div class="card callout"><span class="cap">Easiest to exit</span><span class="t">' + esc(easy.name) + '</span><span class="note">Sells in ' + esc(easy.sell) + '. ' + (wOf(easy).metrics.exit_cost && wOf(easy).metrics.exit_cost.text ? esc(wOf(easy).metrics.exit_cost.text) : '') + '</span></div>';
+      document.getElementById('calls').innerHTML = calls;
+    } else document.getElementById('calls').innerHTML = '';
+  }
+  draw();
+  K.footer();
+})();
+</script>
+</body>
+</html>

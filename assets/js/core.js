@@ -1,0 +1,258 @@
+/* Shared helpers: data access, formatting, header/footer, search, charts, watchlist, theme. */
+(function () {
+  var SITE = { name: 'kapitalog', tagline: 'open investment data' }; // working name: change here
+  var C = window.CATALOG;
+  var store = {
+    get: function (k, d) { try { var v = localStorage.getItem(k); return v ? JSON.parse(v) : d; } catch (e) { return d; } },
+    set: function (k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) { } }
+  };
+  // theme first, to avoid a flash
+  var theme = store.get('theme', 'navy');
+  if (theme !== 'navy') document.documentElement.setAttribute('data-theme', theme);
+
+  var byId = {}, waysBySlug = {}, waysByName = {}, groupsBySlug = {};
+  C.assets.forEach(function (a) { byId[a.id] = a; });
+  C.ways.forEach(function (w) { waysBySlug[w.slug] = w; waysByName[w.name] = w; });
+  C.groups.forEach(function (g) { groupsBySlug[g.slug] = g; });
+
+  function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
+  function num(v) { return typeof v === 'number' && isFinite(v); }
+  function pct(v, d) {
+    if (!num(v)) return '<span class="nodata">no data</span>';
+    var s = Math.abs(v).toFixed(d == null ? 1 : d);
+    return (v > 0 ? '+' : v < 0 ? '−' : '') + s + '%';
+  }
+  function cls(v) { return !num(v) ? '' : v < 0 ? 'down' : 'up'; }
+  function pctc(v, d) { return '<span class="' + cls(v) + '">' + pct(v, d) + '</span>'; }
+  function arrow(v) { return !num(v) ? '' : v < 0 ? '▼ ' : '▲ '; }
+  var CUR = { USD: '$', EUR: '€', GBP: '£', GBp: '', JPY: '¥' };
+  function money(v, cur) {
+    if (!num(v)) return '<span class="nodata">no data</span>';
+    if (cur === 'index') return v.toLocaleString('en-US', { maximumFractionDigits: 1 }) + ' pts';
+    var d = v >= 1000 ? 0 : v >= 10 ? 2 : v >= 1 ? 3 : 4;
+    var s = v.toLocaleString('en-US', { minimumFractionDigits: Math.min(d, 2), maximumFractionDigits: d });
+    if (cur === 'GBp') return s + 'p';
+    return (CUR[cur] != null ? CUR[cur] : '') + s + (CUR[cur] == null && cur ? ' ' + cur : '');
+  }
+  function big(v) {
+    if (!num(v)) return '<span class="nodata">no data</span>';
+    var u = [[1e12, 'T'], [1e9, 'B'], [1e6, 'M'], [1e3, 'k']];
+    for (var i = 0; i < u.length; i++) if (Math.abs(v) >= u[i][0]) return '$' + (v / u[i][0]).toFixed(v / u[i][0] >= 100 ? 0 : 1) + u[i][1];
+    return '$' + Math.round(v);
+  }
+  function corr(v) { return num(v) ? v.toFixed(2) : '<span class="nodata">no data</span>'; }
+  function liq(n) { var s = '<span class="liq" role="img" aria-label="liquidity ' + n + ' of 5">'; for (var i = 1; i <= 5; i++) s += '<i class="' + (i <= n ? 'on' : '') + '"></i>'; return s + '</span>'; }
+  var TRUST = { market: 'market price', index: 'index', report: 'report', platform: 'platform figure', estimate: 'estimate' };
+  function trust(t) { return t ? '<span class="trust ' + esc(t) + '">' + esc(TRUST[t] || t) + '</span>' : ''; }
+  function src(m) {
+    if (!m || !m.source) return '';
+    var t = esc(m.source) + (m.asof ? ' · ' + esc(m.asof) : '');
+    var tip = esc([m.period, m.note].filter(Boolean).join('. '));
+    return m.url ? '<a class="src" href="' + esc(m.url) + '" target="_blank" rel="noopener" title="' + tip + '">' + t + '</a>' : '<span class="src" title="' + tip + '">' + t + '</span>';
+  }
+  var COLORS = ['#7d9cc9', '#d6b66f', '#a99bc4', '#86b79a', '#c69aae', '#77b3a8', '#d1a07e'];
+  function color(id) { var h = 0; for (var i = 0; i < id.length; i++) h = (h * 31 + id.charCodeAt(i)) >>> 0; return COLORS[h % COLORS.length]; }
+  function ini(a) { return '<span class="ini" style="background:' + color(a.id) + '" aria-hidden="true">' + esc(a.name.replace(/^the /i, '').charAt(0).toUpperCase()) + '</span>'; }
+  var ENTRY = { 1: 'from $100', 2: 'from $1k', 3: 'from $25k', 4: 'from $250k' };
+  function wayMetric(w, k) { var m = w.metrics[k]; return m && num(m.value) ? m.value : null; }
+  function wayHref(w) { return 'way.html?w=' + w.slug; }
+  function assetHref(a) { return 'asset.html?id=' + a.id; }
+  function q(name) { return new URLSearchParams(location.search).get(name); }
+  function fmtDate(s) { var d = new Date(s); return isNaN(d) ? s : d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' }); }
+
+  // ---------- header / footer ----------
+  var ICON = {
+    search: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>',
+    map: '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h7v7H4zM13 5h7v4h-7zM13 12h7v7h-7zM4 15h7v4H4z"/></svg>',
+    rank: '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 17l6-6 4 4 8-8M15 7h6v6"/></svg>',
+    cmp: '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M7 4v16M17 4v16M3 8h8M13 16h8"/></svg>',
+    star: '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><path d="M12 4l2.5 5 5.5.8-4 3.9.9 5.5L12 16.6 7.1 19.2l.9-5.5-4-3.9 5.5-.8L12 4z"/></svg>',
+    home: '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><path d="M4 11l8-6 8 6v8h-5v-5h-6v5H4z"/></svg>'
+  };
+  function header(active) {
+    var m = C.meta;
+    var built = m.built;
+    var nav = [['map.html', 'All ways to invest', 'map'], ['rankings.html', 'Rankings', 'rank'], ['compare.html', 'Compare', 'cmp'], ['methodology.html', 'Methodology', 'meth']];
+    var h = '<div class="strip"><div class="wrap">' +
+      '<span>Ways to invest <b>' + m.n_ways + '</b></span>' +
+      '<span>Assets tracked <b>' + m.n_assets + '</b></span>' +
+      '<span>Countries <b>' + m.n_countries + '</b></span>' +
+      '<span>Data sources <b>' + m.n_sources + '</b></span>' +
+      '<span class="live">● real data · built ' + esc(built) + '</span></div></div>' +
+      '<header class="wrap hdr">' +
+      '<a class="logo" href="index.html"><span class="logo-mark" aria-hidden="true"><i style="height:7px"></i><i style="height:12px"></i><i style="height:18px"></i></span>' + SITE.name + '</a>' +
+      '<nav class="nav" id="nav">' + nav.map(function (n) { return '<a href="' + n[0] + '" class="' + (active === n[2] ? 'on' : '') + '">' + n[1] + '</a>'; }).join('') + '</nav>' +
+      '<span class="badge">Free · no sign-up</span>' +
+      '<a class="btn wl" href="watchlist.html">' + 'Watchlist <span class="mono acc" id="wl-n"></span></a>' +
+      '<button class="btn menu-btn" aria-label="Menu" aria-expanded="false" aria-controls="nav" onclick="var n=document.getElementById(\'nav\');n.classList.toggle(\'open\');this.setAttribute(\'aria-expanded\',n.classList.contains(\'open\'))"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>' +
+      '</header>';
+    document.getElementById('top').innerHTML = h;
+    var tabs = [['index.html', 'Home', 'home', 'home'], ['map.html', 'Map', 'map', 'map'], ['rankings.html', 'Rankings', 'rank', 'rank'], ['compare.html', 'Compare', 'cmp', 'cmp'], ['watchlist.html', 'Watchlist', 'star', 'wl']];
+    var tb = document.createElement('nav'); tb.className = 'tabbar'; tb.setAttribute('aria-label', 'Sections');
+    tb.innerHTML = tabs.map(function (t) { return '<a href="' + t[0] + '" class="' + (active === t[3] ? 'on' : '') + '">' + ICON[t[2]] + t[1] + '</a>'; }).join('');
+    document.body.appendChild(tb);
+    updateWl();
+  }
+  function footer() {
+    var f = document.createElement('footer'); f.className = 'ft';
+    f.innerHTML = '<div class="wrap"><span><span style="font-family:var(--ff-h);font-weight:700;color:var(--text)">' + SITE.name + '</span> · ' + SITE.tagline + '</span>' +
+      '<nav><a href="methodology.html">Methodology</a><a href="methodology.html#sources">Sources</a><a href="methodology.html#photos">Photo credits</a><a href="data/catalog.json">Download data (JSON)</a></nav>' +
+      '<span class="themes" role="group" aria-label="Palette">Palette ' +
+      [['navy', '#0c1424', '#d4af63'], ['a', '#f4f0e6', '#1f5c4a'], ['b', '#eef1f5', '#1f3a5f'], ['c', '#f2efe9', '#7a560e']].map(function (t) {
+        return '<button title="' + (t[0] === 'navy' ? 'Navy and brass' : 'Light ' + t[0].toUpperCase()) + '" aria-pressed="' + (theme === t[0]) + '" data-t="' + t[0] + '" style="background:linear-gradient(135deg,' + t[1] + ' 50%,' + t[2] + ' 50%)"></button>';
+      }).join('') + '</span>' +
+      '<span>Not investment advice. Past returns do not predict future ones.</span></div>';
+    document.body.insertBefore(f, document.querySelector('.tabbar'));
+    f.querySelectorAll('.themes button').forEach(function (b) {
+      b.onclick = function () {
+        theme = b.dataset.t; store.set('theme', theme);
+        if (theme === 'navy') document.documentElement.removeAttribute('data-theme'); else document.documentElement.setAttribute('data-theme', theme);
+        f.querySelectorAll('.themes button').forEach(function (x) { x.setAttribute('aria-pressed', x === b); });
+        if (window.onThemeChange) window.onThemeChange();
+      };
+    });
+  }
+
+  // ---------- watchlist ----------
+  function wl() { return store.get('watchlist', []); }
+  function inWl(id) { return wl().indexOf(id) >= 0; }
+  function toggleWl(id) { var l = wl(), i = l.indexOf(id); if (i >= 0) l.splice(i, 1); else l.push(id); store.set('watchlist', l); updateWl(); return i < 0; }
+  function updateWl() { var e = document.getElementById('wl-n'); if (e) e.textContent = wl().length || ''; }
+
+  // ---------- search ----------
+  function searchIndex() {
+    var items = [];
+    C.ways.forEach(function (w) { items.push({ t: w.name, s: groupsBySlug[w.group].name + ' · way to invest', h: wayHref(w), k: (w.name + ' ' + w.desc).toLowerCase() }); });
+    C.groups.forEach(function (g) { items.push({ t: g.name, s: g.n + ' ways', h: 'class.html?g=' + g.slug, k: (g.name + ' ' + g.about).toLowerCase() }); });
+    C.assets.forEach(function (a) { items.push({ t: a.name, s: a.symbol + ' · ' + a.way, h: assetHref(a), k: (a.name + ' ' + a.symbol + ' ' + a.sub + ' ' + a.way).toLowerCase() }); });
+    (window.CATALOG.deposits || []).forEach(function (d) { items.push({ t: d.country + ': deposit rate', s: d.rate + '% · ' + d.rate_year, h: 'way.html?w=savings-and-deposits#c-' + d.iso, k: (d.country + ' deposit savings bank').toLowerCase() }); });
+    return items;
+  }
+  function attachSearch(input, box) {
+    var idx = searchIndex(), sel = -1, cur = [];
+    function render() {
+      var v = input.value.trim().toLowerCase();
+      if (v.length < 1) { box.hidden = true; return; }
+      var words = v.split(/\s+/);
+      cur = idx.filter(function (i) { return words.every(function (w) { return i.k.indexOf(w) >= 0; }); })
+        .sort(function (a, b) { return (b.t.toLowerCase().indexOf(v) === 0) - (a.t.toLowerCase().indexOf(v) === 0); }).slice(0, 12);
+      box.innerHTML = cur.length ? cur.map(function (i, n) { return '<a href="' + i.h + '" class="' + (n === sel ? 'sel' : '') + '"><span>' + esc(i.t) + '</span><small>' + esc(i.s) + '</small></a>'; }).join('')
+        : '<div class="empty">Nothing found. <a class="link" href="map.html">Browse all ways →</a></div>';
+      box.hidden = false;
+    }
+    input.addEventListener('input', function () { sel = -1; render(); });
+    input.addEventListener('keydown', function (e) {
+      if (e.key === 'ArrowDown') { sel = Math.min(sel + 1, cur.length - 1); render(); e.preventDefault(); }
+      else if (e.key === 'ArrowUp') { sel = Math.max(sel - 1, 0); render(); e.preventDefault(); }
+      else if (e.key === 'Enter') { var t = cur[sel >= 0 ? sel : 0]; if (t) location.href = t.h; }
+      else if (e.key === 'Escape') { box.hidden = true; }
+    });
+    document.addEventListener('click', function (e) { if (!box.contains(e.target) && e.target !== input) box.hidden = true; });
+  }
+
+  // ---------- charts ----------
+  // lines: [{id, label, color, dash, m:[YYYY-MM], v:[values]}], normalised to 1000 at the first common month
+  function lineChart(el, lines, opts) {
+    opts = opts || {};
+    var W = 800, H = opts.h || 280, P = 8;
+    var start = opts.from || null;
+    lines = lines.filter(function (l) { return l && l.m && l.m.length; });
+    if (!lines.length) { el.innerHTML = '<div class="empty">No price history for this item.</div>'; return; }
+    var common = lines.map(function (l) { return l.m.filter(function (m) { return !start || m >= start; })[0]; }).sort().pop();
+    var prepared = lines.map(function (l) {
+      var i0 = l.m.indexOf(common); if (i0 < 0) i0 = 0;
+      var base = l.v[i0];
+      var pts = [];
+      for (var i = i0; i < l.m.length; i++) pts.push([l.m[i], opts.raw ? l.v[i] : 1000 * l.v[i] / base]);
+      return { l: l, pts: pts };
+    });
+    var months = prepared[0].pts.map(function (p) { return p[0]; });
+    prepared.forEach(function (p) { p.pts.forEach(function (x) { if (months.indexOf(x[0]) < 0) months.push(x[0]); }); });
+    months.sort();
+    var all = []; prepared.forEach(function (p) { p.pts.forEach(function (x) { all.push(x[1]); }); });
+    var lo = Math.min.apply(null, all), hi = Math.max.apply(null, all);
+    if (hi === lo) { hi += 1; lo -= 1; }
+    var pad = (hi - lo) * 0.08; lo -= pad; hi += pad;
+    var X = function (m) { return P + (W - 2 * P) * (months.indexOf(m) / Math.max(1, months.length - 1)); };
+    var Y = function (v) { return H - P - (H - 2 * P) * ((v - lo) / (hi - lo)); };
+    var s = '<svg class="chart" viewBox="0 0 ' + W + ' ' + H + '" preserveAspectRatio="none" role="img" aria-label="' + esc(opts.label || 'Price chart') + '">';
+    for (var g = 1; g < 4; g++) s += '<line x1="0" x2="' + W + '" y1="' + (H * g / 4) + '" y2="' + (H * g / 4) + '" stroke="var(--line2)" stroke-width="1" vector-effect="non-scaling-stroke"/>';
+    if (!opts.raw && lo < 1000 && hi > 1000) s += '<line x1="0" x2="' + W + '" y1="' + Y(1000) + '" y2="' + Y(1000) + '" stroke="var(--line3)" stroke-dasharray="3 5" stroke-width="1" vector-effect="non-scaling-stroke"/>';
+    prepared.forEach(function (p, i) {
+      var pts = p.pts.map(function (x) { return X(x[0]).toFixed(1) + ',' + Y(x[1]).toFixed(1); }).join(' ');
+      if (i === 0 && opts.fill !== false) s += '<polygon points="' + X(p.pts[0][0]).toFixed(1) + ',' + H + ' ' + pts + ' ' + X(p.pts[p.pts.length - 1][0]).toFixed(1) + ',' + H + '" fill="' + (p.l.color || 'var(--acc)') + '" opacity="0.10"/>';
+      s += '<polyline points="' + pts + '" fill="none" stroke="' + (p.l.color || 'var(--acc)') + '" stroke-width="2.5" stroke-linejoin="round" ' + (p.l.dash ? 'stroke-dasharray="' + p.l.dash + '"' : '') + ' vector-effect="non-scaling-stroke"/>';
+    });
+    s += '<line id="hair" x1="0" x2="0" y1="0" y2="' + H + '" stroke="var(--line3)" stroke-width="1" vector-effect="non-scaling-stroke" visibility="hidden"/></svg>';
+    var years = {}; months.forEach(function (m) { years[m.slice(0, 4)] = 1; });
+    var ys = Object.keys(years); var step = Math.ceil(ys.length / 8);
+    var axis = '<div class="axis">' + ys.filter(function (y, i) { return i % step === 0; }).map(function (y) { return '<span>' + y + '</span>'; }).join('') + '</div>';
+    el.innerHTML = '<div class="chart-box">' + s + '<div class="tip" hidden></div></div>' + axis;
+    // hover readout
+    var svg = el.querySelector('svg'), tip = el.querySelector('.tip'), hair = el.querySelector('#hair');
+    function move(e) {
+      var r = svg.getBoundingClientRect();
+      var x = ((e.touches ? e.touches[0].clientX : e.clientX) - r.left) / r.width;
+      var i = Math.round(x * (months.length - 1)); i = Math.max(0, Math.min(months.length - 1, i));
+      var m = months[i];
+      var rows = prepared.map(function (p) {
+        var hit = p.pts.filter(function (x) { return x[0] === m; })[0];
+        return hit ? '<div><span style="color:' + (p.l.color || 'var(--acc)') + '">■</span> ' + esc(p.l.short || p.l.label) + ': ' + (opts.raw ? hit[1].toLocaleString('en-US', { maximumFractionDigits: 1 }) : '$' + Math.round(hit[1]).toLocaleString('en-US')) + '</div>' : '';
+      }).join('');
+      tip.innerHTML = '<div class="muted">' + m + '</div>' + rows;
+      tip.hidden = false; tip.style.left = (x * 100) + '%'; tip.style.top = '30px';
+      hair.setAttribute('x1', X(m)); hair.setAttribute('x2', X(m)); hair.setAttribute('visibility', 'visible');
+    }
+    svg.addEventListener('mousemove', move); svg.addEventListener('touchmove', move, { passive: true });
+    svg.addEventListener('mouseleave', function () { tip.hidden = true; hair.setAttribute('visibility', 'hidden'); });
+    return prepared.map(function (p) { return { id: p.l.id, end: p.pts[p.pts.length - 1][1], from: p.pts[0][0] }; });
+  }
+  function fromMonth(range) {
+    var d = new Date(C.meta.built.slice(0, 10));
+    if (range === 'all') return null;
+    d.setUTCFullYear(d.getUTCFullYear() - (range === '1y' ? 1 : range === '3y' ? 3 : range === '5y' ? 5 : 10));
+    return d.toISOString().slice(0, 7);
+  }
+
+  // ---------- rankings table ----------
+  var COLS = [
+    ['name', 'Asset', 'l'], ['price', 'Price'], ['chg_30d', '30 days'], ['ret_1y', '1 year'], ['ret_5y', '5y / yr'], ['ret_10y', '10y / yr'],
+    ['swing', 'Swing'], ['dd', 'Worst drop'], ['corr', 'Vs stocks'], ['vol30_usd', 'Volume 30d'], ['sell', 'Time to sell', 'l'], ['min', 'Min ticket']
+  ];
+  function rankTable(el, rows, state) {
+    state = state || { sort: 'ret_1y', dir: -1 };
+    function draw() {
+      var k = state.sort, d = state.dir;
+      var r = rows.slice().sort(function (a, b) {
+        var x = a[k], y = b[k];
+        if (typeof x === 'string' || typeof y === 'string') return d * String(x || '').localeCompare(String(y || ''));
+        if (!num(x)) return 1; if (!num(y)) return -1; return d * (x - y);
+      });
+      var h = '<div class="tbl-wrap desk-tbl"><table class="tbl"><thead><tr>' + COLS.map(function (c) {
+        return '<th class="' + (c[2] || '') + '"><button ' + (state.sort === c[0] ? 'aria-sort="' + (d > 0 ? 'ascending' : 'descending') + '"' : '') + ' data-k="' + c[0] + '">' + c[1] + (state.sort === c[0] ? (d > 0 ? ' ↑' : ' ↓') : '') + '</button></th>';
+      }).join('') + '</tr></thead><tbody>' + r.map(function (a) {
+        return '<tr><td><div class="asset-cell">' + ini(a) + '<div style="min-width:0"><a href="' + assetHref(a) + '">' + esc(a.name) + '</a><small>' + esc(a.way) + ' · ' + esc(a.sub) + '</small></div></div></td>' +
+          '<td>' + money(a.price, a.currency) + '</td><td>' + pctc(a.chg_30d) + '</td><td>' + pctc(a.ret_1y) + '</td><td>' + pctc(a.ret_5y) + '</td><td>' + pctc(a.ret_10y) + '</td>' +
+          '<td>' + (num(a.swing) ? a.swing.toFixed(0) + '%' : pct(null)) + '</td><td class="down">' + pct(a.dd, 0) + '</td><td class="muted">' + corr(a.corr) + '</td>' +
+          '<td>' + big(a.vol30_usd) + '</td><td class="sell">' + esc(a.sell) + '</td><td class="muted">' + esc(a.min) + '</td></tr>';
+      }).join('') + '</tbody></table></div>';
+      h += '<div class="mob-list">' + r.slice(0, state.mobileLimit || 999).map(function (a) {
+        return '<a class="mob-row" href="' + assetHref(a) + '">' + ini(a) + '<span style="min-width:0"><span class="nm">' + esc(a.name) + '</span><small>' + esc(a.way) + ' · sells in ' + esc(a.sell.split(',')[0]) + '</small></span>' +
+          '<span class="r">' + money(a.price, a.currency) + '<br><small>' + pctc(a.ret_1y) + ' 1y · ± ' + (num(a.swing) ? a.swing.toFixed(0) + '%' : '–') + '</small></span></a>';
+      }).join('') + '</div>';
+      el.innerHTML = h;
+      el.querySelectorAll('th button').forEach(function (b) {
+        b.onclick = function () { var k = b.dataset.k; if (state.sort === k) state.dir = -state.dir; else { state.sort = k; state.dir = (k === 'name' || k === 'sell' || k === 'min' || k === 'swing' || k === 'corr') ? 1 : -1; if (k === 'dd') state.dir = -1; } draw(); };
+      });
+    }
+    draw();
+  }
+
+  window.K = {
+    C: C, byId: byId, waysBySlug: waysBySlug, waysByName: waysByName, groupsBySlug: groupsBySlug, SITE: SITE,
+    esc: esc, num: num, pct: pct, pctc: pctc, cls: cls, arrow: arrow, money: money, big: big, corr: corr, liq: liq, trust: trust, src: src,
+    color: color, ini: ini, ENTRY: ENTRY, wayMetric: wayMetric, wayHref: wayHref, assetHref: assetHref, q: q, fmtDate: fmtDate,
+    header: header, footer: footer, attachSearch: attachSearch, lineChart: lineChart, fromMonth: fromMonth, rankTable: rankTable,
+    wl: wl, inWl: inWl, toggleWl: toggleWl, store: store, ICON: ICON
+  };
+})();
