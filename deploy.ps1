@@ -32,7 +32,7 @@ Copy-Item "$here\data\*.json", "$here\data\*.js" "$pub\data"
 {
   "name": "$Name",
   "compatibility_date": "2026-11-01",
-  "assets": { "directory": "./public", "html_handling": "none", "not_found_handling": "404-page" },
+  "assets": { "directory": "./public", "html_handling": "auto-trailing-slash","not_found_handling": "404-page" },
   "workers_dev": true
 }
 "@ | Set-Content "$dist\wrangler.jsonc" -Encoding utf8
