@@ -12,24 +12,24 @@
    "slug": "cash",
    "name": "Cash and yield",
    "note": "Low risk, paid for waiting",
-   "img": "cash.jpg",
-   "pos": "center 40%",
+   "img": "cash-v2.jpg",
+   "pos": "center",
    "about": "Money that earns interest while staying close to cash: deposits, money market funds and bank-made structured notes."
   },
   {
    "slug": "credit",
    "name": "Credit and lending",
    "note": "You lend, they pay interest",
-   "img": null,
-   "pos": null,
+   "img": "credit.jpg",
+   "pos": "center",
    "about": "Lending to people and companies directly or through funds: peer-to-peer platforms, private loans, private credit, invoices and revenue-based deals. Return comes from interest; risk is that borrowers do not pay."
   },
   {
    "slug": "commodities",
    "name": "Commodities",
    "note": "Raw materials, priced every day",
-   "img": null,
-   "pos": null,
+   "img": "commodities.jpg",
+   "pos": "center",
    "about": "Gold, silver, energy, grain and carbon allowances, held as bullion, exchange-traded funds or futures. Prices follow supply and demand, not company profits."
   },
   {
@@ -85,15 +85,15 @@
    "name": "Collectibles",
    "note": "Scarce things people want to own",
    "img": "watches.jpg",
-   "pos": "center 30%",
+   "pos": "center",
    "about": "Watches, art, wine, cars, LEGO, memorabilia and more. Prices come from auctions and marketplaces; fees to sell are high and fakes are a risk."
   },
   {
    "slug": "cards",
    "name": "Cards, games and digital",
    "note": "Cards, skins and items that trade online",
-   "img": "cards.jpg",
-   "pos": "center 30%",
+   "img": "cards-games.jpg",
+   "pos": "center",
    "about": "Graded trading and player cards, game skins, in-game currencies and virtual land. Markets run by marketplaces and game publishers who can change the rules."
   }
  ],

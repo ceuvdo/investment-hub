@@ -62,6 +62,18 @@ public final class GroupIndex {
         out.put("best5_to", best == null ? null : best.end);
         out.put("worst5", worst == null ? null : Metrics.round1(worst.cagr));
         out.put("worst5_to", worst == null ? null : worst.end);
+        // spread of every window as long as the headline period (10 or 5 years): "10 years, worst → best"
+        Window rb = null, rw = null;
+        if (years != null)
+            for (String end : ms) {
+                Window w = window(assets, ms, end, years);
+                if (w == null || w.n < Math.min(3, assets.size())) continue;
+                if (rb == null || w.cagr > rb.cagr) rb = w;
+                if (rw == null || w.cagr < rw.cagr) rw = w;
+            }
+        out.put("range_years", rb == null ? null : years);
+        out.put("range_best", rb == null ? null : Metrics.round1(rb.cagr));
+        out.put("range_worst", rw == null ? null : Metrics.round1(rw.cagr));
         String flag = null;
         if (assets.isEmpty()) flag = "no data yet";
         else if (head == null) flag = "under 5 years of prices";
