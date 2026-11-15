@@ -54,7 +54,37 @@
   }
   var COLORS = ['#7d9cc9', '#d6b66f', '#a99bc4', '#86b79a', '#c69aae', '#77b3a8', '#d1a07e'];
   function color(id) { var h = 0; for (var i = 0; i < id.length; i++) h = (h * 31 + id.charCodeAt(i)) >>> 0; return COLORS[h % COLORS.length]; }
-  function ini(a) { return '<span class="ini" style="background:' + color(a.id) + '" aria-hidden="true">' + esc(a.name.replace(/^the /i, '').charAt(0).toUpperCase()) + '</span>'; }
+  // coloured icon per kind of asset (as on the design canvas)
+  var ICONS = {
+    chart: 'M3 17l6-6 4 4 8-8M15 7h6v6', coin: 'M12 3a9 9 0 1 0 .01 0zM10 8v8M10 8h3a2 2 0 0 1 0 4h-3M10 12h3.5a2 2 0 0 1 0 4H10',
+    shield: 'M12 3l8 4v5c0 5-3.5 8-8 9-4.5-1-8-4-8-9V7z', bulb: 'M9 18h6M10 21h4M12 3a6 6 0 0 0-3.5 10.9V16h7v-2.1A6 6 0 0 0 12 3z',
+    house: 'M3 11l9-7 9 7M5 10v10h14V10M10 20v-6h4v6', leaf: 'M12 21V11M12 11c0-4-3-6-7-6 0 4 3 6 7 6zM12 13c0-4 3-6 7-6 0 4-3 6-7 6z',
+    bar: 'M4 15h16l-2 4H6zM7 15l2-6h6l2 6', bond: 'M6 3h12v18H6zM9 8h6M9 12h6M9 16h4', cash: 'M3 7h18v10H3zM12 9.5a2.5 2.5 0 1 0 .01 0zM6 10v4M18 10v4',
+    ball: 'M12 3a9 9 0 1 0 .01 0zM12 7l3.5 2.5-1.3 4h-4.4l-1.3-4zM12 3v4M20.5 9.5l-5 0M3.5 9.5h5M7 19.5l2.8-6M17 19.5l-2.8-6',
+    bolt: 'M13 3L5 14h6l-1 7 8-11h-6z', fx: 'M4 8h13l-3-3M20 16H7l3 3', card: 'M7 3h10a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2zM9 8h6M9 12h6'
+  };
+  var ICON_COLORS = { chart: '#4f8dff', coin: '#f7a51c', shield: '#2fc28a', bulb: '#ff6fa8', house: '#22c3b5', leaf: '#6bcf5a', bar: '#f2c230', bond: '#8fb3ff', cash: '#9be37a', ball: '#ff8a3d', bolt: '#7cd4ff', fx: '#b49cff', card: '#ff8a3d' };
+  function iconKind(a) {
+    var w = a.way || '', g = a.group;
+    if (/club/i.test(w)) return 'ball';
+    if (/bond/i.test(w)) return 'bond';
+    if (/currenc/i.test(w)) return 'fx';
+    if (/gold|bullion/i.test(w)) return 'bar';
+    if (/money market|deposit/i.test(w)) return 'cash';
+    if (/hedge|quant|credit|loans/i.test(w)) return 'shield';
+    if (/farm|forest|grain|carbon/i.test(w)) return 'leaf';
+    if (g === 'crypto' || /virtual land/i.test(w)) return 'coin';
+    if (g === 'property') return 'house';
+    if (g === 'infra') return 'bolt';
+    if (g === 'private') return 'bulb';
+    if (g === 'commodities') return 'bar';
+    if (g === 'cards' || g === 'collectibles') return 'card';
+    return 'chart';
+  }
+  function ini(a) {
+    var k = iconKind(a);
+    return '<span class="ini" style="background:' + ICON_COLORS[k] + '" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0c1424" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="' + ICONS[k] + '"/></svg></span>';
+  }
   var ENTRY = { 1: 'from $100', 2: 'from $1k', 3: 'from $25k', 4: 'from $250k' };
   function wayMetric(w, k) { var m = w.metrics[k]; return m && num(m.value) ? m.value : null; }
   function wayHref(w) { return 'way.html?w=' + w.slug; }
@@ -74,7 +104,7 @@
   function header(active) {
     var m = C.meta;
     var built = m.built;
-    var nav = [['map.html', 'All ways to invest', 'map'], ['rankings.html', 'Rankings', 'rank'], ['compare.html', 'Compare', 'cmp'], ['index.html#news', 'News', 'news'], ['theme.html', 'Football', 'theme'], ['methodology.html', 'Methodology', 'meth']];
+    var nav = [['map.html', 'All ways to invest', 'map'], ['rankings.html', 'Rankings', 'rank'], ['compare.html', 'Compare', 'cmp'], ['news.html', 'News', 'news'], ['theme.html', 'Football', 'theme'], ['methodology.html', 'Methodology', 'meth']];
     var h = '<div class="strip"><div class="wrap">' +
       '<span>Ways to invest <b>' + m.n_ways + '</b></span>' +
       '<span>Assets tracked <b>' + m.n_assets + '</b></span>' +
@@ -319,13 +349,29 @@
     draw();
   }
 
+  // news helpers: related assets are matched by keywords in the headline (a link, not a forecast)
+  var NEWS_URL = 'https://investment-hub-live.ceuvdo.workers.dev/news';
+  var RELATED = [[/bitcoin|btc|crypto|spot etf/i, 'btc'], [/ether(eum)?|eth/i, 'eth'], [/solana/i, 'sol'], [/xrp|ripple/i, 'xrp'], [/gold/i, 'gld'], [/silver/i, 'slv'],
+    [/oil|crude|opec|brent/i, 'uso'], [/natural gas|lng/i, 'ung'], [/nvidia/i, 'nvda'], [/apple|iphone/i, 'aapl'], [/tesla|musk/i, 'tsla'], [/microsoft/i, 'msft'],
+    [/amazon/i, 'amzn'], [/alphabet|google/i, 'googl'], [/meta platforms|facebook/i, 'meta'], [/treasur|bond yield|yields/i, 'govt'], [/fed|rate cut|inflation|cpi|powell/i, 'bil'],
+    [/s&p|stocks|wall street|dow|nasdaq/i, 'spy'], [/dollar|euro|fx/i, 'eurusd'], [/china|beijing/i, 'mchi'], [/india/i, 'inda'], [/japan|yen/i, 'ewj'], [/housing|home prices|mortgage/i, 'vnq'],
+    [/wheat|grain|corn/i, 'weat'], [/carbon/i, 'krbn'], [/manchester united/i, 'manu'], [/solar|renewable|clean energy/i, 'icln']];
+  function related(n, max) {
+    var out = [], text = n.t + ' ' + (n.sum || '');
+    RELATED.forEach(function (r) { if (out.length < (max || 3) && r[0].test(text) && byId[r[1]] && out.indexOf(r[1]) < 0) out.push(r[1]); });
+    return out.map(function (id) { return byId[id]; });
+  }
+  function ago(ts) { var m = Math.max(1, Math.round((Date.now() - ts) / 60000)); return m < 60 ? m + ' min ago' : m < 1440 ? Math.round(m / 60) + ' h ago' : Math.round(m / 1440) + ' days ago'; }
+  function newsHref(n) { return 'news.html?u=' + encodeURIComponent(n.url); }
+  function loadNews() { return fetch(NEWS_URL).then(function (r) { return r.json(); }).then(function (d) { return d.items || []; }); }
+
   function sellTip(a) {
     var d = a.sell_detail; if (!d) return '';
     return [d.exec && 'Order: ' + d.exec, d.hours && 'Hours: ' + d.hours, d.settle && 'Yours after: ' + d.settle].filter(Boolean).join('\n');
   }
 
   window.K = {
-    live: live, paint: paint, sellTip: sellTip, safeUrl: safeUrl,
+    live: live, paint: paint, sellTip: sellTip, safeUrl: safeUrl, related: related, ago: ago, newsHref: newsHref, loadNews: loadNews,
     C: C, byId: byId, waysBySlug: waysBySlug, waysByName: waysByName, groupsBySlug: groupsBySlug, SITE: SITE,
     esc: esc, num: num, pct: pct, pctc: pctc, cls: cls, arrow: arrow, money: money, big: big, corr: corr, liq: liq, trust: trust, src: src,
     color: color, ini: ini, ENTRY: ENTRY, wayMetric: wayMetric, wayHref: wayHref, assetHref: assetHref, q: q, fmtDate: fmtDate,

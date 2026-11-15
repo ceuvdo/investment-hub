@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>News that moves prices · Wyndton</title>
+<meta name="description" content="Market headlines from CNBC, Cointelegraph and Investing.com, with the prices of the assets they may move.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Onest:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/site.css">
+<script src="data/catalog.js"></script>
+<script src="assets/js/core.js"></script>
+</head>
+<body>
+<div id="top"></div>
+<div class="wrap" style="padding:0"><div class="crumbs" id="crumbs"><a href="index.html">Home</a> / <span>News</span></div></div>
+<main class="wrap sec" id="main"><div class="empty">Loading headlines…</div></main>
+<script>
+(function () {
+  var K = window.K, esc = K.esc;
+  K.header('news');
+  var url = K.q('u');
+  function moreList(items, skip) {
+    return items.filter(function (n) { return n.url !== skip; }).slice(0, 8).map(function (n) {
+      return '<a class="card" href="' + K.newsHref(n) + '" style="padding:14px 16px;display:flex;flex-direction:column;gap:4px"><span class="note">' + esc(n.cat) + ' · ' + esc(K.ago(n.ts)) + '</span><span style="font-weight:600;line-height:1.3">' + esc(n.t) + '</span></a>';
+    }).join('');
+  }
+  K.loadNews().then(function (items) {
+    var main = document.getElementById('main');
+    var n = url ? items.filter(function (x) { return x.url === url; })[0] : null;
+    if (!n) {
+      // all news
+      main.innerHTML = '<h1 class="h2" style="font-size:36px;margin:8px 0 6px">News that moves prices</h1><p class="lead" style="margin:0 0 24px">Latest headlines from CNBC, Cointelegraph and Investing.com, refreshed every 10 minutes. Each one opens with the prices of the assets it may move.</p>' +
+        (url ? '<p class="disclaimer">That story has dropped out of the latest headlines. <a class="link" href="' + (K.safeUrl(url) ? esc(url) : '#') + '" target="_blank" rel="noopener">Open it at the publisher →</a></p>' : '') +
+        '<div class="grid-auto">' + items.map(function (x) {
+          return '<a class="card news-card" href="' + K.newsHref(x) + '" style="flex:none"><span class="note">' + esc(x.cat) + ' · ' + esc(K.ago(x.ts)) + ' · ' + esc(x.src) + '</span><span class="news-t">' + esc(x.t) + '</span>' + (x.sum ? '<span class="note">' + esc(x.sum) + '</span>' : '') + '</a>';
+        }).join('') + '</div>';
+      return;
+    }
+    document.title = n.t + ' · Wyndton';
+    document.getElementById('crumbs').innerHTML = '<a href="index.html">Home</a> / <a href="news.html">News</a> / <span>' + esc(n.cat) + '</span>';
+    var rel = K.related(n, 5);
+    var h = '<section class="split" style="align-items:flex-start;padding-top:8px"><article style="flex:999 1 640px;display:flex;flex-direction:column;gap:20px">' +
+      '<span class="mono note" style="text-transform:uppercase;letter-spacing:.08em">' + esc(n.cat) + ' · ' + esc(K.ago(n.ts)) + ' · ' + esc(n.src) + '</span>' +
+      '<h1 class="h2" style="font-size:36px;line-height:1.15">' + esc(n.t) + '</h1>' +
+      (n.sum ? '<p class="lead" style="margin:0">' + esc(n.sum) + '</p>' : '') +
+      '<div class="card pad" style="display:flex;flex-direction:column;gap:10px"><h2 class="h4">The full story</h2><span class="note">We show the headline and the publisher\'s own summary. The article itself is on ' + esc(n.src) + '.</span>' +
+      '<a class="btn acc" style="align-self:flex-start" href="' + (K.safeUrl(n.url) ? esc(n.url) : '#') + '" target="_blank" rel="noopener">Read at ' + esc(n.src) + ' →</a></div>' +
+      '<div class="card" style="overflow:hidden"><div class="pad" style="padding-bottom:12px"><h2 class="h4">What it may move</h2></div>' +
+      (rel.length ? '<div class="tbl-wrap"><table class="tbl"><thead><tr><th class="l">Asset</th><th>Price</th><th>30 days</th><th>1 year</th><th>Swing</th></tr></thead><tbody>' + rel.map(function (a) {
+        return '<tr><td><div class="asset-cell">' + K.ini(a) + '<div><a href="' + K.assetHref(a) + '">' + esc(a.name) + '</a><small>' + esc(a.way) + '</small></div></div></td><td data-lp="' + a.id + '">' + K.money(a.price, a.currency) + '</td><td>' + K.pctc(a.chg_30d) + '</td><td>' + K.pctc(a.ret_1y) + '</td><td>' + (K.num(a.swing) ? a.swing.toFixed(0) + '%' : '–') + '</td></tr>';
+      }).join('') + '</tbody></table></div><div class="tbl-foot"><span class="note">Matched by keywords in the headline. Prices: Yahoo Finance, close ' + esc(K.fmtDate(rel[0].asof)) + '; crypto and currencies update live. Not a forecast.</span></div>'
+        : '<div class="empty">No tracked asset is named in this headline.</div>') + '</div>' +
+      '<div class="card pad" style="border-style:dashed;display:flex;flex-direction:column;gap:8px"><h2 class="h4">Our take</h2><span class="note">Coming soon: a short read on what this changes, for whom, and how sure we are.</span></div>' +
+      '</article><aside style="flex:1 1 300px;display:flex;flex-direction:column;gap:12px"><h2 class="h4">More news</h2>' + moreList(items, n.url) + '<a class="link" href="news.html">All news →</a></aside></section>';
+    main.innerHTML = h;
+  }).catch(function () {
+    document.getElementById('main').innerHTML = '<div class="empty">Headlines are unavailable right now.</div>';
+  });
+  K.footer();
+})();
+</script>
+</body>
+</html>

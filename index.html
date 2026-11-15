@@ -17,7 +17,7 @@
 <section class="wrap hero">
   <div class="hero-l">
     <h1>Everything you can invest in, <span>from a deposit to a hedge fund</span></h1>
-    <p class="lead">Return, risk, volume and the real cost of getting out, measured the same way for stocks, crypto, funds, property, businesses and collectibles. A source and a date next to every number.</p>
+    <p class="lead">Return, risk, volume and the real cost of getting out, measured the same way for stocks, crypto, funds, property, businesses and collectibles.</p>
   </div>
   <div class="card race" id="race"></div>
 </section>
@@ -25,7 +25,6 @@
 <section class="wrap sec" id="classes">
   <div class="sec-h"><h2 class="h2">Popular groups</h2><a class="link" href="map.html" id="all-groups">All groups →</a></div>
   <div class="groups groups-4" id="groups"></div>
-  <p class="note" style="margin-top:14px">Return per year: equal money in each tracked asset of the group at the start, held to today. Worst → best: the weakest and strongest stretch of the same length in the price history. Collectibles and cards have no long daily price history yet, so they show the smallest entry; their figures from indexes and reports are on each way's page.</p>
 </section>
 
 <section class="wrap sec" id="rating">
@@ -42,7 +41,7 @@
 
 <section class="wrap sec" id="news">
   <div class="sec-h"><h2 class="h2">News that moves prices</h2>
-    <div style="display:flex;gap:8px;align-items:center"><span class="note" id="news-src"></span>
+    <div style="display:flex;gap:8px;align-items:center"><a class="link" href="news.html">All news →</a>
       <button class="btn sm news-nav" id="news-prev" aria-label="Previous news">‹</button><button class="btn sm news-nav" id="news-next" aria-label="Next news">›</button></div></div>
   <div class="news-strip" id="news-strip"><div class="empty">Loading headlines…</div></div>
 </section>
@@ -103,8 +102,7 @@
         '<span class="mono" style="text-align:right;font-size:13px">' + (K.num(r.v) ? K.pctc(r.v) : '<span class="nodata">—</span>') + '</span>' +
         '<span class="mono muted" style="text-align:right;font-size:13px">' + (K.num(r.a.swing) ? r.a.swing.toFixed(0) + '%' : '–') + '</span></a>';
     });
-    h += '</div><div class="note" style="border-top:1px solid var(--line);padding-top:14px">' + (per === '1' ? 'Change over the last 12 months' : 'Compound return per year over ' + per + ' years') +
-      ', dividends reinvested. "—" = the asset is younger than that. Swing = typical yearly price move. Yahoo Finance, close ' + esc(K.fmtDate(K.byId.spy ? K.byId.spy.asof : C.meta.built)) + '.</div>';
+    h += '</div><div class="note" style="border-top:1px solid var(--line);padding-top:12px">Yahoo Finance, ' + esc(K.fmtDate(K.byId.spy ? K.byId.spy.asof : C.meta.built)) + ' · dividends reinvested</div>';
     var el = document.getElementById('race'); el.innerHTML = h;
     el.querySelectorAll('[data-per]').forEach(function (b) { b.onclick = function () { per = b.dataset.per; K.store.set('per', per); drawRace(); }; });
   }
@@ -138,7 +136,6 @@
   }).join('');
 
   // ---- rankings with horizon ----
-  var picks = [['all', 'All'], ['public', 'Public markets'], ['crypto', 'Crypto'], ['private', 'Private markets'], ['property', 'Property']];
   var cur = 'all', hz = K.store.get('hz', 'long'), moreOpen = false;
   var HZ = { short: ['Up to 1 year', 'sell', 1, 'fastest to sell first'], mid: ['1–5 years', 'ret_5y', -1, 'by return per year over 5 years'], long: ['5+ years', 'ret_10y', -1, 'by return per year over 10 years'] };
   function drawRank() {
@@ -152,13 +149,11 @@
     if (cur === 'all') { var seen = {}; rows = rows.filter(function (a) { if (seen[a.way]) return false; seen[a.way] = 1; return true; }); }
     rows = rows.slice(0, 12);
     K.rankTable(document.getElementById('rank'), rows, { sort: h[1], dir: h[2], mobileLimit: 8 });
-    var inMain = picks.some(function (p) { return p[0] === cur; });
-    var moreLabel = inMain ? '+ More' : K.groupsBySlug[cur].name + ' ▾';
-    document.getElementById('pills').innerHTML = picks.map(function (p) { return '<button class="pill" aria-pressed="' + (p[0] === cur) + '" data-p="' + p[0] + '">' + p[1] + '</button>'; }).join('') +
-      '<span class="more"><button class="pill" id="more" aria-expanded="' + moreOpen + '" aria-pressed="' + !inMain + '">' + esc(moreLabel) + '</button>' +
-      (moreOpen ? '<span class="more-menu" role="menu">' + C.groups.map(function (g) {
-        var n = C.assets.filter(function (a) { return a.group === g.slug && a.currency !== 'index'; }).length;
-        return '<button role="menuitem" data-p="' + g.slug + '"' + (n ? '' : ' disabled') + '><span>' + esc(g.name) + '</span><span class="mono note">' + (n || 'no prices yet') + '</span></button>';
+    var label = cur === 'all' ? 'All groups' : K.groupsBySlug[cur].name;
+    document.getElementById('pills').innerHTML = '<span class="more"><button class="pill" id="more" aria-haspopup="menu" aria-expanded="' + moreOpen + '" aria-pressed="true">' + esc(label) + ' ▾</button>' +
+      (moreOpen ? '<span class="more-menu" role="menu">' + [{ slug: 'all', name: 'All groups' }].concat(C.groups).map(function (g) {
+        var n = C.assets.filter(function (a) { return (g.slug === 'all' || a.group === g.slug) && a.currency !== 'index'; }).length;
+        return '<button role="menuitem" data-p="' + g.slug + '"' + (n ? '' : ' disabled') + (g.slug === cur ? ' aria-current="true"' : '') + '><span>' + esc(g.name) + '</span><span class="mono note">' + (n || 'coming soon') + '</span></button>';
       }).join('') + '</span>' : '') + '</span>';
     document.querySelectorAll('#pills [data-p]').forEach(function (b) { b.onclick = function () { cur = b.dataset.p; moreOpen = false; drawRank(); }; });
     document.getElementById('more').onclick = function (e) { e.stopPropagation(); moreOpen = !moreOpen; drawRank(); };
@@ -169,34 +164,24 @@
   document.addEventListener('click', function () { if (moreOpen) { moreOpen = false; drawRank(); } });
   document.getElementById('all-rank').textContent = 'Full rankings: ' + C.assets.length + ' assets →';
 
-  // ---- news (real headlines, linked to the publisher) ----
-  var RELATED = [[/bitcoin|btc\b|crypto|spot etf/i, 'btc'], [/ether(eum)?\b|eth\b/i, 'eth'], [/solana/i, 'sol'], [/\bxrp\b|ripple/i, 'xrp'], [/gold/i, 'gld'], [/silver/i, 'slv'],
-    [/\boil\b|crude|opec|brent/i, 'uso'], [/natural gas|\blng\b/i, 'ung'], [/nvidia/i, 'nvda'], [/apple|iphone/i, 'aapl'], [/tesla|musk/i, 'tsla'], [/microsoft/i, 'msft'],
-    [/amazon/i, 'amzn'], [/alphabet|google/i, 'googl'], [/meta platforms|facebook/i, 'meta'], [/treasur|bond yield|yields/i, 'govt'], [/\bfed\b|rate cut|inflation|cpi\b|powell/i, 'bil'],
-    [/s&p|stocks|wall street|dow\b|nasdaq/i, 'spy'], [/dollar|euro\b|\bfx\b/i, 'eurusd'], [/china|beijing/i, 'mchi'], [/india/i, 'inda'], [/japan|yen/i, 'ewj'], [/housing|home prices|mortgage/i, 'vnq'],
-    [/wheat|grain|corn/i, 'weat'], [/carbon/i, 'krbn'], [/manchester united/i, 'manu']];
+  // ---- news: 9 real headlines; each opens our story page with related prices and the publisher's link ----
   var items = [], np = 0;
-  function ago(ts) { var m = Math.max(1, Math.round((Date.now() - ts) / 60000)); return m < 60 ? m + ' min ago' : m < 1440 ? Math.round(m / 60) + ' h ago' : Math.round(m / 1440) + ' days ago'; }
   function drawNews() {
     var strip = document.getElementById('news-strip');
     if (!items.length) { strip.innerHTML = '<div class="empty">Headlines are unavailable right now.</div>'; return; }
     strip.innerHTML = '<div class="news-track" style="transform:translateX(calc(' + (-np) + ' * (var(--news-w) + 16px)))">' + items.map(function (n) {
-      var rel = []; RELATED.forEach(function (r) { if (rel.length < 3 && r[0].test(n.t + ' ' + n.sum) && K.byId[r[1]] && rel.indexOf(r[1]) < 0) rel.push(r[1]); });
-      return '<article class="card news-card"><span class="note">' + esc(n.cat) + ' · ' + esc(ago(n.ts)) + ' · ' + esc(n.src) + '</span>' +
-        '<a class="news-t" href="' + (K.safeUrl(n.url) ? esc(n.url) : '#') + '" target="_blank" rel="noopener">' + esc(n.t) + '</a>' +
-        (n.sum ? '<p class="note" style="margin:0">' + esc(n.sum) + '</p>' : '') +
-        (rel.length ? '<div class="news-rel"><span class="cap">Related</span>' + rel.map(function (id) { var a = K.byId[id]; return '<a class="chip" href="' + K.assetHref(a) + '">' + esc(a.name.split(' (')[0]) + ' <span class="' + K.cls(a.chg_30d) + '">' + K.pct(a.chg_30d) + ' 30d</span></a>'; }).join('') + '</div>' : '') +
-        '</article>';
+      var rel = K.related(n, 3);
+      return '<a class="card news-card" href="' + K.newsHref(n) + '"><span class="note">' + esc(n.cat) + ' · ' + esc(K.ago(n.ts)) + ' · ' + esc(n.src) + '</span>' +
+        '<span class="news-t">' + esc(n.t) + '</span>' + (n.sum ? '<span class="note">' + esc(n.sum) + '</span>' : '') +
+        (rel.length ? '<span class="news-rel"><span class="cap">May move</span>' + rel.map(function (a) { return '<span class="chip">' + esc(a.name.split(' (')[0]) + ' <span class="' + K.cls(a.chg_30d) + '">' + K.pct(a.chg_30d) + ' 30d</span></span>'; }).join('') + '</span>' : '') +
+        '<span class="note" style="margin-top:auto">Our take: coming soon</span></a>';
     }).join('') + '</div>';
     document.getElementById('news-prev').disabled = np <= 0;
     document.getElementById('news-next').disabled = np >= items.length - 1;
   }
   document.getElementById('news-prev').onclick = function () { np = Math.max(0, np - 1); drawNews(); };
   document.getElementById('news-next').onclick = function () { np = Math.min(items.length - 1, np + 1); drawNews(); };
-  fetch('https://investment-hub-live.ceuvdo.workers.dev/news').then(function (r) { return r.json(); }).then(function (d) {
-    items = (d.items || []).slice(0, 18); drawNews();
-    document.getElementById('news-src').textContent = 'CNBC, Cointelegraph, Investing.com · links open the publisher';
-  }).catch(function () { drawNews(); });
+  K.loadNews().then(function (all) { items = all.slice(0, 9); drawNews(); }).catch(function () { drawNews(); });
 
   // ---- movers ----
   var mv = C.assets.filter(function (a) { return K.num(a.chg_30d); }).sort(function (a, b) { return Math.abs(b.chg_30d) - Math.abs(a.chg_30d); }).slice(0, 5);

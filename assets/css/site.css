@@ -268,3 +268,4 @@ footer.ft nav a{color:var(--muted)}
 .grange{display:flex;justify-content:space-between;gap:8px;font-size:12px;color:var(--muted);min-height:18px}
 .groups-4{grid-template-columns:repeat(auto-fill,minmax(min(100%,272px),1fr))}
 .groups-4 .gcard img,.groups-4 .gph{height:120px}
+.more-menu button[aria-current]{color:var(--acc)}
