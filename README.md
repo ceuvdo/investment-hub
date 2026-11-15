@@ -31,7 +31,7 @@ The backend then does three things:
   - `GET /api/series/{id}?range=1d|7d|30d|10y`
   - `GET /api/live`
   - `WS /live`
-  - `POST /api/admin/build?deploy=true`
+  - `POST /api/admin/build?deploy=true`, `POST /api/admin/backup` (both need the header `X-Hub-Admin: 1`)
 
 ## Common tasks
 
@@ -44,7 +44,7 @@ Invoke-RestMethod http://127.0.0.1:8080/api/status
 Rebuild the data and publish the site now:
 
 ```powershell
-Invoke-RestMethod -Method Post "http://127.0.0.1:8080/api/admin/build?deploy=true"
+Invoke-RestMethod -Method Post -Headers @{ "X-Hub-Admin" = "1" } "http://127.0.0.1:8080/api/admin/build?deploy=true"
 ```
 
 Rebuild the backend after a code change. Tools live on `E:\tools`, because drive C: is full.
@@ -68,6 +68,14 @@ relay\deploy-relay.ps1
 ```
 
 **Logs:** `E:\tools\logs` (`hub-backend.log`, `postgres.log`, `deploy-last.log`).
+
+## Safety nets
+
+- **Validation before publishing.** A build is published only if it has all 64 ways and at least 90% of the previous asset count, contains no impossible prices or returns, has no more than 20% of market assets older than a week, and every research link is `https`. Otherwise the old site stays online and `/api/status` explains why.
+- **Code and data are published separately.** The site's code is published from the last git commit, and only the freshly built data comes from the working folder.
+- **Missed builds catch up.** If the PC was off at 09:00, the build runs at the next startup.
+- **Nightly backup** to `E:ackups\hub` at 03:30, keeping 14 days. This is the same disk; an off-site copy is still on the to-do list.
+- **Tests:** 84 JUnit tests. Run them with `mvn -f backend/pom.xml test` after setting `HUB_DB_PASSWORD` in the shell. They use the separate `hub_test` database and never touch the internet.
 
 ## Secrets
 
