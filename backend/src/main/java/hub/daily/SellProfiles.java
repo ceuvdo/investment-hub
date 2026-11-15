@@ -112,9 +112,10 @@ public class SellProfiles {
                 live = true;
                 settleText = String.format(Locale.ROOT, "1 block ≈ %s (average of the last 10 blocks, live)", dur(settle));
             } else if ("ethereum".equals(chainKey) && timing.median("ethereum.block_s") != null) {
-                settle = timing.median("ethereum.block_s") * 64;
+                // slots are fixed 12 s time windows; missed slots do not delay finality (2 epochs = 64 slots)
+                settle = 768;
                 live = true;
-                settleText = String.format(Locale.ROOT, "finality ≈ %s (64 slots × %.1f s measured)", dur(settle), timing.median("ethereum.block_s"));
+                settleText = String.format(Locale.ROOT, "finality %s (64 slots × 12 s); blocks arriving every %.1f s (measured)", dur(settle), timing.median("ethereum.block_s"));
             } else if ("solana".equals(chainKey) && timing.median("solana.slot_s") != null) {
                 settle = timing.median("solana.slot_s") * 32;
                 live = true;

@@ -60,9 +60,9 @@ public class LiveSocket extends TextWebSocketHandler implements WebSocketConfigu
             sentVersion = store.version();
             return;
         }
-        long v = store.version();
-        Map<String, Quote> changed = store.changedSince(sentVersion);
-        sentVersion = v;
+        LiveStore.Changes c = store.changes(sentVersion);
+        Map<String, Quote> changed = c.quotes();
+        sentVersion = c.version();
         if (changed.isEmpty()) return;
         TextMessage msg = new TextMessage(message(changed, false));
         for (WebSocketSession s : sessions) {

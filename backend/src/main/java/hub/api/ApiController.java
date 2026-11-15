@@ -28,8 +28,13 @@ public class ApiController {
     private final Timing timing;
     private final List<WsFeed> feeds;
     private final DailyJob daily;
+    private final RelayPublisher relay;
+    private final hub.ops.Backup backup;
 
-    public ApiController(JdbcTemplate jdbc, LiveStore live, Timing timing, List<WsFeed> feeds, DailyJob daily) {
+    public ApiController(JdbcTemplate jdbc, LiveStore live, Timing timing, List<WsFeed> feeds, DailyJob daily,
+                         RelayPublisher relay, hub.ops.Backup backup) {
+        this.relay = relay;
+        this.backup = backup;
         this.jdbc = jdbc;
         this.live = live;
         this.timing = timing;
@@ -85,17 +90,29 @@ public class ApiController {
     public Map<String, Object> status() {
         Map<String, Object> f = new LinkedHashMap<>();
         for (WsFeed feed : feeds)
-            f.put(feed.name(), Map.of("state", feed.state(), "messages", feed.messages(), "last_message_ms_ago", feed.lastMessageAgeMs()));
+            f.put(feed.name(), Map.of("state", feed.state(), "messages", feed.messages(), "last_message_ms_ago", feed.lastMessageAgeMs(),
+                    "parse_errors", feed.parseErrors()));
         Map<String, Object> out = new LinkedHashMap<>();
         out.put("feeds", f);
         out.put("live_quotes", live.all().size());
         out.put("timing", timing.summary());
-        out.put("candles_1m_rows", jdbc.queryForObject("SELECT count(*) FROM candles_1m", Long.class));
+        try {
+            out.put("candles_1m_rows", jdbc.queryForObject("SELECT approximate_row_count('candles_1m')", Long.class));
+        } catch (Exception e) {
+            out.put("database", "unavailable: " + e.getMessage());
+        }
+        out.put("relay", Map.of("visitors", relay.visitors(), "last_ok_s_ago", relay.lastOkMs() == 0 ? -1 : (System.currentTimeMillis() - relay.lastOkMs()) / 1000));
         out.put("daily", Map.of("running", daily.isRunning(), "last", daily.lastResult()));
         return out;
     }
 
-    /** Start a daily build now (local only: the server listens on 127.0.0.1). */
+    /** Run the database backup now. */
+    @PostMapping("/admin/backup")
+    public Map<String, Object> backupNow() {
+        return Map.of("result", backup.run());
+    }
+
+    /** Start a daily build now (local only; needs header X-Hub-Admin: 1, see LocalOnlyFilter). */
     @PostMapping("/admin/build")
     public ResponseEntity<Map<String, Object>> build(@RequestParam(defaultValue = "false") boolean deploy) {
         if (daily.isRunning()) return ResponseEntity.status(409).body(Map.of("status", "already running"));

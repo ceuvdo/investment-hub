@@ -39,7 +39,9 @@ public final class Metrics {
     /** Annualised return over n years, only if the history really reaches back that far (3 weeks slack). */
     public static Double annOver(long[] t, double[] v, long now, double last, int years) {
         if (t.length == 0 || t[0] > now - years * YEAR_S + 21 * 86400) return null;
-        return ann(valueAt(t, v, now - years * YEAR_S), last, years);
+        Double start = valueAt(t, v, now - years * YEAR_S);
+        if (start == null) start = v[0]; // history starts within the 3-week slack: use its first point
+        return ann(start, last, years);
     }
 
     public record Drawdown(Double pct, String span) {}

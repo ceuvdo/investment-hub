@@ -42,6 +42,7 @@ public class Timing {
 
     /** Replace the window (e.g. average block interval computed from a fresh list of blocks). */
     public void set(String key, double value) {
+        if (!(value > 0) || Double.isInfinite(value)) return; // e.g. out-of-order block timestamps
         Deque<Double> d = samples.computeIfAbsent(key, k -> new ArrayDeque<>());
         synchronized (d) {
             d.clear();

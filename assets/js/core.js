@@ -1,6 +1,6 @@
 /* Shared helpers: data access, formatting, header/footer, search, charts, watchlist, theme. */
 (function () {
-  var SITE = { name: 'kapitalog', tagline: 'open investment data' }; // working name: change here
+  var SITE = { name: 'wyndton', tagline: 'open investment data' }; // site name: change here
   var C = window.CATALOG;
   var store = {
     get: function (k, d) { try { var v = localStorage.getItem(k); return v ? JSON.parse(v) : d; } catch (e) { return d; } },
@@ -30,7 +30,8 @@
     if (!num(v)) return '<span class="nodata">no data</span>';
     if (cur === 'index') return v.toLocaleString('en-US', { maximumFractionDigits: 1 }) + ' pts';
     var d = v >= 1000 ? 0 : v >= 10 ? 2 : v >= 1 ? 3 : 4;
-    var s = v.toLocaleString('en-US', { minimumFractionDigits: Math.min(d, 2), maximumFractionDigits: d });
+    var s = Math.abs(v) < 0.01 ? Number(v.toPrecision(4)).toString()
+      : v.toLocaleString('en-US', { minimumFractionDigits: Math.min(d, 2), maximumFractionDigits: d });
     if (cur === 'GBp') return s + 'p';
     return (CUR[cur] != null ? CUR[cur] : '') + s + (CUR[cur] == null && cur ? ' ' + cur : '');
   }
@@ -43,12 +44,13 @@
   function corr(v) { return num(v) ? v.toFixed(2) : '<span class="nodata">no data</span>'; }
   function liq(n) { var s = '<span class="liq" role="img" aria-label="liquidity ' + n + ' of 5">'; for (var i = 1; i <= 5; i++) s += '<i class="' + (i <= n ? 'on' : '') + '"></i>'; return s + '</span>'; }
   var TRUST = { market: 'market price', index: 'index', report: 'report', platform: 'platform figure', estimate: 'estimate' };
+  function safeUrl(u) { return typeof u === 'string' && /^https?:\/\//i.test(u); }
   function trust(t) { return t ? '<span class="trust ' + esc(t) + '">' + esc(TRUST[t] || t) + '</span>' : ''; }
   function src(m) {
     if (!m || !m.source) return '';
     var t = esc(m.source) + (m.asof ? ' · ' + esc(m.asof) : '');
     var tip = esc([m.period, m.note].filter(Boolean).join('. '));
-    return m.url ? '<a class="src" href="' + esc(m.url) + '" target="_blank" rel="noopener" title="' + tip + '">' + t + '</a>' : '<span class="src" title="' + tip + '">' + t + '</span>';
+    return safeUrl(m.url) ? '<a class="src" href="' + esc(m.url) + '" target="_blank" rel="noopener" title="' + tip + '">' + t + '</a>' : '<span class="src" title="' + tip + '">' + t + '</span>';
   }
   var COLORS = ['#7d9cc9', '#d6b66f', '#a99bc4', '#86b79a', '#c69aae', '#77b3a8', '#d1a07e'];
   function color(id) { var h = 0; for (var i = 0; i < id.length; i++) h = (h * 31 + id.charCodeAt(i)) >>> 0; return COLORS[h % COLORS.length]; }
@@ -98,7 +100,9 @@
   // ---------- live prices ----------
   // Local backend (site served by it on :8080) streams at /live; everyone else gets the Cloudflare relay.
   var RELAY = 'wss://investment-hub-live.ceuvdo.workers.dev/live';
-  var live = { q: {}, timing: {}, t: 0, ws: null, wait: 1000, ok: false };
+  var live = { q: {}, timing: {}, t: 0, rt: 0, skew: 0, ws: null, wait: 1000, ok: false };
+  // age of the newest price, measured on the relay's clock (rt), corrected for this browser's clock (skew)
+  function liveAge() { return live.rt ? Date.now() + live.skew - live.rt : Date.now() - live.t; }
   function liveUrl() {
     if (location.port === '8080') return (location.protocol === 'https:' ? 'wss://' : 'ws://') + location.host + '/live';
     return RELAY;
@@ -113,11 +117,13 @@
       if (e.data === 'pong') return;
       var m; try { m = JSON.parse(e.data); } catch (x) { return; }
       if (!m || !m.q) return;
-      live.t = m.t || Date.now(); live.timing = m.timing || live.timing;
+      if (typeof m.now === 'number') live.skew = m.now - Date.now();
+      live.t = m.t || Date.now(); live.rt = m.rt || 0; live.timing = m.timing || live.timing;
       var ids = Object.keys(m.q);
       ids.forEach(function (id) { live.q[id] = m.q[id]; });
-      live.ok = Object.keys(live.q).length > 0 && Date.now() - live.t < 120000;
-      paint(m.snapshot ? Object.keys(live.q) : ids, !m.snapshot);
+      live.ok = Object.keys(live.q).length > 0 && liveAge() < 120000;
+      // an old snapshot (backend PC off) must not replace the daily close with stale "live" prices
+      if (live.ok) paint(m.snapshot ? Object.keys(live.q) : ids, !m.snapshot);
       badge();
       if (window.onLive) window.onLive(live, ids);
     };
@@ -148,9 +154,10 @@
   function badge() {
     var b = document.getElementById('live-badge'); if (!b) return;
     var n = Object.keys(live.q).length;
-    if (live.ok && n) {
+    live.ok = n > 0 && liveAge() < 120000;
+    if (live.ok) {
       var r = live.timing['binance.rtt_ms'];
-      b.innerHTML = '● live · ' + n + ' prices' + (r && r.median ? ' · Binance ' + (r.median / 1000).toFixed(2) + ' s' : '') + ' · ' + Math.max(0, Math.round((Date.now() - live.t) / 1000)) + ' s ago';
+      b.innerHTML = '● live · ' + n + ' prices' + (r && r.median ? ' · Binance ' + (r.median / 1000).toFixed(2) + ' s' : '') + ' · ' + Math.max(0, Math.round(liveAge() / 1000)) + ' s ago';
       b.title = 'Crypto from Binance, currencies from Kraken, via our backend. Stocks and funds: daily close prices.';
     } else {
       b.textContent = '● daily data · built ' + C.meta.built;
@@ -318,7 +325,7 @@
   }
 
   window.K = {
-    live: live, paint: paint, sellTip: sellTip,
+    live: live, paint: paint, sellTip: sellTip, safeUrl: safeUrl,
     C: C, byId: byId, waysBySlug: waysBySlug, waysByName: waysByName, groupsBySlug: groupsBySlug, SITE: SITE,
     esc: esc, num: num, pct: pct, pctc: pctc, cls: cls, arrow: arrow, money: money, big: big, corr: corr, liq: liq, trust: trust, src: src,
     color: color, ini: ini, ENTRY: ENTRY, wayMetric: wayMetric, wayHref: wayHref, assetHref: assetHref, q: q, fmtDate: fmtDate,

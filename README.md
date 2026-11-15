@@ -92,5 +92,5 @@ All secrets are Windows user environment variables. None of them are in the repo
 - Yahoo Finance data is not licensed for republishing; switch `Sources.yahoo()` to a licensed feed.
 - Some research figures were seen only in search results; each one's `note` in `data/research/*.json` says so.
 - crypto.jpg (CC BY-SA 2.0) still needs its author named on the methodology page.
-- "kapitalog" is a working name, set in `assets/js/core.js` (`SITE.name`).
+- The site name is Wyndton, set in `assets/js/core.js` (`SITE.name`).
 - The PC must stay on for live prices. When it is off, the site falls back to the daily snapshot. Moving to a server means the same jar, PostgreSQL and environment variables there.

@@ -4,10 +4,11 @@ server:
 
 spring:
   application.name: hub-backend
+  task.scheduling.pool.size: 4   # live pushes, candle flushes and probes must not wait for each other
   datasource:
     url: jdbc:postgresql://127.0.0.1:5432/hub
     username: hub
-    password: ${HUB_DB_PASSWORD:hub-local}
+    password: ${HUB_DB_PASSWORD}
   flyway:
     enabled: true
   web:
@@ -28,7 +29,11 @@ hub:
   relay:
     url: ${HUB_RELAY_URL:}               # e.g. https://investment-hub-live.ceuvdo.workers.dev/push
     secret: ${HUB_RELAY_SECRET:}
-    interval-ms: 2000
+    interval-ms: 3000                    # while visitors are connected; every 60 s when nobody is watching
+  backup:
+    dir: E:/backups/hub
+    pg-dump: E:/tools/pgsql/bin/pg_dump.exe
+    keep: 14
   live:
     flush-ms: 60000                     # write 1-minute candles to the database every minute
 

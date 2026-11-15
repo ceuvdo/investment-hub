@@ -18,14 +18,19 @@ foreach ($n in 'CLOUDFLARE_API_TOKEN', 'CLOUDFLARE_ACCOUNT_ID') {
 }
 $wrangler = 'E:\tools\wrangler\node_modules\.bin\wrangler.cmd'
 
-# copy only the public site into a clean folder
+# Site code (pages, css, js, images) comes from the last git commit, so a half-edited page in the
+# working folder is never published by the 09:00 job. Only the freshly built data comes from the folder.
 $dist = 'E:\tools\tmp\site-dist'
 $pub = "$dist\public"
 if (Test-Path $dist) { Remove-Item $dist -Recurse -Force }
 New-Item -ItemType Directory $pub | Out-Null
-Copy-Item "$here\*.html" $pub
-Copy-Item "$here\assets" $pub -Recurse
-New-Item -ItemType Directory "$pub\data" | Out-Null
+$zip = "$dist\head.zip"
+& git -C $here archive --format=zip -o $zip HEAD -- '*.html' assets
+if ($LASTEXITCODE -ne 0) { throw "git archive failed ($LASTEXITCODE)" }
+Expand-Archive $zip $pub
+Remove-Item $zip
+Get-ChildItem $pub -Recurse -Filter *.md | Remove-Item
+New-Item -ItemType Directory "$pub\data" -Force | Out-Null
 Copy-Item "$here\data\*.json", "$here\data\*.js" "$pub\data"
 
 @"
@@ -38,4 +43,7 @@ Copy-Item "$here\data\*.json", "$here\data\*.js" "$pub\data"
 "@ | Set-Content "$dist\wrangler.jsonc" -Encoding utf8
 
 Push-Location $dist
-try { & $wrangler deploy --config "$dist\wrangler.jsonc" } finally { Pop-Location }
+try {
+  & $wrangler deploy --config "$dist\wrangler.jsonc"
+  if ($LASTEXITCODE -ne 0) { throw "wrangler deploy failed with exit code $LASTEXITCODE" }
+} finally { Pop-Location }

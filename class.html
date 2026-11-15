@@ -24,7 +24,7 @@
   document.getElementById('crumbs').innerHTML = '<a href="map.html">Catalog</a> / <span>' + esc(g.name) + '</span>';
   var ways = C.ways.filter(function (w) { return w.group === g.slug; });
   var assets = C.assets.filter(function (a) { return a.group === g.slug; });
-  var tab = K.q('w') || 'all';
+  var tab = K.waysBySlug[K.q('w')] && K.waysBySlug[K.q('w')].group === g.slug ? K.q('w') : 'all';
 
   function fig(m, k) { var x = m[k]; return x && K.num(x.value) ? '<span title="' + esc((x.source || '') + ' · ' + (x.asof || '')) + '">' + K.pctc(x.value) + '</span>' : '<span class="nodata">–</span>'; }
   function txt(m, k) { var x = m[k]; return x && x.text ? '<span title="' + esc(x.source || '') + '">' + esc(x.text) + '</span>' : '<span class="nodata">–</span>'; }

@@ -36,6 +36,12 @@ public class Series {
                 """, rows);
     }
 
+    /** Remove points at or after a time (used to replace a still-forming bar instead of piling them up). */
+    public void deleteFrom(String assetId, char kind, long fromSec) {
+        jdbc.update("DELETE FROM price_points WHERE asset_id = ? AND kind = ? AND ts >= ?",
+                assetId, String.valueOf(kind), Timestamp.from(Instant.ofEpochSecond(fromSec)));
+    }
+
     public Points load(String assetId, char kind) {
         List<Long> ts = new ArrayList<>();
         List<Double> vs = new ArrayList<>(), vols = new ArrayList<>();

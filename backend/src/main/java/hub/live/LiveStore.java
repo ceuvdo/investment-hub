@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicLong;
+import java.util.function.LongSupplier;
 
 /**
  * Latest live quotes + 1-minute candles. Feeds call {@link #tick}; the API, the local websocket
@@ -29,6 +30,8 @@ public class LiveStore {
     private final Map<String, Candle> open = new HashMap<>();   // guarded by this
     private final List<Candle> closed = new ArrayList<>();      // guarded by this
     private final JdbcTemplate jdbc;
+    /** Wall clock in epoch millis; replaceable in tests to cross minute boundaries. */
+    LongSupplier nowMs = System::currentTimeMillis;
 
     private static final class Candle {
         final String id, source;
@@ -49,13 +52,17 @@ public class LiveStore {
         this.jdbc = jdbc;
     }
 
+    /** Quotes changed since a version, plus the version they bring the reader up to (taken atomically). */
+    public record Changes(long version, Map<String, Quote> quotes) {}
+
     public void tick(String id, double price, Double chg24h, Double vol24hUsd, String source) {
-        if (!(price > 0)) return;
-        long now = System.currentTimeMillis();
-        latest.put(id, new Quote(id, price, chg24h, vol24hUsd, now, source));
-        version.put(id, clock.incrementAndGet());
+        if (!(price > 0) || !Double.isFinite(price)) return;
+        long now = nowMs.getAsLong();
         long minute = now / 60_000 * 60_000;
         synchronized (this) {
+            // version and quote are published together, so a reader never skips an update
+            latest.put(id, new Quote(id, price, chg24h, vol24hUsd, now, source));
+            version.put(id, clock.incrementAndGet());
             Candle c = open.get(id);
             if (c != null && c.minute != minute) {
                 closed.add(c);
@@ -86,21 +93,38 @@ public class LiveStore {
 
     /** Quotes updated after the given version (0 = everything). */
     public Map<String, Quote> changedSince(long v) {
+        return changes(v).quotes();
+    }
+
+    /** Atomic read: the changes since {@code v} and the version to pass next time. */
+    public synchronized Changes changes(long v) {
         Map<String, Quote> out = new HashMap<>();
         version.forEach((id, ver) -> {
             if (ver > v) out.put(id, latest.get(id));
         });
-        return out;
+        return new Changes(clock.get(), out);
     }
+
+    private static final int MAX_PENDING = 50_000; // ~1 day of candles for 30 symbols if the DB is down
 
     @Scheduled(fixedDelayString = "${hub.live.flush-ms:60000}", initialDelay = 65_000)
     public void flush() {
+        flush(false);
+    }
+
+    /** On shutdown write the open candles too, so a restart does not lose the current minute. */
+    @jakarta.annotation.PreDestroy
+    public void flushOnShutdown() {
+        flush(true);
+    }
+
+    private void flush(boolean all) {
         List<Candle> batch;
-        long minute = System.currentTimeMillis() / 60_000 * 60_000;
+        long minute = nowMs.getAsLong() / 60_000 * 60_000;
         synchronized (this) {
             // close candles whose minute is over even if no new tick arrived
             open.values().removeIf(c -> {
-                if (c.minute < minute) {
+                if (all || c.minute < minute) {
                     closed.add(c);
                     return true;
                 }
@@ -120,7 +144,12 @@ public class LiveStore {
                       low = LEAST(candles_1m.low, EXCLUDED.low), close = EXCLUDED.close, ticks = candles_1m.ticks + EXCLUDED.ticks
                     """, rows);
         } catch (Exception e) {
-            log.warn("candle flush failed ({} candles): {}", rows.size(), e.getMessage());
+            // keep them for the next flush instead of dropping a minute of history
+            synchronized (this) {
+                if (closed.size() + batch.size() <= MAX_PENDING) closed.addAll(0, batch);
+                else log.error("candle buffer full, dropping {} candles", batch.size());
+            }
+            log.warn("candle flush failed ({} candles kept for retry): {}", rows.size(), e.getMessage());
         }
     }
 }

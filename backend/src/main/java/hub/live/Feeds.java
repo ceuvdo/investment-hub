@@ -3,6 +3,7 @@ package hub.live;
 import hub.catalog.Universe;
 import hub.util.Http;
 import hub.util.Json;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import tools.jackson.databind.JsonNode;
@@ -192,6 +193,7 @@ public final class Feeds {
 
     /** Round trip to exchange APIs over a kept-alive connection: what an order request costs on the network. */
     @Component
+    @ConditionalOnProperty(name = "hub.live.enabled", matchIfMissing = true)
     public static class RttProbe {
         private final Timing timing;
 

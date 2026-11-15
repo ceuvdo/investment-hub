@@ -76,8 +76,8 @@ public class Sources {
         try {
             JsonNode wk = chart(Http.get("https://query1.finance.yahoo.com/v8/finance/chart/" + q + "?period1=" + p1 + "&period2=" + now + "&interval=1wk&events=div"));
             JsonNode dy = chart(Http.get("https://query1.finance.yahoo.com/v8/finance/chart/" + q + "?range=3mo&interval=1d"));
-            series.upsert(a.id(), 'w', points(wk, true));
-            series.upsert(a.id(), 'd', points(dy, false));
+            store(a.id(), 'w', points(wk, true));
+            store(a.id(), 'd', points(dy, false));
             JsonNode m = wk.get("meta");
             Series.Points d = points(dy, false);
             long lastT = d.isEmpty() ? now : d.t()[d.size() - 1];
@@ -92,6 +92,15 @@ public class Sources {
             List<String> rows = jdbc.queryForList("SELECT body FROM source_cache WHERE key = ?", String.class, "yahoo.meta." + a.id());
             return rows.isEmpty() ? null : Json.M.readValue(rows.get(0), YahooMeta.class);
         }
+    }
+
+    /**
+     * Yahoo's last bar is still forming and carries an intraday timestamp that changes every run.
+     * Drop everything stored after the last completed bar, then upsert: exactly one forming bar remains.
+     */
+    private void store(String id, char kind, Series.Points p) {
+        if (p.size() >= 2) series.deleteFrom(id, kind, p.t()[p.size() - 2] + 1);
+        series.upsert(id, kind, p);
     }
 
     private static JsonNode chart(String body) {
@@ -205,7 +214,7 @@ public class Sources {
                 if (!d.project().equals(Json.str(p, "project"))) continue;
                 if (d.chain() != null && !d.chain().equals(Json.str(p, "chain"))) continue;
                 if (d.symbol() != null && !d.symbol().equals(Json.str(p, "symbol"))) continue;
-                if (best == null || Json.num(p, "tvlUsd") > Json.num(best, "tvlUsd")) best = p;
+                if (best == null || tvl(p) > tvl(best)) best = p;
             }
             if (best == null) {
                 log.warn("no DefiLlama pool for {}", d.name());
@@ -217,7 +226,7 @@ public class Sources {
             Double apy = Json.num(best, "apy"), apy30 = Json.num(best, "apyMean30d");
             m.put("apy", apy == null ? 0 : Metrics.round2(apy));
             m.put("apy_30d", apy30 == null ? null : Metrics.round2(apy30));
-            m.put("tvl_usd", Math.round(Json.num(best, "tvlUsd")));
+            m.put("tvl_usd", Math.round(tvl(best)));
             m.put("chain", Json.str(best, "chain"));
             m.put("source", "DefiLlama yields");
             m.put("url", "https://defillama.com/yields/pool/" + Json.str(best, "pool"));
@@ -227,17 +236,33 @@ public class Sources {
         return out;
     }
 
+    private static double tvl(JsonNode p) {
+        Double v = Json.num(p, "tvlUsd");
+        return v == null ? 0 : v;
+    }
+
     // ---------- hand-collected research figures (data/research/*.json) ----------
 
+    /** One broken file is skipped with a warning; it never stops the daily build. */
     public Map<String, JsonNode> research() {
         Map<String, JsonNode> out = new LinkedHashMap<>();
         Path dir = Path.of(props.researchDir());
         if (!Files.isDirectory(dir)) return out;
-        try (Stream<Path> files = Files.list(dir)) {
-            for (Path f : files.filter(p -> p.toString().endsWith(".json")).sorted().toList())
-                for (JsonNode w : Json.parse(Files.readString(f)).get("ways")) out.put(Json.str(w, "way"), w);
+        List<Path> files;
+        try (Stream<Path> s = Files.list(dir)) {
+            files = s.filter(p -> p.toString().endsWith(".json")).sorted().toList();
         } catch (IOException e) {
             log.warn("research: {}", e.getMessage());
+            return out;
+        }
+        for (Path f : files) {
+            try {
+                JsonNode ways = Json.parse(Files.readString(f)).get("ways");
+                if (ways == null || !ways.isArray()) throw new IllegalStateException("no \"ways\" array");
+                for (JsonNode w : ways) if (Json.str(w, "way") != null) out.put(Json.str(w, "way"), w);
+            } catch (Exception e) {
+                log.warn("research file {} skipped: {}", f.getFileName(), e.getMessage());
+            }
         }
         return out;
     }

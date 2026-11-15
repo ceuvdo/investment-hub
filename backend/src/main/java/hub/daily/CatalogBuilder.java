@@ -136,7 +136,7 @@ public class CatalogBuilder {
         Set<String> sources = new LinkedHashSet<>(List.of("Yahoo Finance", "FRED / BIS", "World Bank", "DefiLlama", "Binance", "Kraken"));
         for (Map<String, Object> w : ways)
             for (Object v : ((Map<?, ?>) w.get("metrics")).values())
-                if (v instanceof Map<?, ?> mv && mv.get("source") instanceof String s) sources.add(s.split(",")[0].split("\\(")[0].trim());
+                if (v instanceof Map<?, ?> mv && mv.get("source") instanceof String s) sources.add(sourceName(s));
         Map<String, Object> meta = new LinkedHashMap<>();
         meta.put("built", ZonedDateTime.now(ZoneOffset.UTC).format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm 'UTC'")));
         meta.put("n_ways", ways.size());
@@ -168,7 +168,7 @@ public class CatalogBuilder {
         m.put("sub", a.sub());
         m.put("min", a.min());
         double price = meta.price() != null ? meta.price() : (d.isEmpty() ? last : d.v()[d.size() - 1]);
-        m.put("price", Math.round(price * 1e6) / 1e6);
+        m.put("price", sig(price));
         m.put("currency", meta.currency() == null ? "USD" : meta.currency());
         m.put("chg_30d", d.isEmpty() ? null : Metrics.pct(Metrics.valueAt(d.t(), d.v(), lastT - 30 * 86400), d.v()[d.size() - 1]));
         m.put("ret_1y", Metrics.pct(Metrics.valueAt(w.t(), w.v(), lastT - Metrics.YEAR_S), last));
@@ -182,7 +182,7 @@ public class CatalogBuilder {
         for (int i = 0; i < w.size(); i++)
             if (w.t()[i] >= cut) {
                 recent.add(w.v()[i]);
-                wk.put(Metrics.weekKey(w.t()[i]), w.v()[i]);
+                wk.put(Metrics.weekKey(w.t()[i] + 2 * 86400), w.v()[i]); // Yahoo stamps weekly bars at exchange-local Monday 00:00 (Sunday in UTC for Asia/Europe)
             }
         weekly.put(a.id(), wk);
         List<Double> lr = Metrics.logReturns(recent.stream().mapToDouble(x -> x).toArray());
@@ -284,12 +284,12 @@ public class CatalogBuilder {
             if (n > 0) m.put("vol30", metric(v30, "sum of " + n + " tracked assets, Yahoo Finance", null, (String) rep.get("asof"), "market", null, null));
         }
         if (way.name().equals("Savings and deposits") && !deposits.isEmpty()) {
-            List<Double> rates = deposits.stream().map(x -> (Double) x.get("rate")).toList();
+            List<Double> rates = deposits.stream().map(x -> (Double) x.get("rate")).filter(x -> x != null).toList();
             List<Double> reals = deposits.stream().map(x -> (Double) x.get("real")).filter(x -> x != null).toList();
             String year = deposits.stream().map(x -> (String) x.get("rate_year")).max(String::compareTo).orElse(null);
-            m.put("yield", metric(Metrics.round2(Metrics.median(rates)), "World Bank, deposit interest rate, median of " + rates.size() + " countries",
+            if (!rates.isEmpty()) m.put("yield", metric(Metrics.round2(Metrics.median(rates)), "World Bank, deposit interest rate, median of " + rates.size() + " countries",
                     "https://data.worldbank.org/indicator/FR.INR.DPST", year, "index", null, null));
-            m.put("real_yield", metric(Metrics.round2(Metrics.median(reals)), "World Bank: deposit rate minus inflation, median",
+            if (!reals.isEmpty()) m.put("real_yield", metric(Metrics.round2(Metrics.median(reals)), "World Bank: deposit rate minus inflation, median",
                     "https://data.worldbank.org/indicator/FP.CPI.TOTL.ZG", year, "index", null, null));
         }
         if (!yields.isEmpty()) {
@@ -320,6 +320,23 @@ public class CatalogBuilder {
         return w;
     }
 
+    /** 8 significant digits: keeps $0.000004 coins precise without long tails on $64,000 ones. */
+    static double sig(double x) {
+        if (x == 0 || !Double.isFinite(x)) return x;
+        return new java.math.BigDecimal(x).round(new java.math.MathContext(8)).doubleValue();
+    }
+
+    /**
+     * The publisher behind a source label: "Apple (AAPL), Yahoo Finance" -> "Yahoo Finance",
+     * "Knight Frank Wealth Report 2026, KFLII" -> "Knight Frank Wealth Report 2026".
+     */
+    static String sourceName(String s) {
+        java.util.regex.Matcher m = java.util.regex.Pattern.compile("^.*\\([^)]*\\),\\s*(.+)$").matcher(s);
+        if (m.matches()) s = m.group(1);
+        if (s.startsWith("sum of ")) s = s.substring(s.indexOf(',') + 1);
+        return s.split(",")[0].split("\\(")[0].trim();
+    }
+
     private static Map<String, Object> metric(Object value, String source, String url, String asof, String trust, String period, String note) {
         Map<String, Object> m = new LinkedHashMap<>();
         m.put("value", value);
@@ -340,7 +357,7 @@ public class CatalogBuilder {
     /** Last close of each month, for charts. */
     private static Map<String, Object> monthly(Series.Points w) {
         Map<String, Double> months = new LinkedHashMap<>();
-        for (int i = 0; i < w.size(); i++) months.put(Metrics.yearMonth(w.t()[i]), Math.round(w.v()[i] * 1e6) / 1e6);
+        for (int i = 0; i < w.size(); i++) months.put(Metrics.yearMonth(w.t()[i]), sig(w.v()[i]));
         return Map.of("m", new ArrayList<>(months.keySet()), "v", new ArrayList<>(months.values()));
     }
 

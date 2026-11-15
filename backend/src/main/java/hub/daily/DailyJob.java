@@ -30,8 +30,11 @@ public class DailyJob {
     private final AtomicBoolean running = new AtomicBoolean();
     private volatile String lastResult = "not run yet";
 
-    public DailyJob(CatalogBuilder builder, JdbcTemplate jdbc, HubProperties props) {
+    private final Validator validator;
+
+    public DailyJob(CatalogBuilder builder, Validator validator, JdbcTemplate jdbc, HubProperties props) {
         this.builder = builder;
+        this.validator = validator;
         this.jdbc = jdbc;
         this.props = props;
     }
@@ -46,12 +49,24 @@ public class DailyJob {
 
     @EventListener(ApplicationReadyEvent.class)
     public void onStart() {
-        if (props.dailyOnStart()) Thread.ofVirtual().start(() -> run(props.deploy().enabled()));
+        // also catch up when the PC was off at 09:00: no successful build in the last 26 hours
+        boolean missed = false;
+        try {
+            missed = Boolean.TRUE.equals(jdbc.queryForObject(
+                    "SELECT coalesce(max(built_at), 'epoch') < now() - interval '26 hours' FROM catalog_builds", Boolean.class));
+        } catch (Exception e) {
+            log.warn("could not check last build: {}", e.getMessage());
+        }
+        if (props.dailyOnStart() || missed) {
+            log.info("daily: starting build on startup (missed={})", missed);
+            Thread.ofVirtual().start(() -> run(props.deploy().enabled()));
+        }
     }
 
+    /** Runs on its own thread: the scheduler thread must stay free for live pushes and candle flushes. */
     @Scheduled(cron = "${hub.daily-cron}")
     public void scheduled() {
-        run(props.deploy().enabled());
+        Thread.ofVirtual().name("daily-build").start(() -> run(props.deploy().enabled()));
     }
 
     /** Returns false if a build is already running. */
@@ -60,6 +75,13 @@ public class DailyJob {
         long t0 = System.currentTimeMillis();
         try {
             CatalogBuilder.Result r = builder.build();
+            Validator.Result v = validator.check(r.catalog());
+            if (!v.ok()) {
+                lastResult = "rejected, site unchanged: " + String.join("; ", v.problems());
+                log.error("daily: {}", lastResult);
+                return true;
+            }
+            if (!v.warnings().isEmpty()) log.warn("daily warnings: {}", v.warnings());
             String catalog = Json.write(r.catalog());
             String series = Json.write(r.series());
             jdbc.update("INSERT INTO catalog_builds(n_assets, n_ways, json) VALUES (?, ?, ?::jsonb)",

@@ -2,6 +2,7 @@ package hub.live;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.SmartLifecycle;
 
 import java.net.URI;
@@ -32,6 +33,7 @@ public abstract class WsFeed implements SmartLifecycle {
     private volatile long backoffMs = 1000;
     private volatile long messages;
     private volatile String state = "stopped";
+    private volatile boolean autoStartup = true;
 
     /** Short name for logs and the status endpoint. */
     public abstract String name();
@@ -54,6 +56,17 @@ public abstract class WsFeed implements SmartLifecycle {
 
     public long lastMessageAgeMs() {
         return lastMessage == 0 ? -1 : System.currentTimeMillis() - lastMessage;
+    }
+
+    /** hub.live.enabled=false keeps the feed bean but does not connect on startup (used by tests). */
+    @Value("${hub.live.enabled:true}")
+    public void setLiveEnabled(boolean enabled) {
+        this.autoStartup = enabled;
+    }
+
+    @Override
+    public boolean isAutoStartup() {
+        return autoStartup;
     }
 
     @Override
@@ -80,17 +93,22 @@ public abstract class WsFeed implements SmartLifecycle {
     private void connect() {
         if (!running) return;
         state = "connecting";
+        Listener listener = new Listener();
         client.newWebSocketBuilder().connectTimeout(Duration.ofSeconds(15))
-                .buildAsync(URI.create(url()), new Listener())
+                .buildAsync(URI.create(url()), listener)
                 .whenComplete((w, err) -> {
                     if (err != null) {
                         log.warn("{}: connect failed: {}", name(), err.getMessage());
+                        scheduleReconnect();
+                    } else if (listener.closed) {
+                        // the server closed it before we got here: do not mark a dead socket as open
                         scheduleReconnect();
                     } else {
                         ws = w;
                         state = "open";
                         lastMessage = System.currentTimeMillis();
-                        backoffMs = 1000;
+                        // backoff is reset only when data arrives (see Listener.onText), so an
+                        // accept-then-close server does not get hammered every second
                         log.info("{}: connected", name());
                         try {
                             onOpen(w);
@@ -126,8 +144,15 @@ public abstract class WsFeed implements SmartLifecycle {
         w.sendText(text, true);
     }
 
+    private volatile long parseErrors;
+
+    public long parseErrors() {
+        return parseErrors;
+    }
+
     private final class Listener implements WebSocket.Listener {
         private final StringBuilder buf = new StringBuilder();
+        volatile boolean closed;
 
         @Override
         public CompletionStage<?> onText(WebSocket w, CharSequence data, boolean last) {
@@ -137,10 +162,11 @@ public abstract class WsFeed implements SmartLifecycle {
                 buf.setLength(0);
                 lastMessage = System.currentTimeMillis();
                 messages++;
+                backoffMs = 1000; // data is flowing: the connection is healthy
                 try {
                     WsFeed.this.onText(msg);
                 } catch (Exception e) {
-                    log.debug("{}: bad message: {}", name(), e.getMessage());
+                    if (parseErrors++ % 100 == 0) log.warn("{}: unparsable message ({} so far): {}", name(), parseErrors, e.getMessage());
                 }
             }
             w.request(1);
@@ -157,16 +183,25 @@ public abstract class WsFeed implements SmartLifecycle {
         @Override
         public CompletionStage<?> onClose(WebSocket w, int statusCode, String reason) {
             log.warn("{}: closed {} {}", name(), statusCode, reason);
-            ws = null;
-            scheduleReconnect();
+            dead(w);
             return null;
         }
 
         @Override
         public void onError(WebSocket w, Throwable error) {
             log.warn("{}: error {}", name(), error.getMessage());
-            ws = null;
-            scheduleReconnect();
+            dead(w);
+        }
+
+        /** onClose and onError can both fire; reconnect once, and only for the current socket. */
+        private synchronized void dead(WebSocket w) {
+            if (closed) return;
+            closed = true;
+            if (w == ws) {
+                ws = null;
+                scheduleReconnect();
+            }
+            // if ws was not set yet, connect()'s whenComplete sees closed and reconnects
         }
     }
 }

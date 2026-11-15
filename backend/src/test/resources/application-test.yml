@@ -1,0 +1,27 @@
+# Test profile: separate database, no live feeds, no deploys, no relay pushes, no production log file.
+server:
+  address: 127.0.0.1
+
+spring:
+  datasource:
+    url: jdbc:postgresql://127.0.0.1:5432/hub_test
+    username: hub
+    password: ${HUB_DB_PASSWORD:hub-local}
+
+hub:
+  site-dir: ${java.io.tmpdir}/hub-test-site
+  research-dir: ${java.io.tmpdir}/hub-test-site/no-research
+  daily-cron: "-"
+  daily-on-start: false
+  deploy:
+    enabled: false
+    script: none
+  relay:
+    url: ""
+    secret: ""
+  live:
+    enabled: false
+    flush-ms: 3600000
+
+logging:
+  file.name: target/test-logs/hub-backend-test.log
