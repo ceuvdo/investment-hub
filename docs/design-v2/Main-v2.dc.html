@@ -1,0 +1,349 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Wyndton: home</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&amp;family=Onest:wght@400;500;600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#0c1424}
+a{color:#edeae0;text-decoration:none}a:hover{color:#d4af63}
+button{font-family:inherit;cursor:pointer}
+input::placeholder{color:#9daac0}
+</style>
+</helmet>
+<div style="background: #0c1424; color: #edeae0; font-family: 'Onest', system-ui, sans-serif; font-size: 15px; line-height: 1.45; min-height: 100vh; position: relative">
+
+<div style="border-bottom: 1px solid #2c3b58; background: #080e1a">
+<div style="max-width: 1280px; margin: 0 auto; padding: 9px 24px; display: flex; flex-wrap: wrap; gap: 8px 32px; font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #9daac0">
+<span>Ways to invest <span style="color: #edeae0">77</span></span>
+<span>Assets tracked <span style="color: #edeae0">48,210</span></span>
+<span>Price sources <span style="color: #edeae0">63</span></span>
+<span>Volume tracked, 24h <span style="color: #edeae0">$412B</span></span>
+</div>
+</div>
+
+<header style="max-width: 1280px; margin: 0 auto; padding: 18px 24px; display: flex; flex-wrap: wrap; align-items: center; gap: 16px 36px; position: relative">
+<a href="#" style="display: flex; align-items: center; gap: 10px; font-family: 'Unbounded', sans-serif; font-weight: 700; font-size: 18px; color: #edeae0">
+<span style="width: 30px; height: 30px; border-radius: 8px; background: #d4af63; display: flex; align-items: flex-end; justify-content: center; gap: 3px; padding: 6px; box-sizing: border-box" aria-hidden="true">
+<span style="width: 4px; height: 7px; background: #0c1424; border-radius: 1px"></span>
+<span style="width: 4px; height: 12px; background: #0c1424; border-radius: 1px"></span>
+<span style="width: 4px; height: 18px; background: #0c1424; border-radius: 1px"></span>
+</span>
+wyndton
+</a>
+<nav style="display: flex; flex-wrap: wrap; gap: 6px 26px; font-weight: 500; flex-grow: 1">
+<a href="Map-v2.dc.html" style="color: #d4af63">All ways to invest</a>
+<a href="#rating">Rankings</a>
+<a href="Compare-v2.dc.html">Compare</a>
+<a href="#research">Research</a>
+<a href="#">API</a>
+</nav>
+<button style="height: 44px; padding: 0 18px; border-radius: 10px; border: 1px solid #2c3b58; background: #131d31; color: #edeae0; font-size: 15px; font-weight: 500">Watchlist</button>
+</header>
+
+<section style="max-width: 1280px; margin: 0 auto; padding: 40px 24px 56px; display: flex; flex-wrap: wrap; gap: 40px; align-items: stretch; position: relative">
+<div style="flex: 1 1 520px; min-width: 0; display: flex; flex-direction: column; gap: 22px; justify-content: center">
+<h1 style="margin: 0; font-family: 'Unbounded', sans-serif; font-weight: 700; font-size: 44px; line-height: 1.12; letter-spacing: -0.01em">Everything you can invest in, <span style="color: #d4af63">from a deposit to a hedge fund</span></h1>
+<p style="margin: 0; font-size: 18px; color: #9daac0; max-width: 560px">Return, risk, volume and the real cost of getting out, measured the same way for stocks, crypto, funds, property, businesses and collectibles.</p>
+</div>
+
+<div style="flex: 1 1 460px; min-width: 0; background: #131d31; border: 1px solid #2c3b58; border-radius: 20px; padding: 28px; display: flex; flex-direction: column; gap: 16px; position: relative">
+<div style="display: flex; justify-content: space-between; align-items: baseline; gap: 12px">
+<span style="font-size: 13px; color: #9daac0; text-transform: uppercase; letter-spacing: 0.08em">Popular picks · average per year</span>
+<div style="display: flex; gap: 6px">
+<sc-for list="{{perTabs}}" as="p" hint-placeholder-count="3">
+<button onClick="{{p.pick}}" aria-pressed="{{p.on}}" style="height: 32px; padding: 0 12px; border-radius: 8px; font-family: 'JetBrains Mono', monospace; font-size: 13px; background: {{p.bg}}; color: {{p.fg}}; border: 1px solid {{p.bd}}">{{p.label}}</button>
+</sc-for>
+</div>
+</div>
+<div style="display: grid; grid-template-columns: 150px minmax(0, 1fr) 62px 62px; gap: 12px; font-size: 11px; text-transform: uppercase; letter-spacing: 0.07em; color: #9daac0">
+<span>Asset</span><span>Return</span><span style="text-align: right">per year</span><span style="text-align: right">Swing</span>
+</div>
+<div style="display: flex; flex-direction: column; gap: 10px">
+<sc-for list="{{race}}" as="c" hint-placeholder-count="9">
+<div style="display: grid; grid-template-columns: 150px minmax(0, 1fr) 62px 62px; gap: 12px; align-items: center">
+<a href="Asset-v2.dc.html" style="font-size: 14px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">{{c.name}}</a>
+<div style="height: 18px; border-radius: 5px; background: #1d2a44" aria-hidden="true"><div style="height: 18px; border-radius: 5px; width: {{c.w}}; background: {{c.c}}"></div></div>
+<span style="font-family: 'JetBrains Mono', monospace; font-size: 13px; text-align: right; color: {{c.c}}">{{c.v}}</span>
+<span style="font-family: 'JetBrains Mono', monospace; font-size: 13px; text-align: right; color: #9daac0">{{c.vol}}</span>
+</div>
+</sc-for>
+</div>
+</div>
+</section>
+
+<section id="classes" style="max-width: 1280px; margin: 0 auto; padding: 0 24px 64px; display: flex; flex-direction: column; gap: 24px">
+<div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 12px">
+<h2 style="margin: 0; font-family: 'Unbounded', sans-serif; font-weight: 700; font-size: 28px">Popular groups</h2>
+<a href="Map-v2.dc.html" style="color: #d4af63; font-weight: 500">All 12 groups, 77 ways →</a>
+</div>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(270px, 1fr)); gap: 16px">
+<sc-for list="{{groups}}" as="k" hint-placeholder-count="8">
+<a href="Map-v2.dc.html" style="background: #131d31; border: 1px solid #2c3b58; border-radius: 18px; padding: 16px; display: flex; flex-direction: column; gap: 14px">
+<sc-if value="{{k.hasImg}}" hint-placeholder-val="{{true}}"><img src="{{k.img}}" alt="" style="width: 100%; height: 140px; object-fit: cover; object-position: {{k.pos}}; border-radius: 12px; display: block"></sc-if>
+<sc-if value="{{k.noImg}}" hint-placeholder-val="{{false}}"><div style="height: 140px; border-radius: 12px; border: 1px dashed #2c3b58; background: #1d2a44; color: #9daac0; font-size: 13px; display: flex; align-items: center; justify-content: center; text-align: center; padding: 0 16px">{{k.ph}}</div></sc-if>
+<div>
+<div style="display: flex; justify-content: space-between; align-items: baseline; gap: 12px"><span style="font-family: 'Unbounded', sans-serif; font-weight: 500; font-size: 17px; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">{{k.name}}</span><span style="font-family: \'JetBrains Mono\', monospace; font-size: 14px; white-space: nowrap">{{k.price}}</span></div>
+<div style="font-size: 13px; color: #9daac0; margin-top: 4px; line-height: 19px; height: 38px; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical">{{k.tag}}</div>
+</div>
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; margin-top: auto">
+<div style="background: #1d2a44; border-radius: 10px; padding: 9px 12px">
+<div style="font-size: 11px; color: #9daac0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">{{k.rl}}</div>
+<div style="font-family: 'JetBrains Mono', monospace; font-size: 15px; color: {{k.c}}">{{k.y}}</div>
+</div>
+<div style="background: #1d2a44; border-radius: 10px; padding: 9px 12px">
+<div style="font-size: 11px; color: #9daac0">Risk: yearly swing</div>
+<div style="font-family: 'JetBrains Mono', monospace; font-size: 15px">{{k.vol}}</div>
+</div>
+<div style="background: #1d2a44; border-radius: 10px; padding: 9px 12px">
+<div style="font-size: 11px; color: #9daac0">Volume, 30 days</div>
+<div style="font-family: 'JetBrains Mono', monospace; font-size: 15px">{{k.v30}}</div>
+</div>
+<div style="background: #1d2a44; border-radius: 10px; padding: 9px 12px">
+<div style="font-size: 11px; color: #9daac0">Typical time to sell</div>
+<div style="font-family: 'JetBrains Mono', monospace; font-size: 15px">{{k.sell}}</div>
+</div>
+</div>
+<sc-if value="{{k.hasRange}}" hint-placeholder-val="{{true}}"><div style="display: flex; align-items: center; gap: 8px; height: 22px; font-size: 12px; color: #9daac0"><span style="white-space: nowrap">10 years, worst → best</span><span style="margin-left: auto; white-space: nowrap"><span style="font-family: 'JetBrains Mono', monospace; color: {{k.c}}">{{k.worst}}</span> → <span style="font-family: 'JetBrains Mono', monospace; color: {{k.c}}">{{k.best}}</span></span></div></sc-if>
+<sc-if value="{{k.noRange}}" hint-placeholder-val="{{false}}"><div style="height: 22px"></div></sc-if>
+</a>
+</sc-for>
+</div>
+</section>
+
+<section id="rating" style="max-width: 1280px; margin: 0 auto; padding: 0 24px 64px; position: relative">
+<div style="display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-bottom: 14px">
+<span style="font-size: 14px; color: #9daac0; margin-right: 4px">I invest for</span>
+<sc-for list="{{hzTabs}}" as="p" hint-placeholder-count="3">
+<button onClick="{{p.pick}}" aria-pressed="{{p.on}}" style="height: 40px; padding: 0 16px; border-radius: 999px; font-size: 14px; font-weight: 500; background: {{p.bg}}; color: {{p.fg}}; border: 1px solid {{p.bd}}">{{p.label}}</button>
+</sc-for>
+</div>
+<div style="background: #131d31; border: 1px solid #2c3b58; border-radius: 20px; overflow: hidden">
+<div style="padding: 22px 24px; display: flex; flex-wrap: wrap; gap: 14px; align-items: center; justify-content: space-between">
+<h2 style="margin: 0; font-family: 'Unbounded', sans-serif; font-weight: 500; font-size: 20px">Cross-asset rankings</h2>
+<div style="display: flex; flex-wrap: wrap; gap: 8px; position: relative">
+<button onClick="{{toggleMore}}" aria-expanded="{{moreOpen}}" style="height: 40px; padding: 0 16px; border-radius: 999px; font-size: 14px; font-weight: 500; background: {{moreBg}}; color: {{moreFg}}; border: 1px solid {{moreBd}}; display: flex; align-items: center; gap: 6px">{{moreLabel}}<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg></button>
+<sc-if value="{{moreOn}}" hint-placeholder-val="{{false}}">
+<div style="position: absolute; right: 0; top: 48px; z-index: 5; width: 300px; background: #131d31; border: 1px solid #43567a; border-radius: 14px; padding: 8px; display: flex; flex-direction: column; box-shadow: 0 12px 32px rgba(0, 0, 0, 0.45)">
+<sc-for list="{{allGroups}}" as="g" hint-placeholder-count="13">
+<button onClick="{{g.pick}}" style="height: 40px; padding: 0 12px; border-radius: 8px; border: 0; background: {{g.bg}}; color: #edeae0; font-size: 14px; text-align: left; display: flex; justify-content: space-between; align-items: center">{{g.label}}<span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #9daac0">{{g.n}}</span></button>
+</sc-for>
+</div>
+</sc-if>
+</div>
+</div>
+<div style="overflow-x: auto">
+<div style="min-width: 1180px">
+<div style="display: grid; grid-template-columns: 2.5fr 1fr 0.7fr 0.7fr 0.7fr 0.8fr 0.9fr 0.7fr 1.1fr 0.9fr; gap: 12px; padding: 10px 24px; font-size: 11px; text-transform: uppercase; letter-spacing: 0.07em; color: #9daac0; border-top: 1px solid #2c3b58; border-bottom: 1px solid #2c3b58; background: #080e1a">
+<span>Asset</span><span style="text-align: right">Price</span><span style="text-align: right">30 days</span><span style="text-align: right">1 year</span><span style="text-align: right">Swing</span><span style="text-align: right">Worst drop</span><span style="text-align: right">Volume 30d</span><span style="text-align: right">Spread</span><span>Time to sell</span><span style="text-align: right">Min ticket</span>
+</div>
+<sc-for list="{{rows}}" as="r" hint-placeholder-count="10">
+<div style="display: grid; grid-template-columns: 2.5fr 1fr 0.7fr 0.7fr 0.7fr 0.8fr 0.9fr 0.7fr 1.1fr 0.9fr; gap: 12px; padding: 13px 24px; align-items: center; border-bottom: 1px solid #223049; font-family: 'JetBrains Mono', monospace; font-size: 14px">
+<div style="display: flex; align-items: center; gap: 12px; min-width: 0; font-family: 'Onest', sans-serif; font-size: 15px">
+<span style="flex: 0 0 38px; height: 38px; border-radius: 10px; background: {{r.c}}; color: #0c1424; font-family: 'Unbounded', sans-serif; font-weight: 700; font-size: 15px; display: flex; align-items: center; justify-content: center" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0c1424" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{r.icon}}"></path></svg></span>
+<div style="min-width: 0">
+<a href="Asset-v2.dc.html" style="font-weight: 600; display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">{{r.name}}</a>
+<span style="font-size: 13px; color: #9daac0">{{r.cls}}</span>
+</div>
+</div>
+<span style="text-align: right; font-weight: 500">{{r.price}}</span>
+<span style="text-align: right; color: {{r.mc}}">{{r.m}}</span>
+<span style="text-align: right; color: {{r.yc}}">{{r.y}}</span>
+<span style="text-align: right">{{r.vol}}</span>
+<span style="text-align: right; color: #e0896b">{{r.dd}}</span>
+<span style="text-align: right">{{r.v30}}</span>
+<span style="text-align: right; color: #9daac0">{{r.spread}}</span>
+<span style="font-family: 'Onest', sans-serif; font-size: 13px; color: #9daac0; white-space: nowrap">{{r.sell}}</span>
+<span style="text-align: right; color: #9daac0">{{r.min}}</span>
+</div>
+</sc-for>
+<sc-if value="{{noRows}}" hint-placeholder-val="{{false}}"><div style="padding: 28px 24px; color: #9daac0; font-family: 'Onest', sans-serif; font-size: 15px">Assets for this group are coming soon.</div></sc-if>
+</div>
+</div>
+<div style="padding: 16px 24px; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; font-size: 14px">
+<a href="#" style="color: #d4af63; font-weight: 500">Full rankings: 48,210 assets →</a>
+<a href="#" style="color: #9daac0">Download CSV</a>
+</div>
+</div>
+</section>
+
+<section id="news" style="max-width: 1280px; margin: 0 auto; padding: 0 24px 64px; display: flex; flex-direction: column; gap: 16px">
+<div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 12px">
+<h2 style="margin: 0; font-family: 'Unbounded', sans-serif; font-weight: 700; font-size: 28px">News that moves prices</h2>
+<div style="display: flex; gap: 10px; align-items: center"><a href="News-v2.dc.html" style="color: #d4af63; font-weight: 500">All news →</a><button onClick="{{prevNews}}" aria-label="Previous news" style="width: 44px; height: 44px; border-radius: 999px; border: 1px solid #2c3b58; background: #131d31; color: #edeae0; display: flex; align-items: center; justify-content: center; opacity: {{prevOp}}"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 6l-6 6 6 6"></path></svg></button><button onClick="{{nextNews}}" aria-label="Next news" style="width: 44px; height: 44px; border-radius: 999px; border: 1px solid #2c3b58; background: #131d31; color: #edeae0; display: flex; align-items: center; justify-content: center; opacity: {{nextOp}}"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"></path></svg></button></div>
+</div>
+<div style="overflow: hidden"><div style="display: flex; gap: 16px; transform: translateX({{newsX}}); transition: transform 0.35s ease">
+<sc-for list="{{news}}" as="n" hint-placeholder-count="9">
+<a href="News-v2.dc.html" style="flex: 0 0 380px; background: #131d31; border: 1px solid #2c3b58; border-radius: 20px; padding: 22px 24px; display: flex; flex-direction: column; gap: 12px">
+<span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; text-transform: uppercase; letter-spacing: 0.08em; color: #9daac0">{{n.s}}</span>
+<span style="font-family: 'Unbounded', sans-serif; font-weight: 500; font-size: 18px; line-height: 1.3; height: 47px; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical">{{n.t}}</span>
+<span style="font-size: 14px; color: #9daac0; line-height: 20px; height: 60px; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical">{{n.sum}}</span>
+<span style="font-size: 12px; color: #9daac0; margin-top: 4px">May move</span>
+<span style="display: flex; flex-wrap: wrap; gap: 6px">
+<sc-for list="{{n.hits}}" as="h" hint-placeholder-count="2">
+<span style="display: flex; align-items: center; gap: 6px; padding: 5px 10px; border-radius: 999px; background: #1d2a44; font-size: 13px; white-space: nowrap">{{h.k}} <span style="color: {{h.c}}">{{h.d}}</span></span>
+</sc-for>
+</span>
+<span style="font-size: 13px; color: #9daac0; border: 1px dashed #2c3b58; border-radius: 10px; padding: 8px 10px; margin-top: auto">Our take: coming soon</span>
+</a>
+</sc-for>
+</div></div>
+</section>
+
+<section id="research" style="max-width: 1280px; margin: 0 auto; padding: 0 24px 72px; display: flex; flex-direction: column; gap: 24px">
+<div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 12px">
+<h2 style="margin: 0; font-family: 'Unbounded', sans-serif; font-weight: 700; font-size: 28px">Research built on the catalog</h2>
+<a href="#" style="color: #d4af63; font-weight: 500">All research →</a>
+</div>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px">
+<a href="#" style="background: #d4af63; color: #0c1424; border-radius: 20px; padding: 26px; display: flex; flex-direction: column; gap: 40px; min-height: 220px; box-sizing: border-box">
+<span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; text-transform: uppercase; letter-spacing: 0.08em">Head to head · 8 min</span>
+<span style="font-family: 'Unbounded', sans-serif; font-weight: 700; font-size: 22px; line-height: 1.25; margin-top: auto">Pokémon vs the S&amp;P 500: who won the last ten years</span>
+</a>
+<a href="#" style="background: #131d31; border: 1px solid #2c3b58; border-radius: 20px; padding: 26px; display: flex; flex-direction: column; gap: 40px; min-height: 220px; box-sizing: border-box">
+<span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; text-transform: uppercase; letter-spacing: 0.08em; color: #9daac0">Private markets · 9 min</span>
+<span style="font-family: 'Unbounded', sans-serif; font-weight: 500; font-size: 22px; line-height: 1.25; margin-top: auto">Where people with $1M+ actually keep their money</span>
+</a>
+<a href="#" style="background: #131d31; border: 1px solid #2c3b58; border-radius: 20px; padding: 26px; display: flex; flex-direction: column; gap: 40px; min-height: 220px; box-sizing: border-box">
+<span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; text-transform: uppercase; letter-spacing: 0.08em; color: #e0896b">Liquidity · 6 min</span>
+<span style="font-family: 'Unbounded', sans-serif; font-weight: 500; font-size: 22px; line-height: 1.25; margin-top: auto">What selling a watch really costs: fees and waiting time</span>
+</a>
+</div>
+</section>
+
+<footer style="border-top: 1px solid #2c3b58">
+<div style="max-width: 1280px; margin: 0 auto; padding: 28px 24px 40px; display: flex; flex-wrap: wrap; gap: 16px 40px; justify-content: space-between; font-size: 14px; color: #9daac0">
+<span><span style="font-family: 'Unbounded', sans-serif; font-weight: 700; color: #edeae0">wyndton</span> · open investment data</span>
+<nav style="display: flex; flex-wrap: wrap; gap: 8px 24px">
+<a href="#" style="color: #9daac0">Methodology</a>
+<a href="#" style="color: #9daac0">Price sources</a>
+<a href="#" style="color: #9daac0">Suggest an asset</a>
+<a href="#" style="color: #9daac0">API</a>
+</nav>
+<span>Not investment advice</span>
+</div>
+</footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":3800}}'>
+class Component extends DCLogic {
+renderVals() {
+var self = this;
+var UP = '#d4af63', DOWN = '#e0896b';
+var ACCFG = '#0c1424', TEXTC = '#edeae0', LINE = '#43567a';
+var grp = (this.state && this.state.grp) || 'all';
+var col = function (s) { return s.charAt(0) === '−' ? DOWN : UP; };
+var B = '/_blob/';
+var groups = [
+{ name: 'Public markets', tag: 'Stocks, ETFs, bonds, currencies, club shares', price: '10 ways', rl: 'Return / yr · 10 years', y: '+10.9%', worst: '+9.7%', best: '+12.6%', vol: '16%', v30: '$790B', sell: 'seconds', img: B + '1fd97eddb3f8525eb3abf8fa936ce1e0', pos: 'center' },
+{ name: 'Cash and yield', tag: 'Deposits, money market funds, structured notes', price: '3 ways', rl: 'Return / yr · 10 years', y: '+2.3%', worst: '+2.2%', best: '+2.3%', vol: '1%', v30: '$62B', sell: '1 day', img: B + 'c6cb9ee3d5fc1433f7f6a2c341ffcd2a', pos: 'center' },
+{ name: 'Crypto and on-chain', tag: 'Coins, staking, liquidity pools, tokenized Treasuries', price: '9 ways', rl: 'Return / yr · 10 years', y: '+41.4%', worst: '+41.1%', best: '+50.7%', vol: '52%', v30: '$1.2T', sell: 'seconds', img: B + 'be306cc580996710d57c7b035c959175', pos: 'center' },
+{ name: 'Commodities', tag: 'Gold and silver, commodity ETFs, oil, grain', price: '5 ways', rl: 'Return / yr · 10 years', y: '+3.8%', worst: '+2.7%', best: '+6.6%', vol: '33%', v30: '$123B', sell: 'seconds', img: B + '35fd870845ff886d47279955d639df35', pos: 'center' },
+{ name: 'Property and land', tag: 'Homes, commercial property, farmland, forest', price: '7 ways', rl: 'Return / yr · 10 years', y: '+7.1%', worst: '+5.3%', best: '+8.2%', vol: '6%', v30: '$18B', sell: '3–6 months', img: B + '66111644387db702b9f528146e8d5cdc', pos: 'center 45%' },
+{ name: 'Credit and lending', tag: 'P2P loans, private credit, invoice factoring', price: '5 ways', rl: 'Return / yr · 10 years', y: '+9.5%', worst: '+9.5%', best: '+10.7%', vol: '16%', v30: '$2.7B', sell: 'seconds', img: B + '83627d056d55457e76afa066b1c45a02', pos: 'center' },
+{ name: 'Collectibles', tag: 'Watches, art, wine, classic cars, handbags', price: '12 ways', rl: 'Entry', y: 'from $1k', worst: '', best: '', vol: '24%', v30: '$540M', sell: '1–6 weeks', img: B + '05797dd38bb9a3d280bd25aa3426f24c', pos: 'center' },
+{ name: 'Cards, games and digital', tag: 'Trading and player cards, skins, in-game items', price: '6 ways', rl: 'Entry', y: 'from $10', worst: '', best: '', vol: '39%', v30: '$96M', sell: '1–3 days', img: B + '57b7fc0e8f666d6ed1dc30cd3e2913d0', pos: 'center' }
+].map(function (k) {
+var lo = -5, hi = 55, p = function (s) { return parseFloat(s.replace('−', '-')); };
+k.hasRange = !!k.worst; k.noRange = !k.worst;
+if (k.hasRange) { k.l = Math.round((p(k.worst) - lo) / (hi - lo) * 100) + '%'; k.w = Math.max(3, Math.round((p(k.best) - p(k.worst)) / (hi - lo) * 100)) + '%'; }
+k.c = k.y.charAt(0) === '−' ? DOWN : (k.y.charAt(0) === '+' ? UP : 'inherit'); k.hasImg = true; k.noImg = false; return k;
+});
+var per = (this.state && this.state.per) || '10';
+var picks = [
+{ name: 'Apple', r: { '1': 31.2, '5': 19.5, '10': 30.5 }, vol: '27%' },
+{ name: 'S&P 500 ETF', r: { '1': 13.5, '5': 11.5, '10': 15.1 }, vol: '14%' },
+{ name: 'World stocks ETF', r: { '1': 13.4, '5': 9.5, '10': 12.4 }, vol: '13%' },
+{ name: 'Nasdaq-100 ETF', r: { '1': 12.2, '5': 12.2, '10': 20.2 }, vol: '20%' },
+{ name: 'T-bill ETF, 1–3 months', r: { '1': 3.7, '5': 3.8, '10': 2.4 }, vol: '0.1%' },
+{ name: 'US Treasury bond ETF', r: { '1': -1.2, '5': -0.8, '10': 0.9 }, vol: '5%' },
+{ name: 'Gold', r: { '1': -5.5, '5': 15.3, '10': 11.7 }, vol: '19%' },
+{ name: 'Bitcoin', r: { '1': -32.5, '5': -0.6, '10': 56.3 }, vol: '44%' },
+{ name: 'Ether', r: { '1': -43.5, '5': -17.7, '10': null }, vol: '65%' }
+];
+var maxR = Math.max.apply(null, picks.map(function (k) { var v = k.r[per]; return v === null ? 0 : Math.abs(v); }));
+var race = picks.map(function (k) {
+var v = k.r[per];
+if (v === null) { return { name: k.name, v: '—', vol: k.vol, c: UP, w: '0%' }; }
+var neg = v < 0;
+return { name: k.name, v: (neg ? '−' : '+') + Math.abs(v).toFixed(1) + '%', vol: k.vol, c: neg ? DOWN : UP, w: Math.max(3, Math.round(Math.abs(v) / maxR * 100)) + '%' };
+}).sort(function (a, b) { return parseFloat(b.v.replace('−', '-')) - parseFloat(a.v.replace('−', '-')) || 0; });
+var perTabs = [{ id: '1', label: '1Y' }, { id: '5', label: '5Y' }, { id: '10', label: '10Y' }].map(function (p) {
+var on = p.id === per;
+return { label: p.label, on: on ? 'true' : 'false', bg: on ? UP : 'transparent', fg: on ? ACCFG : TEXTC, bd: on ? UP : LINE, pick: function () { self.setState({ per: p.id }); } };
+});
+var hz = (this.state && this.state.hz) || 'long';
+var hzTabs = [{ id: 'short', label: 'Up to 1 year' }, { id: 'mid', label: '1–5 years' }, { id: 'long', label: '5+ years' }].map(function (p) {
+var on = p.id === hz;
+return { label: p.label, on: on ? 'true' : 'false', bg: on ? UP : 'transparent', fg: on ? ACCFG : TEXTC, bd: on ? UP : LINE, pick: function () { self.setState({ hz: p.id }); } };
+});
+var all = [
+{ name: 'S&P 500 ETF', icon: 'M3 17l6-6 4 4 8-8M15 7h6v6', ini: 'S', c: '#4f8dff', cls: 'Public markets · ETF', g: 'public', price: '$612', m: '+1.2%', y: '+14.8%', vol: '16%', dd: '−24%', v30: '$790B', spread: '0.01%', sell: 'seconds', min: '$1' },
+{ name: 'Bitcoin', icon: 'M12 3a9 9 0 1 0 .01 0zM10 8v8M10 8h3a2 2 0 0 1 0 4h-3M10 12h3.5a2 2 0 0 1 0 4H10', ini: 'B', c: '#f7a51c', cls: 'Crypto · coin', g: 'crypto', price: '$98,400', m: '−4.1%', y: '+38.0%', vol: '52%', dd: '−77%', v30: '$1.2T', spread: '0.02%', sell: 'seconds', min: '$1' },
+{ name: 'Staked ETH', icon: 'M12 3l6 9-6 4-6-4zM6 12l6 9 6-9', ini: 'E', c: '#8b7bff', cls: 'Crypto · staking, 3.1% yield', g: 'crypto', price: '$3,420', m: '−2.6%', y: '+21.0%', vol: '58%', dd: '−79%', v30: '$14B', spread: '0.05%', sell: '1–9 days', min: '$10' },
+{ name: 'Global hedge fund index', icon: 'M12 3l8 4v5c0 5-3.5 8-8 9-4.5-1-8-4-8-9V7z', ini: 'H', c: '#2fc28a', cls: 'Public markets · hedge funds', g: 'public', price: '1,482 pts', m: '+0.6%', y: '+8.9%', vol: '7%', dd: '−12%', v30: 'no market', spread: 'n/a', sell: '3 months notice', min: '$250k' },
+{ name: 'Venture fund index', icon: 'M9 18h6M10 21h4M12 3a6 6 0 0 0-3.5 10.9V16h7v-2.1A6 6 0 0 0 12 3z', ini: 'V', c: '#ff6fa8', cls: 'Private markets · venture capital', g: 'funds', price: '2,105 pts', m: '+0.0%', y: '+6.3%', vol: '19%', dd: '−34%', v30: 'no market', spread: 'n/a', sell: '7–10 years', min: '$250k' },
+{ name: 'Lisbon, price per m²', icon: 'M3 11l9-7 9 7M5 10v10h14V10M10 20v-6h4v6', ini: 'L', c: '#22c3b5', cls: 'Property · homes', g: 'property', price: '€5,900', m: '+0.4%', y: '+7.2%', vol: '6%', dd: '−11%', v30: '€410M', spread: '4%', sell: '3–6 months', min: '€150k' },
+{ name: 'US farmland index', icon: 'M12 21V11M12 11c0-4-3-6-7-6 0 4 3 6 7 6zM12 13c0-4 3-6 7-6 0 4-3 6-7 6z', ini: 'F', c: '#6bcf5a', cls: 'Property · farmland', g: 'property', price: '$4,350/acre', m: '+0.2%', y: '+5.1%', vol: '5%', dd: '−9%', v30: '$1.9B', spread: '5%', sell: '6–12 months', min: '$50k' },
+{ name: 'Charizard Base Set, PSA 9', icon: 'M7 3h10a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2zM9 8h6M9 12h6', ini: 'C', c: '#ff8a3d', cls: 'Cards and games · trading cards', g: 'coll', price: '$21,500', m: '+3.4%', y: '+19.0%', vol: '44%', dd: '−52%', v30: '$310k', spread: '8%', sell: '2–6 weeks', min: '$21.5k' },
+{ name: 'Classic car index', icon: 'M5 13l2-5h10l2 5M3 13h18v4H3zM7 17v2M17 17v2', ini: 'K', c: '#f2c230', cls: 'Collectibles · classic cars', g: 'coll', price: '312 pts', m: '−0.4%', y: '+2.2%', vol: '11%', dd: '−18%', v30: '$140M', spread: '10%', sell: '2–4 months', min: '$40k' },
+{ name: 'AK-47 Case Hardened, CS2 skin', icon: 'M6 9h12a4 4 0 0 1 4 4v1a3 3 0 0 1-5.2 2L15 14H9l-1.8 2A3 3 0 0 1 2 14v-1a4 4 0 0 1 4-4zM8 11v3M6.5 12.5h3M16 12h.01M18 13.5h.01', ini: 'A', c: '#a874ff', cls: 'Cards and games · skins', g: 'coll', price: '$1,240', m: '+6.0%', y: '+41.0%', vol: '39%', dd: '−38%', v30: '$2.4M', spread: '5%', sell: '1–3 days', min: '$1.2k' }
+];
+var news = [
+{ t: 'Inflation cools faster than expected', s: 'Economy · 2 h ago', sum: 'Prices rose less than forecast last month. Markets now expect rate cuts sooner, which usually lifts stocks and bonds.', hits: [{ k: 'S&P 500 ETF', d: '▲' }, { k: 'US Treasury bond ETF', d: '▲' }, { k: 'Gold', d: '▲' }] },
+{ t: 'Spot bitcoin funds see a third week of outflows', s: 'Crypto · 4 h ago', sum: 'Investors keep pulling money from bitcoin funds. Selling by funds adds pressure on the price of the coin itself.', hits: [{ k: 'Bitcoin', d: '▼' }, { k: 'Ether', d: '▼' }] },
+{ t: 'Chip export rules tightened again', s: 'Tech · 6 h ago', sum: 'New limits on selling chips abroad hit chipmakers first, then the tech-heavy indexes that hold them.', hits: [{ k: 'Nasdaq-100 ETF', d: '▼' }, { k: 'TSMC', d: '▼' }] },
+{ t: 'Oil jumps as supply cuts are extended', s: 'Commodities · 9 h ago', sum: 'Producers keep output low into next year, so fuel and energy prices stay high.', hits: [{ k: 'Oil fund', d: '▲' }, { k: 'Broad commodities ETF', d: '▲' }] },
+{ t: 'Transfer window opens: rookie card prices climb', s: 'Football · 1 day ago', sum: 'Cards of players linked to big moves rise first, before the deals are even signed.', hits: [{ k: 'Player cards', d: '▲' }, { k: 'Club shares', d: '▲' }] },
+{ t: 'Home prices flat for a third month', s: 'Property · 1 day ago', sum: 'High mortgage rates keep buyers waiting, and listed property funds drift lower.', hits: [{ k: 'US real estate ETF', d: '▼' }] },
+{ t: 'Gold slips as the dollar strengthens', s: 'Commodities · 2 days ago', sum: 'A stronger dollar makes gold dearer for buyers abroad, so demand cools.', hits: [{ k: 'Gold', d: '▼' }] },
+{ t: 'Rare watch auction sets a new record', s: 'Collectibles · 2 days ago', sum: 'One record sale lifts sentiment, but says little about everyday models.', hits: [{ k: 'Watches', d: '▲' }] },
+{ t: 'Money market yields edge lower', s: 'Cash · 3 days ago', sum: 'Cash still pays, but a little less each month as rate cuts get closer.', hits: [{ k: 'Short Treasury ETF', d: '▼' }] }
+].map(function (n) {
+n.hits = n.hits.map(function (h) { return { k: h.k, d: h.d, c: h.d === '▼' ? DOWN : UP }; });
+return n;
+});
+var np = Math.min((this.state && this.state.np) || 0, news.length - 3);
+var newsX = (-np * 396) + 'px';
+var prevNews = function () { self.setState({ np: Math.max(0, np - 1) }); };
+var nextNews = function () { self.setState({ np: Math.min(news.length - 3, np + 1) }); };
+var prevOp = np > 0 ? '1' : '0.35';
+var nextOp = np < news.length - 3 ? '1' : '0.35';
+var SELL = { 'seconds': 0, '1–3 days': 1, '1–9 days': 1, '2–6 weeks': 3, '2–4 months': 4, '3 months notice': 4, '3–6 months': 5, '6–12 months': 6, '7–10 years': 9 };
+var rows = all.filter(function (r) { return grp === 'all' || r.g === grp; }).map(function (r) {
+return Object.assign({}, r, { mc: col(r.m), yc: col(r.y) });
+}).sort(function (a, b) {
+if (hz === 'short') { return (SELL[a.sell] || 0) - (SELL[b.sell] || 0); }
+return parseFloat(b.y.replace('−', '-')) - parseFloat(a.y.replace('−', '-'));
+});
+var moreOpen = !!(this.state && this.state.more);
+var GROUPS_ALL = [['all', 'All groups'], ['public', 'Public markets'], ['cash', 'Cash and yield'], ['credit', 'Credit and lending'], ['commod', 'Commodities'], ['crypto', 'Crypto and on-chain'], ['funds', 'Private markets'], ['property', 'Property and land'], ['infra', 'Infrastructure and energy'], ['biz', 'Businesses'], ['roy', 'Royalties and IP'], ['coll', 'Collectibles'], ['cards', 'Cards, games and digital']];
+var allGroups = GROUPS_ALL.map(function (g) {
+var n = all.filter(function (r) { return g[0] === 'all' || r.g === g[0]; }).length;
+return { label: g[1], n: n ? n + '' : '', bg: g[0] === grp ? '#1d2a44' : 'transparent', pick: function () { self.setState({ grp: g[0], more: false }); } };
+});
+var inPills = ['all', 'public', 'crypto', 'funds', 'property', 'coll'].indexOf(grp) >= 0;
+var moreLabel = 'Group: ' + GROUPS_ALL.filter(function (g) { return g[0] === grp; })[0][1];
+var toggleMore = function () { self.setState({ more: !moreOpen }); };
+var pills = [
+{ id: 'all', label: 'All' },
+{ id: 'public', label: 'Public markets' },
+{ id: 'crypto', label: 'Crypto' },
+{ id: 'funds', label: 'Private markets' },
+{ id: 'property', label: 'Property' },
+{ id: 'coll', label: 'Collectibles, cards and games' }
+].map(function (p) {
+var on = p.id === grp;
+return { label: p.label, on: on ? 'true' : 'false', bg: on ? UP : 'transparent', fg: on ? '#0c1424' : '#edeae0', bd: on ? UP : '#43567a', pick: function () { self.setState({ grp: p.id }); } };
+});
+return { race: race, moreOpen: moreOpen ? 'true' : 'false', moreOn: moreOpen, allGroups: allGroups, toggleMore: toggleMore, moreLabel: moreLabel, moreBg: 'transparent', moreFg: '#edeae0', moreBd: '#43567a', noRows: rows.length === 0, perTabs: perTabs, hzTabs: hzTabs, groups: groups, rows: rows, pills: pills, news: news, newsX: newsX, prevNews: prevNews, nextNews: nextNews, prevOp: prevOp, nextOp: nextOp };
+}
+}
+</script>
+</body>
+</html>

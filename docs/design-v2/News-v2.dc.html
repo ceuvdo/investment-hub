@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Wyndton: news story</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Onest:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#0c1424}
+a{color:#edeae0;text-decoration:none}a:hover{color:#d4af63}
+button{font-family:inherit;cursor:pointer}
+</style>
+</helmet>
+<div style="background: #0c1424; color: #edeae0; font-family: 'Onest', system-ui, sans-serif; font-size: 15px; line-height: 1.5; min-height: 100vh">
+
+<header style="border-bottom: 1px solid #2c3b58">
+<div style="max-width: 1280px; margin: 0 auto; padding: 18px 24px; display: flex; flex-wrap: wrap; align-items: center; gap: 16px 36px">
+<a href="Main-v2.dc.html" style="display: flex; align-items: center; gap: 10px; font-family: 'Unbounded', sans-serif; font-weight: 700; font-size: 18px; color: #edeae0">
+<span style="width: 30px; height: 30px; border-radius: 8px; background: #d4af63; display: flex; align-items: flex-end; justify-content: center; gap: 3px; padding: 6px; box-sizing: border-box" aria-hidden="true">
+<span style="width: 4px; height: 7px; background: #0c1424; border-radius: 1px"></span>
+<span style="width: 4px; height: 12px; background: #0c1424; border-radius: 1px"></span>
+<span style="width: 4px; height: 18px; background: #0c1424; border-radius: 1px"></span>
+</span>
+wyndton
+</a>
+<nav style="display: flex; flex-wrap: wrap; gap: 6px 26px; font-weight: 500; flex-grow: 1">
+<a href="Map-v2.dc.html">All ways to invest</a>
+<a href="Main-v2.dc.html">Rankings</a>
+<a href="Compare-v2.dc.html">Compare</a>
+<a href="News-v2.dc.html" style="color: #d4af63">News</a>
+<a href="#">Research</a>
+</nav>
+<button style="height: 44px; padding: 0 18px; border-radius: 10px; border: 1px solid #2c3b58; background: #131d31; color: #edeae0; font-size: 15px; font-weight: 500">Watchlist</button>
+</div>
+</header>
+
+<div style="max-width: 1280px; margin: 0 auto; padding: 20px 24px 0; font-size: 13px; color: #9daac0">
+<a href="Main-v2.dc.html" style="color: #9daac0">Home</a> / <a href="#" style="color: #9daac0">News</a> / <span style="color: #edeae0">Economy</span>
+</div>
+
+<section style="max-width: 1280px; margin: 0 auto; padding: 24px 24px 72px; display: flex; flex-wrap: wrap; gap: 32px; align-items: flex-start">
+<article style="flex: 999 1 640px; min-width: 0; display: flex; flex-direction: column; gap: 20px">
+<span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; text-transform: uppercase; letter-spacing: 0.08em; color: #9daac0">Economy · 2 h ago · example story</span>
+<h1 style="margin: 0; font-family: 'Unbounded', sans-serif; font-weight: 700; font-size: 38px; line-height: 1.15">Inflation cools faster than expected</h1>
+<p style="margin: 0; font-size: 19px; color: #9daac0; max-width: 720px">Prices rose less than forecast last month. Markets now expect rate cuts sooner, which usually lifts stocks and bonds.</p>
+
+<div style="background: #131d31; border: 1px solid #2c3b58; border-radius: 20px; padding: 22px 24px; display: flex; flex-direction: column; gap: 12px">
+<h2 style="margin: 0; font-family: 'Unbounded', sans-serif; font-weight: 500; font-size: 17px">In short</h2>
+<ul style="margin: 0; padding-left: 18px; display: flex; flex-direction: column; gap: 8px">
+<li>[KEY FACT 1: the number that came out and what was expected]</li>
+<li>[KEY FACT 2: what the central bank said or is expected to do]</li>
+<li>[KEY FACT 3: how markets reacted in the first hours]</li>
+</ul>
+<span style="font-size: 13px; color: #9daac0">Source: [SOURCE NAME, LINK]</span>
+</div>
+
+<div style="background: #131d31; border: 1px solid #2c3b58; border-radius: 20px; overflow: hidden">
+<div style="padding: 20px 24px"><h2 style="margin: 0; font-family: 'Unbounded', sans-serif; font-weight: 500; font-size: 17px">What it may move</h2></div>
+<div style="overflow-x: auto">
+<div style="min-width: 640px">
+<div style="display: grid; grid-template-columns: 2fr 1fr 1fr 1fr 1fr; gap: 12px; padding: 10px 24px; font-size: 11px; text-transform: uppercase; letter-spacing: 0.07em; color: #9daac0; border-top: 1px solid #2c3b58; border-bottom: 1px solid #2c3b58; background: #080e1a">
+<span>Asset</span><span style="text-align: right">Price</span><span style="text-align: right">30 days</span><span style="text-align: right">1 year</span><span style="text-align: right">Direction</span>
+</div>
+<sc-for list="{{hits}}" as="h" hint-placeholder-count="3">
+<div style="display: grid; grid-template-columns: 2fr 1fr 1fr 1fr 1fr; gap: 12px; padding: 13px 24px; align-items: center; border-bottom: 1px solid #223049; font-family: 'JetBrains Mono', monospace; font-size: 14px">
+<a href="Asset-v2.dc.html" style="font-family: 'Onest', sans-serif; font-weight: 600; font-size: 15px">{{h.name}}</a>
+<span style="text-align: right">{{h.price}}</span>
+<span style="text-align: right; color: {{h.mc}}">{{h.m}}</span>
+<span style="text-align: right; color: {{h.yc}}">{{h.y}}</span>
+<span style="text-align: right; color: {{h.dc}}">{{h.d}}</span>
+</div>
+</sc-for>
+</div>
+</div>
+<div style="padding: 12px 24px; font-size: 12px; color: #9daac0">Prices: Yahoo Finance, 13 Nov 2026. Direction is what this kind of news has usually done, not a forecast.</div>
+</div>
+
+<div style="border: 1px dashed #43567a; border-radius: 20px; padding: 22px 24px; display: flex; flex-direction: column; gap: 8px">
+<h2 style="margin: 0; font-family: 'Unbounded', sans-serif; font-weight: 500; font-size: 17px">Our take</h2>
+<span style="color: #9daac0">Coming soon: a short read on what this changes, for whom, and how sure we are.</span>
+</div>
+</article>
+
+<aside style="flex: 1 1 320px; min-width: 0; display: flex; flex-direction: column; gap: 12px">
+<h2 style="margin: 0; font-family: 'Unbounded', sans-serif; font-weight: 500; font-size: 17px">More news</h2>
+<sc-for list="{{more}}" as="n" hint-placeholder-count="5">
+<a href="News-v2.dc.html" style="background: #131d31; border: 1px solid #2c3b58; border-radius: 16px; padding: 14px 16px; display: flex; flex-direction: column; gap: 4px">
+<span style="font-size: 12px; color: #9daac0">{{n.s}}</span>
+<span style="font-weight: 600; line-height: 1.3">{{n.t}}</span>
+</a>
+</sc-for>
+</aside>
+</section>
+
+<footer style="border-top: 1px solid #2c3b58">
+<div style="max-width: 1280px; margin: 0 auto; padding: 28px 24px 40px; display: flex; flex-wrap: wrap; gap: 16px 40px; justify-content: space-between; font-size: 14px; color: #9daac0">
+<span><span style="font-family: 'Unbounded', sans-serif; font-weight: 700; color: #edeae0">wyndton</span> · example story</span>
+<span>Not investment advice</span>
+</div>
+</footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1700}}'>
+class Component extends DCLogic {
+renderVals() {
+var UP = '#d4af63', DOWN = '#e0896b';
+var col = function (s) { return s.charAt(0) === '−' || s === '▼' ? DOWN : UP; };
+var hits = [
+{ name: 'S&P 500 ETF (SPY)', price: '$754.37', m: '−2.0%', y: '+13.5%', d: '▲' },
+{ name: 'US Treasury bond ETF', price: '$21.98', m: '[30D]', y: '−1.2%', d: '▲' },
+{ name: 'Gold (GLD)', price: '$355.45', m: '−5.5%', y: '−5.5%', d: '▲' }
+].map(function (h) { h.mc = col(h.m); h.yc = col(h.y); h.dc = col(h.d); return h; });
+var more = [
+{ t: 'Spot bitcoin funds see a third week of outflows', s: 'Crypto · 4 h ago' },
+{ t: 'Chip export rules tightened again', s: 'Tech · 6 h ago' },
+{ t: 'Oil jumps as supply cuts are extended', s: 'Commodities · 9 h ago' },
+{ t: 'Transfer window opens: rookie card prices climb', s: 'Football · 1 day ago' },
+{ t: 'Home prices flat for a third month', s: 'Property · 1 day ago' }
+];
+return { hits: hits, more: more };
+}
+}
+</script>
+</body>
+</html>

@@ -1,6 +1,8 @@
-# Investment hub
+# Wyndton: investment hub
 
-A free, independent catalog of 64 ways to invest. Every number has a source and a date. Crypto and currency prices are live.
+**[Open the live site → investment-hub.ceuvdo.workers.dev](https://investment-hub.ceuvdo.workers.dev)**
+
+A free, independent catalog of 77 ways to invest in 12 groups. Every number has a source and a date. Crypto and currency prices are live, and real headlines link to the publishers. Risk, liquidity and entry ratings are computed from data.
 
 - **Site:** https://investment-hub.ceuvdo.workers.dev (static HTML, CSS and JS on Cloudflare)
 - **Live relay:** https://investment-hub-live.ceuvdo.workers.dev (Cloudflare Worker + Durable Object)
@@ -71,7 +73,7 @@ relay\deploy-relay.ps1
 
 ## Safety nets
 
-- **Validation before publishing.** A build is published only if it has all 64 ways and at least 90% of the previous asset count, contains no impossible prices or returns, has no more than 20% of market assets older than a week, and every research link is `https`. Otherwise the old site stays online and `/api/status` explains why.
+- **Validation before publishing.** A build is published only if it has all 77 ways and at least 90% of the previous asset count, contains no impossible prices or returns, has no more than 20% of market assets older than a week, and every research link is `https`. Otherwise the old site stays online and `/api/status` explains why.
 - **Code and data are published separately.** The site's code is published from the last git commit, and only the freshly built data comes from the working folder.
 - **Missed builds catch up.** If the PC was off at 09:00, the build runs at the next startup.
 - **Nightly backup** to `E:ackups\hub` at 03:30, keeping 14 days. This is the same disk; an off-site copy is still on the to-do list.

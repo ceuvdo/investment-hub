@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Wyndton: every way to invest</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Onest:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#0c1424}
+a{color:#edeae0;text-decoration:none}a:hover{color:#d4af63}
+button{font-family:inherit;cursor:pointer}
+</style>
+</helmet>
+<div style="background: #0c1424; color: #edeae0; font-family: 'Onest', system-ui, sans-serif; font-size: 15px; line-height: 1.45; min-height: 100vh">
+
+<header style="border-bottom: 1px solid #2c3b58">
+<div style="max-width: 1280px; margin: 0 auto; padding: 18px 24px; display: flex; flex-wrap: wrap; align-items: center; gap: 16px 36px">
+<a href="Main-v2.dc.html" style="display: flex; align-items: center; gap: 10px; font-family: 'Unbounded', sans-serif; font-weight: 700; font-size: 18px; color: #edeae0">
+<span style="width: 30px; height: 30px; border-radius: 8px; background: #d4af63; display: flex; align-items: flex-end; justify-content: center; gap: 3px; padding: 6px; box-sizing: border-box" aria-hidden="true">
+<span style="width: 4px; height: 7px; background: #0c1424; border-radius: 1px"></span>
+<span style="width: 4px; height: 12px; background: #0c1424; border-radius: 1px"></span>
+<span style="width: 4px; height: 18px; background: #0c1424; border-radius: 1px"></span>
+</span>
+wyndton
+</a>
+<nav style="display: flex; flex-wrap: wrap; gap: 6px 26px; font-weight: 500; flex-grow: 1">
+<a href="Map-v2.dc.html" style="color: #d4af63">All ways to invest</a>
+<a href="Main-v2.dc.html">Rankings</a>
+<a href="Compare-v2.dc.html">Compare</a>
+<a href="#">Research</a>
+<a href="#">API</a>
+</nav>
+<button style="height: 44px; padding: 0 18px; border-radius: 10px; border: 1px solid #2c3b58; background: #131d31; color: #edeae0; font-size: 15px; font-weight: 500">Watchlist</button>
+</div>
+</header>
+
+<section style="max-width: 1280px; margin: 0 auto; padding: 44px 24px 28px; display: flex; flex-direction: column; gap: 20px">
+<h1 style="margin: 0; font-family: 'Unbounded', sans-serif; font-weight: 700; font-size: 44px; line-height: 1.12; max-width: 900px">Every way to invest, <span style="color: #d4af63">on one map</span></h1>
+<p style="margin: 0; color: #9daac0; font-size: 18px; max-width: 720px">From a savings account to a hedge fund seat. Each entry shows what it takes to get in and how hard it is to get out. Pick your budget to see what is open to you.</p>
+<div style="display: flex; flex-wrap: wrap; gap: 8px; align-items: center">
+<label style="display: flex; align-items: center; gap: 8px; height: 44px; padding: 0 14px; border-radius: 999px; border: 1px solid #43567a; font-size: 14px; color: #9daac0">I can put in <input type="text" inputmode="numeric" placeholder="$ amount" style="width: 110px; background: transparent; border: 0; outline: 0; color: #edeae0; font-family: \'JetBrains Mono\', monospace; font-size: 14px"></label>
+<sc-for list="{{pills}}" as="p" hint-placeholder-count="5">
+<button onClick="{{p.pick}}" aria-pressed="{{p.on}}" style="height: 44px; padding: 0 18px; border-radius: 999px; font-size: 14px; font-weight: 500; background: {{p.bg}}; color: {{p.fg}}; border: 1px solid {{p.bd}}">{{p.label}}</button>
+</sc-for>
+<span style="margin-left: auto; font-family: 'JetBrains Mono', monospace; font-size: 13px; color: #9daac0">{{shown}} of {{total}} open to you</span>
+</div>
+</section>
+
+<section style="max-width: 1280px; margin: 0 auto; padding: 0 24px 72px; display: flex; flex-direction: column; gap: 36px">
+<sc-for list="{{groups}}" as="g" hint-placeholder-count="12">
+<div style="display: flex; flex-direction: column; gap: 14px">
+<div style="display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px 14px; border-bottom: 1px solid #2c3b58; padding-bottom: 10px">
+<h2 style="margin: 0; font-family: 'Unbounded', sans-serif; font-weight: 500; font-size: 20px">{{g.name}}</h2>
+<span style="font-family: 'JetBrains Mono', monospace; font-size: 13px; color: #d4af63">{{g.count}}</span>
+<span style="color: #9daac0; font-size: 14px">{{g.note}}</span>
+</div>
+<div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(228px, 1fr)); gap: 10px">
+<sc-for list="{{g.items}}" as="i" hint-placeholder-count="6">
+<a href="Class-v2.dc.html" style="background: #131d31; border: 1px solid #2c3b58; border-radius: 14px; padding: 14px 16px; display: flex; flex-direction: column; gap: 10px; min-height: 44px">
+<span style="font-weight: 600; line-height: 1.25">{{i.name}}</span>
+<span style="font-size: 12px; color: {{i.rc}}">{{i.risk}}</span>
+<span style="display: flex; justify-content: space-between; align-items: center; gap: 10px; font-size: 12px; color: #9daac0">
+<span style="font-family: 'JetBrains Mono', monospace; color: #edeae0">{{i.entry}}</span>
+<span style="display: flex; align-items: center; gap: 6px">exit
+<span style="width: 44px; height: 6px; border-radius: 3px; background: #1d2a44; display: block" aria-hidden="true"><span style="display: block; height: 6px; border-radius: 3px; width: {{i.lw}}; background: #edeae0"></span></span>
+<span style="font-family: 'JetBrains Mono', monospace">{{i.l}}/5</span>
+</span>
+</span>
+</a>
+</sc-for>
+</div>
+</div>
+</sc-for>
+</section>
+
+<footer style="border-top: 1px solid #2c3b58">
+<div style="max-width: 1280px; margin: 0 auto; padding: 28px 24px 40px; display: flex; flex-wrap: wrap; gap: 16px 40px; justify-content: space-between; font-size: 14px; color: #9daac0">
+<span><span style="font-family: 'Unbounded', sans-serif; font-weight: 700; color: #edeae0">wyndton</span> · entry sizes and exit scores are illustrative</span>
+<span>Not investment advice</span>
+</div>
+</footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":3200}}'>
+class Component extends DCLogic {
+renderVals() {
+var self = this;
+var ACC = '#d4af63';
+var budget = (this.state && this.state.budget) || 5;
+var ENTRY = { 1: 'from $10', 2: 'from $1k', 3: 'from $25k', 4: 'from $250k' };
+var raw = [
+['Public markets', 'Exchanges, brokers and the funds that trade there', [
+['Stocks', 1, 5], ['ETFs and index funds', 1, 5], ['Government bonds', 1, 5], ['Corporate bonds', 2, 4], ['Options and futures', 2, 5], ['Currencies', 1, 5], ['Listed real estate funds', 1, 5], ['Football club shares', 1, 5], ['Hedge funds', 4, 2], ['Market-making and quant funds', 4, 2]
+]],
+['Cash and yield', 'Low risk, paid for waiting', [
+['Savings and deposits', 1, 5], ['Money market funds', 1, 5], ['Structured notes', 3, 2]
+]],
+['Credit and lending', 'You lend, they pay interest', [
+['Peer-to-peer lending', 1, 2], ['Private loans to businesses', 3, 1], ['Private credit funds', 3, 2], ['Invoice factoring', 3, 1], ['Revenue-based financing', 2, 1]
+]],
+['Commodities', 'Raw materials, priced every day', [
+['Gold and silver bullion', 1, 4], ['Commodity ETFs', 1, 5], ['Oil and gas futures', 2, 5], ['Grain and soft commodity futures', 2, 5], ['Carbon credits', 2, 3]
+]],
+['Crypto and on-chain', 'Open around the clock', [
+['Coins and tokens', 1, 5], ['Staking', 1, 4], ['Lending and liquidity pools', 1, 4], ['Market-making vaults', 2, 3], ['Prediction markets', 1, 4], ['NFTs', 1, 2], ['Fan tokens', 1, 4], ['Node and validator ownership', 3, 2], ['Tokenized Treasuries and real assets', 1, 4]
+]],
+['Private markets', 'Where most large fortunes sit', [
+['Venture capital funds', 4, 1], ['Angel deals in startups', 3, 1], ['Private equity', 4, 1], ['Pre-IPO shares', 3, 2], ['Funds of funds', 4, 1], ['Equity crowdfunding', 1, 1]
+]],
+['Property and land', 'Slow to sell, easy to borrow against', [
+['Apartments and houses', 3, 1], ['Rental property shares', 1, 2], ['Commercial property', 4, 1], ['Farmland', 3, 1], ['Forest and timber', 4, 1], ['Parking and storage units', 3, 1], ['Property development projects', 3, 1]
+]],
+['Infrastructure and energy', 'Roads, grids and power plants that earn for decades', [
+['Infrastructure company shares', 1, 5], ['Infrastructure ETFs', 1, 5], ['Clean energy ETFs', 1, 5], ['Community solar and wind projects', 2, 1]
+]],
+['Businesses', 'You buy the cash flow, sometimes the job', [
+['Buying a small business', 4, 1], ['Franchises', 3, 1], ['Websites and online stores', 2, 2], ['Domains', 1, 2], ['Vending and laundromats', 3, 1]
+]],
+['Royalties and IP', 'Paid each time a song plays or a patent is used', [
+['Music royalties', 2, 2], ['Book rights', 2, 1], ['Film and TV financing', 3, 1], ['Patent licensing', 3, 1], ['Athlete income deals', 3, 1]
+]],
+['Collectibles', 'Scarce things people want to own', [
+['Watches', 2, 3], ['Sneakers', 1, 3], ['Art', 2, 1], ['Wine and whisky', 2, 2], ['Classic cars', 3, 1], ['LEGO sets', 1, 2], ['Coins and banknotes', 1, 2], ['Comics', 1, 2], ['Handbags', 2, 3], ['Jewellery and gemstones', 2, 1], ['Match-worn shirts and memorabilia', 2, 1], ['Racehorse shares', 2, 1]
+]],
+['Cards, games and digital', 'Cards, skins and items that trade online', [
+['Trading cards', 1, 2], ['Player cards', 1, 2], ['Skins and cases', 1, 3], ['In-game currencies', 1, 3], ['Game accounts and rare items', 1, 2], ['Virtual land', 1, 1]
+]]
+];
+var LOW = ['ETFs and index funds', 'Government bonds', 'Corporate bonds', 'Savings and deposits', 'Money market funds', 'Listed real estate funds', 'Gold and silver bullion', 'Commodity ETFs', 'Apartments and houses', 'Rental property shares', 'Commercial property', 'Farmland', 'Forest and timber'];
+var HIGH = ['Options and futures', 'Currencies', 'Coins and tokens', 'Lending and liquidity pools', 'Market-making vaults', 'Prediction markets', 'NFTs', 'Fan tokens', 'Node and validator ownership', 'Venture capital funds', 'Angel deals in startups', 'Pre-IPO shares', 'Equity crowdfunding', 'Peer-to-peer lending', 'Property development projects', 'Domains', 'Revenue-share deals', 'Trading cards', 'Sneakers', 'Skins and cases', 'In-game currencies', 'Game accounts and rare items', 'Virtual land', 'Player cards', 'Racehorse shares', 'Athlete income deals', 'Oil and gas futures', 'Grain and soft commodity futures', 'Carbon credits', 'Film and TV financing', 'Revenue-based financing'];
+var total = 0, shown = 0;
+var groups = raw.map(function (g) {
+total += g[2].length;
+var items = g[2].filter(function (i) { return budget === 5 || i[1] <= ({ 1: 1, 2: 2, 3: 2, 4: 3 })[budget]; }).map(function (i) {
+var rk = LOW.indexOf(i[0]) >= 0 ? 'low risk' : (HIGH.indexOf(i[0]) >= 0 ? 'high risk' : 'medium risk');
+return { name: i[0], entry: ENTRY[i[1]], l: i[2], lw: (i[2] * 20) + '%', risk: rk, rc: rk === 'high risk' ? '#e0896b' : '#9daac0' };
+});
+shown += items.length;
+return { name: g[0], note: g[1], items: items, count: items.length + ' of ' + g[2].length };
+});
+var pills = [
+{ id: 1, label: '$100' }, { id: 2, label: '$1,000' }, { id: 3, label: '$10,000' }, { id: 4, label: '$50,000+' }, { id: 5, label: 'Show everything' }
+].map(function (p) {
+var on = p.id === budget;
+return { label: p.label, on: on ? 'true' : 'false', bg: on ? ACC : 'transparent', fg: on ? '#0c1424' : '#edeae0', bd: on ? ACC : '#43567a', pick: function () { self.setState({ budget: p.id }); } };
+});
+return { groups: groups, pills: pills, total: total, shown: shown };
+}
+}
+</script>
+</body>
+</html>

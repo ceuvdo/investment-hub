@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Wyndton: mobile home</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Onest:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#0c1424}
+a{color:#edeae0;text-decoration:none}a:hover{color:#d4af63}
+button{font-family:inherit;cursor:pointer}
+input::placeholder{color:#9daac0}
+</style>
+</helmet>
+<div style="width: 390px; height: 844px; box-sizing: border-box; position: relative; overflow: hidden; background: #0c1424; color: #edeae0; font-family: 'Onest', system-ui, sans-serif; font-size: 15px; line-height: 1.4; display: flex; flex-direction: column">
+
+<header style="padding: 14px 16px 10px; display: flex; align-items: center; justify-content: space-between">
+<a href="#" style="display: flex; align-items: center; gap: 9px; font-family: 'Unbounded', sans-serif; font-weight: 700; font-size: 16px; color: #edeae0">
+<span style="width: 28px; height: 28px; border-radius: 8px; background: #d4af63; display: flex; align-items: flex-end; justify-content: center; gap: 3px; padding: 6px; box-sizing: border-box" aria-hidden="true">
+<span style="width: 3px; height: 6px; background: #0c1424; border-radius: 1px"></span>
+<span style="width: 3px; height: 11px; background: #0c1424; border-radius: 1px"></span>
+<span style="width: 3px; height: 16px; background: #0c1424; border-radius: 1px"></span>
+</span>
+wyndton
+</a>
+<button aria-label="Menu" style="width: 44px; height: 44px; border-radius: 12px; border: 1px solid #2c3b58; background: #131d31; display: flex; align-items: center; justify-content: center">
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#edeae0" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"></path></svg>
+</button>
+</header>
+
+<div style="padding: 0 16px; display: flex; flex-direction: column; gap: 12px">
+<label style="display: flex; align-items: center; gap: 10px; height: 50px; padding: 0 14px; border-radius: 14px; background: #131d31; border: 1px solid #43567a">
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#9daac0" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="M20 20l-3.5-3.5"></path></svg>
+<span style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0)">Search the catalog</span>
+<input type="search" placeholder="Ticker, fund, card, skin, city" style="flex: 1 1 auto; min-width: 0; background: transparent; border: 0; outline: 0; color: #edeae0; font-family: inherit; font-size: 15px">
+</label>
+
+<div style="display: flex; align-items: center; gap: 6px">
+<span style="font-size: 12px; color: #9daac0; margin-right: 2px">I have</span>
+<a href="Map-v2.dc.html" style="flex: 1 1 0; height: 44px; border-radius: 999px; border: 1px solid #43567a; display: flex; align-items: center; justify-content: center; font-family: 'JetBrains Mono', monospace; font-size: 13px">$100</a>
+<a href="Map-v2.dc.html" style="flex: 1 1 0; height: 44px; border-radius: 999px; border: 1px solid #d4af63; background: #d4af63; color: #0c1424; display: flex; align-items: center; justify-content: center; font-family: 'JetBrains Mono', monospace; font-size: 13px; font-weight: 500">$1k</a>
+<a href="Map-v2.dc.html" style="flex: 1 1 0; height: 44px; border-radius: 999px; border: 1px solid #43567a; display: flex; align-items: center; justify-content: center; font-family: 'JetBrains Mono', monospace; font-size: 13px">$10k</a>
+<a href="Map-v2.dc.html" style="flex: 1 1 0; height: 44px; border-radius: 999px; border: 1px solid #43567a; display: flex; align-items: center; justify-content: center; font-family: 'JetBrains Mono', monospace; font-size: 13px">$50k+</a>
+</div>
+
+<div style="background: #131d31; border: 1px solid #2c3b58; border-radius: 18px; padding: 14px 16px; display: flex; flex-direction: column; gap: 9px">
+<div style="display: grid; grid-template-columns: 112px minmax(0, 1fr) 54px 40px; gap: 8px; font-size: 10px; text-transform: uppercase; letter-spacing: 0.07em; color: #9daac0">
+<span>Popular</span><span>Return</span><span style="text-align: right">1 year</span><span style="text-align: right">Swing</span>
+</div>
+<sc-for list="{{race}}" as="c" hint-placeholder-count="5">
+<div style="display: grid; grid-template-columns: 112px minmax(0, 1fr) 54px 40px; gap: 8px; align-items: center">
+<span style="font-size: 13px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">{{c.name}}</span>
+<div style="height: 14px; border-radius: 4px; background: #1d2a44" aria-hidden="true"><div style="height: 14px; border-radius: 4px; width: {{c.w}}; background: {{c.c}}"></div></div>
+<span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; text-align: right; color: {{c.c}}">{{c.v}}</span>
+<span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; text-align: right; color: #9daac0">{{c.vol}}</span>
+</div>
+</sc-for>
+<a href="Map-v2.dc.html" style="font-size: 13px; color: #d4af63; padding-top: 2px">All 77 ways to invest →</a>
+</div>
+
+<div style="display: flex; justify-content: space-between; align-items: baseline">
+<h2 style="margin: 0; font-family: 'Unbounded', sans-serif; font-weight: 500; font-size: 16px">Rankings</h2>
+<a href="#" style="font-size: 13px; color: #d4af63">See all →</a>
+</div>
+</div>
+
+<div style="padding: 4px 16px 0; display: flex; flex-direction: column">
+<sc-for list="{{rows}}" as="r" hint-placeholder-count="4">
+<a href="Asset-v2.dc.html" style="display: flex; align-items: center; gap: 12px; padding: 10px 0; border-bottom: 1px solid #223049; min-height: 44px">
+<span style="flex: 0 0 40px; height: 40px; border-radius: 11px; background: {{r.c}}; color: #0c1424; font-family: 'Unbounded', sans-serif; font-weight: 700; font-size: 15px; display: flex; align-items: center; justify-content: center" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0c1424" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{r.icon}}"></path></svg></span>
+<span style="flex: 1 1 auto; min-width: 0; display: flex; flex-direction: column">
+<span style="font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">{{r.name}}</span>
+<span style="font-size: 12px; color: #9daac0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">vol {{r.v30}} · sells in {{r.sell}}</span>
+</span>
+<span style="flex: 0 0 auto; display: flex; flex-direction: column; align-items: flex-end; font-family: 'JetBrains Mono', monospace">
+<span style="font-size: 14px; font-weight: 500">{{r.price}}</span>
+<span style="font-size: 12px"><span style="color: {{r.yc}}">{{r.y}}</span> <span style="color: #9daac0">± {{r.vol}}</span></span>
+</span>
+</a>
+</sc-for>
+</div>
+
+<nav style="position: absolute; left: 0; right: 0; bottom: 0; height: 76px; background: #080e1a; border-top: 1px solid #2c3b58; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); align-items: center">
+<a href="Map-v2.dc.html" style="display: flex; flex-direction: column; align-items: center; gap: 4px; font-size: 11px; color: #d4af63; min-height: 44px; justify-content: center">
+<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h7v7H4zM13 5h7v4h-7zM13 12h7v7h-7zM4 15h7v4H4z"></path></svg>
+Map
+</a>
+<a href="#" style="display: flex; flex-direction: column; align-items: center; gap: 4px; font-size: 11px; color: #9daac0; min-height: 44px; justify-content: center">
+<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 17l6-6 4 4 8-8M15 7h6v6"></path></svg>
+Rankings
+</a>
+<a href="Compare-v2.dc.html" style="display: flex; flex-direction: column; align-items: center; gap: 4px; font-size: 11px; color: #9daac0; min-height: 44px; justify-content: center">
+<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 4v16M17 4v16M3 8h8M13 16h8"></path></svg>
+Compare
+</a>
+<a href="#" style="display: flex; flex-direction: column; align-items: center; gap: 4px; font-size: 11px; color: #9daac0; min-height: 44px; justify-content: center">
+<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4l2.5 5 5.5.8-4 3.9.9 5.5L12 16.6 7.1 19.2l.9-5.5-4-3.9 5.5-.8L12 4z"></path></svg>
+Watchlist
+</a>
+</nav>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+renderVals() {
+var UP = '#d4af63', DOWN = '#e0896b';
+var col = function (s) { return s.charAt(0) === '−' ? DOWN : UP; };
+var race = [
+{ name: 'Apple', v: '+31.2%', vol: '27%', w: '73%', c: UP },
+{ name: 'S&P 500 ETF', v: '+13.5%', vol: '14%', w: '31%', c: UP },
+{ name: 'Nasdaq-100 ETF', v: '+12.2%', vol: '20%', w: '28%', c: UP },
+{ name: 'Gold', v: '−5.5%', vol: '19%', w: '13%', c: DOWN },
+{ name: 'Bitcoin', v: '−32.1%', vol: '44%', w: '75%', c: DOWN }
+];
+var rows = [
+{ name: 'S&P 500 ETF', icon: 'M3 17l6-6 4 4 8-8M15 7h6v6', ini: 'S', c: '#4f8dff', price: '$612', y: '+14.8%', vol: '16%', v30: '$790B', sell: 'seconds' },
+{ name: 'Bitcoin', icon: 'M12 3a9 9 0 1 0 .01 0zM10 8v8M10 8h3a2 2 0 0 1 0 4h-3M10 12h3.5a2 2 0 0 1 0 4H10', ini: 'B', c: '#f7a51c', price: '$98,400', y: '+38.0%', vol: '52%', v30: '$1.2T', sell: 'seconds' },
+{ name: 'Global hedge fund index', icon: 'M12 3l8 4v5c0 5-3.5 8-8 9-4.5-1-8-4-8-9V7z', ini: 'H', c: '#2fc28a', price: '1,482 pts', y: '+8.9%', vol: '7%', v30: 'n/a', sell: '3 months' },
+{ name: 'Charizard Base Set, PSA 9', icon: 'M7 3h10a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2zM9 8h6M9 12h6', ini: 'C', c: '#ff8a3d', price: '$21,500', y: '+19.0%', vol: '44%', v30: '$310k', sell: '2–6 weeks' }
+].map(function (r) { r.yc = col(r.y); return r; });
+return { race: race, rows: rows };
+}
+}
+</script>
+</body>
+</html>
