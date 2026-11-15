@@ -42,9 +42,9 @@ class UniverseTest {
 
     @Test
     void has64UniqueWaysInKnownGroups() {
-        assertEquals(64, u.ways.size());
-        assertEquals(64, wayNames().size(), "way names unique");
-        assertEquals(64, u.ways.stream().map(w -> Universe.slug(w.name())).distinct().count(), "way slugs unique");
+        assertEquals(77, u.ways.size());
+        assertEquals(77, wayNames().size(), "way names unique");
+        assertEquals(77, u.ways.stream().map(w -> Universe.slug(w.name())).distinct().count(), "way slugs unique");
         Set<String> groups = u.groups.stream().map(Universe.Group::slug).collect(Collectors.toSet());
         assertEquals(u.groups.size(), groups.size(), "group slugs unique");
         for (Universe.Way w : u.ways) {

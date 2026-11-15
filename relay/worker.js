@@ -17,12 +17,73 @@ function cors(origin) {
     : {};
 }
 
+// Headlines only (title, link, source, time, first sentence of the feed's own summary): we link to the publisher.
+const FEEDS = [
+  { url: 'https://search.cnbc.com/rs/search/combinedcms/view.xml?partnerId=wrss01&id=10000664', src: 'CNBC', cat: 'Markets' },
+  { url: 'https://search.cnbc.com/rs/search/combinedcms/view.xml?partnerId=wrss01&id=20910258', src: 'CNBC', cat: 'Economy' },
+  { url: 'https://cointelegraph.com/rss', src: 'Cointelegraph', cat: 'Crypto' },
+  { url: 'https://www.investing.com/rss/news_25.rss', src: 'Investing.com', cat: 'Stocks' },
+];
+
+function decode(s) {
+  return (s || '')
+    .replace(/<!\[CDATA\[([\s\S]*?)\]\]>/g, '$1')
+    .replace(/<[^>]+>/g, ' ')
+    .replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"').replace(/&#39;|&apos;/g, "'")
+    .replace(/&#(\d+);/g, (m, n) => String.fromCharCode(+n))
+    .replace(/\s+/g, ' ').trim();
+}
+
+function tag(item, name) {
+  const m = item.match(new RegExp('<' + name + '[^>]*>([\\s\\S]*?)</' + name + '>', 'i'));
+  return m ? m[1] : '';
+}
+
+async function readFeed(f) {
+  try {
+    const r = await fetch(f.url, { headers: { 'User-Agent': 'Mozilla/5.0 (news reader for an investment catalog)' }, cf: { cacheTtl: 600 } });
+    if (!r.ok) return [];
+    const xml = await r.text();
+    return (xml.match(/<item[\s>][\s\S]*?<\/item>/gi) || []).slice(0, 15).map((it) => {
+      const link = decode(tag(it, 'link')) || decode(tag(it, 'guid'));
+      const ts = Date.parse(decode(tag(it, 'pubDate'))) || 0;
+      let sum = decode(tag(it, 'description'));
+      const dot = sum.search(/[.!?](\s|$)/);
+      if (dot > 40) sum = sum.slice(0, dot + 1);
+      if (sum.length > 220) sum = sum.slice(0, 217) + '…';
+      return { t: decode(tag(it, 'title')), url: /^https?:\/\//.test(link) ? link : null, src: f.src, cat: f.cat, ts, sum };
+    }).filter((n) => n.t && n.url);
+  } catch (e) {
+    return [];
+  }
+}
+
+async function news(req, ctx) {
+  const cache = caches.default;
+  const key = new Request('https://cache.local/news-v1');
+  let res = await cache.match(key);
+  if (!res) {
+    const lists = await Promise.all(FEEDS.map(readFeed));
+    const seen = new Set();
+    const items = lists.flat().filter((n) => !seen.has(n.t) && seen.add(n.t)).sort((a, b) => b.ts - a.ts).slice(0, 30);
+    res = new Response(JSON.stringify({ items, fetched: Date.now() }), {
+      headers: { 'Content-Type': 'application/json', 'Cache-Control': 'public, max-age=600' },
+    });
+    ctx.waitUntil(cache.put(key, res.clone()));
+  }
+  const origin = req.headers.get('Origin') || '';
+  const out = new Response(res.body, res);
+  for (const [k, v] of Object.entries(cors(origin))) out.headers.set(k, v);
+  return out;
+}
+
 export default {
-  async fetch(req, env) {
+  async fetch(req, env, ctx) {
     const url = new URL(req.url);
     const origin = req.headers.get('Origin') || '';
     if (req.method === 'OPTIONS') return new Response(null, { headers: cors(origin) });
     if (url.pathname === '/health') return new Response('ok');
+    if (url.pathname === '/news') return news(req, ctx);
     if (!['/push', '/live', '/snapshot'].includes(url.pathname)) return new Response('not found', { status: 404 });
     // browsers always send Origin on websocket upgrades: only our site may use the feed (and our quota)
     if (url.pathname === '/live' && !ORIGINS.includes(origin)) return new Response('forbidden origin', { status: 403 });

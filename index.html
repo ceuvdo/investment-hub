@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Wyndton: everything you can invest in</title>
-<meta name="description" content="A free, independent catalog of 64 ways to invest: return, risk, volume and the cost of getting out, with a source and date next to every number.">
+<meta name="description" content="A free, independent catalog of 77 ways to invest: return, risk, volume and the cost of getting out, with a source and date next to every number.">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Onest:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/css/site.css">
@@ -19,23 +19,30 @@
     <h1>Everything you can invest in, <span>from a deposit to a hedge fund</span></h1>
     <p class="lead">Return, risk, volume and the real cost of getting out, measured the same way for stocks, crypto, funds, property, businesses and collectibles. A source and a date next to every number.</p>
     <div class="search">
-      <label><span class="muted">%SEARCH%</span><span class="sr">Search the catalog</span>
+      <label><span class="muted" id="sicon"></span><span class="sr">Search the catalog</span>
         <input id="q" type="search" placeholder="Ticker, fund, country, wine, watch, club" autocomplete="off">
         <a class="btn acc" href="map.html">Browse</a></label>
       <div class="results" id="res" hidden></div>
     </div>
-    <div class="budget"><span class="muted" style="margin-right:4px">What can I buy with</span>
-      <a href="map.html?b=1">$100</a><a href="map.html?b=2">$1,000</a><a href="map.html?b=3">$25,000</a><a href="map.html?b=4">$250,000+</a></div>
+    <form class="amount" action="map.html" method="get">
+      <label><span>How much can you invest?</span>
+        <input name="a" type="text" inputmode="numeric" placeholder="$ amount" autocomplete="off" aria-label="Amount in US dollars"></label>
+      <button class="btn acc sm" type="submit">Show</button>
+    </form>
+    <div class="budget"><span class="muted" style="margin-right:4px">Quick picks</span>
+      <a href="map.html?a=100">$100</a><a href="map.html?a=1000">$1,000</a><a href="map.html?a=10000">$10,000</a><a href="map.html?a=50000">$50,000+</a></div>
   </div>
   <div class="card race" id="race"></div>
 </section>
 
 <section class="wrap sec" id="classes">
-  <div class="sec-h"><h2 class="h2" id="g-title">Nine groups, 64 ways to invest</h2><a class="link" href="map.html">Open the full map →</a></div>
+  <div class="sec-h"><h2 class="h2">Popular groups</h2><a class="link" href="map.html" id="all-groups">All groups →</a></div>
   <div class="groups" id="groups"></div>
+  <p class="note" style="margin-top:14px">Return per year: an equal-weight index of the group's tracked assets, rebalanced monthly. Best → worst: the strongest and weakest 5-year stretch in that index. Collectibles and cards have no long daily price history yet; their figures come from indexes and reports on each way's page.</p>
 </section>
 
 <section class="wrap sec" id="rating">
+  <div class="pills horizon" id="hz" role="group" aria-label="Investment horizon"></div>
   <div class="card" style="overflow:hidden">
     <div class="pad" style="display:flex;flex-wrap:wrap;gap:14px;align-items:center;justify-content:space-between">
       <h2 class="h3">Cross-asset rankings</h2>
@@ -44,6 +51,13 @@
     <div id="rank"></div>
     <div class="tbl-foot"><a class="link" href="rankings.html" id="all-rank">Full rankings →</a><span class="note" id="rank-src"></span></div>
   </div>
+</section>
+
+<section class="wrap sec" id="news">
+  <div class="sec-h"><h2 class="h2">News that moves prices</h2>
+    <div style="display:flex;gap:8px;align-items:center"><span class="note" id="news-src"></span>
+      <button class="btn sm news-nav" id="news-prev" aria-label="Previous news">‹</button><button class="btn sm news-nav" id="news-next" aria-label="Next news">›</button></div></div>
+  <div class="news-strip" id="news-strip"><div class="empty">Loading headlines…</div></div>
 </section>
 
 <section class="wrap sec grid-auto">
@@ -59,9 +73,9 @@
   <div class="card pad" style="display:flex;flex-direction:column;gap:12px">
     <h2 class="h4">Liquidity, in numbers</h2>
     <div style="display:flex;flex-direction:column;gap:10px;font-size:14px">
+      <div><b>Order fills.</b> <span class="muted">Measured network time to the exchange, or under a second in trading hours.</span></div>
+      <div><b>Money is yours.</b> <span class="muted">Settlement rule (T+1, T+2) or the network's confirmation time.</span></div>
       <div><b>Volume.</b> <span class="muted">Money traded in the last 30 days.</span></div>
-      <div><b>Time to sell.</b> <span class="muted">How long a sale at the market price takes.</span></div>
-      <div><b>Cost to exit.</b> <span class="muted">Fees, commissions and spreads paid when selling.</span></div>
       <div><b>Rating 1–5.</b> <span class="muted">5 sells in seconds, 1 takes months or years.</span></div>
     </div>
     <a class="link" href="methodology.html" style="font-size:14px">Methodology →</a>
@@ -81,79 +95,129 @@
 (function () {
   var K = window.K, C = K.C, esc = K.esc;
   K.header('home');
-  document.querySelector('.search label .muted').innerHTML = K.ICON.search;
+  document.getElementById('sicon').innerHTML = K.ICON.search;
   K.attachSearch(document.getElementById('q'), document.getElementById('res'));
-  document.getElementById('g-title').textContent = 'Nine groups, ' + C.meta.n_ways + ' ways to invest';
+  document.getElementById('all-groups').textContent = 'All ' + C.groups.length + ' groups, ' + C.meta.n_ways + ' ways →';
 
-  // return vs risk by group
-  var gs = C.groups.slice().sort(function (a, b) { return (K.num(b.ret_1y) ? b.ret_1y : -999) - (K.num(a.ret_1y) ? a.ret_1y : -999); });
-  var vals = gs.filter(function (g) { return K.num(g.ret_1y); }).map(function (g) { return g.ret_1y; });
-  var lo = Math.min(0, Math.min.apply(null, vals)), hi = Math.max(0, Math.max.apply(null, vals)), span = hi - lo || 1;
-  var zero = (-lo / span) * 100;
-  var h = '<div style="display:flex;justify-content:space-between;align-items:baseline;gap:12px"><span class="cap" style="font-size:13px;letter-spacing:.08em">Return vs risk, last 12 months</span><span class="mono note">median per group</span></div>' +
-    '<div class="race-row cap"><span>Group</span><span>Return</span><span style="text-align:right">1 year</span><span style="text-align:right">Swing</span></div><div style="display:flex;flex-direction:column;gap:10px">';
-  gs.forEach(function (g) {
-    var v = g.ret_1y, w = K.num(v) ? Math.abs(v) / span * 100 : 0, left = K.num(v) && v < 0 ? zero - w : zero;
-    h += '<a class="race-row" href="class.html?g=' + g.slug + '" title="' + (g.ret_1y_n ? 'median of ' + g.ret_1y_n + ' ways with a 1-year figure' : 'no 1-year figures yet') + '"><span class="nm">' + esc(g.name) + '</span>' +
-      '<span class="bar" aria-hidden="true"><span class="zero" style="left:' + zero + '%"></span>' + (K.num(v) ? '<i style="left:' + left + '%;width:' + Math.max(1, w) + '%;background:' + (v < 0 ? 'var(--down)' : 'var(--acc)') + '"></i>' : '') + '</span>' +
-      '<span class="mono" style="text-align:right;font-size:13px">' + K.pctc(v) + '</span><span class="mono muted" style="text-align:right;font-size:13px">' + (K.num(g.swing) ? g.swing.toFixed(0) + '%' : '–') + '</span></a>';
-  });
-  h += '</div><div class="note" style="border-top:1px solid var(--line);padding-top:14px">Each group shows the median 1-year return of its ways that have a figure (market prices, indexes and reports; hover a row for the count). Swing = typical yearly price move. Higher return almost always came with a bigger swing.</div>';
-  document.getElementById('race').innerHTML = h;
+  // ---- popular picks: return per year over 1/5/10 years ----
+  var PICKS = [['aapl', 'Apple'], ['spy', 'S&P 500 ETF'], ['vt', 'World stocks ETF'], ['qqq', 'Nasdaq-100 ETF'], ['bil', 'T-bill ETF, 1–3 months'],
+    ['govt', 'US Treasury bond ETF'], ['gld', 'Gold'], ['btc', 'Bitcoin'], ['eth', 'Ether']];
+  var per = K.store.get('per', '10');
+  function drawRace() {
+    var key = per === '1' ? 'ret_1y' : per === '5' ? 'ret_5y' : 'ret_10y';
+    var rows = PICKS.map(function (p) { var a = K.byId[p[0]]; return a ? { a: a, name: p[1], v: a[key] } : null; }).filter(Boolean)
+      .sort(function (x, y) { return (K.num(y.v) ? y.v : -1e9) - (K.num(x.v) ? x.v : -1e9); });
+    var max = Math.max.apply(null, rows.map(function (r) { return K.num(r.v) ? Math.abs(r.v) : 0; })) || 1;
+    var h = '<div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap"><span class="cap" style="font-size:13px;letter-spacing:.08em">Popular picks · ' + (per === '1' ? 'last 12 months' : 'average per year') + '</span>' +
+      '<div class="pills">' + [['1', '1Y'], ['5', '5Y'], ['10', '10Y']].map(function (p) { return '<button class="pill" style="height:34px" aria-pressed="' + (p[0] === per) + '" data-per="' + p[0] + '">' + p[1] + '</button>'; }).join('') + '</div></div>' +
+      '<div class="race-row cap"><span>Asset</span><span>Return</span><span style="text-align:right">' + (per === '1' ? '1 year' : 'per year') + '</span><span style="text-align:right">Swing</span></div><div style="display:flex;flex-direction:column;gap:10px">';
+    rows.forEach(function (r) {
+      var w = K.num(r.v) ? Math.max(2, Math.abs(r.v) / max * 100) : 0;
+      h += '<a class="race-row" href="' + K.assetHref(r.a) + '"><span class="nm">' + esc(r.name) + '</span>' +
+        '<span class="bar" aria-hidden="true">' + (K.num(r.v) ? '<i style="left:0;width:' + w + '%;background:' + (r.v < 0 ? 'var(--down)' : 'var(--acc)') + '"></i>' : '') + '</span>' +
+        '<span class="mono" style="text-align:right;font-size:13px">' + (K.num(r.v) ? K.pctc(r.v) : '<span class="nodata">—</span>') + '</span>' +
+        '<span class="mono muted" style="text-align:right;font-size:13px">' + (K.num(r.a.swing) ? r.a.swing.toFixed(0) + '%' : '–') + '</span></a>';
+    });
+    h += '</div><div class="note" style="border-top:1px solid var(--line);padding-top:14px">' + (per === '1' ? 'Change over the last 12 months' : 'Compound return per year over ' + per + ' years') +
+      ', dividends reinvested. "—" = the asset is younger than that. Swing = typical yearly price move. Yahoo Finance, close ' + esc(K.fmtDate(K.byId.spy ? K.byId.spy.asof : C.meta.built)) + '.</div>';
+    var el = document.getElementById('race'); el.innerHTML = h;
+    el.querySelectorAll('[data-per]').forEach(function (b) { b.onclick = function () { per = b.dataset.per; K.store.set('per', per); drawRace(); }; });
+  }
+  drawRace();
 
-  // group tiles
+  // ---- popular groups (8) ----
+  var POPULAR = ['public', 'cash', 'crypto', 'commodities', 'property', 'credit', 'collectibles', 'cards'];
   var SELL = { 5: 'seconds', 4: 'minutes to days', 3: 'days to weeks', 2: 'weeks', 1: 'months' };
-  document.getElementById('groups').innerHTML = C.groups.map(function (g) {
-    var ws = C.ways.filter(function (w) { return w.group === g.slug; });
-    var ex = ws.slice(0, 5).map(function (w) { return w.name; }).join(', ');
-    var liqs = ws.map(function (w) { return w.liq; });
-    return '<a class="card gcard" href="class.html?g=' + g.slug + '"><img src="assets/img/' + g.img + '" alt="" loading="lazy" style="object-position:' + g.pos + '">' +
+  document.getElementById('groups').innerHTML = POPULAR.map(function (slug) {
+    var g = K.groupsBySlug[slug]; if (!g) return '';
+    var ws = C.ways.filter(function (w) { return w.group === slug; });
+    var ex = ws.slice(0, 4).map(function (w) { return w.name; }).join(', ');
+    var ret = K.num(g.idx_ret) ? K.pctc(g.idx_ret) : '<span class="nodata">—</span>';
+    var per = g.idx_years ? '/ yr · ' + g.idx_years + ' years' : 'no long history yet';
+    var img = g.img ? '<img src="assets/img/' + g.img + '" alt="" loading="lazy" style="object-position:' + (g.pos || 'center') + '">' : '<div class="gph" aria-hidden="true">' + esc(g.name) + '</div>';
+    return '<a class="card gcard" href="class.html?g=' + g.slug + '">' + img +
       '<div><div class="t"><span>' + esc(g.name) + '</span><span class="mono acc" style="font-size:12px;white-space:nowrap">' + g.n + ' ways</span></div><div class="note" style="margin-top:4px">' + esc(ex) + '</div></div>' +
-      '<div class="two"><div class="tile"><div class="k">Return, 1 year (median)</div><div class="v">' + K.pctc(g.ret_1y) + '</div></div>' +
+      '<div class="two"><div class="tile"><div class="k">Return ' + per + '</div><div class="v">' + ret + '</div></div>' +
       '<div class="tile"><div class="k">Risk: yearly swing</div><div class="v">' + (K.num(g.swing) ? g.swing.toFixed(0) + '%' : '<span class="nodata">no data</span>') + '</div></div>' +
       '<div class="tile"><div class="k">Volume, 30 days</div><div class="v">' + K.big(g.vol30) + '</div></div>' +
-      '<div class="tile"><div class="k">Fastest to sell</div><div class="v">' + SELL[Math.max.apply(null, liqs)] + '</div></div></div></a>';
+      '<div class="tile"><div class="k">Fastest to sell</div><div class="v">' + SELL[g.sells] + '</div></div></div>' +
+      '<div class="note" style="display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap"><span>Best → worst 5 yrs <span class="mono">' +
+      (K.num(g.best5) ? K.pctc(g.best5) + ' → ' + K.pctc(g.worst5) : '—') + '</span></span>' + (g.idx_flag ? '<span class="chip">' + esc(g.idx_flag) + '</span>' : '') + '</div></a>';
   }).join('');
 
-  // rankings (top assets by group)
-  var picks = [['all', 'All'], ['public', 'Public markets'], ['crypto', 'Crypto'], ['funds', 'Funds'], ['property', 'Property'], ['sport', 'Sport and games']];
-  var cur = 'all';
+  // ---- rankings with horizon ----
+  var picks = [['all', 'All'], ['public', 'Public markets'], ['crypto', 'Crypto'], ['commodities', 'Commodities'], ['property', 'Property'], ['private', 'Private markets'], ['cards', 'Cards and games']];
+  var cur = 'all', hz = K.store.get('hz', 'long');
+  var HZ = { short: ['Up to 1 year', 'sell', 1, 'fastest to sell first'], mid: ['1–5 years', 'ret_5y', -1, 'by return per year over 5 years'], long: ['5+ years', 'ret_10y', -1, 'by return per year over 10 years'] };
   function drawRank() {
-    var rows = C.assets.filter(function (a) { return a.currency !== 'index' && (cur === 'all' || a.group === cur || (cur === 'sport' && a.group === 'games')); });
-    if (cur === 'all') { // a diverse top: best 1y per way
-      var seen = {}; rows = rows.slice().sort(function (a, b) { return (b.ret_1y || -999) - (a.ret_1y || -999); }).filter(function (a) { if (seen[a.way]) return false; seen[a.way] = 1; return true; });
-    }
-    rows = rows.slice().sort(function (a, b) { return (b.ret_1y || -999) - (a.ret_1y || -999); }).slice(0, 12);
-    K.rankTable(document.getElementById('rank'), rows, { sort: 'ret_1y', dir: -1, mobileLimit: 8 });
+    document.getElementById('hz').innerHTML = '<span class="muted" style="margin-right:4px">I invest for</span>' + Object.keys(HZ).map(function (k) {
+      return '<button class="pill" aria-pressed="' + (k === hz) + '" data-hz="' + k + '">' + HZ[k][0] + '</button>'; }).join('');
+    var h = HZ[hz];
+    var rows = C.assets.filter(function (a) { return a.currency !== 'index' && (cur === 'all' || a.group === cur); });
+    var key = h[1] === 'sell' ? 'sell_s' : h[1];
+    var score = function (a) { var v = a[key]; return K.num(v) ? v : null; };
+    rows = rows.filter(function (a) { return score(a) !== null; }).sort(function (a, b) { return h[2] * (score(a) - score(b)) || (b.ret_1y || 0) - (a.ret_1y || 0); });
+    if (cur === 'all') { var seen = {}; rows = rows.filter(function (a) { if (seen[a.way]) return false; seen[a.way] = 1; return true; }); }
+    rows = rows.slice(0, 12);
+    K.rankTable(document.getElementById('rank'), rows, { sort: h[1], dir: h[2], mobileLimit: 8 });
     document.getElementById('pills').innerHTML = picks.map(function (p) { return '<button class="pill" aria-pressed="' + (p[0] === cur) + '" data-p="' + p[0] + '">' + p[1] + '</button>'; }).join('');
     document.querySelectorAll('#pills .pill').forEach(function (b) { b.onclick = function () { cur = b.dataset.p; drawRank(); }; });
+    document.querySelectorAll('#hz .pill').forEach(function (b) { b.onclick = function () { hz = b.dataset.hz; K.store.set('hz', hz); drawRank(); }; });
+    document.getElementById('rank-src').innerHTML = 'Sorted ' + h[3] + (cur === 'all' ? ', top item per way' : '') + '. Prices: Yahoo Finance, close ' + esc(K.fmtDate(K.byId.spy ? K.byId.spy.asof : '')) + '.';
   }
   drawRank();
-  var spy = K.byId.spy;
-  document.getElementById('rank-src').innerHTML = 'Prices: Yahoo Finance, close ' + (spy ? esc(K.fmtDate(spy.asof)) : '') + '. Returns include dividends where paid. ' + (cur === 'all' ? 'Top item per way.' : '');
   document.getElementById('all-rank').textContent = 'Full rankings: ' + C.assets.length + ' assets →';
 
-  // movers
+  // ---- news (real headlines, linked to the publisher) ----
+  var RELATED = [[/bitcoin|btc\b|crypto|spot etf/i, 'btc'], [/ether(eum)?\b|eth\b/i, 'eth'], [/solana/i, 'sol'], [/\bxrp\b|ripple/i, 'xrp'], [/gold/i, 'gld'], [/silver/i, 'slv'],
+    [/\boil\b|crude|opec|brent/i, 'uso'], [/natural gas|\blng\b/i, 'ung'], [/nvidia/i, 'nvda'], [/apple|iphone/i, 'aapl'], [/tesla|musk/i, 'tsla'], [/microsoft/i, 'msft'],
+    [/amazon/i, 'amzn'], [/alphabet|google/i, 'googl'], [/meta platforms|facebook/i, 'meta'], [/treasur|bond yield|yields/i, 'govt'], [/\bfed\b|rate cut|inflation|cpi\b|powell/i, 'bil'],
+    [/s&p|stocks|wall street|dow\b|nasdaq/i, 'spy'], [/dollar|euro\b|\bfx\b/i, 'eurusd'], [/china|beijing/i, 'mchi'], [/india/i, 'inda'], [/japan|yen/i, 'ewj'], [/housing|home prices|mortgage/i, 'vnq'],
+    [/wheat|grain|corn/i, 'weat'], [/carbon/i, 'krbn'], [/manchester united/i, 'manu']];
+  var items = [], np = 0;
+  function ago(ts) { var m = Math.max(1, Math.round((Date.now() - ts) / 60000)); return m < 60 ? m + ' min ago' : m < 1440 ? Math.round(m / 60) + ' h ago' : Math.round(m / 1440) + ' days ago'; }
+  function drawNews() {
+    var strip = document.getElementById('news-strip');
+    if (!items.length) { strip.innerHTML = '<div class="empty">Headlines are unavailable right now.</div>'; return; }
+    strip.innerHTML = '<div class="news-track" style="transform:translateX(calc(' + (-np) + ' * (var(--news-w) + 16px)))">' + items.map(function (n) {
+      var rel = []; RELATED.forEach(function (r) { if (rel.length < 3 && r[0].test(n.t + ' ' + n.sum) && K.byId[r[1]] && rel.indexOf(r[1]) < 0) rel.push(r[1]); });
+      return '<article class="card news-card"><span class="note">' + esc(n.cat) + ' · ' + esc(ago(n.ts)) + ' · ' + esc(n.src) + '</span>' +
+        '<a class="news-t" href="' + (K.safeUrl(n.url) ? esc(n.url) : '#') + '" target="_blank" rel="noopener">' + esc(n.t) + '</a>' +
+        (n.sum ? '<p class="note" style="margin:0">' + esc(n.sum) + '</p>' : '') +
+        (rel.length ? '<div class="news-rel"><span class="cap">Related</span>' + rel.map(function (id) { var a = K.byId[id]; return '<a class="chip" href="' + K.assetHref(a) + '">' + esc(a.name.split(' (')[0]) + ' <span class="' + K.cls(a.chg_30d) + '">' + K.pct(a.chg_30d) + ' 30d</span></a>'; }).join('') + '</div>' : '') +
+        '</article>';
+    }).join('') + '</div>';
+    document.getElementById('news-prev').disabled = np <= 0;
+    document.getElementById('news-next').disabled = np >= items.length - 1;
+  }
+  document.getElementById('news-prev').onclick = function () { np = Math.max(0, np - 1); drawNews(); };
+  document.getElementById('news-next').onclick = function () { np = Math.min(items.length - 1, np + 1); drawNews(); };
+  fetch('https://investment-hub-live.ceuvdo.workers.dev/news').then(function (r) { return r.json(); }).then(function (d) {
+    items = (d.items || []).slice(0, 18); drawNews();
+    document.getElementById('news-src').textContent = 'CNBC, Cointelegraph, Investing.com · links open the publisher';
+  }).catch(function () { drawNews(); });
+
+  // ---- movers ----
   var mv = C.assets.filter(function (a) { return K.num(a.chg_30d); }).sort(function (a, b) { return Math.abs(b.chg_30d) - Math.abs(a.chg_30d); }).slice(0, 5);
   document.getElementById('movers').innerHTML = mv.map(function (a) {
     return '<div style="display:flex;justify-content:space-between;align-items:center;gap:12px;padding:8px 0;border-bottom:1px solid var(--line2)"><div style="min-width:0"><a href="' + K.assetHref(a) + '" style="font-weight:500;display:block">' + esc(a.name) + '</a><span class="note" style="font-size:12px">' + esc(a.way) + '</span></div><span class="mono ' + K.cls(a.chg_30d) + '" style="white-space:nowrap">' + K.arrow(a.chg_30d) + K.pct(Math.abs(a.chg_30d)).replace('+', '') + '</span></div>';
-  }).join('') + '<div class="note" style="padding-top:8px">Yahoo Finance, to ' + esc(K.fmtDate(mv[0].asof)) + '</div>';
+  }).join('') + (mv[0] ? '<div class="note" style="padding-top:8px">Yahoo Finance, to ' + esc(K.fmtDate(mv[0].asof)) + '</div>' : '');
 
-  // head-to-head cards from real data
+  // ---- head to head ----
   function card(ids, title, accent) {
     var as = ids.map(function (i) { return K.byId[i]; }).filter(Boolean);
     if (as.length < 2) return '';
     var line = as.map(function (a) { return esc(a.name.split(' (')[0]) + ' ' + K.pct(a.ret_10y != null ? a.ret_10y : a.ret_5y) + '/yr'; }).join(' vs ');
-    var per = as[0].ret_10y != null && as[1].ret_10y != null ? '10 years' : '5 years';
+    var p = as.every(function (a) { return a.ret_10y != null; }) ? '10 years' : '5 years';
     return '<a class="card" href="compare.html?ids=' + ids.join(',') + '" style="' + (accent ? 'background:var(--acc);color:var(--on-acc);border-color:var(--acc);' : '') + 'padding:26px;display:flex;flex-direction:column;gap:28px;min-height:220px">' +
-      '<span class="mono" style="font-size:12px;text-transform:uppercase;letter-spacing:.08em;' + (accent ? '' : 'color:var(--muted)') + '">Head to head · ' + per + '</span>' +
+      '<span class="mono" style="font-size:12px;text-transform:uppercase;letter-spacing:.08em;' + (accent ? '' : 'color:var(--muted)') + '">Head to head · ' + p + '</span>' +
       '<span style="font-family:var(--ff-h);font-weight:' + (accent ? 700 : 500) + ';font-size:22px;line-height:1.25;margin-top:auto">' + title + '</span>' +
       '<span class="mono" style="font-size:13px;' + (accent ? '' : 'color:var(--muted)') + '">' + line + '</span></a>';
   }
   document.getElementById('h2h').innerHTML =
     card(['btc', 'gld', 'spy'], 'Bitcoin, gold or the S&amp;P 500: the last ten years', true) +
     card(['manu', 'bvb', 'vt'], 'Football clubs vs the world stock market') +
-    card(['vnq', 'hp_us', 'hp_pl'], 'Owning a home vs owning REIT shares');
+    card(['icln', 'xom', 'spy'], 'Clean energy vs oil vs the market');
   K.footer();
 })();
 </script>

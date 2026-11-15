@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Football: every way to invest in the game · Wyndton</title>
+<meta name="description" content="Club shares, fan tokens, player cards and match-worn shirts: football assets from four groups, with real prices and sources.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Onest:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/site.css">
+<script src="data/catalog.js"></script>
+<script src="data/series.js"></script>
+<script src="assets/js/core.js"></script>
+</head>
+<body>
+<div id="top"></div>
+<div class="wrap" style="padding:0"><div class="crumbs"><a href="map.html">Catalog</a> / <span>Themes</span> / <span>Football</span></div></div>
+<main class="wrap" id="main"></main>
+<script>
+(function () {
+  var K = window.K, C = K.C, esc = K.esc;
+  K.header('map');
+  // a theme gathers ways from several groups
+  var TABS = [
+    ['clubs', 'Club shares', 'Football club shares', 'Listed clubs trade like any stock, so they sell in seconds. Results on the pitch move them less than broadcast deals and takeover news.'],
+    ['cards', 'Player cards', 'Player cards', 'Graded football cards. There is no daily price feed yet: figures come from card indexes and marketplaces, with sources on the way page.'],
+    ['shirts', 'Match-worn shirts', 'Match-worn shirts and memorabilia', 'One-of-one items sold at auction. There is no market price between sales.'],
+    ['tokens', 'Fan tokens', 'Fan tokens', 'Club tokens trade on crypto exchanges around the clock. Liquid, but they follow the crypto market more than the club.']
+  ];
+  var tab = K.q('tab') || 'clubs';
+  var clubs = C.assets.filter(function (a) { return a.way === 'Football club shares'; });
+
+  // equal-weight football club index over 12 months
+  var h = '<section class="split" style="padding-top:8px"><div style="display:flex;flex-direction:column;gap:18px">' +
+    '<img class="cover" src="assets/img/football.jpg" alt="" style="object-position:center 60%">' +
+    '<h1 class="h2" style="font-size:44px">Football</h1>' +
+    '<p class="lead" style="margin:0">A theme, not a group: it gathers football assets from four groups. Club shares sit in Public markets, player cards in Cards, games and digital, match-worn shirts in Collectibles, fan tokens in Crypto. Prices react to transfers, trophies and injuries, not to interest rates.</p>' +
+    '<div style="display:flex;flex-wrap:wrap;gap:10px"><a class="btn acc" href="compare.html?ids=' + clubs.slice(0, 3).map(function (a) { return a.id; }).join(',') + '">Compare clubs</a><a class="btn" href="map.html">All ways to invest</a></div></div>' +
+    '<div class="card pad" style="display:flex;flex-direction:column;gap:16px"><div style="display:flex;justify-content:space-between;align-items:baseline;gap:12px"><span class="cap" style="font-size:13px">Listed clubs, equal weight · 12 months</span><span class="mono" id="idx-chg"></span></div><div id="idx"></div>' +
+    '<div class="stats" style="grid-template-columns:repeat(3,minmax(0,1fr))"><div class="tile"><div class="k">Clubs tracked</div><div class="v">' + clubs.length + '</div></div>' +
+    '<div class="tile"><div class="k">Fastest to sell</div><div class="v">&lt; 1 s</div></div><div class="tile"><div class="k">Cheapest entry</div><div class="v">€1</div></div></div><div class="note" id="idx-note"></div></div></section>';
+  h += '<section class="sec"><div class="pills" id="tabs" style="margin-bottom:12px"></div><p class="note" id="blurb" style="margin:0 0 14px"></p><div class="card" style="overflow:hidden" id="body"></div></section>';
+  document.getElementById('main').innerHTML = h;
+
+  var from = K.fromMonth('1y');
+  var ids = clubs.filter(function (a) { return window.SERIES[a.id]; }).map(function (a) { return a.id; });
+  if (ids.length) {
+    var months = {}; ids.forEach(function (id) { window.SERIES[id].m.forEach(function (m) { if (m >= from) months[m] = 1; }); });
+    var ms = Object.keys(months).sort();
+    var vs = ms.map(function (m) { var acc = 0, n = 0; ids.forEach(function (id) { var s = window.SERIES[id], i0 = s.m.indexOf(ms[0]), i = s.m.indexOf(m); if (i0 >= 0 && i >= 0) { acc += s.v[i] / s.v[i0]; n++; } }); return n ? acc / n * 1000 : null; });
+    var ok = ms.map(function (m, i) { return [m, vs[i]]; }).filter(function (x) { return x[1]; });
+    var res = K.lineChart(document.getElementById('idx'), [{ id: 'fb', label: 'Football clubs', short: 'Clubs', m: ok.map(function (x) { return x[0]; }), v: ok.map(function (x) { return x[1]; }) }], { h: 160, label: 'Equal-weight value of $1,000 in listed football clubs over 12 months' });
+    var chg = (res[0].end / 1000 - 1) * 100;
+    document.getElementById('idx-chg').innerHTML = '<span class="' + K.cls(chg) + '">' + K.arrow(chg) + K.pct(Math.abs(chg)).replace('+', '') + '</span>';
+    document.getElementById('idx-note').textContent = '$1,000 split equally across ' + ids.length + ' listed clubs, monthly, dividends reinvested. Source: Yahoo Finance.';
+  }
+
+  function draw() {
+    var t = TABS.filter(function (x) { return x[0] === tab; })[0] || TABS[0];
+    var w = K.waysByName[t[2]];
+    document.getElementById('tabs').innerHTML = TABS.map(function (x) { var ww = K.waysByName[x[2]]; return '<button class="pill" aria-pressed="' + (x[0] === tab) + '" data-t="' + x[0] + '">' + x[1] + ' <span class="n">' + (ww ? ww.assets.length || '' : '') + '</span></button>'; }).join('');
+    document.querySelectorAll('#tabs .pill').forEach(function (b) { b.onclick = function () { tab = b.dataset.t; history.replaceState(null, '', '?tab=' + tab); draw(); }; });
+    document.getElementById('blurb').textContent = t[3];
+    var el = document.getElementById('body');
+    var assets = w ? w.assets.map(function (id) { return K.byId[id]; }).filter(Boolean) : [];
+    if (assets.length) K.rankTable(el, assets, { sort: 'ret_1y', dir: -1 });
+    else {
+      var m = w ? w.metrics : {};
+      var keys = ['ret_1y', 'ret_5y', 'ret_10y', 'dd', 'exit_cost', 'min_ticket', 'market_size'].filter(function (k) { return m[k] && (K.num(m[k].value) || m[k].text); });
+      el.innerHTML = '<div class="pad">' + (keys.length ? '<div class="stats">' + keys.map(function (k) {
+        var x = m[k]; return '<div class="stat"><span class="k">' + esc(k.replace('ret_', 'return ').replace('_', ' ')) + '</span><span class="v">' + (K.num(x.value) ? K.pctc(x.value) : '<span style="font-family:var(--ff);font-size:15px">' + esc(x.text) + '</span>') + '</span><span class="s">' + K.trust(x.trust) + ' ' + K.src(x) + '</span></div>';
+      }).join('') + '</div>' : '<div class="empty">No published figures yet.</div>') +
+        '<p style="margin:16px 0 0"><a class="link" href="' + (w ? K.wayHref(w) : 'map.html') + '">All figures and sources for ' + esc(t[2]) + ' →</a></p></div>';
+    }
+  }
+  draw();
+  K.footer();
+})();
+</script>
+</body>
+</html>

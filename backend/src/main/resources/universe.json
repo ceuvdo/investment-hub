@@ -3,10 +3,10 @@
   {
    "slug": "public",
    "name": "Public markets",
-   "note": "Anyone with a brokerage account",
+   "note": "Exchanges, brokers and the funds that trade there",
    "img": "stocks.jpg",
    "pos": "center",
-   "about": "Shares, funds, bonds, currencies and commodities that trade on exchanges. Prices are public every second, selling takes seconds and costs little."
+   "about": "Shares, funds, bonds and currencies that trade on exchanges, plus listed hedge-fund style strategies and football clubs. Prices are public every second, selling takes seconds and costs little."
   },
   {
    "slug": "cash",
@@ -14,7 +14,23 @@
    "note": "Low risk, paid for waiting",
    "img": "cash.jpg",
    "pos": "center 40%",
-   "about": "Money that earns interest or a share of income: deposits, money market funds, loans and royalties. Returns come mostly from payments, not price growth."
+   "about": "Money that earns interest while staying close to cash: deposits, money market funds and bank-made structured notes."
+  },
+  {
+   "slug": "credit",
+   "name": "Credit and lending",
+   "note": "You lend, they pay interest",
+   "img": null,
+   "pos": null,
+   "about": "Lending to people and companies directly or through funds: peer-to-peer platforms, private loans, private credit, invoices and revenue-based deals. Return comes from interest; risk is that borrowers do not pay."
+  },
+  {
+   "slug": "commodities",
+   "name": "Commodities",
+   "note": "Raw materials, priced every day",
+   "img": null,
+   "pos": null,
+   "about": "Gold, silver, energy, grain and carbon allowances, held as bullion, exchange-traded funds or futures. Prices follow supply and demand, not company profits."
   },
   {
    "slug": "crypto",
@@ -22,15 +38,15 @@
    "note": "Open around the clock",
    "img": "crypto.jpg",
    "pos": "center",
-   "about": "Coins and the on-chain ways to earn on them: staking, lending, liquidity pools, vaults. Trades 24/7, swings far harder than stocks."
+   "about": "Coins and the on-chain ways to earn on them: staking, lending, liquidity pools, vaults and tokenised Treasuries. Trades 24/7, swings far harder than stocks."
   },
   {
-   "slug": "funds",
-   "name": "Funds and private markets",
+   "slug": "private",
+   "name": "Private markets",
    "note": "Where most large fortunes sit",
    "img": "funds.jpg",
    "pos": "center",
-   "about": "Venture, private equity, hedge funds and private credit. High minimums, money locked for years; listed proxies show how the strategies move."
+   "about": "Venture, private equity, angel deals and pre-IPO shares. High minimums, money locked for years; listed proxies show how the strategies move."
   },
   {
    "slug": "property",
@@ -41,6 +57,14 @@
    "about": "Homes, commercial buildings, farmland and forest. Return is price growth plus rent; selling takes months and costs several percent."
   },
   {
+   "slug": "infra",
+   "name": "Infrastructure and energy",
+   "note": "Roads, grids and power plants that earn for decades",
+   "img": null,
+   "pos": null,
+   "about": "Companies and funds that own towers, pipelines, grids and power plants, plus clean energy. Long contracts, steady income, sensitive to interest rates."
+  },
+  {
    "slug": "business",
    "name": "Businesses",
    "note": "You buy the cash flow, sometimes the job",
@@ -49,28 +73,28 @@
    "about": "Small companies, franchises, websites and domains. Priced as a multiple of yearly profit; often comes with work to do."
   },
   {
+   "slug": "royalties",
+   "name": "Royalties and IP",
+   "note": "Paid each time a song plays or a patent is used",
+   "img": null,
+   "pos": null,
+   "about": "A share of income from songs, books, films, patents and athletes' earnings. Payments depend on how the work or the person performs, not on markets."
+  },
+  {
    "slug": "collectibles",
    "name": "Collectibles",
    "note": "Scarce things people want to own",
+   "img": "watches.jpg",
+   "pos": "center 30%",
+   "about": "Watches, art, wine, cars, LEGO, memorabilia and more. Prices come from auctions and marketplaces; fees to sell are high and fakes are a risk."
+  },
+  {
+   "slug": "cards",
+   "name": "Cards, games and digital",
+   "note": "Cards, skins and items that trade online",
    "img": "cards.jpg",
    "pos": "center 30%",
-   "about": "Cards, watches, art, wine, cars, LEGO and more. Prices come from auctions and marketplaces; fees to sell are high and fakes are a risk."
-  },
-  {
-   "slug": "games",
-   "name": "Games and digital items",
-   "note": "Markets that live inside games",
-   "img": "games.jpg",
-   "pos": "center",
-   "about": "Skins, cases, in-game currencies, rare accounts and virtual land. Markets are run by game publishers who can change the rules."
-  },
-  {
-   "slug": "sport",
-   "name": "Sport",
-   "note": "Football first, then everything else",
-   "img": "football.jpg",
-   "pos": "center 60%",
-   "about": "Listed club shares, player cards, match-worn shirts, racehorse shares. Prices react to results, transfers and trophies, not to interest rates."
+   "about": "Graded trading and player cards, game skins, in-game currencies and virtual land. Markets run by marketplaces and game publishers who can change the rules."
   }
  ],
  "ways": [
@@ -123,20 +147,36 @@
    "desc": "Holding one currency against another."
   },
   {
-   "name": "Gold and commodities",
-   "group": "public",
-   "entry": 1,
-   "liq": 5,
-   "risk": "low",
-   "desc": "Gold, silver, copper, energy and farm goods, via exchange-traded funds."
-  },
-  {
    "name": "Listed real estate funds",
    "group": "public",
    "entry": 1,
    "liq": 5,
    "risk": "low",
    "desc": "REITs: companies that own buildings and pay out most of the rent."
+  },
+  {
+   "name": "Football club shares",
+   "group": "public",
+   "entry": 1,
+   "liq": 5,
+   "risk": "high",
+   "desc": "Shares of football clubs listed on stock exchanges."
+  },
+  {
+   "name": "Hedge funds",
+   "group": "public",
+   "entry": 4,
+   "liq": 2,
+   "risk": "medium",
+   "desc": "Funds using long/short, macro and other strategies."
+  },
+  {
+   "name": "Market-making and quant funds",
+   "group": "public",
+   "entry": 4,
+   "liq": 2,
+   "risk": "medium",
+   "desc": "Systematic and trend-following funds."
   },
   {
    "name": "Savings and deposits",
@@ -155,22 +195,6 @@
    "desc": "Funds holding short government debt; tracks central bank rates."
   },
   {
-   "name": "Peer-to-peer lending",
-   "group": "cash",
-   "entry": 1,
-   "liq": 2,
-   "risk": "high",
-   "desc": "Lending to people or small firms through a platform."
-  },
-  {
-   "name": "Private loans to businesses",
-   "group": "cash",
-   "entry": 3,
-   "liq": 1,
-   "risk": "medium",
-   "desc": "Direct loans to mid-sized companies; listed BDCs show the market."
-  },
-  {
    "name": "Structured notes",
    "group": "cash",
    "entry": 3,
@@ -179,12 +203,84 @@
    "desc": "Bank-made products mixing a bond with an option payoff."
   },
   {
-   "name": "Royalties: music, books, patents",
-   "group": "cash",
-   "entry": 2,
+   "name": "Peer-to-peer lending",
+   "group": "credit",
+   "entry": 1,
+   "liq": 2,
+   "risk": "high",
+   "desc": "Lending to people or small firms through a platform."
+  },
+  {
+   "name": "Private loans to businesses",
+   "group": "credit",
+   "entry": 3,
+   "liq": 1,
+   "risk": "medium",
+   "desc": "Direct loans to mid-sized companies; listed BDCs show the market."
+  },
+  {
+   "name": "Private credit funds",
+   "group": "credit",
+   "entry": 3,
    "liq": 2,
    "risk": "medium",
-   "desc": "A share of income from songs, books, drug patents or mines."
+   "desc": "Funds that lend directly to companies."
+  },
+  {
+   "name": "Invoice factoring",
+   "group": "credit",
+   "entry": 3,
+   "liq": 1,
+   "risk": "medium",
+   "desc": "Buying unpaid invoices from businesses at a discount."
+  },
+  {
+   "name": "Revenue-based financing",
+   "group": "credit",
+   "entry": 2,
+   "liq": 1,
+   "risk": "high",
+   "desc": "Funding a business in exchange for a share of its monthly revenue until a cap is repaid."
+  },
+  {
+   "name": "Gold and silver bullion",
+   "group": "commodities",
+   "entry": 1,
+   "liq": 4,
+   "risk": "low",
+   "desc": "Physical gold and silver, or funds and tokens fully backed by it."
+  },
+  {
+   "name": "Commodity ETFs",
+   "group": "commodities",
+   "entry": 1,
+   "liq": 5,
+   "risk": "low",
+   "desc": "Exchange-traded funds holding baskets of commodities or their futures."
+  },
+  {
+   "name": "Oil and gas futures",
+   "group": "commodities",
+   "entry": 2,
+   "liq": 5,
+   "risk": "high",
+   "desc": "Contracts and funds that track crude oil and natural gas prices."
+  },
+  {
+   "name": "Grain and soft commodity futures",
+   "group": "commodities",
+   "entry": 2,
+   "liq": 5,
+   "risk": "high",
+   "desc": "Wheat, corn, soybeans and other farm goods via futures funds."
+  },
+  {
+   "name": "Carbon credits",
+   "group": "commodities",
+   "entry": 2,
+   "liq": 3,
+   "risk": "high",
+   "desc": "Emission allowances from carbon markets, held through funds."
   },
   {
    "name": "Coins and tokens",
@@ -251,8 +347,16 @@
    "desc": "Running or owning validator nodes for network rewards."
   },
   {
+   "name": "Tokenized Treasuries and real assets",
+   "group": "crypto",
+   "entry": 1,
+   "liq": 4,
+   "risk": "low",
+   "desc": "US Treasury bills and other real assets issued as on-chain tokens."
+  },
+  {
    "name": "Venture capital funds",
-   "group": "funds",
+   "group": "private",
    "entry": 4,
    "liq": 1,
    "risk": "high",
@@ -260,7 +364,7 @@
   },
   {
    "name": "Angel deals in startups",
-   "group": "funds",
+   "group": "private",
    "entry": 3,
    "liq": 1,
    "risk": "high",
@@ -268,39 +372,15 @@
   },
   {
    "name": "Private equity",
-   "group": "funds",
+   "group": "private",
    "entry": 4,
    "liq": 1,
    "risk": "medium",
    "desc": "Buying whole companies, improving and selling them."
   },
   {
-   "name": "Hedge funds",
-   "group": "funds",
-   "entry": 4,
-   "liq": 2,
-   "risk": "medium",
-   "desc": "Funds using long/short, macro and other strategies."
-  },
-  {
-   "name": "Market-making and quant funds",
-   "group": "funds",
-   "entry": 4,
-   "liq": 2,
-   "risk": "medium",
-   "desc": "Systematic and trend-following funds."
-  },
-  {
-   "name": "Private credit funds",
-   "group": "funds",
-   "entry": 3,
-   "liq": 2,
-   "risk": "medium",
-   "desc": "Funds that lend directly to companies."
-  },
-  {
    "name": "Pre-IPO shares",
-   "group": "funds",
+   "group": "private",
    "entry": 3,
    "liq": 2,
    "risk": "high",
@@ -308,7 +388,7 @@
   },
   {
    "name": "Funds of funds",
-   "group": "funds",
+   "group": "private",
    "entry": 4,
    "liq": 1,
    "risk": "medium",
@@ -316,7 +396,7 @@
   },
   {
    "name": "Equity crowdfunding",
-   "group": "funds",
+   "group": "private",
    "entry": 1,
    "liq": 1,
    "risk": "high",
@@ -379,6 +459,38 @@
    "desc": "Financing new construction for a share of profit or interest."
   },
   {
+   "name": "Infrastructure company shares",
+   "group": "infra",
+   "entry": 1,
+   "liq": 5,
+   "risk": "medium",
+   "desc": "Listed owners of towers, grids, pipelines and utilities."
+  },
+  {
+   "name": "Infrastructure ETFs",
+   "group": "infra",
+   "entry": 1,
+   "liq": 5,
+   "risk": "low",
+   "desc": "Funds holding many infrastructure companies."
+  },
+  {
+   "name": "Clean energy ETFs",
+   "group": "infra",
+   "entry": 1,
+   "liq": 5,
+   "risk": "high",
+   "desc": "Funds of solar, wind and other clean energy companies."
+  },
+  {
+   "name": "Community solar and wind projects",
+   "group": "infra",
+   "entry": 2,
+   "liq": 1,
+   "risk": "medium",
+   "desc": "Direct stakes in local renewable projects, paid from power sales."
+  },
+  {
    "name": "Buying a small business",
    "group": "business",
    "entry": 4,
@@ -419,20 +531,44 @@
    "desc": "Machines and self-service businesses."
   },
   {
-   "name": "Revenue-share deals",
-   "group": "business",
+   "name": "Music royalties",
+   "group": "royalties",
+   "entry": 2,
+   "liq": 2,
+   "risk": "medium",
+   "desc": "A share of income each time a song is streamed, played or licensed."
+  },
+  {
+   "name": "Book rights",
+   "group": "royalties",
    "entry": 2,
    "liq": 1,
    "risk": "high",
-   "desc": "Funding a business for a share of its revenue."
+   "desc": "A share of royalties from published books."
   },
   {
-   "name": "Trading cards",
-   "group": "collectibles",
-   "entry": 1,
-   "liq": 2,
+   "name": "Film and TV financing",
+   "group": "royalties",
+   "entry": 3,
+   "liq": 1,
    "risk": "high",
-   "desc": "Graded sports and game cards."
+   "desc": "Funding films and series for a share of their revenue."
+  },
+  {
+   "name": "Patent licensing",
+   "group": "royalties",
+   "entry": 3,
+   "liq": 1,
+   "risk": "medium",
+   "desc": "Income from licensing patents, e.g. drug royalties."
+  },
+  {
+   "name": "Athlete income deals",
+   "group": "royalties",
+   "entry": 3,
+   "liq": 1,
+   "risk": "high",
+   "desc": "Funding athletes for a share of future earnings."
   },
   {
    "name": "Watches",
@@ -515,56 +651,8 @@
    "desc": "Jewellery, coloured diamonds and gems."
   },
   {
-   "name": "Skins and cases",
-   "group": "games",
-   "entry": 1,
-   "liq": 3,
-   "risk": "high",
-   "desc": "CS2 and other game skins traded on markets."
-  },
-  {
-   "name": "In-game currencies",
-   "group": "games",
-   "entry": 1,
-   "liq": 3,
-   "risk": "high",
-   "desc": "Currencies inside games, traded for real money."
-  },
-  {
-   "name": "Game accounts and rare items",
-   "group": "games",
-   "entry": 1,
-   "liq": 2,
-   "risk": "high",
-   "desc": "Accounts and rare items; often against game rules."
-  },
-  {
-   "name": "Virtual land",
-   "group": "games",
-   "entry": 1,
-   "liq": 1,
-   "risk": "high",
-   "desc": "Land in metaverse worlds, priced in their tokens."
-  },
-  {
-   "name": "Club shares",
-   "group": "sport",
-   "entry": 1,
-   "liq": 5,
-   "risk": "high",
-   "desc": "Shares of football clubs listed on stock exchanges."
-  },
-  {
-   "name": "Player cards",
-   "group": "sport",
-   "entry": 1,
-   "liq": 2,
-   "risk": "high",
-   "desc": "Graded football and other sport cards."
-  },
-  {
    "name": "Match-worn shirts and memorabilia",
-   "group": "sport",
+   "group": "collectibles",
    "entry": 2,
    "liq": 1,
    "risk": "high",
@@ -572,19 +660,59 @@
   },
   {
    "name": "Racehorse shares",
-   "group": "sport",
+   "group": "collectibles",
    "entry": 2,
    "liq": 1,
    "risk": "high",
    "desc": "Shares in racehorses through syndicates."
   },
   {
-   "name": "Athlete income deals",
-   "group": "sport",
-   "entry": 3,
+   "name": "Trading cards",
+   "group": "cards",
+   "entry": 1,
+   "liq": 2,
+   "risk": "high",
+   "desc": "Graded sports and game cards."
+  },
+  {
+   "name": "Player cards",
+   "group": "cards",
+   "entry": 1,
+   "liq": 2,
+   "risk": "high",
+   "desc": "Graded football and other sport cards."
+  },
+  {
+   "name": "Skins and cases",
+   "group": "cards",
+   "entry": 1,
+   "liq": 3,
+   "risk": "high",
+   "desc": "CS2 and other game skins traded on markets."
+  },
+  {
+   "name": "In-game currencies",
+   "group": "cards",
+   "entry": 1,
+   "liq": 3,
+   "risk": "high",
+   "desc": "Currencies inside games, traded for real money."
+  },
+  {
+   "name": "Game accounts and rare items",
+   "group": "cards",
+   "entry": 1,
+   "liq": 2,
+   "risk": "high",
+   "desc": "Accounts and rare items; often against game rules."
+  },
+  {
+   "name": "Virtual land",
+   "group": "cards",
+   "entry": 1,
    "liq": 1,
    "risk": "high",
-   "desc": "Funding athletes for a share of future earnings."
+   "desc": "Land in metaverse worlds, priced in their tokens."
   }
  ],
  "assets": [
@@ -899,7 +1027,7 @@
    "name": "Gold (SPDR Gold Shares)",
    "symbol": "GLD",
    "source": "yahoo",
-   "way": "Gold and commodities",
+   "way": "Gold and silver bullion",
    "sub": "Physical gold",
    "min": "$1"
   },
@@ -908,7 +1036,7 @@
    "name": "Silver (iShares Silver Trust)",
    "symbol": "SLV",
    "source": "yahoo",
-   "way": "Gold and commodities",
+   "way": "Gold and silver bullion",
    "sub": "Physical silver",
    "min": "$1"
   },
@@ -917,7 +1045,7 @@
    "name": "Platinum ETF",
    "symbol": "PPLT",
    "source": "yahoo",
-   "way": "Gold and commodities",
+   "way": "Gold and silver bullion",
    "sub": "Physical platinum",
    "min": "$1"
   },
@@ -926,7 +1054,7 @@
    "name": "Copper ETF",
    "symbol": "CPER",
    "source": "yahoo",
-   "way": "Gold and commodities",
+   "way": "Commodity ETFs",
    "sub": "Copper futures",
    "min": "$1"
   },
@@ -935,7 +1063,7 @@
    "name": "Broad commodities ETF",
    "symbol": "DBC",
    "source": "yahoo",
-   "way": "Gold and commodities",
+   "way": "Commodity ETFs",
    "sub": "Energy, metals, farm",
    "min": "$1"
   },
@@ -998,17 +1126,8 @@
    "name": "Royalty Pharma",
    "symbol": "RPRX",
    "source": "yahoo",
-   "way": "Royalties: music, books, patents",
+   "way": "Patent licensing",
    "sub": "Drug patent royalties",
-   "min": "$1"
-  },
-  {
-   "id": "fnv",
-   "name": "Franco-Nevada",
-   "symbol": "FNV",
-   "source": "yahoo",
-   "way": "Royalties: music, books, patents",
-   "sub": "Mining royalties",
    "min": "$1"
   },
   {
@@ -1205,7 +1324,7 @@
    "name": "Manchester United",
    "symbol": "MANU",
    "source": "yahoo",
-   "way": "Club shares",
+   "way": "Football club shares",
    "sub": "England · NYSE",
    "min": "$1"
   },
@@ -1214,7 +1333,7 @@
    "name": "Juventus",
    "symbol": "JUVE.MI",
    "source": "yahoo",
-   "way": "Club shares",
+   "way": "Football club shares",
    "sub": "Italy · Milan",
    "min": "€1"
   },
@@ -1223,7 +1342,7 @@
    "name": "Borussia Dortmund",
    "symbol": "BVB.DE",
    "source": "yahoo",
-   "way": "Club shares",
+   "way": "Football club shares",
    "sub": "Germany · Frankfurt",
    "min": "€1"
   },
@@ -1232,7 +1351,7 @@
    "name": "Ajax",
    "symbol": "AJAX.AS",
    "source": "yahoo",
-   "way": "Club shares",
+   "way": "Football club shares",
    "sub": "Netherlands · Amsterdam",
    "min": "€1"
   },
@@ -1241,7 +1360,7 @@
    "name": "Celtic",
    "symbol": "CCP.L",
    "source": "yahoo",
-   "way": "Club shares",
+   "way": "Football club shares",
    "sub": "Scotland · London",
    "min": "£1"
   },
@@ -1250,7 +1369,7 @@
    "name": "Benfica",
    "symbol": "SLBEN.LS",
    "source": "yahoo",
-   "way": "Club shares",
+   "way": "Football club shares",
    "sub": "Portugal · Lisbon",
    "min": "€1"
   },
@@ -1259,7 +1378,7 @@
    "name": "FC Porto",
    "symbol": "FCP.LS",
    "source": "yahoo",
-   "way": "Club shares",
+   "way": "Football club shares",
    "sub": "Portugal · Lisbon",
    "min": "€1"
   },
@@ -1268,7 +1387,7 @@
    "name": "Lazio",
    "symbol": "SSL.MI",
    "source": "yahoo",
-   "way": "Club shares",
+   "way": "Football club shares",
    "sub": "Italy · Milan",
    "min": "€1"
   },
@@ -1277,7 +1396,7 @@
    "name": "Galatasaray",
    "symbol": "GSRAY.IS",
    "source": "yahoo",
-   "way": "Club shares",
+   "way": "Football club shares",
    "sub": "Turkey · Istanbul",
    "min": "₺1"
   },
@@ -1286,7 +1405,7 @@
    "name": "Fenerbahçe",
    "symbol": "FENER.IS",
    "source": "yahoo",
-   "way": "Club shares",
+   "way": "Football club shares",
    "sub": "Turkey · Istanbul",
    "min": "₺1"
   },
@@ -1295,7 +1414,7 @@
    "name": "Madison Square Garden Sports",
    "symbol": "MSGS",
    "source": "yahoo",
-   "way": "Club shares",
+   "way": "Football club shares",
    "sub": "USA · Knicks, Rangers",
    "min": "$1"
   },
@@ -1646,7 +1765,7 @@
    "name": "Oil (US Oil Fund)",
    "symbol": "USO",
    "source": "yahoo",
-   "way": "Gold and commodities",
+   "way": "Oil and gas futures",
    "sub": "WTI crude futures",
    "min": "$1"
   },
@@ -1655,7 +1774,7 @@
    "name": "Natural gas fund",
    "symbol": "UNG",
    "source": "yahoo",
-   "way": "Gold and commodities",
+   "way": "Oil and gas futures",
    "sub": "US natural gas futures",
    "min": "$1"
   },
@@ -1664,7 +1783,7 @@
    "name": "Wheat fund",
    "symbol": "WEAT",
    "source": "yahoo",
-   "way": "Gold and commodities",
+   "way": "Grain and soft commodity futures",
    "sub": "Wheat futures",
    "min": "$1"
   },
@@ -1673,7 +1792,7 @@
    "name": "Uranium miners ETF",
    "symbol": "URA",
    "source": "yahoo",
-   "way": "Gold and commodities",
+   "way": "Commodity ETFs",
    "sub": "Uranium",
    "min": "$1"
   },
@@ -1817,7 +1936,7 @@
    "name": "PAX Gold (tokenised gold)",
    "symbol": "PAXG-USD",
    "source": "yahoo",
-   "way": "Gold and commodities",
+   "way": "Gold and silver bullion",
    "sub": "1 token = 1 troy oz in a London vault",
    "min": "$1"
   },
@@ -1826,7 +1945,7 @@
    "name": "Equinix",
    "symbol": "EQIX",
    "source": "yahoo",
-   "way": "Commercial property",
+   "way": "Infrastructure company shares",
    "sub": "World · data centres",
    "min": "$1"
   },
@@ -1835,7 +1954,7 @@
    "name": "American Tower",
    "symbol": "AMT",
    "source": "yahoo",
-   "way": "Commercial property",
+   "way": "Infrastructure company shares",
    "sub": "World · cell towers",
    "min": "$1"
   },
@@ -1864,6 +1983,87 @@
    "source": "yahoo",
    "way": "Farmland",
    "sub": "USA · farmland owner",
+   "min": "$1"
+  },
+  {
+   "id": "krbn",
+   "name": "Global carbon allowances ETF",
+   "symbol": "KRBN",
+   "source": "yahoo",
+   "way": "Carbon credits",
+   "sub": "EU, UK, California carbon futures",
+   "min": "$1"
+  },
+  {
+   "id": "corn",
+   "name": "Corn fund",
+   "symbol": "CORN",
+   "source": "yahoo",
+   "way": "Grain and soft commodity futures",
+   "sub": "Corn futures",
+   "min": "$1"
+  },
+  {
+   "id": "soyb",
+   "name": "Soybean fund",
+   "symbol": "SOYB",
+   "source": "yahoo",
+   "way": "Grain and soft commodity futures",
+   "sub": "Soybean futures",
+   "min": "$1"
+  },
+  {
+   "id": "igf",
+   "name": "Global infrastructure ETF",
+   "symbol": "IGF",
+   "source": "yahoo",
+   "way": "Infrastructure ETFs",
+   "sub": "World · utilities, transport, energy",
+   "min": "$1"
+  },
+  {
+   "id": "pave",
+   "name": "US infrastructure development ETF",
+   "symbol": "PAVE",
+   "source": "yahoo",
+   "way": "Infrastructure ETFs",
+   "sub": "USA · construction, materials",
+   "min": "$1"
+  },
+  {
+   "id": "nee",
+   "name": "NextEra Energy",
+   "symbol": "NEE",
+   "source": "yahoo",
+   "way": "Infrastructure company shares",
+   "sub": "USA · utility and renewables",
+   "min": "$1"
+  },
+  {
+   "id": "bip",
+   "name": "Brookfield Infrastructure",
+   "symbol": "BIP",
+   "source": "yahoo",
+   "way": "Infrastructure company shares",
+   "sub": "Global · ports, pipelines, data",
+   "min": "$1"
+  },
+  {
+   "id": "icln",
+   "name": "Global clean energy ETF",
+   "symbol": "ICLN",
+   "source": "yahoo",
+   "way": "Clean energy ETFs",
+   "sub": "World · solar, wind, utilities",
+   "min": "$1"
+  },
+  {
+   "id": "tan",
+   "name": "Solar energy ETF",
+   "symbol": "TAN",
+   "source": "yahoo",
+   "way": "Clean energy ETFs",
+   "sub": "World · solar",
    "min": "$1"
   }
  ],

@@ -164,14 +164,14 @@ class CatalogBuilderTest {
                 assertTrue(a.containsKey(k), a.get("id") + " lacks " + k);
 
         Map<String, Object> meta = (Map<String, Object>) c.get("meta");
-        assertEquals(64, meta.get("n_ways"));
+        assertEquals(77, meta.get("n_ways"));
         assertEquals(7, meta.get("n_assets"));
         assertEquals(3, meta.get("n_countries"));
         assertEquals("java", meta.get("backend"));
 
         String json = Json.write(c);
         assertFalse(json.contains("NaN") || json.contains("Infinity"), "catalog must be valid JSON");
-        assertEquals(64, Json.parse(json).get("ways").size());
+        assertEquals(77, Json.parse(json).get("ways").size());
     }
 
     @Test
@@ -263,7 +263,7 @@ class CatalogBuilderTest {
             assertTrue(g.containsKey("ret_1y_n"), g.get("slug") + " lacks ret_1y_n");
             assertTrue(g.containsKey("ways"));
         }
-        assertEquals(64, groups.stream().mapToInt(g -> ((List<?>) g.get("ways")).size()).sum(), "every way in exactly one group");
+        assertEquals(77, groups.stream().mapToInt(g -> ((List<?>) g.get("ways")).size()).sum(), "every way in exactly one group");
         Map<String, Object> etfGroup = byId(groups, "slug", (String) etf.get("group"));
         assertTrue((Integer) etfGroup.get("ret_1y_n") >= 1);
         assertNotNull(etfGroup.get("ret_1y"));

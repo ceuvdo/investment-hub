@@ -243,6 +243,13 @@ public class Sources {
 
     // ---------- hand-collected research figures (data/research/*.json) ----------
 
+    /** Research files written before the v2 catalog use older way names. */
+    static final Map<String, String> ALIASES = Map.of(
+            "Club shares", "Football club shares",
+            "Revenue-share deals", "Revenue-based financing",
+            "Royalties: music, books, patents", "Music royalties",
+            "Skins and cases (CS2)", "Skins and cases");
+
     /** One broken file is skipped with a warning; it never stops the daily build. */
     public Map<String, JsonNode> research() {
         Map<String, JsonNode> out = new LinkedHashMap<>();
@@ -259,7 +266,10 @@ public class Sources {
             try {
                 JsonNode ways = Json.parse(Files.readString(f)).get("ways");
                 if (ways == null || !ways.isArray()) throw new IllegalStateException("no \"ways\" array");
-                for (JsonNode w : ways) if (Json.str(w, "way") != null) out.put(Json.str(w, "way"), w);
+                for (JsonNode w : ways) {
+                    String name = Json.str(w, "way");
+                    if (name != null) out.put(ALIASES.getOrDefault(name, name), w);
+                }
             } catch (Exception e) {
                 log.warn("research file {} skipped: {}", f.getFileName(), e.getMessage());
             }

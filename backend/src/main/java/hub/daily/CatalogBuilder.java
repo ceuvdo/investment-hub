@@ -122,6 +122,10 @@ public class CatalogBuilder {
             m.put("vol30", v30 > 0 ? v30 : null);
             m.put("sells", maxLiq);
             m.put("ways", gw.stream().map(w -> w.get("slug")).toList());
+            List<String> ids = new ArrayList<>();
+            for (Map<String, Object> w : gw)
+                for (Object id : (List<?>) w.get("assets")) if (!String.valueOf(id).startsWith("hp_")) ids.add(String.valueOf(id));
+            m.putAll(GroupIndex.compute(ids, seriesOut));
             groups.add(m);
         }
         Map<String, String> groupOfWay = new HashMap<>();

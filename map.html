@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Every way to invest: the map</title>
-<meta name="description" content="All 64 ways to invest in nine groups, filtered by budget, risk and how fast you can sell.">
+<title>Every way to invest, on one map · Wyndton</title>
+<meta name="description" content="All ways to invest in twelve groups, filtered by how much you can put in and by risk.">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Onest:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/css/site.css">
@@ -14,54 +14,60 @@
 <body>
 <div id="top"></div>
 <main class="wrap">
-  <section style="padding:28px 0 28px;display:flex;flex-direction:column;gap:18px">
-    <h1 class="h2" style="font-size:36px" id="title">Every way to invest</h1>
-    <p class="lead" style="max-width:720px">Nine groups, from a bank deposit to a racehorse share. Pick a budget to see what is open to you; each way shows its latest measured return, how risky it is and how fast you can get out.</p>
-    <div style="display:flex;flex-wrap:wrap;gap:12px 28px;align-items:center">
+  <section style="padding:36px 0 28px;display:flex;flex-direction:column;gap:18px">
+    <h1 class="h2" style="font-size:40px">Every way to invest, <span class="acc">on one map</span></h1>
+    <p class="lead" style="max-width:720px">From a savings account to a hedge fund seat. Each entry shows what it takes to get in, how risky it is and how hard it is to get out. Enter your budget to see what is open to you.</p>
+    <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center">
+      <form class="amount" id="amt-form" style="max-width:none;flex:0 1 auto">
+        <label style="flex:0 1 auto;border-radius:999px;height:44px">I can put in <input id="amt" type="text" inputmode="numeric" placeholder="$ amount" style="width:110px" aria-label="Amount in US dollars"></label>
+      </form>
       <div class="pills" id="budget" role="group" aria-label="Budget"></div>
-      <div class="pills" id="risk" role="group" aria-label="Risk"></div>
+      <div class="pills" id="risk" role="group" aria-label="Risk" style="margin-left:8px"></div>
+      <span class="mono note" id="count" style="margin-left:auto"></span>
     </div>
-    <div class="note" id="count"></div>
   </section>
-  <section class="map-groups sec" id="groups"></section>
+  <section class="sec" id="groups" style="display:flex;flex-direction:column;gap:36px"></section>
+  <p class="note sec" style="margin-top:-36px">Entry = smallest budget that can realistically buy in. Exit = liquidity 1–5 (5 sells in seconds). Risk band and these two ratings are editorial for now; measured swing, worst drop and time to sell are on each way's page. <a class="link" href="methodology.html">Methodology →</a></p>
 </main>
 <script>
 (function () {
   var K = window.K, C = K.C, esc = K.esc;
   K.header('map');
-  var budget = parseInt(K.q('b') || '5', 10), risk = K.q('r') || 'all';
-  function headline(w) {
-    var m = w.metrics;
-    var order = [['ret_1y', '1y'], ['ret_5y', '5y/yr'], ['ret_10y', '10y/yr'], ['yield', 'yield'], ['real_yield', 'real']];
-    for (var i = 0; i < order.length; i++) {
-      var x = m[order[i][0]];
-      if (x && K.num(x.value)) return '<span title="' + esc((x.source || '') + (x.asof ? ' · ' + x.asof : '')) + '">' + K.pctc(x.value) + ' <span class="muted" style="font-size:11px">' + order[i][1] + '</span></span>';
-    }
-    return '<span class="nodata">no figure yet</span>';
-  }
+  var LIMIT = { 1: 100, 2: 1000, 3: 25000, 4: 250000 };   // smallest budget per entry level
+  var LABEL = { 1: 'from $100', 2: 'from $1k', 3: 'from $25k', 4: 'from $250k' };
+  var legacy = { 1: 100, 2: 1000, 3: 25000, 4: 250000 }[K.q('b')];
+  var amount = parseFloat((K.q('a') || '').replace(/[^0-9.]/g, '')) || legacy || null, risk = K.q('r') || 'all';
+  function open(w) { return !amount || LIMIT[w.entry] <= amount; }
   function draw() {
-    var shown = 0;
-    document.getElementById('budget').innerHTML = [[1, '$100'], [2, '$1,000'], [3, '$25,000'], [4, '$250,000+'], [5, 'Any budget']].map(function (p) {
-      return '<button class="pill" aria-pressed="' + (p[0] === budget) + '" data-b="' + p[0] + '">' + p[1] + '</button>'; }).join('');
+    document.getElementById('amt').value = amount ? amount.toLocaleString('en-US') : '';
+    document.getElementById('budget').innerHTML = [[100, '$100'], [1000, '$1,000'], [10000, '$10,000'], [50000, '$50,000+'], [null, 'Show everything']].map(function (p) {
+      return '<button class="pill" aria-pressed="' + (p[0] === amount) + '" data-a="' + (p[0] || '') + '">' + p[1] + '</button>'; }).join('');
     document.getElementById('risk').innerHTML = [['all', 'Any risk'], ['low', 'Low'], ['medium', 'Medium'], ['high', 'High']].map(function (p) {
       return '<button class="pill" aria-pressed="' + (p[0] === risk) + '" data-r="' + p[0] + '">' + p[1] + '</button>'; }).join('');
+    var shown = 0;
     document.getElementById('groups').innerHTML = C.groups.map(function (g) {
       var all = C.ways.filter(function (w) { return w.group === g.slug; });
-      var ws = all.filter(function (w) { return (budget === 5 || w.entry <= budget) && (risk === 'all' || w.risk === risk); });
+      var ws = all.filter(function (w) { return open(w) && (risk === 'all' || w.risk === risk); });
       shown += ws.length;
-      return '<div class="card pad" style="display:flex;flex-direction:column;gap:6px' + (ws.length ? '' : ';opacity:.55') + '">' +
-        '<div style="display:flex;justify-content:space-between;align-items:baseline;gap:12px"><a class="h4" href="class.html?g=' + g.slug + '">' + esc(g.name) + '</a><span class="mono note">' + ws.length + ' of ' + all.length + '</span></div>' +
-        '<div class="note" style="margin-bottom:6px">' + esc(g.note) + '</div>' +
-        (ws.length ? ws.map(function (w) {
-          return '<div class="way"><a href="' + K.wayHref(w) + '">' + esc(w.name) + '</a><span class="r">' + headline(w) + '</span>' +
-            '<span class="meta"><span>' + K.ENTRY[w.entry] + '</span><span>' + K.liq(w.liq) + ' liquidity</span><span class="' + (w.risk === 'high' ? 'down' : '') + '">' + w.risk + ' risk</span>' + (w.assets.length ? '<span>' + w.assets.length + ' tracked</span>' : '') + '</span></div>';
-        }).join('') : '<div class="note">Nothing here for this filter.</div>') + '</div>';
+      return '<div><div class="grp-h"><a class="h3" href="class.html?g=' + g.slug + '">' + esc(g.name) + '</a><span class="mono acc" style="font-size:13px">' + ws.length + ' of ' + all.length + '</span><span class="note" style="font-size:14px">' + esc(g.note) + '</span></div>' +
+        (ws.length ? '<div class="wgrid">' + ws.map(function (w) {
+          var m = w.metrics, fig = m.ret_1y || m.ret_5y || m.ret_10y || m.yield;
+          var figTxt = fig && K.num(fig.value) ? K.pctc(fig.value) + ' <span class="muted" style="font-size:11px">' + (fig === m.ret_1y ? '1y' : fig === m.ret_5y ? '5y/yr' : fig === m.ret_10y ? '10y/yr' : 'yield') + '</span>' : '<span class="nodata">no figure yet</span>';
+          return '<a class="wcard" href="' + K.wayHref(w) + '"><span class="nm">' + esc(w.name) + '</span>' +
+            '<span class="row"><span class="' + (w.risk === 'high' ? 'down' : '') + '">' + w.risk + ' risk</span><span class="mono" title="' + esc(fig && fig.source ? fig.source + ' · ' + (fig.asof || '') : '') + '">' + figTxt + '</span></span>' +
+            '<span class="row"><span class="mono" style="color:var(--text)">' + LABEL[w.entry] + '</span><span>exit <span class="exitbar" aria-hidden="true"><i style="width:' + (w.liq * 20) + '%"></i></span> <span class="mono">' + w.liq + '/5</span></span></span></a>';
+        }).join('') + '</div>' : '<div class="note">Nothing here for this budget and risk.</div>') + '</div>';
     }).join('');
-    document.getElementById('count').textContent = 'Showing ' + shown + ' of ' + C.ways.length + ' ways. Figures: latest 1-year return where measured, otherwise the longest published return or the current yield; hover for the source.';
-    document.querySelectorAll('[data-b]').forEach(function (b) { b.onclick = function () { budget = +b.dataset.b; sync(); }; });
+    document.getElementById('count').textContent = shown + ' of ' + C.ways.length + ' open to you';
+    document.querySelectorAll('[data-a]').forEach(function (b) { b.onclick = function () { amount = b.dataset.a ? +b.dataset.a : null; sync(); }; });
     document.querySelectorAll('[data-r]').forEach(function (b) { b.onclick = function () { risk = b.dataset.r; sync(); }; });
   }
-  function sync() { history.replaceState(null, '', '?b=' + budget + (risk !== 'all' ? '&r=' + risk : '')); draw(); }
+  function sync() {
+    var q = []; if (amount) q.push('a=' + amount); if (risk !== 'all') q.push('r=' + risk);
+    history.replaceState(null, '', q.length ? '?' + q.join('&') : location.pathname); draw();
+  }
+  document.getElementById('amt-form').onsubmit = function (e) { e.preventDefault(); var v = parseFloat(document.getElementById('amt').value.replace(/[^0-9.]/g, '')); amount = v > 0 ? v : null; sync(); };
+  document.getElementById('amt').onchange = function () { document.getElementById('amt-form').onsubmit(new Event('submit')); };
   draw();
   K.footer();
 })();

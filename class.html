@@ -31,7 +31,7 @@
   var trustOf = function (w) { var t = {}; Object.keys(w.metrics).forEach(function (k) { var x = w.metrics[k]; if (x && x.trust && K.num(x.value)) t[x.trust] = 1; }); return Object.keys(t).map(K.trust).join(' '); };
 
   var h = '<section class="split" style="padding-top:8px">' +
-    '<div style="display:flex;flex-direction:column;gap:18px"><img class="cover" src="assets/img/' + g.img + '" alt="" style="object-position:' + g.pos + '">' +
+    '<div style="display:flex;flex-direction:column;gap:18px">' + (g.img ? '<img class="cover" src="assets/img/' + g.img + '" alt="" style="object-position:' + g.pos + '">' : '<div class="gph" style="height:220px;border-radius:16px;font-size:28px" aria-hidden="true">' + esc(g.name) + '</div>') +
     '<h1 class="h2" style="font-size:40px">' + esc(g.name) + '</h1><p class="lead" style="margin:0">' + esc(g.about) + '</p>' +
     '<div style="display:flex;flex-wrap:wrap;gap:10px"><a class="btn acc" href="compare.html?ids=' + assets.slice(0, 3).map(function (a) { return a.id; }).join(',') + '">Compare inside this group</a><a class="btn" href="map.html">All groups</a></div></div>' +
     '<div class="card pad" style="display:flex;flex-direction:column;gap:16px"><div style="display:flex;justify-content:space-between;align-items:baseline;gap:12px"><span class="cap" style="font-size:13px">Tracked assets, equal weight · 5 years</span><span class="mono" id="g-chg"></span></div><div id="g-chart"></div>' +

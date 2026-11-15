@@ -74,7 +74,7 @@
   function header(active) {
     var m = C.meta;
     var built = m.built;
-    var nav = [['map.html', 'All ways to invest', 'map'], ['rankings.html', 'Rankings', 'rank'], ['compare.html', 'Compare', 'cmp'], ['methodology.html', 'Methodology', 'meth']];
+    var nav = [['map.html', 'All ways to invest', 'map'], ['rankings.html', 'Rankings', 'rank'], ['compare.html', 'Compare', 'cmp'], ['index.html#news', 'News', 'news'], ['theme.html', 'Football', 'theme'], ['methodology.html', 'Methodology', 'meth']];
     var h = '<div class="strip"><div class="wrap">' +
       '<span>Ways to invest <b>' + m.n_ways + '</b></span>' +
       '<span>Assets tracked <b>' + m.n_assets + '</b></span>' +
