@@ -165,6 +165,83 @@ public class Sources {
         return series.load(assetId, kind);
     }
 
+    // ---------- Skinport: CS2 sales aggregates and live listings ----------
+
+    /**
+     * history: market_hash_name -> sales aggregates (last_24_hours / 7 / 30 / 90 days: min, max, avg, median, volume);
+     * listings: market_hash_name -> current listings (min_price, quantity, item_page);
+     * asof: day the data was fetched; fresh = fetched in this run (only then is a new daily price stored).
+     */
+    public record Skinport(Map<String, JsonNode> history, Map<String, JsonNode> listings, String asof, boolean fresh) {}
+
+    static final String SKINPORT = "https://api.skinport.com/v1/";
+
+    /**
+     * Two calls (Skinport allows 8 per 5 minutes and caches 5 minutes itself). Stores one daily point per item:
+     * the median sale of the last 7 days (30 days for slow items), volume = number of sales in the last 24 hours.
+     * Skinport keeps no long history, so the price history is our own and starts on the first build.
+     */
+    public Skinport skinport(List<Universe.Skin> wanted) {
+        if (wanted.isEmpty()) return null;
+        String[] hist = fetchStamped("skinport.history", SKINPORT + "sales/history?app_id=730&currency=USD");
+        String[] items = fetchStamped("skinport.items", SKINPORT + "items?app_id=730&currency=USD");
+        if (hist == null) return null;
+        Map<String, JsonNode> h = byHash(hist[0]), l = items == null ? Map.of() : byHash(items[0]);
+        String asof = hist[1];
+        boolean fresh = "fresh".equals(hist[2]);
+        if (fresh) {
+            long day = LocalDate.parse(asof).atStartOfDay(ZoneOffset.UTC).toEpochSecond();
+            for (Universe.Skin s : wanted) {
+                Double p = skinPrice(h.get(s.hash()));
+                if (p == null) continue;
+                Double vol24 = Json.num(h.get(s.hash()).path("last_24_hours"), "volume");
+                series.upsert(s.id(), 'd', new Series.Points(new long[]{day}, new double[]{p}, new double[]{vol24 == null ? Double.NaN : vol24}));
+            }
+        }
+        return new Skinport(h, l, asof, fresh);
+    }
+
+    /** Median sale over 7 days if at least 3 sales, else over 30 days, else null. */
+    public static Double skinPrice(JsonNode hist) {
+        if (hist == null) return null;
+        for (String k : List.of("last_7_days", "last_30_days")) {
+            JsonNode p = hist.path(k);
+            Double med = Json.num(p, "median"), vol = Json.num(p, "volume");
+            if (med != null && med > 0 && vol != null && vol >= 3) return med;
+        }
+        return null;
+    }
+
+    private static Map<String, JsonNode> byHash(String body) {
+        Map<String, JsonNode> out = new LinkedHashMap<>();
+        JsonNode arr = Json.parse(body);
+        if (arr.isArray())
+            for (JsonNode x : arr) {
+                String name = Json.str(x, "market_hash_name");
+                // a few items (Doppler phases) repeat the same name with a "version"; keep the plain one
+                if (name != null && (!out.containsKey(name) || x.path("version").isNull())) out.put(name, x);
+            }
+        return out;
+    }
+
+    /** [body, fetch date, "fresh"|"stored"] — fetches, or falls back to the stored copy with its own date. */
+    private String[] fetchStamped(String key, String url) {
+        try {
+            String body = Http.getBrotli(url, Duration.ofSeconds(90));
+            if (!body.trim().startsWith("[")) throw new IOException("unexpected body");
+            jdbc.update("""
+                    INSERT INTO source_cache(key, fetched_at, body) VALUES (?, now(), ?)
+                    ON CONFLICT (key) DO UPDATE SET fetched_at = now(), body = EXCLUDED.body""", key, body);
+            return new String[]{body, LocalDate.now(ZoneOffset.UTC).toString(), "fresh"};
+        } catch (Exception e) {
+            log.warn("{}: {}; using stored copy", key, e.getMessage());
+            List<Map<String, Object>> row = jdbc.queryForList("SELECT fetched_at, body FROM source_cache WHERE key = ?", key);
+            if (row.isEmpty()) return null;
+            String date = ((Timestamp) row.get(0).get("fetched_at")).toInstant().atZone(ZoneOffset.UTC).toLocalDate().toString();
+            return new String[]{(String) row.get(0).get("body"), date, "stored"};
+        }
+    }
+
     // ---------- World Bank: deposit rate and inflation, latest year per country ----------
 
     public List<Map<String, Object>> deposits() {

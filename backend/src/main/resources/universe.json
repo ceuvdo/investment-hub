@@ -2067,6 +2067,302 @@
    "min": "$1"
   }
  ],
+ "skins": [
+  {
+   "id": "cs_operation_breakout",
+   "name": "Operation Breakout Weapon Case",
+   "hash": "Operation Breakout Weapon Case",
+   "sub": "Case"
+  },
+  {
+   "id": "cs_spectrum_2_case",
+   "name": "Spectrum 2 Case",
+   "hash": "Spectrum 2 Case",
+   "sub": "Case"
+  },
+  {
+   "id": "cs_glove_case",
+   "name": "Glove Case",
+   "hash": "Glove Case",
+   "sub": "Case"
+  },
+  {
+   "id": "cs_operation_phoenix",
+   "name": "Operation Phoenix Weapon Case",
+   "hash": "Operation Phoenix Weapon Case",
+   "sub": "Case"
+  },
+  {
+   "id": "cs_spectrum_case",
+   "name": "Spectrum Case",
+   "hash": "Spectrum Case",
+   "sub": "Case"
+  },
+  {
+   "id": "cs_chroma_2_case",
+   "name": "Chroma 2 Case",
+   "hash": "Chroma 2 Case",
+   "sub": "Case"
+  },
+  {
+   "id": "cs_dreams_nightmares_case",
+   "name": "Dreams & Nightmares Case",
+   "hash": "Dreams & Nightmares Case",
+   "sub": "Case"
+  },
+  {
+   "id": "cs_chroma_3_case",
+   "name": "Chroma 3 Case",
+   "hash": "Chroma 3 Case",
+   "sub": "Case"
+  },
+  {
+   "id": "cs_cs_go",
+   "name": "CS:GO Weapon Case",
+   "hash": "CS:GO Weapon Case",
+   "sub": "Case"
+  },
+  {
+   "id": "cs_operation_broken_fang_case",
+   "name": "Operation Broken Fang Case",
+   "hash": "Operation Broken Fang Case",
+   "sub": "Case"
+  },
+  {
+   "id": "cs_gamma_2_case",
+   "name": "Gamma 2 Case",
+   "hash": "Gamma 2 Case",
+   "sub": "Case"
+  },
+  {
+   "id": "cs_operation_bravo_case",
+   "name": "Operation Bravo Case",
+   "hash": "Operation Bravo Case",
+   "sub": "Case"
+  },
+  {
+   "id": "cs_danger_zone_case",
+   "name": "Danger Zone Case",
+   "hash": "Danger Zone Case",
+   "sub": "Case"
+  },
+  {
+   "id": "cs_revolver_case",
+   "name": "Revolver Case",
+   "hash": "Revolver Case",
+   "sub": "Case"
+  },
+  {
+   "id": "cs_butterfly_knife_fade_fn",
+   "name": "Butterfly Knife | Fade (Factory New)",
+   "hash": "★ Butterfly Knife | Fade (Factory New)",
+   "sub": "Knife · Factory New"
+  },
+  {
+   "id": "cs_butterfly_knife_marble_fade_fn",
+   "name": "Butterfly Knife | Marble Fade (Factory New)",
+   "hash": "★ Butterfly Knife | Marble Fade (Factory New)",
+   "sub": "Knife · Factory New"
+  },
+  {
+   "id": "cs_butterfly_knife_tiger_tooth_fn",
+   "name": "Butterfly Knife | Tiger Tooth (Factory New)",
+   "hash": "★ Butterfly Knife | Tiger Tooth (Factory New)",
+   "sub": "Knife · Factory New"
+  },
+  {
+   "id": "cs_karambit_tiger_tooth_fn",
+   "name": "Karambit | Tiger Tooth (Factory New)",
+   "hash": "★ Karambit | Tiger Tooth (Factory New)",
+   "sub": "Knife · Factory New"
+  },
+  {
+   "id": "cs_talon_knife_marble_fade_fn",
+   "name": "Talon Knife | Marble Fade (Factory New)",
+   "hash": "★ Talon Knife | Marble Fade (Factory New)",
+   "sub": "Knife · Factory New"
+  },
+  {
+   "id": "cs_talon_knife_tiger_tooth_fn",
+   "name": "Talon Knife | Tiger Tooth (Factory New)",
+   "hash": "★ Talon Knife | Tiger Tooth (Factory New)",
+   "sub": "Knife · Factory New"
+  },
+  {
+   "id": "cs_talon_knife_fade_fn",
+   "name": "Talon Knife | Fade (Factory New)",
+   "hash": "★ Talon Knife | Fade (Factory New)",
+   "sub": "Knife · Factory New"
+  },
+  {
+   "id": "cs_butterfly_knife_autotronic_ft",
+   "name": "Butterfly Knife | Autotronic (Field-Tested)",
+   "hash": "★ Butterfly Knife | Autotronic (Field-Tested)",
+   "sub": "Knife · Field-Tested"
+  },
+  {
+   "id": "cs_sport_gloves_vice_ft",
+   "name": "Sport Gloves | Vice (Field-Tested)",
+   "hash": "★ Sport Gloves | Vice (Field-Tested)",
+   "sub": "Gloves · Field-Tested"
+  },
+  {
+   "id": "cs_driver_gloves_snow_leopard_ft",
+   "name": "Driver Gloves | Snow Leopard (Field-Tested)",
+   "hash": "★ Driver Gloves | Snow Leopard (Field-Tested)",
+   "sub": "Gloves · Field-Tested"
+  },
+  {
+   "id": "cs_sport_gloves_nocts_ft",
+   "name": "Sport Gloves | Nocts (Field-Tested)",
+   "hash": "★ Sport Gloves | Nocts (Field-Tested)",
+   "sub": "Gloves · Field-Tested"
+  },
+  {
+   "id": "cs_sport_gloves_amphibious_ft",
+   "name": "Sport Gloves | Amphibious (Field-Tested)",
+   "hash": "★ Sport Gloves | Amphibious (Field-Tested)",
+   "sub": "Gloves · Field-Tested"
+  },
+  {
+   "id": "cs_driver_gloves_imperial_plaid_ft",
+   "name": "Driver Gloves | Imperial Plaid (Field-Tested)",
+   "hash": "★ Driver Gloves | Imperial Plaid (Field-Tested)",
+   "sub": "Gloves · Field-Tested"
+  },
+  {
+   "id": "cs_specialist_gloves_cloud_chaser_ft",
+   "name": "Specialist Gloves | Cloud Chaser (Field-Tested)",
+   "hash": "★ Specialist Gloves | Cloud Chaser (Field-Tested)",
+   "sub": "Gloves · Field-Tested"
+  },
+  {
+   "id": "cs_sport_gloves_omega_ft",
+   "name": "Sport Gloves | Omega (Field-Tested)",
+   "hash": "★ Sport Gloves | Omega (Field-Tested)",
+   "sub": "Gloves · Field-Tested"
+  },
+  {
+   "id": "cs_driver_gloves_king_snake_ft",
+   "name": "Driver Gloves | King Snake (Field-Tested)",
+   "hash": "★ Driver Gloves | King Snake (Field-Tested)",
+   "sub": "Gloves · Field-Tested"
+  },
+  {
+   "id": "cs_m4a1_s_fade_fn",
+   "name": "M4A1-S | Fade (Factory New)",
+   "hash": "M4A1-S | Fade (Factory New)",
+   "sub": "Weapon skin · Factory New"
+  },
+  {
+   "id": "cs_awp_dragon_lore_ft",
+   "name": "AWP | Dragon Lore (Field-Tested)",
+   "hash": "AWP | Dragon Lore (Field-Tested)",
+   "sub": "Weapon skin · Field-Tested"
+  },
+  {
+   "id": "cs_m4a1_s_blue_phosphor_fn",
+   "name": "M4A1-S | Blue Phosphor (Factory New)",
+   "hash": "M4A1-S | Blue Phosphor (Factory New)",
+   "sub": "Weapon skin · Factory New"
+  },
+  {
+   "id": "cs_m4a4_howl_ft",
+   "name": "M4A4 | Howl (Field-Tested)",
+   "hash": "M4A4 | Howl (Field-Tested)",
+   "sub": "Weapon skin · Field-Tested"
+  },
+  {
+   "id": "cs_awp_lightning_strike_fn",
+   "name": "AWP | Lightning Strike (Factory New)",
+   "hash": "AWP | Lightning Strike (Factory New)",
+   "sub": "Weapon skin · Factory New"
+  },
+  {
+   "id": "cs_desert_eagle_blaze_fn",
+   "name": "Desert Eagle | Blaze (Factory New)",
+   "hash": "Desert Eagle | Blaze (Factory New)",
+   "sub": "Weapon skin · Factory New"
+  },
+  {
+   "id": "cs_m4a1_s_printstream_ft",
+   "name": "M4A1-S | Printstream (Field-Tested)",
+   "hash": "M4A1-S | Printstream (Field-Tested)",
+   "sub": "Weapon skin · Field-Tested"
+  },
+  {
+   "id": "cs_ak_47_fire_serpent_ft",
+   "name": "AK-47 | Fire Serpent (Field-Tested)",
+   "hash": "AK-47 | Fire Serpent (Field-Tested)",
+   "sub": "Weapon skin · Field-Tested"
+  },
+  {
+   "id": "cs_desert_eagle_printstream_ft",
+   "name": "Desert Eagle | Printstream (Field-Tested)",
+   "hash": "Desert Eagle | Printstream (Field-Tested)",
+   "sub": "Weapon skin · Field-Tested"
+  },
+  {
+   "id": "cs_ak_47_inheritance_ft",
+   "name": "AK-47 | Inheritance (Field-Tested)",
+   "hash": "AK-47 | Inheritance (Field-Tested)",
+   "sub": "Weapon skin · Field-Tested"
+  },
+  {
+   "id": "cs_ak_47_vulcan_mw",
+   "name": "AK-47 | Vulcan (Minimal Wear)",
+   "hash": "AK-47 | Vulcan (Minimal Wear)",
+   "sub": "Weapon skin · Minimal Wear"
+  },
+  {
+   "id": "cs_awp_asiimov_ft",
+   "name": "AWP | Asiimov (Field-Tested)",
+   "hash": "AWP | Asiimov (Field-Tested)",
+   "sub": "Weapon skin · Field-Tested"
+  },
+  {
+   "id": "cs_ak_47_redline_ft",
+   "name": "AK-47 | Redline (Field-Tested)",
+   "hash": "AK-47 | Redline (Field-Tested)",
+   "sub": "Weapon skin · Field-Tested"
+  },
+  {
+   "id": "cs_st_ak_47_bloodsport_fn",
+   "name": "StatTrak™ AK-47 | Bloodsport (Factory New)",
+   "hash": "StatTrak™ AK-47 | Bloodsport (Factory New)",
+   "sub": "Weapon skin · Factory New"
+  },
+  {
+   "id": "cs_st_awp_asiimov_ft",
+   "name": "StatTrak™ AWP | Asiimov (Field-Tested)",
+   "hash": "StatTrak™ AWP | Asiimov (Field-Tested)",
+   "sub": "Weapon skin · Field-Tested"
+  },
+  {
+   "id": "cs_sticker_crown_foil",
+   "name": "Sticker | Crown (Foil)",
+   "hash": "Sticker | Crown (Foil)",
+   "sub": "Sticker or pin"
+  },
+  {
+   "id": "cs_sticker_battle_scarred_holo",
+   "name": "Sticker | Battle Scarred (Holo)",
+   "hash": "Sticker | Battle Scarred (Holo)",
+   "sub": "Sticker or pin"
+  },
+  {
+   "id": "cs_howl_pin",
+   "name": "Howl Pin",
+   "hash": "Howl Pin",
+   "sub": "Sticker or pin"
+  },
+  {
+   "id": "cs_name_tag",
+   "name": "Name Tag",
+   "hash": "Name Tag",
+   "sub": "Sticker or pin"
+  }
+ ],
  "houses": [
   {
    "id": "hp_us",

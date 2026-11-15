@@ -58,10 +58,13 @@
 
     document.getElementById('rng').innerHTML = ['1y', '5y', '10y'].map(function (r) { return '<button class="pill" style="height:34px" aria-pressed="' + (r === range) + '" data-r="' + r + '">' + r.toUpperCase() + '</button>'; }).join('');
     document.querySelectorAll('#rng .pill').forEach(function (b) { b.onclick = function () { range = b.dataset.r; draw(); }; });
-    var lines = as.map(function (a, i) { var s = window.SERIES[a.id]; return { id: a.id, label: a.name, short: a.name.split(' (')[0], color: PAL[i], dash: DASH[i], m: s.m, v: s.v }; });
-    var res = K.lineChart(document.getElementById('chart'), lines, { from: K.fromMonth(range), fill: false, label: 'Growth of $1,000 in ' + as.map(function (a) { return a.name; }).join(', ') });
-    document.getElementById('ct').textContent = 'Growth of $1,000 since ' + res[0].from;
-    document.getElementById('lg').innerHTML = lines.map(function (l, i) { return '<span><i style="background:' + l.color + '"></i>' + esc(l.short) + ' <span class="mono ' + K.cls(res[i].end - 1000) + '">$' + Math.round(res[i].end).toLocaleString('en-US') + '</span></span>'; }).join('') + '<span class="note">common start date, monthly</span>';
+    // items without a price history yet (new CS2 items) stay in the table but not on the chart
+    var lines = as.map(function (a, i) { var s = window.SERIES[a.id]; return s ? { id: a.id, label: a.name, short: a.name.split(' (')[0], color: PAL[i], dash: DASH[i], m: s.m, v: s.v } : null; }).filter(Boolean);
+    var noHist = as.filter(function (a) { return !window.SERIES[a.id]; });
+    var res = K.lineChart(document.getElementById('chart'), lines, { from: K.fromMonth(range), fill: false, label: 'Growth of $1,000 in ' + as.map(function (a) { return a.name; }).join(', ') }) || [];
+    document.getElementById('ct').textContent = res.length ? 'Growth of $1,000 since ' + res[0].from : 'Growth of $1,000';
+    document.getElementById('lg').innerHTML = lines.map(function (l, i) { return '<span><i style="background:' + l.color + '"></i>' + esc(l.short) + ' <span class="mono ' + K.cls(res[i].end - 1000) + '">$' + Math.round(res[i].end).toLocaleString('en-US') + '</span></span>'; }).join('') + (res.length ? '<span class="note">common start date, monthly</span>' : '') +
+      (noHist.length ? '<span class="note">Not on the chart yet: ' + noHist.map(function (a) { return esc(a.name.split(' (')[0]); }).join(', ') + ' (our price history is still too short)</span>' : '');
 
     // metrics table: [label, hint, getter, best: 'max'|'min'|null, fmt]
     var wOf = function (a) { return K.waysByName[a.way]; };

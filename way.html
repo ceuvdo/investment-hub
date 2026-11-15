@@ -71,9 +71,9 @@
   if (w.note) h += '<p class="disclaimer" style="margin-top:18px"><b>Caveats.</b> ' + esc(w.note) + '</p>';
   h += '</section>';
 
+  var chartable = assets.filter(function (a) { return window.SERIES[a.id]; }).slice(0, 6);
   if (assets.length) {
-    var chartable = assets.filter(function (a) { return window.SERIES[a.id]; }).slice(0, 6);
-    h += '<section class="sec"><div class="card pad"><div style="display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px;align-items:center;margin-bottom:12px"><h2 class="h3">Growth of $1,000</h2><div class="pills" id="rng"></div></div><div class="legend" id="lg" style="margin-bottom:10px"></div><div id="chart"></div></div></section>';
+    if (chartable.length) h += '<section class="sec"><div class="card pad"><div style="display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px;align-items:center;margin-bottom:12px"><h2 class="h3">Growth of $1,000</h2><div class="pills" id="rng"></div></div><div class="legend" id="lg" style="margin-bottom:10px"></div><div id="chart"></div></div></section>';
     h += '<section class="sec"><div class="sec-h"><h2 class="h3">Tracked: ' + assets.length + '</h2></div><div class="card" style="overflow:hidden" id="tbl"></div></section>';
   }
   if (w.yields && w.yields.length) {
@@ -108,8 +108,8 @@
       document.getElementById('lg').innerHTML = lines.map(function (l, i) { var r = res[i]; return '<span><i style="background:' + l.color + '"></i>' + esc(l.short) + ' <span class="mono ' + K.cls(r.end - 1000) + '">$' + Math.round(r.end).toLocaleString('en-US') + '</span></span>'; }).join('') +
         '<span class="note">from ' + esc(res[0].from) + (quarterly ? ', quarterly index' : ', monthly, dividends reinvested where paid') + '</span>';
     }
-    drawChart();
-    K.rankTable(document.getElementById('tbl'), assets, { sort: 'ret_1y', dir: -1 });
+    if (lines.length) drawChart();
+    K.rankTable(document.getElementById('tbl'), assets, { sort: lines.length ? 'ret_1y' : 'vol30_usd', dir: -1 });
   }
   if (w.slug === 'savings-and-deposits') {
     var st = { k: 'real', d: -1 }, f = '';

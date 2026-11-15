@@ -291,6 +291,82 @@ class CatalogBuilderTest {
         assertTrue(assets.stream().noneMatch(x -> "qqq".equals(x.get("id"))));
     }
 
+    private static tools.jackson.databind.JsonNode skinHistory(String hash, double med7, double vol7, double avg30, double vol30) {
+        return Json.parse("""
+                {"market_hash_name": "%s", "item_page": "https://skinport.com/item/x",
+                 "last_24_hours": {"median": %s, "min": 1, "max": 9, "volume": 20},
+                 "last_7_days": {"median": %s, "min": 1, "max": 9, "volume": %s},
+                 "last_30_days": {"avg": %s, "median": 6.5, "min": 1, "max": 9, "volume": %s},
+                 "last_90_days": {"median": 6.2, "min": 1, "max": 9, "volume": 20000}}
+                """.formatted(hash.replace("\"", "\\\""), med7, med7, vol7, avg30, vol30));
+    }
+
+    @Test
+    void skinAssetsFromSkinportSales() {
+        Universe.Skin s = universe.skins.get(0), slow = universe.skins.get(1);
+        var listing = Json.parse("{\"min_price\": 6.93, \"quantity\": 410}");
+        when(src.skinport(any())).thenReturn(new Sources.Skinport(
+                Map.of(s.hash(), skinHistory(s.hash(), 6.6, 2000, 6.7, 8640), slow.hash(), skinHistory(slow.hash(), 50, 1, 48, 10)),
+                Map.of(s.hash(), listing), "2026-11-13", true));
+        // 120 days of our own daily prices, rising slowly
+        int n = 120;
+        long[] t = new long[n];
+        double[] v = new double[n];
+        for (int i = 0; i < n; i++) {
+            t[i] = LAST - (long) (n - 1 - i) * DAY;
+            v[i] = 6 + 0.6 * i / (n - 1) + 0.1 * Math.sin(i);
+        }
+        when(series.load(s.id(), 'd')).thenReturn(new Series.Points(t, v, null));
+
+        CatalogBuilder.Result r = builder.build();
+        List<Map<String, Object>> assets = list(r.catalog(), "assets");
+        Map<String, Object> a = byId(assets, "id", s.id());
+        assertEquals(6.6, a.get("price"), "7-day median sale");
+        assertEquals("SKIN", a.get("kind"));
+        assertEquals("cards", a.get("group"));
+        assertEquals("skins-and-cases", a.get("way_slug"));
+        assertEquals("Skinport", a.get("source"));
+        assertEquals("market", a.get("trust"));
+        assertEquals(Math.round(6.7 * 8640), a.get("vol30_usd"));
+        assertEquals("~1 sale / 5.0 min · 7-day hold", a.get("sell"));
+        assertEquals(300 + 7 * 86400.0, (Double) a.get("sell_s"), 0.01);
+        assertNotNull(a.get("chg_30d"), "120 days of history");
+        assertNotNull(a.get("swing"));
+        assertNotNull(a.get("dd"));
+        assertNull(a.get("ret_1y"), "no full year yet");
+        assertNull(a.get("corr"));
+        assertEquals(5.0, ((Map<String, Object>) a.get("listings")).get("gap"), "lowest ask 5% above the median sale");
+        assertEquals(2000.0, ((Map<String, Object>) ((Map<String, Object>) a.get("sales")).get("7d")).get("volume"));
+
+        // 1 sale in 7 days: priced from the 30-day median; no own history yet, so no returns and no chart
+        Map<String, Object> b = byId(assets, "id", slow.id());
+        assertEquals(6.5, b.get("price"));
+        assertEquals("30d", b.get("price_basis"));
+        assertEquals("7d", a.get("price_basis"));
+        assertNull(b.get("chg_30d"));
+        assertNull(b.get("swing"));
+        assertFalse(r.series().containsKey(slow.id()));
+        assertTrue(r.series().containsKey(s.id()), "4 months of own history");
+        assertEquals(2, assets.stream().filter(x -> "SKIN".equals(x.get("kind"))).count(), "items without sales are skipped");
+
+        Map<String, Object> way = byId(list(r.catalog(), "ways"), "slug", "skins-and-cases");
+        Map<String, Object> liq = (Map<String, Object>) ((Map<String, Object>) way.get("ratings")).get("liq");
+        assertEquals(3, liq.get("value"), "fast sales, capped by the 7-day hold");
+        assertEquals("measured", liq.get("source"));
+        Map<String, Object> wm = (Map<String, Object>) way.get("metrics");
+        assertNull(wm.get("swing"), "one item does not stand for the skin market");
+        assertNotNull(wm.get("vol30"));
+        assertTrue(((Map<String, Object>) r.catalog().get("meta")).get("n_sources") instanceof Integer);
+    }
+
+    @Test
+    void skinPriceNeedsEnoughSales() {
+        assertEquals(6.6, Sources.skinPrice(skinHistory("x", 6.6, 3, 6, 10)));
+        assertEquals(6.5, Sources.skinPrice(skinHistory("x", 6.6, 2, 6, 10)), "falls back to 30 days");
+        assertNull(Sources.skinPrice(skinHistory("x", 6.6, 2, 6, 2)));
+        assertNull(Sources.skinPrice(null));
+    }
+
     @Test
     void depositsWithoutInflationDoNotBreakTheBuild() {
         when(src.deposits()).thenReturn(List.of(deposit("JPN", "Japan", 0.2, null)));

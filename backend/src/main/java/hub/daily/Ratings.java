@@ -91,6 +91,16 @@ public final class Ratings {
     @SuppressWarnings("unchecked")
     static Map<String, Object> liquidity(String name, Map<String, Object> way, List<Map<String, Object>> direct,
                                          List<Map<String, Object>> tracked, Map<String, Object> m) {
+        boolean skins = !direct.isEmpty() && direct.stream().allMatch(a -> "SKIN".equals(a.get("kind")));
+        if (skins) {
+            // a marketplace, not an exchange: rated by how often an item finds a buyer, capped at 3 because
+            // Steam's 7-day trade protection always sits between the sale and the money
+            Double wait = median(direct.stream().map(a -> (Map<String, Object>) a.get("sell_detail")).filter(x -> x != null).toList(), "exec_s");
+            if (wait == null) return rating(way.get("liq"), "editorial", "too few sales to measure", way.get("liq"));
+            int v = Math.min(3, liqFromDays(wait / 86400));
+            return rating(v, "measured", String.format(Locale.ROOT, "median tracked item sells every %s on Skinport; 7-day Steam trade protection before payout (%d items)",
+                    SellProfiles.dur(wait), direct.size()), way.get("liq"));
+        }
         if (!direct.isEmpty()) {
             boolean fx = direct.stream().allMatch(a -> String.valueOf(a.get("symbol")).endsWith("=X") || String.valueOf(a.get("symbol")).startsWith("DX-Y"));
             if (fx) return rating(5, "measured", "fills in under a second, 24/5; the largest market in the world", way.get("liq"));
@@ -132,7 +142,9 @@ public final class Ratings {
         }
         if (usd != null) {
             src = "measured";
-            basis = "you can buy a single share or coin unit: from " + money(usd);
+            basis = direct.stream().allMatch(a -> "SKIN".equals(a.get("kind")))
+                    ? "cheapest tracked item sells for about " + (usd < 10 ? String.format(Locale.ROOT, "$%.2f", usd) : money(usd))
+                    : "you can buy a single share or coin unit: from " + money(usd);
         } else if (m.get("min_ticket") instanceof Map<?, ?> mt) {
             usd = mt.get("usd") instanceof Number n ? n.doubleValue() : null; // structured amounts only: text often mixes fees and prices
             if (usd != null) {

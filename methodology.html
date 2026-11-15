@@ -23,7 +23,7 @@
   <h2>Where numbers come from</h2>
   <table>
     <tr><th>Level</th><th>What it means</th><th>Examples</th></tr>
-    <tr><td><span class="trust market">market price</span></td><td>Daily prices of something you can actually buy, from an exchange feed.</td><td>ETFs, stocks, coins, currencies, listed clubs</td></tr>
+    <tr><td><span class="trust market">market price</span></td><td>Daily prices of something you can actually buy, from an exchange feed or a marketplace's record of real sales.</td><td>ETFs, stocks, coins, currencies, listed clubs, CS2 items</td></tr>
     <tr><td><span class="trust">index</span></td><td>A published index built by a statistics body or an industry provider.</td><td>BIS house prices, NCREIF, Liv-ex, Cambridge Associates</td></tr>
     <tr><td><span class="trust">report</span></td><td>A study, survey or annual report; usually yearly and with a lag.</td><td>Knight Frank Wealth Report, BizBuySell, academic studies</td></tr>
     <tr><td><span class="trust">platform figure</span></td><td>Returns stated by the platform that sells the product. Treat with care.</td><td>Mintos, Fundrise, Royalty Exchange</td></tr>
@@ -49,6 +49,7 @@
     <tr><td>Liquidity 1–5</td><td>5: sells in seconds on an exchange. 4: minutes to days. 3: days to a few weeks. 2: weeks. 1: months or years, or locked.</td></tr>
     <tr><td>Group figures</td><td>Median of the ways in the group that have a figure. The number of ways used is shown on hover.</td></tr>
     <tr><td>Way headline</td><td>Where a way has a listed proxy (for example a hedge fund replication ETF), the first tracked asset is the headline and the industry index is shown next to it as “report”.</td></tr>
+    <tr id="skins"><td>CS2 items</td><td>Prices come from real sales on Skinport (public API), fetched once a day: the <b>price</b> is the median sale of the last 7 days, or of the last 30 days when an item sold fewer than 3 times in a week. <b>Volume</b> is the sum of all sales in 30 days. <b>Time to sell</b> = 30 days ÷ number of sales (how long a seller at the market price waits for a buyer), plus Steam's 7-day trade protection before the money arrives. Skinport keeps no long price history, so the history is our own: we store one price per item per day since 15 Nov 2026. Returns, swing and worst drop appear only once that history covers the period (30 days, 3 months, 1 year); swing then uses daily log returns × √365 and understates real moves, because a 7-day median is smoothed. Item liquidity is capped at 3 because of the 7-day hold.</td></tr>
     <tr><td>Deposits</td><td>World Bank deposit interest rate and consumer price inflation, latest year per country; real return = rate minus inflation.</td></tr>
   </table>
   <p>House price indexes are nominal and in local currency: rent, maintenance and taxes are not included. Annualised figures from cumulative published changes (for example Knight Frank 5- and 10-year changes) are converted by us and marked so.</p>
@@ -96,8 +97,10 @@
   add('BIS residential property prices via FRED', 'https://fred.stlouisfed.org', 'index', 'house prices in ' + C.assets.filter(function (a) { return a.currency === 'index'; }).length + ' countries');
   add('World Bank', 'https://data.worldbank.org', 'index', 'deposit rates and inflation, ' + C.deposits.length + ' countries');
   add('DefiLlama yields', 'https://defillama.com/yields', 'market', 'staking and lending yields');
+  var nSkins = C.assets.filter(function (a) { return a.source === 'Skinport'; }).length;
+  if (nSkins) add('Skinport', 'https://skinport.com', 'market', 'sales of ' + nSkins + ' CS2 items');
   C.ways.forEach(function (w) {
-    Object.keys(w.metrics).forEach(function (k) { var m = w.metrics[k]; if (m && m.source && !/Yahoo Finance|DefiLlama|World Bank|BIS/.test(m.source)) add(m.source, m.url, m.trust, w.name); });
+    Object.keys(w.metrics).forEach(function (k) { var m = w.metrics[k]; if (m && m.source && !/Yahoo Finance|DefiLlama|World Bank|BIS|Skinport/.test(m.source)) add(m.source, m.url, m.trust, w.name); });
     (w.examples || []).forEach(function (e) { if (e.source) add(e.source, e.url, 'report', w.name); });
   });
   var list = Object.keys(map).map(function (k) { return map[k]; }).sort(function (a, b) { return a.name.localeCompare(b.name); });

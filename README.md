@@ -24,7 +24,7 @@ The backend then does three things:
   - Every minute it writes 1-minute candles to TimescaleDB. Hourly and daily candles are aggregated automatically.
   - About every 3 s it sends changed prices, signed with HMAC, to the Cloudflare relay. Visitors' browsers connect to the relay, never to this PC.
 - **Daily build at 09:00.**
-  - Sources: Yahoo Finance closes (10+ years, weekly), BIS house prices and US days on market via FRED, World Bank deposit rates and inflation, DefiLlama yields, plus `data/research/*.json`.
+  - Sources: Yahoo Finance closes (10+ years, weekly), BIS house prices and US days on market via FRED, World Bank deposit rates and inflation, DefiLlama yields, Skinport sales of 49 CS2 items (median sale, volume, listings; we keep our own daily price history from 15 Nov 2026), plus `data/research/*.json`.
   - It computes returns, risk and time to sell, then writes `data/catalog.*` and `data/series.*` and runs `deploy.ps1`.
 - **API** (local):
   - `GET /api/status`
@@ -61,7 +61,7 @@ Then restart the task:
 Stop-ScheduledTask 'investment-hub backend'; Start-ScheduledTask 'investment-hub backend'
 ```
 
-**Add an asset:** add it to `backend/src/main/resources/universe.json`, then rebuild. For a Yahoo symbol, put it under `assets`. For a live feed, add it under `live.binance` or `live.kraken`. For a new country, add its BIS series id under `houses`.
+**Add an asset:** add it to `backend/src/main/resources/universe.json`, then rebuild. For a Yahoo symbol, put it under `assets`. For a live feed, add it under `live.binance` or `live.kraken`. For a new country, add its BIS series id under `houses`. For a CS2 item, add `{id, name, hash, sub}` under `skins`, where `hash` is the exact Steam `market_hash_name`.
 
 **Redeploy the relay Worker:**
 
@@ -77,7 +77,7 @@ relay\deploy-relay.ps1
 - **Code and data are published separately.** The site's code is published from the last git commit, and only the freshly built data comes from the working folder.
 - **Missed builds catch up.** If the PC was off at 09:00, the build runs at the next startup.
 - **Nightly backup** to `E:ackups\hub` at 03:30, keeping 14 days. This is the same disk; an off-site copy is still on the to-do list.
-- **Tests:** 84 JUnit tests. Run them with `mvn -f backend/pom.xml test` after setting `HUB_DB_PASSWORD` in the shell. They use the separate `hub_test` database and never touch the internet.
+- **Tests:** 93 JUnit tests. Run them with `mvn -f backend/pom.xml test` after setting `HUB_DB_PASSWORD` in the shell. They use the separate `hub_test` database and never touch the internet.
 
 ## Secrets
 
@@ -100,6 +100,7 @@ All secrets are Windows user environment variables. None of them are in the repo
 ## Before a public launch
 
 - Yahoo Finance data is not licensed for republishing; switch `Sources.yahoo()` to a licensed feed.
+- Skinport's public API needs no key, but its terms for republishing prices were not found; confirm with Skinport (or join its affiliate programme) before a public launch.
 - Some research figures were seen only in search results; each one's `note` in `data/research/*.json` says so.
 - crypto.jpg (CC BY-SA 2.0) still needs its author named on the methodology page.
 - The site name is Wyndton, set in `assets/js/core.js` (`SITE.name`).

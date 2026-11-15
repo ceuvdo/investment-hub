@@ -26,6 +26,7 @@
   document.title = a.name + ': price, return, risk';
   document.getElementById('crumbs').innerHTML = '<a href="map.html">Catalog</a> / <a href="class.html?g=' + g.slug + '">' + esc(g.name) + '</a> / <a href="' + K.wayHref(w) + '">' + esc(w.name) + '</a> / <span>' + esc(a.name) + '</span>';
   var isIdx = a.currency === 'index';
+  var isSkin = a.kind === 'SKIN', hasSeries = !!window.SERIES[a.id];
   function ch(v, lbl) { return K.num(v) ? '<span class="' + K.cls(v) + '">' + K.arrow(v) + K.pct(Math.abs(v)).replace('+', '') + ' <small>' + lbl + '</small></span>' : ''; }
   var exit = w.metrics.exit_cost, sell = w.metrics.time_to_sell;
 
@@ -33,20 +34,35 @@
     '<h1 style="margin-top:0">' + esc(a.name) + '</h1>' +
     '<div style="display:flex;flex-wrap:wrap;gap:8px"><span class="chip">' + esc(w.name) + '</span><span class="chip">' + esc(a.sub) + '</span><span class="chip mono">' + esc(a.symbol) + '</span></div>' +
     (a.kind === 'EQUITY' ? '<figure class="co-photo" id="co-photo" hidden><img alt=""><figcaption class="note"></figcaption></figure>' : '') +
-    '<p class="lead" style="font-size:16px">' + esc(w.desc) + ' ' + (isIdx ? 'Shown as an index of prices, not a price you can pay.' : 'Returns below include dividends where the asset pays them.') + '</p></div>' +
-    '<div class="card pad" style="flex:0 1 420px;display:flex;flex-direction:column;gap:12px"><span class="note">' + (a.live ? 'Live price (daily close ' + esc(a.asof) + ' until the stream connects)' : (isIdx ? 'Index level, ' : 'Last close, ') + esc(a.asof)) + '</span><span class="a-price" data-lp="' + a.id + '">' + K.money(a.price, a.currency) + '</span>' +
+    '<p class="lead" style="font-size:16px">' + esc(w.desc) + ' ' + (isIdx ? 'Shown as an index of prices, not a price you can pay.' : isSkin ? 'The price is the median of real sales on Skinport. We record it every day, so returns and risk appear as our own history grows.' : 'Returns below include dividends where the asset pays them.') + '</p></div>' +
+    '<div class="card pad" style="flex:0 1 420px;display:flex;flex-direction:column;gap:12px"><span class="note">' + (a.live ? 'Live price (daily close ' + esc(a.asof) + ' until the stream connects)' : (isIdx ? 'Index level, ' : isSkin ? 'Median sale, last ' + (a.price_basis === '30d' ? '30' : '7') + ' days · ' : 'Last close, ') + esc(a.asof)) + '</span><span class="a-price" data-lp="' + a.id + '">' + K.money(a.price, a.currency) + '</span>' +
     (a.live ? '<span class="note">Live, change over 24 h: <span class="mono" data-lc="' + a.id + '">connecting…</span></span>' : '') +
     '<div class="chg">' + ch(a.chg_30d, '30d') + ch(a.ret_1y, '1y') + ch(a.dd, 'worst drop') + '</div>' +
     '<div style="display:flex;flex-wrap:wrap;gap:10px"><button class="btn acc" id="wl"></button><a class="btn" href="compare.html?ids=' + a.id + (a.id !== 'spy' ? ',spy' : ',btc') + ',gld">Compare</a></div>' +
     '<span class="note">' + K.trust(a.trust) + ' <a class="src" href="' + esc(a.url) + '" target="_blank" rel="noopener">' + esc(a.source) + '</a> · history from ' + esc(a.history_from) + '</span></div></section>';
 
   function tileS(k, v, s) { return '<div class="stat"><span class="k">' + k + '</span><span class="v">' + v + '</span><span class="s">' + s + '</span></div>'; }
-  h += '<section class="stats sec" style="padding-bottom:40px">' +
-    tileS('Return, 5 years', K.pctc(a.ret_5y), 'per year') + tileS('Return, 10 years', K.pctc(a.ret_10y), 'per year') +
-    tileS('Risk: yearly swing', K.num(a.swing) ? a.swing.toFixed(0) + '%' : K.pct(null), 'S&amp;P 500: ' + (spy && K.num(spy.swing) ? spy.swing.toFixed(0) + '%' : '–')) +
-    tileS('Worst drop', '<span class="down">' + K.pct(a.dd, 0) + '</span>', esc(a.dd_span || '')) +
-    tileS('Volume, 30 days', K.big(a.vol30_usd), a.vol30_usd ? 'exchange-reported' : (a.currency === 'USD' ? '' : 'non-USD listing or index')) +
-    tileS('Moves with stocks', K.corr(a.corr), '1.00 = moves in step') + '</section>';
+  if (isSkin) {
+    var sl = a.sales || {}, s30 = sl['30d'] || {}, ls = a.listings || {};
+    var days = a.history_days || 0;
+    var wait = a.sell_detail && a.sell_detail.exec_s != null ? (a.sell || '').split(' · ')[0].replace('~1 sale / ', '') : '';
+    h += '<section class="stats sec" style="padding-bottom:40px">' +
+      tileS('Sales, 30 days', K.num(s30.volume) ? s30.volume.toLocaleString('en-US') : '', 'on Skinport') +
+      tileS('Traded, 30 days', K.big(a.vol30_usd), 'sum of all sales') +
+      tileS('Typical wait for a buyer', esc(wait), 'at the market price, last 30 days') +
+      tileS('Lowest ask now', K.money(ls.lowest, 'USD'), K.num(ls.gap) ? (ls.gap >= 0 ? '+' : '−') + Math.abs(ls.gap).toFixed(1) + '% vs median sale · ' + (ls.n || 0).toLocaleString('en-US') + ' listed' : '') +
+      (K.num(a.chg_30d) ? tileS('Change, 30 days', K.pctc(a.chg_30d), 'our daily history') : '') +
+      (K.num(a.swing) ? tileS('Risk: yearly swing', a.swing.toFixed(0) + '%', 'daily, smoothed by the 7-day median') : '') +
+      (K.num(a.dd) ? tileS('Worst drop', '<span class="down">' + K.pct(a.dd, 0) + '</span>', esc(a.dd_span || '')) : '') +
+      tileS('Our price history', days + (days === 1 ? ' day' : ' days'), 'since ' + esc(a.history_from) + '; returns appear after 30 days') + '</section>';
+  } else {
+    h += '<section class="stats sec" style="padding-bottom:40px">' +
+      tileS('Return, 5 years', K.pctc(a.ret_5y), 'per year') + tileS('Return, 10 years', K.pctc(a.ret_10y), 'per year') +
+      tileS('Risk: yearly swing', K.num(a.swing) ? a.swing.toFixed(0) + '%' : K.pct(null), 'S&amp;P 500: ' + (spy && K.num(spy.swing) ? spy.swing.toFixed(0) + '%' : '–')) +
+      tileS('Worst drop', '<span class="down">' + K.pct(a.dd, 0) + '</span>', esc(a.dd_span || '')) +
+      tileS('Volume, 30 days', K.big(a.vol30_usd), a.vol30_usd ? 'exchange-reported' : (a.currency === 'USD' ? '' : 'non-USD listing or index')) +
+      tileS('Moves with stocks', K.corr(a.corr), '1.00 = moves in step') + '</section>';
+  }
 
   // average return per year over several periods + best/worst stretches, from the monthly price series
   (function () {
@@ -67,6 +83,7 @@
       }
     }
     var cells = [['1Y', a.ret_1y, '12 months'], ['3Y', a.ret_3y, 'per year'], ['5Y', a.ret_5y, 'per year'], ['10Y', a.ret_10y, 'per year'], ['All time', all, allYrs ? 'per year, ' + allYrs.toFixed(1) + ' yrs' : '']];
+    if (!best && !cells.some(function (c) { return K.num(c[1]); })) return; // nothing measured yet (new CS2 items)
     h += '<section class="split" style="padding-bottom:24px"><div class="card pad" style="flex:2 1 520px"><h2 class="h3" style="margin-bottom:14px">Average return per year</h2><div class="stats" style="grid-template-columns:repeat(auto-fit,minmax(110px,1fr))">' +
       cells.filter(function (c) { return K.num(c[1]); }).map(function (c) { return '<div class="tile"><div class="k">' + c[0] + '</div><div class="v">' + K.pctc(c[1]) + '</div><div class="k">' + c[2] + '</div></div>'; }).join('') +
       '</div><p class="note" style="margin:12px 0 0">' + (isIdx ? 'Price index: rent and costs of owning are not included.' : 'Compound return, dividends reinvested where paid.') + '</p></div>' +
@@ -76,7 +93,15 @@
         : '') + '</section>';
   })();
 
-  h += '<section class="split"><div class="card pad" style="flex:2 1 560px"><div style="display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px;align-items:center;margin-bottom:10px"><h2 class="h3">Price vs the stock market</h2><div class="pills" id="rng"></div></div><div class="legend" id="lg" style="margin-bottom:10px"></div><div id="chart"></div></div>' +
+  if (isSkin) {
+    var SL = [['24h', 'Last 24 hours'], ['7d', 'Last 7 days'], ['30d', 'Last 30 days'], ['90d', 'Last 90 days']];
+    h += '<section class="sec" style="padding-top:0"><div class="card" style="overflow:hidden"><div class="pad" style="padding-bottom:12px;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:baseline"><h2 class="h3">Recent sales</h2><span class="note"><span class="trust market">market price</span> <a class="src" href="' + (K.safeUrl(a.url) ? esc(a.url) : '#') + '" target="_blank" rel="noopener">Skinport</a> · ' + esc(a.asof) + '</span></div>' +
+      '<div class="tbl-wrap"><table class="tbl"><thead><tr><th class="l">Period</th><th>Median sale</th><th>Cheapest</th><th>Dearest</th><th>Sales</th></tr></thead><tbody>' +
+      SL.map(function (p) { var x = (a.sales || {})[p[0]] || {}; return '<tr><td class="l" style="font-family:var(--ff)">' + p[1] + '</td><td>' + K.money(x.median, 'USD') + '</td><td class="muted">' + K.money(x.min, 'USD') + '</td><td class="muted">' + K.money(x.max, 'USD') + '</td><td>' + (K.num(x.volume) ? x.volume.toLocaleString('en-US') : '') + '</td></tr>'; }).join('') +
+      '</tbody></table></div><div class="tbl-foot"><span class="note">Completed sales on one marketplace (Skinport), not Steam or other sites. Single sales vary with wear and stickers, so we use medians.</span></div></div></section>';
+  }
+  h += '<section class="split"><div class="card pad" style="flex:2 1 560px">' + (hasSeries ? '<div style="display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px;align-items:center;margin-bottom:10px"><h2 class="h3">Price vs the stock market</h2><div class="pills" id="rng"></div></div><div class="legend" id="lg" style="margin-bottom:10px"></div><div id="chart"></div>'
+    : '<h2 class="h3" style="margin-bottom:10px">Price history</h2><div class="empty" style="padding:24px 0">' + (isSkin ? 'We record this item&#39;s price every day since ' + esc(a.history_from) + '. The chart appears once there are 3 months of our own history: Skinport publishes no longer record.' : 'No price history for this item.') + '</div>') + '</div>' +
     '<div class="card pad" style="flex:1 1 300px;display:flex;flex-direction:column;gap:12px"><h2 class="h3">How easy it is to sell</h2>' +
     '<div style="display:flex;align-items:baseline;gap:10px"><span class="mono" style="font-size:36px">' + w.liq + '<span class="muted" style="font-size:18px">/5</span></span><span class="muted">' + ['', 'very low', 'low', 'medium', 'high', 'very high'][w.liq] + ' liquidity</span></div>' + K.liq(w.liq) +
     (function () {
@@ -84,6 +109,7 @@
       var rows = [['Order fills', d.exec], ['Trading hours', d.hours], ['Money is yours', d.settle]].filter(function (r) { return r[1]; });
       return rows.map(function (r) { return '<div class="sell-row"><span class="muted">' + r[0] + '</span><b>' + esc(r[1]) + '</b></div>'; }).join('') +
         (d.note ? '<div class="note">' + esc(d.note) + '</div>' : '') +
+        (d.fee_url ? '<div class="note"><a class="src" href="' + esc(d.fee_url) + '" target="_blank" rel="noopener">Skinport seller fees</a></div>' : '') +
         (d.source ? '<div class="note">' + (d.measured ? '<span class="trust market">measured</span> ' : '<span class="trust">rule</span> ') + (d.url ? '<a class="src" href="' + esc(d.url) + '" target="_blank" rel="noopener">' + esc(d.source) + '</a>' : esc(d.source)) + '</div>' : '');
     })() +
     '<div class="k1000"><span class="muted">Minimum ticket</span><b>' + esc(a.min) + '</b></div>' +
@@ -93,12 +119,15 @@
 
   function grow(r, yrs) { return K.num(r) ? Math.round(1000 * Math.pow(1 + r / 100, yrs)) : null; }
   var g1 = K.num(a.ret_1y) ? Math.round(1000 * (1 + a.ret_1y / 100)) : null, g5 = grow(a.ret_5y, 5), g10 = grow(a.ret_10y, 10);
-  var sim = C.assets.filter(function (x) { return x.id !== a.id && K.num(x.swing) && K.num(x.ret_1y) && x.currency !== 'index'; }).sort(function (x, y) {
+  var sim = isSkin
+    ? C.assets.filter(function (x) { return x.id !== a.id && x.kind === 'SKIN'; }).sort(function (x, y) { return Math.abs(Math.log(x.price / a.price)) - Math.abs(Math.log(y.price / a.price)); }).slice(0, 5)
+    : C.assets.filter(function (x) { return x.id !== a.id && K.num(x.swing) && K.num(x.ret_1y) && x.currency !== 'index'; }).sort(function (x, y) {
     var dx = Math.abs(x.swing - a.swing) + Math.abs(x.ret_5y - a.ret_5y || 0) * 0.5, dy = Math.abs(y.swing - a.swing) + Math.abs(y.ret_5y - a.ret_5y || 0) * 0.5; return dx - dy; }).slice(0, 5);
-  h += '<section class="split"><div class="card pad"><span class="cap" style="font-size:13px">If you had put in $1,000</span>' +
+  h += '<section class="split">' + (g1 || g5 || g10 || !isSkin ? '<div class="card pad"><span class="cap" style="font-size:13px">If you had put in $1,000</span>' +
     [['a year ago', g1], ['5 years ago', g5], ['10 years ago', g10]].map(function (r) { return '<div class="k1000"><span class="muted">' + r[0] + '</span><b class="' + K.cls(r[1] - 1000) + '">' + (r[1] ? '$' + r[1].toLocaleString('en-US') : '<span class="nodata"></span>') + '</b></div>'; }).join('') +
-    '<p class="note" style="margin-bottom:0">Before taxes and selling costs. ' + (isIdx ? 'Price index only: rent and costs of owning are not included.' : 'Dividends reinvested where paid.') + '</p></div>' +
-    '<div class="card pad"><h2 class="h3" style="margin-bottom:6px">Similar risk and return</h2>' + sim.map(function (x) {
+    '<p class="note" style="margin-bottom:0">Before taxes and selling costs. ' + (isIdx ? 'Price index only: rent and costs of owning are not included.' : isSkin ? 'From our own daily history of median sales; Skinport keeps 8% when you sell.' : 'Dividends reinvested where paid.') + '</p></div>' : '') +
+    '<div class="card pad"><h2 class="h3" style="margin-bottom:6px">' + (isSkin ? 'Other CS2 items at a similar price' : 'Similar risk and return') + '</h2>' + sim.map(function (x) {
+      if (isSkin) return '<div class="ex"><div><a href="' + K.assetHref(x) + '" style="font-weight:500">' + esc(x.name) + '</a><div class="note">' + esc(x.sub) + ' · ' + esc(x.sell) + '</div></div><span class="v">' + K.money(x.price, 'USD') + '</span></div>';
       return '<div class="ex"><div><a href="' + K.assetHref(x) + '" style="font-weight:500">' + esc(x.name) + '</a><div class="note">' + esc(x.way) + ' · swing ' + x.swing.toFixed(0) + '%</div></div><span class="v">' + K.pctc(x.ret_1y) + ' <span class="muted" style="font-size:11px">1y</span></span></div>'; }).join('') + '</div></section>';
   document.getElementById('main').innerHTML = h;
 
@@ -107,15 +136,15 @@
   wlTxt(); b.onclick = function () { K.toggleWl(a.id); wlTxt(); };
 
   var range = '5y';
-  var lines = [{ id: a.id, label: a.name, short: a.name.split(' (')[0], color: 'var(--acc)', m: window.SERIES[a.id].m, v: window.SERIES[a.id].v }];
-  if (a.id !== 'spy' && window.SERIES.spy) lines.push({ id: 'spy', label: 'S&P 500 ETF', short: 'S&P 500', color: 'var(--muted)', dash: '6 6', m: window.SERIES.spy.m, v: window.SERIES.spy.v });
+  var lines = hasSeries ? [{ id: a.id, label: a.name, short: a.name.split(' (')[0], color: 'var(--acc)', m: window.SERIES[a.id].m, v: window.SERIES[a.id].v }] : [];
+  if (hasSeries && a.id !== 'spy' && window.SERIES.spy) lines.push({ id: 'spy', label: 'S&P 500 ETF', short: 'S&P 500', color: 'var(--muted)', dash: '6 6', m: window.SERIES.spy.m, v: window.SERIES.spy.v });
   function drawChart() {
     document.getElementById('rng').innerHTML = ['1y', '5y', '10y', 'all'].map(function (r) { return '<button class="pill" style="height:34px" aria-pressed="' + (r === range) + '" data-r="' + r + '">' + r.toUpperCase() + '</button>'; }).join('');
     document.querySelectorAll('#rng .pill').forEach(function (x) { x.onclick = function () { range = x.dataset.r; drawChart(); }; });
     var res = K.lineChart(document.getElementById('chart'), lines, { from: K.fromMonth(range), label: a.name + ' vs the S&P 500, value of $1,000' });
     document.getElementById('lg').innerHTML = lines.map(function (l, i) { var p = (res[i].end / 1000 - 1) * 100; return '<span><i style="background:' + l.color + '"></i>' + esc(l.short) + ' <span class="mono ' + K.cls(p) + '">' + K.pct(p, 0) + '</span></span>'; }).join('') + '<span class="note">since ' + esc(res[0].from) + '</span>';
   }
-  drawChart();
+  if (hasSeries) drawChart();
   // a real landscape photo of the company from Wikimedia Commons, with credit
   (function () {
     var fig = document.getElementById('co-photo'); if (!fig) return;

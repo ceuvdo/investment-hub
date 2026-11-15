@@ -83,10 +83,27 @@ public class CatalogBuilder {
         all.addAll(houses);
         for (Map<String, Object> a : all) sell.apply(a, usDom, usDomAsof);
 
+        // ---- CS2 items: Skinport sales, our own daily price history ----
+        Sources.Skinport sp = src.skinport(u.skins);
+        int skins = 0;
+        if (sp != null)
+            for (Universe.Skin s : u.skins) {
+                Series.Points d = series.load(s.id(), 'd');
+                Map<String, Object> m = skinMetrics(s, sp, d);
+                if (m == null) {
+                    log.warn("skipping {}: no recent Skinport sales", s.hash());
+                    continue;
+                }
+                all.add(m);
+                skins++;
+                Map<String, Object> mo = monthly(d);
+                if (((List<?>) mo.get("m")).size() >= 3) seriesOut.put(s.id(), mo); // charts start once there are 3 months
+            }
+
         List<Map<String, Object>> deposits = src.deposits();
         List<Map<String, Object>> defi = src.defi(u.defi);
         Map<String, JsonNode> research = src.research();
-        log.info("sources: {} assets, {} houses, {} countries, {} pools, {} research ways", assets.size(), houses.size(), deposits.size(), defi.size(), research.size());
+        log.info("sources: {} assets, {} houses, {} CS2 items, {} countries, {} pools, {} research ways", assets.size(), houses.size(), skins, deposits.size(), defi.size(), research.size());
 
         // ---- ways ----
         Map<String, List<Map<String, Object>>> byWay = new LinkedHashMap<>();
@@ -138,6 +155,7 @@ public class CatalogBuilder {
 
         // ---- meta ----
         Set<String> sources = new LinkedHashSet<>(List.of("Yahoo Finance", "FRED / BIS", "World Bank", "DefiLlama", "Binance", "Kraken"));
+        if (skins > 0) sources.add("Skinport");
         for (Map<String, Object> w : ways)
             for (Object v : ((Map<?, ?>) w.get("metrics")).values())
                 if (v instanceof Map<?, ?> mv && mv.get("source") instanceof String s) sources.add(sourceName(s));
@@ -247,6 +265,96 @@ public class CatalogBuilder {
         return m;
     }
 
+    static final String SKINPORT_FEES = "https://skinport.com/blog/lower-fees-for-everybody";
+    static final String STEAM_TRADE_PROTECTION = "https://www.pcgamer.com/games/fps/steam-will-let-you-reverse-your-last-7-days-of-cs2-and-soon-other-trades-if-you-accidentally-swap-your-usd10-000-ak-47-for-some-magic-beans";
+
+    /**
+     * A CS2 item from Skinport: price = median sale (7 days, or 30 for slow items); volume and time to sell from
+     * the number of sales. Returns, swing and drawdown come from our own daily history once it is long enough.
+     */
+    Map<String, Object> skinMetrics(Universe.Skin s, Sources.Skinport sp, Series.Points d) {
+        JsonNode h = sp.history().get(s.hash());
+        Double price = Sources.skinPrice(h);
+        if (price == null) return null;
+        JsonNode l = sp.listings().get(s.hash());
+        Map<String, Object> m = new LinkedHashMap<>();
+        m.put("id", s.id());
+        m.put("name", s.name());
+        m.put("symbol", "CS2");
+        m.put("way", "Skins and cases");
+        m.put("sub", s.sub());
+        m.put("min", String.format(java.util.Locale.ROOT, "$%,.2f", price));
+        m.put("price", sig(price));
+        m.put("currency", "USD");
+        Double v7 = Json.num(h.path("last_7_days"), "volume");
+        m.put("price_basis", v7 != null && v7 >= 3 ? "7d" : "30d"); // same rule as Sources.skinPrice
+
+        long lastT = d.isEmpty() ? java.time.LocalDate.parse(sp.asof()).atStartOfDay(ZoneOffset.UTC).toEpochSecond() : d.t()[d.size() - 1];
+        boolean month = !d.isEmpty() && d.t()[0] <= lastT - 28 * 86400;
+        boolean year = !d.isEmpty() && d.t()[0] <= lastT - Metrics.YEAR_S + 7 * 86400;
+        m.put("chg_30d", month ? Metrics.pct(Metrics.valueAt(d.t(), d.v(), lastT - 30 * 86400), price) : null);
+        m.put("ret_1y", year ? Metrics.pct(Metrics.valueAt(d.t(), d.v(), lastT - Metrics.YEAR_S), price) : null);
+        m.put("ret_3y", d.isEmpty() ? null : Metrics.annOver(d.t(), d.v(), lastT, price, 3));
+        m.put("ret_5y", d.isEmpty() ? null : Metrics.annOver(d.t(), d.v(), lastT, price, 5));
+        m.put("ret_10y", d.isEmpty() ? null : Metrics.annOver(d.t(), d.v(), lastT, price, 10));
+        // swing from daily log returns (items trade every day) once there are ~3 months; a 7-day median smooths it, so it understates
+        List<Double> lr = Metrics.logReturns(d.v());
+        m.put("swing", lr.size() >= 90 ? Metrics.round1(Metrics.pstdev(lr) * Math.sqrt(365) * 100) : null);
+        Metrics.Drawdown dd = d.size() >= 30 ? Metrics.drawdown(d.t(), d.v()) : new Metrics.Drawdown(null, null);
+        m.put("dd", dd.pct());
+        m.put("dd_span", dd.span());
+        m.put("corr", null);
+
+        JsonNode m30 = h.path("last_30_days");
+        Double avg30 = Json.num(m30, "avg"), n30 = Json.num(m30, "volume");
+        m.put("vol30_usd", avg30 != null && n30 != null && n30 > 0 ? Math.round(avg30 * n30) : null);
+        Map<String, Object> sales = new LinkedHashMap<>();
+        for (String[] k : new String[][]{{"24h", "last_24_hours"}, {"7d", "last_7_days"}, {"30d", "last_30_days"}, {"90d", "last_90_days"}}) {
+            JsonNode p = h.path(k[1]);
+            Map<String, Object> x = new LinkedHashMap<>();
+            for (String f : List.of("median", "min", "max", "volume")) x.put(f, Json.num(p, f));
+            sales.put(k[0], x);
+        }
+        m.put("sales", sales);
+        if (l != null) {
+            Double ask = Json.num(l, "min_price"), qty = Json.num(l, "quantity");
+            Map<String, Object> lst = new LinkedHashMap<>();
+            lst.put("n", qty == null ? null : qty.intValue());
+            lst.put("lowest", ask);
+            lst.put("gap", ask == null ? null : Metrics.round1((ask / price - 1) * 100)); // lowest ask vs typical sale
+            m.put("listings", lst);
+        }
+
+        // time to sell: wait for a buyer at the market price, then Steam's 7-day trade protection before payout
+        Map<String, Object> sd = new LinkedHashMap<>();
+        Double waitS = n30 != null && n30 > 0 ? 30 * 86400 / n30 : null;
+        double settleS = 7 * 86400;
+        sd.put("exec", waitS == null ? null : "about one sale every " + SellProfiles.dur(waitS) + " on Skinport (last 30 days)");
+        sd.put("exec_s", waitS == null ? null : Math.round(waitS * 10) / 10.0);
+        sd.put("hours", "24/7");
+        sd.put("settle", "after Steam's 7-day trade protection, then a bank payout");
+        sd.put("settle_s", settleS);
+        sd.put("source", "Skinport sales, Steam trade protection");
+        sd.put("url", STEAM_TRADE_PROTECTION);
+        sd.put("measured", waitS != null);
+        sd.put("note", "Skinport keeps 8% of the sale price (6% from €1,000). Lowest current ask is shown as a reference, not a price you will get.");
+        sd.put("fee_url", SKINPORT_FEES);
+        m.put("sell_detail", sd);
+        m.put("sell", (waitS == null ? "rarely sells" : "~1 sale / " + SellProfiles.dur(waitS)) + " · 7-day hold");
+        m.put("sell_s", (waitS == null ? 0 : waitS) + settleS);
+
+        m.put("history_from", d.isEmpty() ? Metrics.monYear(lastT) : Metrics.monYear(d.t()[0]));
+        m.put("history_days", d.size());
+        m.put("asof", sp.asof());
+        m.put("source", "Skinport");
+        String page = Json.str(h, "item_page");
+        m.put("url", page != null && page.startsWith("https://") ? page : "https://skinport.com/market?search=" + java.net.URLEncoder.encode(s.hash(), java.nio.charset.StandardCharsets.UTF_8));
+        m.put("trust", "market");
+        m.put("total_return", false);
+        m.put("kind", "SKIN");
+        return m;
+    }
+
     private Map<String, Object> wayEntry(Universe.Way way, List<Map<String, Object>> tracked, List<Map<String, Object>> deposits,
                                          List<Map<String, Object>> defi, JsonNode research) {
         Map<String, Object> w = new LinkedHashMap<>();
@@ -275,8 +383,10 @@ public class CatalogBuilder {
         } else if (!tracked.isEmpty()) {
             Map<String, Object> rep = tracked.get(0);
             String note = "representative asset" + (Boolean.TRUE.equals(rep.get("total_return")) ? ", total return incl. dividends" : "");
+            // one CS2 item does not stand for the whole skin market: keep the published market figures there
+            boolean basket = "SKIN".equals(rep.get("kind"));
             for (String k : List.of("ret_1y", "ret_5y", "ret_10y", "swing", "dd", "corr"))
-                if (rep.get(k) != null)
+                if (rep.get(k) != null && !basket)
                     m.put(k, metric(rep.get(k), rep.get("name") + " (" + rep.get("symbol") + "), " + rep.get("source"), (String) rep.get("url"), (String) rep.get("asof"), (String) rep.get("trust"), null, note));
             double v30 = 0;
             int n = 0;
@@ -285,7 +395,7 @@ public class CatalogBuilder {
                     v30 += num.doubleValue();
                     n++;
                 }
-            if (n > 0) m.put("vol30", metric(v30, "sum of " + n + " tracked assets, Yahoo Finance", null, (String) rep.get("asof"), "market", null, null));
+            if (n > 0) m.put("vol30", metric(v30, "sum of " + n + " tracked assets, " + rep.get("source"), null, (String) rep.get("asof"), "market", null, null));
         }
         if (way.name().equals("Savings and deposits") && !deposits.isEmpty()) {
             List<Double> rates = deposits.stream().map(x -> (Double) x.get("rate")).filter(x -> x != null).toList();

@@ -44,6 +44,35 @@ public final class Http {
         throw last;
     }
 
+    /** GET for APIs that insist on Brotli (Skinport): asks for br and decodes it; plain bodies pass through. */
+    public static String getBrotli(String url, Duration timeout) throws IOException {
+        IOException last = null;
+        for (int attempt = 0; attempt < 3; attempt++) {
+            try {
+                HttpRequest req = HttpRequest.newBuilder(URI.create(url))
+                        .header("User-Agent", BROWSER_UA).header("Accept-Encoding", "br").timeout(timeout).GET().build();
+                HttpResponse<byte[]> r = CLIENT.send(req, HttpResponse.BodyHandlers.ofByteArray());
+                if (r.statusCode() == 200) {
+                    boolean br = r.headers().firstValue("Content-Encoding").map(e -> e.equalsIgnoreCase("br")).orElse(false);
+                    byte[] body = r.body();
+                    if (br) try (var in = new org.brotli.dec.BrotliInputStream(new java.io.ByteArrayInputStream(body))) {
+                        body = in.readAllBytes();
+                    }
+                    return new String(body, java.nio.charset.StandardCharsets.UTF_8);
+                }
+                last = new IOException("HTTP " + r.statusCode() + " for " + url);
+                if (r.statusCode() == 404 || r.statusCode() == 429) break; // 429: Skinport allows 8 calls per 5 min; retrying makes it worse
+            } catch (IOException e) {
+                last = e;
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+                throw new IOException("interrupted", e);
+            }
+            sleep(5000L + attempt * 10000L);
+        }
+        throw last;
+    }
+
     public static HttpResponse<String> post(String url, String body, Map<String, String> headers, Duration timeout)
             throws IOException, InterruptedException {
         HttpRequest.Builder b = HttpRequest.newBuilder(URI.create(url)).timeout(timeout)

@@ -21,12 +21,15 @@ public class Universe {
     public record Asset(String id, String name, String symbol, String source, String way, String sub, String min) {}
     public record House(String id, String country, String series) {}
     public record Defi(String way, String name, String project, String chain, String symbol) {}
+    /** A CS2 item priced from Skinport sales; hash = Steam market_hash_name. */
+    public record Skin(String id, String name, String hash, String sub) {}
 
     public final List<Group> groups = new ArrayList<>();
     public final List<Way> ways = new ArrayList<>();
     public final List<Asset> assets = new ArrayList<>();
     public final List<House> houses = new ArrayList<>();
     public final List<Defi> defi = new ArrayList<>();
+    public final List<Skin> skins = new ArrayList<>();
     /** asset id -> Binance symbol (e.g. btc -> BTCUSDT) */
     public final Map<String, String> binance = new LinkedHashMap<>();
     /** asset id -> Kraken v2 symbol (e.g. eurusd -> EUR/USD) */
@@ -47,6 +50,9 @@ public class Universe {
             houses.add(new House(Json.str(h, "id"), Json.str(h, "country"), Json.str(h, "series")));
         for (JsonNode d : u.get("defi"))
             defi.add(new Defi(Json.str(d, "way"), Json.str(d, "name"), Json.str(d, "project"), Json.str(d, "chain"), Json.str(d, "symbol")));
+        if (u.has("skins"))
+            for (JsonNode s : u.get("skins"))
+                skins.add(new Skin(Json.str(s, "id"), Json.str(s, "name"), Json.str(s, "hash"), Json.str(s, "sub")));
         u.get("live").get("binance").properties().forEach(e -> binance.put(e.getKey(), e.getValue().asString()));
         u.get("live").get("kraken").properties().forEach(e -> kraken.put(e.getKey(), e.getValue().asString()));
         u.get("chain").properties().forEach(e -> chain.put(e.getKey(), e.getValue().asString()));
