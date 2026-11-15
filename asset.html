@@ -65,7 +65,7 @@
     }
     var cells = [['1Y', a.ret_1y, '12 months'], ['3Y', a.ret_3y, 'per year'], ['5Y', a.ret_5y, 'per year'], ['10Y', a.ret_10y, 'per year'], ['All time', all, allYrs ? 'per year, ' + allYrs.toFixed(1) + ' yrs' : '']];
     h += '<section class="split" style="padding-bottom:24px"><div class="card pad" style="flex:2 1 520px"><h2 class="h3" style="margin-bottom:14px">Average return per year</h2><div class="stats" style="grid-template-columns:repeat(auto-fit,minmax(110px,1fr))">' +
-      cells.filter(function (c) { return K.num(c[1]); }).map(function (c) { return '<div class="tile"><div class="k">' + c[0] + '</div><div class="v">' + (K.num(c[1]) ? K.pctc(c[1]) : '<span class="nodata">—</span>') + '</div><div class="k">' + (K.num(c[1]) ? c[2] : 'not enough history') + '</div></div>'; }).join('') +
+      cells.filter(function (c) { return K.num(c[1]); }).map(function (c) { return '<div class="tile"><div class="k">' + c[0] + '</div><div class="v">' + (K.num(c[1]) ? K.pctc(c[1]) : '<span class="nodata">—</span>') + '</div><div class="k">' + c[2] + '</div></div>'; }).join('') +
       '</div><p class="note" style="margin:12px 0 0">' + (isIdx ? 'Price index: rent and costs of owning are not included.' : 'Compound return, dividends reinvested where paid.') + '</p></div>' +
       '<div class="card pad" style="flex:1 1 300px"><h2 class="h3" style="margin-bottom:14px">Best → worst stretch</h2>' +
       (best ? '<div class="k1000"><span class="muted">Best ' + win + '-year stretch</span><b class="' + K.cls(best.r) + '">' + K.pct(best.r) + (win > 1 ? ' / yr' : '') + '</b></div><div class="note">ending ' + esc(best.to) + '</div>' +
