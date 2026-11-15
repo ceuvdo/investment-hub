@@ -46,31 +46,6 @@
   <div class="news-strip" id="news-strip"><div class="empty">Loading headlines…</div></div>
 </section>
 
-<section class="wrap sec grid-auto">
-  <div class="card pad" style="display:flex;flex-direction:column;gap:12px">
-    <h2 class="h4">Risk, in numbers</h2>
-    <div style="display:flex;flex-direction:column;gap:10px;font-size:14px">
-      <div><b>Swing.</b> <span class="muted">How far the price typically moves in a year (annualised volatility, last 3 years).</span></div>
-      <div><b>Worst drop.</b> <span class="muted">The deepest fall from a peak in the last 10 years.</span></div>
-      <div><b>Vs stocks.</b> <span class="muted">Correlation with the S&amp;P 500: 1.00 moves in step, 0 is unrelated.</span></div>
-      <div><b>Flags.</b> <span class="muted">Fakes, lock-ups, counterparty and legal risk, on each way's page.</span></div>
-    </div>
-  </div>
-  <div class="card pad" style="display:flex;flex-direction:column;gap:12px">
-    <h2 class="h4">Liquidity, in numbers</h2>
-    <div style="display:flex;flex-direction:column;gap:10px;font-size:14px">
-      <div><b>Order fills.</b> <span class="muted">Measured network time to the exchange, or under a second in trading hours.</span></div>
-      <div><b>Money is yours.</b> <span class="muted">Settlement rule (T+1, T+2) or the network's confirmation time.</span></div>
-      <div><b>Volume.</b> <span class="muted">Money traded in the last 30 days.</span></div>
-      <div><b>Rating 1–5.</b> <span class="muted">5 sells in seconds, 1 takes months or years.</span></div>
-    </div>
-    <a class="link" href="methodology.html" style="font-size:14px">Methodology →</a>
-  </div>
-  <div class="card pad" style="display:flex;flex-direction:column;gap:12px">
-    <div style="display:flex;justify-content:space-between;align-items:baseline"><h2 class="h4">Biggest moves, 30 days</h2><span class="note">all tracked assets</span></div>
-    <div id="movers"></div>
-  </div>
-</section>
 
 <section class="wrap sec">
   <div class="sec-h"><h2 class="h2">Head to head, real numbers</h2><a class="link" href="compare.html">Compare anything →</a></div>
@@ -182,12 +157,6 @@
   document.getElementById('news-prev').onclick = function () { np = Math.max(0, np - 1); drawNews(); };
   document.getElementById('news-next').onclick = function () { np = Math.min(items.length - 1, np + 1); drawNews(); };
   K.loadNews().then(function (all) { items = all.slice(0, 9); drawNews(); }).catch(function () { drawNews(); });
-
-  // ---- movers ----
-  var mv = C.assets.filter(function (a) { return K.num(a.chg_30d); }).sort(function (a, b) { return Math.abs(b.chg_30d) - Math.abs(a.chg_30d); }).slice(0, 5);
-  document.getElementById('movers').innerHTML = mv.map(function (a) {
-    return '<div style="display:flex;justify-content:space-between;align-items:center;gap:12px;padding:8px 0;border-bottom:1px solid var(--line2)"><div style="min-width:0"><a href="' + K.assetHref(a) + '" style="font-weight:500;display:block">' + esc(a.name) + '</a><span class="note" style="font-size:12px">' + esc(a.way) + '</span></div><span class="mono ' + K.cls(a.chg_30d) + '" style="white-space:nowrap">' + K.arrow(a.chg_30d) + K.pct(Math.abs(a.chg_30d)).replace('+', '') + '</span></div>';
-  }).join('') + (mv[0] ? '<div class="note" style="padding-top:8px">Yahoo Finance, to ' + esc(K.fmtDate(mv[0].asof)) + '</div>' : '');
 
   // ---- head to head ----
   function card(ids, title, accent) {
