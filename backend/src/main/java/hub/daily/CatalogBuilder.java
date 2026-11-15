@@ -308,7 +308,7 @@ public class CatalogBuilder {
             JsonNode rm = research.get("metrics");
             if (rm != null)
                 for (Map.Entry<String, JsonNode> e : rm.properties()) {
-                    if (e.getValue() == null || e.getValue().isNull()) continue;
+                    if (e.getValue() == null || !e.getValue().isObject()) continue; // skip nulls and stray text values in research files
                     String key = rename.getOrDefault(e.getKey(), e.getKey());
                     Object val = Json.M.convertValue(e.getValue(), Map.class);
                     Object existing = m.get(key);
@@ -319,6 +319,7 @@ public class CatalogBuilder {
             note = Json.str(research, "note");
         }
         w.put("metrics", m);
+        Ratings.apply(w, tracked, m); // risk, liquidity and entry from data, editorial only as a labelled fallback
         w.put("examples", examples);
         w.put("note", note);
         return w;

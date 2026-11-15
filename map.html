@@ -27,7 +27,7 @@
     </div>
   </section>
   <section class="sec" id="groups" style="display:flex;flex-direction:column;gap:36px"></section>
-  <p class="note sec" style="margin-top:-36px">Entry = smallest budget that can realistically buy in. Exit = liquidity 1–5 (5 sells in seconds). Risk band and these two ratings are editorial for now; measured swing, worst drop and time to sell are on each way's page. <a class="link" href="methodology.html">Methodology →</a></p>
+  <p class="note sec" style="margin-top:-36px">Entry = smallest budget that can realistically buy in. Exit = liquidity 1–5 (5 sells in seconds). Risk, entry and exit are computed from data (our measurements, then published research); "est." marks the few still estimated by hand. Hover a rating for its basis. <a class="link" href="methodology.html">Methodology →</a></p>
 </main>
 <script>
 (function () {
@@ -37,6 +37,8 @@
   var LABEL = { 1: 'from $100', 2: 'from $1k', 3: 'from $25k', 4: 'from $250k' };
   var legacy = { 1: 100, 2: 1000, 3: 25000, 4: 250000 }[K.q('b')];
   var amount = parseFloat((K.q('a') || '').replace(/[^0-9.]/g, '')) || legacy || null, risk = K.q('r') || 'all';
+  function tip(w, k) { var r = w.ratings && w.ratings[k]; return r ? (r.source === 'editorial' ? 'Editorial estimate: ' : 'From ' + r.source + ' data: ') + r.basis : ''; }
+  function est(w, k) { var r = w.ratings && w.ratings[k]; return r && r.source === 'editorial' ? ' <span class="est" title="editorial estimate, no data yet">est.</span>' : ''; }
   function open(w) { return !amount || LIMIT[w.entry] <= amount; }
   function draw() {
     document.getElementById('amt').value = amount ? amount.toLocaleString('en-US') : '';
@@ -54,8 +56,8 @@
           var m = w.metrics, fig = m.ret_1y || m.ret_5y || m.ret_10y || m.yield;
           var figTxt = fig && K.num(fig.value) ? K.pctc(fig.value) + ' <span class="muted" style="font-size:11px">' + (fig === m.ret_1y ? '1y' : fig === m.ret_5y ? '5y/yr' : fig === m.ret_10y ? '10y/yr' : 'yield') + '</span>' : '<span class="nodata">no figure yet</span>';
           return '<a class="wcard" href="' + K.wayHref(w) + '"><span class="nm">' + esc(w.name) + '</span>' +
-            '<span class="row"><span class="' + (w.risk === 'high' ? 'down' : '') + '">' + w.risk + ' risk</span><span class="mono" title="' + esc(fig && fig.source ? fig.source + ' · ' + (fig.asof || '') : '') + '">' + figTxt + '</span></span>' +
-            '<span class="row"><span class="mono" style="color:var(--text)">' + LABEL[w.entry] + '</span><span>exit <span class="exitbar" aria-hidden="true"><i style="width:' + (w.liq * 20) + '%"></i></span> <span class="mono">' + w.liq + '/5</span></span></span></a>';
+            '<span class="row"><span class="' + (w.risk === 'high' ? 'down' : '') + '" title="' + esc(tip(w, 'risk')) + '">' + w.risk + ' risk' + est(w, 'risk') + '</span><span class="mono" title="' + esc(fig && fig.source ? fig.source + ' · ' + (fig.asof || '') : '') + '">' + figTxt + '</span></span>' +
+            '<span class="row"><span class="mono" style="color:var(--text)" title="' + esc(tip(w, 'entry')) + '">' + LABEL[w.entry] + est(w, 'entry') + '</span><span title="' + esc(tip(w, 'liq')) + '">exit <span class="exitbar" aria-hidden="true"><i style="width:' + (w.liq * 20) + '%"></i></span> <span class="mono">' + w.liq + '/5</span>' + est(w, 'liq') + '</span></span></a>';
         }).join('') + '</div>' : '<div class="note">Nothing here for this budget and risk.</div>') + '</div>';
     }).join('');
     document.getElementById('count').textContent = shown + ' of ' + C.ways.length + ' open to you';

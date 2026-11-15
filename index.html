@@ -18,19 +18,6 @@
   <div class="hero-l">
     <h1>Everything you can invest in, <span>from a deposit to a hedge fund</span></h1>
     <p class="lead">Return, risk, volume and the real cost of getting out, measured the same way for stocks, crypto, funds, property, businesses and collectibles. A source and a date next to every number.</p>
-    <div class="search">
-      <label><span class="muted" id="sicon"></span><span class="sr">Search the catalog</span>
-        <input id="q" type="search" placeholder="Ticker, fund, country, wine, watch, club" autocomplete="off">
-        <a class="btn acc" href="map.html">Browse</a></label>
-      <div class="results" id="res" hidden></div>
-    </div>
-    <form class="amount" action="map.html" method="get">
-      <label><span>How much can you invest?</span>
-        <input name="a" type="text" inputmode="numeric" placeholder="$ amount" autocomplete="off" aria-label="Amount in US dollars"></label>
-      <button class="btn acc sm" type="submit">Show</button>
-    </form>
-    <div class="budget"><span class="muted" style="margin-right:4px">Quick picks</span>
-      <a href="map.html?a=100">$100</a><a href="map.html?a=1000">$1,000</a><a href="map.html?a=10000">$10,000</a><a href="map.html?a=50000">$50,000+</a></div>
   </div>
   <div class="card race" id="race"></div>
 </section>
@@ -95,8 +82,6 @@
 (function () {
   var K = window.K, C = K.C, esc = K.esc;
   K.header('home');
-  document.getElementById('sicon').innerHTML = K.ICON.search;
-  K.attachSearch(document.getElementById('q'), document.getElementById('res'));
   document.getElementById('all-groups').textContent = 'All ' + C.groups.length + ' groups, ' + C.meta.n_ways + ' ways →';
 
   // ---- popular picks: return per year over 1/5/10 years ----
@@ -146,8 +131,8 @@
   }).join('');
 
   // ---- rankings with horizon ----
-  var picks = [['all', 'All'], ['public', 'Public markets'], ['crypto', 'Crypto'], ['commodities', 'Commodities'], ['property', 'Property'], ['private', 'Private markets'], ['cards', 'Cards and games']];
-  var cur = 'all', hz = K.store.get('hz', 'long');
+  var picks = [['all', 'All'], ['public', 'Public markets'], ['crypto', 'Crypto'], ['private', 'Private markets'], ['property', 'Property']];
+  var cur = 'all', hz = K.store.get('hz', 'long'), moreOpen = false;
   var HZ = { short: ['Up to 1 year', 'sell', 1, 'fastest to sell first'], mid: ['1–5 years', 'ret_5y', -1, 'by return per year over 5 years'], long: ['5+ years', 'ret_10y', -1, 'by return per year over 10 years'] };
   function drawRank() {
     document.getElementById('hz').innerHTML = '<span class="muted" style="margin-right:4px">I invest for</span>' + Object.keys(HZ).map(function (k) {
@@ -160,12 +145,21 @@
     if (cur === 'all') { var seen = {}; rows = rows.filter(function (a) { if (seen[a.way]) return false; seen[a.way] = 1; return true; }); }
     rows = rows.slice(0, 12);
     K.rankTable(document.getElementById('rank'), rows, { sort: h[1], dir: h[2], mobileLimit: 8 });
-    document.getElementById('pills').innerHTML = picks.map(function (p) { return '<button class="pill" aria-pressed="' + (p[0] === cur) + '" data-p="' + p[0] + '">' + p[1] + '</button>'; }).join('');
-    document.querySelectorAll('#pills .pill').forEach(function (b) { b.onclick = function () { cur = b.dataset.p; drawRank(); }; });
+    var inMain = picks.some(function (p) { return p[0] === cur; });
+    var moreLabel = inMain ? '+ More' : K.groupsBySlug[cur].name + ' ▾';
+    document.getElementById('pills').innerHTML = picks.map(function (p) { return '<button class="pill" aria-pressed="' + (p[0] === cur) + '" data-p="' + p[0] + '">' + p[1] + '</button>'; }).join('') +
+      '<span class="more"><button class="pill" id="more" aria-expanded="' + moreOpen + '" aria-pressed="' + !inMain + '">' + esc(moreLabel) + '</button>' +
+      (moreOpen ? '<span class="more-menu" role="menu">' + C.groups.map(function (g) {
+        var n = C.assets.filter(function (a) { return a.group === g.slug && a.currency !== 'index'; }).length;
+        return '<button role="menuitem" data-p="' + g.slug + '"' + (n ? '' : ' disabled') + '><span>' + esc(g.name) + '</span><span class="mono note">' + (n || 'no prices yet') + '</span></button>';
+      }).join('') + '</span>' : '') + '</span>';
+    document.querySelectorAll('#pills [data-p]').forEach(function (b) { b.onclick = function () { cur = b.dataset.p; moreOpen = false; drawRank(); }; });
+    document.getElementById('more').onclick = function (e) { e.stopPropagation(); moreOpen = !moreOpen; drawRank(); };
     document.querySelectorAll('#hz .pill').forEach(function (b) { b.onclick = function () { hz = b.dataset.hz; K.store.set('hz', hz); drawRank(); }; });
     document.getElementById('rank-src').innerHTML = 'Sorted ' + h[3] + (cur === 'all' ? ', top item per way' : '') + '. Prices: Yahoo Finance, close ' + esc(K.fmtDate(K.byId.spy ? K.byId.spy.asof : '')) + '.';
   }
   drawRank();
+  document.addEventListener('click', function () { if (moreOpen) { moreOpen = false; drawRank(); } });
   document.getElementById('all-rank').textContent = 'Full rankings: ' + C.assets.length + ' assets →';
 
   // ---- news (real headlines, linked to the publisher) ----

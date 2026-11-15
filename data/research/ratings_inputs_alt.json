@@ -1,0 +1,328 @@
+{
+ "generated": "2026-11-15",
+ "notes": "All values come from pages opened or seen in search results on 2026-11-15. 'trust': report = press/analyst report, platform = the platform's own terms or data, index = published index, estimate = third-party guide or a figure we derived from sourced inputs (derivation stated in 'note'). volatility is null everywhere: no published annualised volatility was found for these markets. FX: GBP/USD 1.3232 (OFX live rate, 2026-11-13, https://www.ofx.com/en-us/exchange-rates/gbp-to-usd/).",
+ "ways": [
+  {
+   "way": "Watches",
+   "group": "Collectibles",
+   "metrics": {
+    "time_to_sell": {"days_low": 7, "days_high": 28, "text": "Chrono24 escrow releases funds after delivery plus an inspection window: about 7 days for private sellers, 14 days for dealers, then a few business days of bank transfer", "source": "Majestix Collection, Chrono24 buying guide 2026 (secondary)", "url": "https://majestixcollection.com/blog/buying-a-watch-on-chrono24/", "asof": "2026", "trust": "estimate", "note": "Covers shipping to payout only. Time to find a buyer is not included. The 28-day upper bound is our estimate (14-day dealer window plus shipping and bank transfer)."},
+    "min_ticket": {"usd": 6089, "text": "Rolex Oyster Perpetual 28 ref. 276200, pre-owned market price about $6,089 (retail $6,200)", "source": "WatchCharts model page", "url": "https://watchcharts.com/watch_variation/36-rolex-oyster-perpetual-28-276200-0001/overview", "asof": "2026-10", "trust": "platform"},
+    "max_drawdown": {"value": -32.0, "period": "Mar 2022 peak to Jul 2023", "source": "Morgan Stanley / WatchCharts pre-owned index via Boss Hunting", "url": "https://www.bosshunting.com.au/style/watches/rolex-patek-philippe-prices-fall", "asof": "2023-07-26", "trust": "index", "note": "We compounded the reported -26% (to end-2022) and -8% (2023 to July). Prices kept falling through Q2 2025, so the full trough is probably deeper."},
+    "volatility": {"value": null, "note": "No published annualised volatility found for WatchCharts indices."},
+    "exit_cost": {"pct_low": 6.5, "pct_high": 25, "text": "Chrono24 private seller flat 6.5% commission; consignment 14-25%", "source": "Grailr online watch marketplace guide (secondary)", "url": "https://grailr.watch/blog/online-watch-marketplace-guide", "asof": "2026", "trust": "estimate"}
+   }
+  },
+  {
+   "way": "Sneakers",
+   "group": "Collectibles",
+   "metrics": {
+    "time_to_sell": {"days_low": 3, "days_high": 10, "text": "StockX pays out daily once a sold item passes verification. Bank transfer up to 5 business days, PayPal within 30 minutes", "source": "StockX Help Center, 'As a seller, how and when do I get paid?'", "url": "https://stockx.com/help/articles/As-a-Seller-how-and-when-do-I-get-paid", "asof": "2026", "trust": "platform", "note": "The day range is our estimate: shipping to StockX plus verification plus payout. It assumes an item sells at the current bid."},
+    "min_ticket": {"usd": 250, "text": "Air Jordan 1 Retro High average resale $250-400 (retail $170-200)", "source": "PLOTT DATA sneaker resale market report", "url": "https://www.plottdata.com/blogs/sneaker-resale-market-report", "asof": "2025-12", "trust": "report", "note": "Figure is for 2024 across several marketplaces."},
+    "max_drawdown": {"value": -7.0, "period": "calendar 2022 (average price return of ~100 StockX releases, after +23% in 2021)", "source": "Axios, StockX-based sample", "url": "https://www.axios.com/2023/02/22/sneakers-resale-price-drop", "asof": "2023-02-22", "trust": "report", "note": "This is an average annual return, not a true index drawdown. Individual models fell much more, for example the Panda Dunk fell from over $300 to about $150."},
+    "volatility": {"value": null, "note": "No sneaker price index with published volatility found."},
+    "exit_cost": {"pct_low": 10, "pct_high": 12, "text": "StockX 3% payment processing plus a 7% (Level 5) to 9% (Level 1) transaction fee", "source": "StockX Help Center, seller fees", "url": "https://stockx.com/help/articles/What-are-StockXs-fees-for-sellers", "asof": "2026", "trust": "platform", "note": "Excludes shipping."}
+   }
+  },
+  {
+   "way": "Art",
+   "group": "Collectibles",
+   "metrics": {
+    "time_to_sell": {"days_low": 105, "days_high": 210, "text": "Consignment deadlines are about 2-3 months before a sale, and Sotheby's pays within 45 days of the sale (Christie's and Bonhams 35 days). Guides put first contact to payment at roughly 4-7 months", "source": "Sotheby's fee structure page; Spear's (Apr 2026); secondary seller guides", "url": "https://www.sothebys.com/en/articles/sothebys-fee-structure", "asof": "2026-04", "trust": "estimate", "note": "The low bound is ours (60-day lead time plus 45-day payout). The high bound is the 7-month figure from secondary guides."},
+    "min_ticket": {"usd": 15000, "text": "Masterworks standard minimum about $15,000 per offering. Reviews say it is sometimes lowered to about $2,500 after an advisor call", "source": "InvestorMint Masterworks review 2026 (secondary)", "url": "https://investormint.com/investing/masterworks-review-2026", "asof": "2026", "trust": "estimate"},
+    "max_drawdown": {"value": -27.2, "period": "2007 to 2009 (Mei Moses All Art index)", "source": "Masterworks Insights, 'What happens to art during a recession'", "url": "https://insights.masterworks.com/alternative-investments/art-investing/what-happens-to-art-during-a-recession/", "asof": "2009", "trust": "index", "note": "Source is an art-investment platform with an interest in the asset class. The Artprice100 rose 11.2% in 2025 to a new high."},
+    "volatility": {"value": null, "note": "No published annualised volatility found."},
+    "exit_cost": {"pct_low": 0, "pct_high": 10, "text": "Sotheby's seller's commission is 10% on the first $500,000 of hammer per lot and 0% above that (waived above $5m low estimate). The buyer separately pays a premium of up to 28%, which lowers what they will bid", "source": "Sotheby's help center, consignment terms", "url": "https://help.sothebys.com/en/support/solutions/articles/44002297443-what-are-sotheby-s-consignment-terms-", "asof": "2024-05-20", "trust": "platform", "note": "Excludes insurance, shipping and the 4% guarantee fee when it applies."}
+   }
+  },
+  {
+   "way": "Wine and whisky",
+   "group": "Collectibles",
+   "metrics": {
+    "time_to_sell": {"days_low": 15, "days_high": 84, "text": "Vinovest liquidation is 15-30 days on average per one review, 4-6 weeks per another, and up to 8-12 weeks per a third. Vinovest itself guarantees no timeline", "source": "Vinovest reviews (secondary) summarised in search results", "url": "https://help.vinovest.co/can-i-sell-my-wine-at-any-time", "asof": "2026", "trust": "estimate"},
+    "min_ticket": {"usd": 1000, "text": "Vinovest entry tier $1,000. A 2026 review says the managed-portfolio minimum rose to $5,000, and whisky casks start around $1,750", "source": "Vinovest reviews (The Ways To Wealth; Angel Investors Network 2026)", "url": "https://www.thewaystowealth.com/vinovest-review/", "asof": "2026", "trust": "estimate"},
+    "max_drawdown": {"value": -26.6, "period": "Sep 2022 peak to Aug 2025 (Liv-ex Fine Wine 100)", "source": "Liv-ex report via Vinetur", "url": "https://www.vinetur.com/en/2025081190363/fine-wine-market-shows-signs-of-recovery-after-prolonged-downturn-as-prices-near-potential-bottom.html", "asof": "2025-08-11", "trust": "index", "note": "Whisky fell further: the Rare Whisky Icon 100 is reported down 42% from its 2022 peak (Vinetur, Nov 2026, https://www.vinetur.com/es/amp/20261103110182/collectible-whisky-prices-have-fallen-42-from-their-2022-peak.html)."},
+    "volatility": {"value": null, "note": "No published annualised volatility found."},
+    "exit_cost": {"pct_low": 1, "pct_high": 3, "text": "Vinovest charges 1% to sell to another user on its marketplace, a 3% early-sale fee within the early window, and nothing when it sells wine in its optimal window", "source": "Vinovest help center; reviews", "url": "https://help.vinovest.co/does-vinovest-charge-a-fee-when-selling-my-wines", "asof": "2026", "trust": "platform", "note": "Excludes the 2.25-2.85% yearly management fee, the buy-side fee and the bid-ask spread."}
+   }
+  },
+  {
+   "way": "Classic cars",
+   "group": "Collectibles",
+   "metrics": {
+    "time_to_sell": {"days_low": 21, "days_high": 49, "text": "Bring a Trailer: submission to approval 2-4 weeks, listing prep 1-2 weeks, then a 7-day auction. 2025 sell-through was 81.8%", "source": "AutoMonitor BaT seller guide (secondary)", "url": "https://automonitor.io/blog/how-to-sell-my-car-on-bring-a-trailer/", "asof": "2026", "trust": "estimate", "note": "Payment is settled between buyer and seller after the auction. The low bound is ours (2 + 1 weeks)."},
+    "min_ticket": {"usd": 26500, "text": "Median collector-car auction sale $26,500 in H1 2026 (average $75,173)", "source": "Classic.com 2026 Half-time Report", "url": "https://www.classic.com/insights/2026-half-time-report/", "asof": "2026-07", "trust": "report"},
+    "max_drawdown": {"value": -17.0, "period": "Dec 2022 peak to Hagerty's December update (index 176.58)", "source": "Hagerty Market Index, 'Headwinds Continue for the Collector Car Market in December'", "url": "https://hagerty.com/media/?p=453585", "asof": "2025-12", "trust": "index", "note": "Publication year not visible in the snippet (most likely Dec 2025). Hagerty pages blocked direct fetch. Knight Frank also shows classic cars -3.7% in 2025."},
+    "volatility": {"value": null, "note": "No published annualised volatility found."},
+    "exit_cost": {"pct_low": 0.4, "pct_high": 5, "text": "BaT seller pays a $99 listing fee (about 0.4% of a $26.5k median car). The buyer pays 5% (min $250, cap $7,500), which tends to lower bids", "source": "Classic.com auction fees table", "url": "https://support.classic.com/auction-fees-and-prices", "asof": "2026", "trust": "platform", "note": "The 5% upper bound treats the buyer fee as an effective cost to the seller. That is our assumption."}
+   }
+  },
+  {
+   "way": "LEGO sets",
+   "group": "Collectibles",
+   "metrics": {
+    "time_to_sell": {"days_low": 3, "days_high": 5, "text": "After an eBay sale, eBay starts the payout within 2 business days and the bank adds 1-3 business days", "source": "eBay Seller Center, Payments and earnings", "url": "https://www.ebay.com/sellercenter/payments-and-fees/payments-and-earnings", "asof": "2026", "trust": "platform", "note": "Covers sale to cash only. No data was found on how long a retired set takes to find a buyer."},
+    "min_ticket": null,
+    "max_drawdown": null,
+    "volatility": {"value": null, "note": "BrickEconomy publishes only average appreciation (6.4% a year across 18,200 sets, May 2026), not a drawdown or volatility series. https://www.brickeconomy.com/article/lego-market-recap-may-2026"},
+    "exit_cost": {"pct_low": 3, "pct_high": 15, "text": "BrickLink about 3% plus payment processing; eBay toys about 13.25-14.9% final value fee plus a per-order fee", "source": "BrickLink forum and guides; eBay fee guides (secondary)", "url": "https://ecomcalctools.com/blog/fees-ebay/ebay-toys-games-fees-2026/", "asof": "2026", "trust": "estimate"},
+    "note_min_ticket": "No sourced entry price for an investment-grade retired set was found."
+   }
+  },
+  {
+   "way": "Coins and banknotes",
+   "group": "Collectibles",
+   "metrics": {
+    "time_to_sell": {"days_low": 30, "days_high": 45, "text": "Heritage sends the settlement check 45 days after the auction closes (30 days for sports)", "source": "Heritage Auctions consignment process", "url": "https://americana.ha.com/c/ref/consignment-process.zx", "asof": "2026", "trust": "platform", "note": "Excludes the lead time from consignment to auction date."},
+    "min_ticket": {"usd": 171, "text": "Common-date Morgan dollar MS65 PCGS: an 1886 sold for $171 at Heritage (5 Aug 2026). Other common dates run about $350-$840 wholesale", "source": "Greysheet / PCGS price listings (seen in search results)", "url": "https://www.greysheet.com/prices/item?gsid=7496", "asof": "2026-08", "trust": "estimate", "note": "Search snippets did not clearly tie the 1886 sale to this exact page."},
+    "max_drawdown": {"value": -59.7, "period": "All-time high 31 May 1989 ($181,088.48) to 31 Oct 2025 ($73,056.57)", "source": "PCGS3000 index (PCGS)", "url": "https://www.pcgs.com/prices/coin-index/pcgs3000", "asof": "2025-10-31", "trust": "index", "note": "Measured from the peak to a recent reading, not necessarily the lowest point. July 2026 reading $72,850.95. PCGS blocked direct fetch, so values come from search results."},
+    "volatility": {"value": null, "note": "No published annualised volatility found."},
+    "exit_cost": {"pct_low": 0, "pct_high": 15, "text": "Heritage seller commission is often 0% on many lots and negotiable, 10-15% for small consignors per guides. Buyer premium is about 20% on top", "source": "Grand-Screen auction houses directory; collectors.com forum (secondary)", "url": "https://grand-screen.com/tools/auction-houses-directory/", "asof": "2026", "trust": "estimate"}
+   }
+  },
+  {
+   "way": "Comics",
+   "group": "Collectibles",
+   "metrics": {
+    "time_to_sell": {"days_low": 30, "days_high": 45, "text": "Heritage settles 45 days after the auction closes. Comics guides cite 30-45 days", "source": "Heritage Auctions consignment process", "url": "https://americana.ha.com/c/ref/consignment-process.zx", "asof": "2026", "trust": "platform", "note": "Excludes the lead time from consignment to auction."},
+    "min_ticket": null,
+    "max_drawdown": {"value": -37.0, "period": "early 2022 to Apr 2024 (Amazing Fantasy #15, about $48,000 to about $30,000)", "source": "GoCollect, 'Status of the comic book market in 2024: have we hit bottom?'", "url": "https://gocollect.com/blog/status-of-the-comic-book-market-in-2024-have-we-hit-bottom", "asof": "2024-04-28", "trust": "report", "note": "Single key issue, not an index. Search snippets also cite GoCollect segment indices: Silver Age -18.5% from its Sep 2022 peak, Bronze -24.7%, Modern -54% since Feb 2022. The exact pages for those were not verified."},
+    "volatility": {"value": null, "note": "No published annualised volatility found."},
+    "exit_cost": {"pct_low": 0, "pct_high": 15, "text": "Heritage seller commission 0% on many graded comics above about $1,000; up to 10-15% for small consignors", "source": "MyComicsCollection guide to selling at Heritage (secondary)", "url": "https://mycomicscollection.com/en/blog/heritage-auctions-selling-comics/", "asof": "2026", "trust": "estimate"},
+    "note_min_ticket": "No sourced entry price for an investment-grade graded comic was found."
+   }
+  },
+  {
+   "way": "Handbags",
+   "group": "Collectibles",
+   "metrics": {
+    "time_to_sell": {"days_low": 15, "days_high": null, "text": "Rebag consignment pays proceeds as wallet cash 15 days after the item sells. Time to sell is not stated", "source": "Rebag help center, consignment", "url": "https://intercom.help/rebag/en/articles/8443724-what-does-consignment-look-like-at-rebag", "asof": "2026", "trust": "platform", "note": "Only the post-sale payout delay is sourced. An instant buyout from Fashionphile or Rebag is faster but at a lower price."},
+    "min_ticket": {"usd": 6000, "text": "Most active handbag segment is $6,000-$9,000 (worn Hermès Birkins), per LUXUS via Knight Frank", "source": "Elite Traveler on the Knight Frank Wealth Report 2026", "url": "https://elitetraveler.com/lifestyle/knight-frank-wealth-report-2026-luxury-collectibles", "asof": "2026-04", "trust": "report"},
+    "max_drawdown": {"value": -36.4, "period": "2022 to late 2025: Birkin/Kelly average resale premium fell from 2.2x to 1.4x retail", "source": "Bernstein Secondhand Pricing Tracker via Fortune", "url": "https://fortune.com/2025/12/17/gen-z-reality-check-birkin-resale-prices-slump-aspirational-luxury-slowdown/", "asof": "2025-12-17", "trust": "index", "note": "We computed (1.4/2.2 - 1). This is resale price relative to retail, not an absolute price index, and Hermès retail prices rose over the period. Knight Frank shows bags about -0.2% in 2025."},
+    "volatility": {"value": null, "note": "No published annualised volatility found."},
+    "exit_cost": {"pct_low": 8, "pct_high": 35, "text": "Rebag consignment commission 8-35%; Fashionphile consignment 15-30%", "source": "Rebag help center", "url": "https://intercom.help/rebag/en/articles/8444056-more-information-on-consignment", "asof": "2026", "trust": "platform"}
+   }
+  },
+  {
+   "way": "Jewellery and gemstones",
+   "group": "Collectibles",
+   "metrics": {
+    "time_to_sell": {"days_low": 45, "days_high": null, "text": "Sotheby's pays within 45 days of the sale date. Consignment lead time adds roughly 2-3 months", "source": "Sotheby's fee structure page", "url": "https://www.sothebys.com/en/articles/sothebys-fee-structure", "asof": "2026", "trust": "platform", "note": "Only the post-sale payout delay is sourced for jewellery."},
+    "min_ticket": null,
+    "max_drawdown": {"value": -2.2, "period": "calendar 2024 (worst year since the index launched in 2014)", "source": "Fancy Color Research Foundation index via Rapaport", "url": "https://rapaport.com/news/fancy-color-price-index-declines-in-2024/", "asof": "2025-01", "trust": "index", "note": "Worst calendar year, not a peak-to-trough drawdown. Yellows fell 5.6% in 2024, and the index kept slipping slightly through Q2 2026."},
+    "volatility": {"value": null, "note": "No published annualised volatility found."},
+    "exit_cost": {"pct_low": 0, "pct_high": 10, "text": "Sotheby's uniform seller's commission of 10% on the first $500,000 of hammer, across all categories", "source": "Sotheby's help center, consignment terms", "url": "https://help.sothebys.com/en/support/solutions/articles/44002297443-what-are-sotheby-s-consignment-terms-", "asof": "2024-05-20", "trust": "platform"},
+    "note_min_ticket": "No sourced entry ticket for investment jewellery or gemstones was found."
+   }
+  },
+  {
+   "way": "Match-worn shirts and memorabilia",
+   "group": "Collectibles",
+   "metrics": {
+    "time_to_sell": {"days_low": 30, "days_high": null, "text": "Heritage sends settlement 30 days after a sports auction closes", "source": "Heritage Auctions consignment process", "url": "https://americana.ha.com/c/ref/consignment-process.zx", "asof": "2026", "trust": "platform", "note": "Excludes consignment lead time. Goldin's consignment deadline is about 1 week before some auctions (goldin.co)."},
+    "min_ticket": null,
+    "max_drawdown": null,
+    "volatility": {"value": null, "note": "No memorabilia index found. Altan Insights: top-25 high-end sales down about 19% year on year in Q2 2024 (https://www.cllct.com/sports-collectibles/memorabilia/high-end-auction-sales-declined-in-second-quarter-of-2024-report-shows)."},
+    "exit_cost": {"pct_low": 0, "pct_high": 15, "text": "Heritage seller commission is negotiable (0-15%), with a buyer premium of about 20% on top", "source": "Grand-Screen auction houses directory (secondary)", "url": "https://grand-screen.com/tools/auction-houses-directory/", "asof": "2026", "trust": "estimate"},
+    "note_min_ticket": "No sourced entry price for match-worn items was found."
+   }
+  },
+  {
+   "way": "Racehorse shares",
+   "group": "Collectibles",
+   "metrics": {
+    "time_to_sell": {"days_low": 35, "days_high": 365, "text": "UK syndicates run fixed 12-month terms with no right to resell mid-term unless the terms allow it. If the horse is sold at Tattersalls online, proceeds are available 35 days after the sale", "source": "Racing Club FAQs; Tattersalls online sale conditions", "url": "https://racingclub.com/faqs", "asof": "2026", "trust": "platform", "note": "Exit is usually at the end of the term. 365 days is the worst case for a new 12-month share."},
+    "min_ticket": {"usd": 1985, "text": "Typical syndicate share £1,500-2,000 one-off for 12 months of racing (≈$1,985 at GBP/USD 1.3232, OFX 2026-11-13). Micro-shares from £45", "source": "Racing Post feature on Value Racing Club", "url": "https://racingpost.com/news/features/series/so-whats-it-like-to-be-a-part-of-the-value-racing-club-apIP58n4Hn71", "asof": "2025", "trust": "report"},
+    "max_drawdown": null,
+    "volatility": {"value": null, "note": "No racehorse value index found. Syndicate shares are mostly consumption and usually return little capital."},
+    "exit_cost": {"pct_low": 5, "pct_high": 5, "text": "Tattersalls online sales charge a fixed 5% vendor commission on sold lots", "source": "Tattersalls online sale conditions", "url": "https://secure.tattersalls.com/4DCGI/Sale/Documentation/WSD01687.pdf", "asof": "2026", "trust": "platform", "note": "Applies when the horse itself is sold. Search snippets did not tie the 5% to this exact document."}
+   }
+  },
+  {
+   "way": "Trading cards",
+   "group": "Cards, games and digital",
+   "metrics": {
+    "time_to_sell": {"days_low": 3, "days_high": 5, "text": "On eBay, payout starts within 2 business days of the buyer's payment, then 1-3 business days at the bank", "source": "eBay Seller Center, Payments and earnings", "url": "https://www.ebay.com/sellercenter/payments-and-fees/payments-and-earnings", "asof": "2026", "trust": "platform", "note": "Sale to cash only. Liquid cards sell quickly (Card Ladder logged 9.2m sales in Oct 2026), but listing-to-sale time is not measured."},
+    "min_ticket": {"usd": 116, "text": "Average tracked card sale about $116 in Oct 2026 ($1.07bn across 9.2m sales). PSA grading now costs $79.99 per card at the lowest active tier", "source": "Sports Illustrated Collectibles citing Card Ladder", "url": "https://www.si.com/collectibles/over-1-billion-dollars-of-card-sales-in-october", "asof": "2026-11-02", "trust": "report"},
+    "max_drawdown": {"value": -27.0, "period": "Sep 2021 to Jan 2024 (CardTrack 100 Pokémon index)", "source": "Cardlines on the CardTrack 100", "url": "https://cardlines.com/?p=351793", "asof": "2026-10-16", "trust": "index", "note": "The index starts at 100 in Sep 2021, near the boom peak."},
+    "volatility": {"value": null, "note": "No published annualised volatility found."},
+    "exit_cost": {"pct_low": 13.25, "pct_high": 14, "text": "TCGplayer 10.75% commission plus 2.5% + $0.30 processing (since 10 Feb 2026); eBay trading cards 13.25% final value fee", "source": "TCGplayer Help Center, Fees", "url": "https://help.tcgplayer.com/hc/en-us/articles/201357836-Fees", "asof": "2026-02", "trust": "platform", "note": "Excludes grading and shipping."}
+   }
+  },
+  {
+   "way": "Player cards",
+   "group": "Cards, games and digital",
+   "metrics": {
+    "time_to_sell": {"days_low": 3, "days_high": 5, "text": "On eBay, payout starts within 2 business days of the buyer's payment, then 1-3 business days at the bank", "source": "eBay Seller Center, Payments and earnings", "url": "https://www.ebay.com/sellercenter/payments-and-fees/payments-and-earnings", "asof": "2026", "trust": "platform", "note": "Sale to cash only. Auction houses settle more slowly (Heritage: 30 days for sports)."},
+    "min_ticket": {"usd": 116, "text": "Average tracked card sale about $116 in Oct 2026 (Card Ladder)", "source": "Sports Illustrated Collectibles citing Card Ladder", "url": "https://www.si.com/collectibles/over-1-billion-dollars-of-card-sales-in-october", "asof": "2026-11-02", "trust": "report"},
+    "max_drawdown": {"value": -29.9, "period": "2022 to 2023 (Card Ladder CL50: -23% in 2022, -9% in 2023)", "source": "Entrepreneur (Business Insider) citing Card Ladder", "url": "https://www.entrepreneur.com/business-news/collectibles-are-crashing-whiskey-rolexes-trading-cards/468532", "asof": "2024-01-19", "trust": "index", "note": "We compounded the two calendar-year falls. The intra-year peak-to-trough was likely deeper. CL50 had risen 337% from 2019 to Mar 2021."},
+    "volatility": {"value": null, "note": "No published annualised volatility found."},
+    "exit_cost": {"pct_low": 13.25, "pct_high": 13.25, "text": "eBay final value fee for sports trading cards 13.25% up to $7,500 (2.35% above), plus a per-order fee", "source": "eBay Seller Center, January 2025 seller update", "url": "https://www.ebay.com/sellercenter/resources/seller-updates/2025-january/final-value-fee", "asof": "2025-01", "trust": "platform"}
+   }
+  },
+  {
+   "way": "Skins and cases",
+   "group": "Cards, games and digital",
+   "metrics": {
+    "time_to_sell": {"days_low": 0, "days_high": 8, "text": "The Steam Market sells instantly but pays Steam Wallet credit only. Cashing out through a third-party site involves the 7-day Steam Trade Protection window, and many sites hold payouts until it ends", "source": "white.market, 'Why funds are pending: Steam Trade Protection explained'", "url": "https://white.market/blog/trading/why-funds-are-pending-steam-trade-protection-explained", "asof": "2026", "trust": "estimate"},
+    "min_ticket": null,
+    "max_drawdown": {"value": -38.4, "period": "Peak about $10.41bn to 29 Sep 2026 ($6.42bn), CS2 skins market cap", "source": "Pricempire data via Esports.ru", "url": "https://esports.ru/counter-strike-2/news/chto-proiskhodit-s-rynkom-skinov-v-cs2-sentyabr-2026/", "asof": "2026-09-29", "trust": "index", "note": "Valve does not publish circulating supply, so market-cap methods differ between trackers."},
+    "volatility": {"value": null, "note": "No published annualised volatility found. The 90-day change to 29 Sep 2026 was -18.3%."},
+    "exit_cost": {"pct_low": 15, "pct_high": 15, "text": "Steam Community Market takes 15% (5% Steam fee + 10% CS2 game fee), paid out as Steam Wallet credit only", "source": "SteamDB Steam Market review", "url": "https://steamdb.com/en/markets/steam", "asof": "2026", "trust": "platform", "note": "Third-party cash-out sites charge their own, usually lower, fees."},
+    "note_min_ticket": "No meaningful minimum: skins trade from cents upward."
+   }
+  },
+  {
+   "way": "In-game currencies",
+   "group": "Cards, games and digital",
+   "metrics": {
+    "time_to_sell": {"days_low": 1, "days_high": 5, "text": "G2G releases game-coin credit once delivery proof is uploaded and pays withdrawals each business day. Some Eldorado withdrawal methods take up to 5 business days", "source": "G2G Support, settlement schedule; Eldorado withdrawals", "url": "https://support.g2g.com/support/solutions/articles/5000001416", "asof": "2026", "trust": "platform"},
+    "min_ticket": null,
+    "max_drawdown": null,
+    "volatility": {"value": null, "note": "No reliable gold-price series found. OSRS bond-price and gold-rate sources were undated SEO pages and contradicted each other."},
+    "exit_cost": {"pct_low": 5.5, "pct_high": 21, "text": "Eldorado currency sales fee 1.5% (WoW) to 15% (Roblox), standard 5%; withdrawal 4% + $5 (SEPA) to 6% + $20 (crypto)", "source": "Eldorado.gg Help, Fees and Withdrawals", "url": "https://intercom.help/eldoradogg/en/articles/8409025-fees", "asof": "2026-10", "trust": "platform", "note": "Range is ours: (1.5%+4%) to (15%+6%). Flat withdrawal fees not included. Selling in-game currency for cash breaks most games' terms of service."},
+    "note_min_ticket": "Not applicable: currency can be traded in any small amount."
+   }
+  },
+  {
+   "way": "Game accounts and rare items",
+   "group": "Cards, games and digital",
+   "metrics": {
+    "time_to_sell": {"days_low": 14, "days_high": 21, "text": "G2G releases seller credit for account sales after a 14-day insured period; withdrawals are processed on business days", "source": "G2G Support, settlement schedule", "url": "https://support.g2g.com/support/solutions/articles/5000001416", "asof": "2026", "trust": "platform", "note": "The upper bound adds about a week for withdrawal and banking. That is our estimate."},
+    "min_ticket": null,
+    "max_drawdown": null,
+    "volatility": {"value": null, "note": "No price index exists."},
+    "exit_cost": {"pct_low": 11, "pct_high": 36, "text": "Eldorado accounts fee 10% standard, 15-20% for many games, 30% for GTA 5; items 3-15%; plus withdrawal of about 1-6%", "source": "Eldorado.gg Help, Fees", "url": "https://intercom.help/eldoradogg/en/articles/8409025-fees", "asof": "2026-10", "trust": "platform", "note": "Account sales usually break game terms of service, so the account can be banned or recovered after sale."},
+    "note_min_ticket": "No sourced typical account price was found."
+   }
+  },
+  {
+   "way": "Virtual land",
+   "group": "Cards, games and digital",
+   "metrics": {
+    "time_to_sell": null,
+    "min_ticket": {"usd": 600, "text": "Decentraland LAND floor about 0.35-0.37 ETH (about $600-800, Jan 2026 on-chain data)", "source": "Earnifyhub 2026 Metaverse Land Report; CoinGecko Decentraland NFT page", "url": "https://www.coingecko.com/en/nft/decentraland", "asof": "2026-01", "trust": "estimate", "note": "The USD value moves with ETH. The earnifyhub report has some doubtful claims."},
+    "max_drawdown": {"value": -95.0, "period": "2021 average floor 2.86 ETH to June 2024 0.13 ETH (The Sandbox)", "source": "CoinGecko study via CryptoSlate", "url": "https://cryptoslate.com/metaverse-land-prices-down-72-on-average-from-highs/", "asof": "2024-08", "trust": "index", "note": "Decentraland was about -89% over the same period. Measured in ETH, not USD."},
+    "volatility": {"value": null, "note": "No published annualised volatility found."},
+    "exit_cost": {"pct_low": 2.5, "pct_high": 2.5, "text": "Decentraland Marketplace withholds a 2.5% transaction fee on sales (paid to the DAO), plus gas", "source": "Decentraland docs (mirror)", "url": "https://4336fabe.new-docs-6m4.pages.dev/player/general/about", "asof": "2026", "trust": "platform", "note": "Taken from a docs mirror. OpenSea fees not verified."},
+    "note_time_to_sell": "No data on days to sell. LAND trades thinly (Decentraland secondary volume $4.2m in Q4 2025)."
+   }
+  },
+  {
+   "way": "Buying a small business",
+   "group": "Businesses",
+   "metrics": {
+    "time_to_sell": {"days_low": 149, "days_high": 194, "text": "Median 149 days on market (Q3 2025); restaurants 194 days (Q2 2026)", "source": "BizBuySell Insight Report", "url": "https://www.bizbuysell.com/news/bizbuysell-2025-third-quarter-insight-report", "asof": "2025-10", "trust": "report", "note": "Days on market from listing to sale. Closing adds time."},
+    "min_ticket": {"usd": 350000, "text": "Median sale price $350,000 in Q3 2026 (2,132 closed deals)", "source": "BizBuySell Q3 2026 Insight Report (press release)", "url": "https://finviz.com/news/404656/bizbuysell-releases-q3-2026-insight-report", "asof": "2026-10-20", "trust": "report"},
+    "max_drawdown": null,
+    "volatility": {"value": null, "note": "No price index with drawdown or volatility exists for private small businesses."},
+    "exit_cost": {"pct_low": 8, "pct_high": 12, "text": "Business broker commission typically 8-12% (10% most common) for sub-$1m deals, with minimum fees of about $10k-25k", "source": "Investors Club, business broker fees 2026", "url": "https://investors.club/how-much-do-business-brokers-charge/", "asof": "2026", "trust": "estimate", "note": "On small deals the minimum fee can push the effective rate to about 20%."}
+   }
+  },
+  {
+   "way": "Franchises",
+   "group": "Businesses",
+   "metrics": {
+    "time_to_sell": {"days_low": 60, "days_high": 150, "text": "Franchise resale 60-120 days from signed LOI to close (franchisor approval alone 30-60 days); one brand quotes 90-150 days", "source": "Beancount guide to buying an existing franchise", "url": "https://beancount.io/blog/2026/10/06/buying-existing-franchise-resale-transfer-fees-approval-lease-guide", "asof": "2026-10-06", "trust": "estimate", "note": "Excludes time to find a buyer. Franchisor right of first refusal can add 15-45 days."},
+    "min_ticket": {"usd": 12150, "text": "Low-cost franchises start around $12,150 (Anago Cleaning, $12,150-$68,250). Food and beverage median minimum about $316,000", "source": "GrowthFactor, cheap franchise opportunities", "url": "https://www.growthfactor.ai/resources/blog/cheap-franchise-opportunities", "asof": "2026-09", "trust": "estimate"},
+    "max_drawdown": null,
+    "volatility": {"value": null, "note": "No franchise resale price index found."},
+    "exit_cost": {"pct_low": 8, "pct_high": 12, "text": "Broker commission 8-12%, plus a franchisor transfer fee (often 25-50% of the current initial franchise fee, or $10k-25k)", "source": "Investors Club broker fees; 1851 Franchise on transfer fees", "url": "https://1851franchise.com/how-do-franchise-transfer-fees-work-2733192", "asof": "2026", "trust": "estimate", "note": "The transfer fee is a flat amount, not a % of price, so it is left out of the range."}
+   }
+  },
+  {
+   "way": "Websites and online stores",
+   "group": "Businesses",
+   "metrics": {
+    "time_to_sell": {"days_low": 46, "days_high": 130, "text": "Empire Flippers average about 102 days (46 days for $1m+ premium listings; a third party cites 127-130). Flippa $1m+ deals match in a median 27 days and close in 84", "source": "Empire Flippers, Why bigger businesses sell 60% faster", "url": "https://empireflippers.com/why-bigger-businesses-sell-60-faster-and-for-more-money/", "asof": "2026-04", "trust": "platform"},
+    "min_ticket": {"usd": 10000, "text": "Flippa's smallest reported deal band is $10K-$100K (median profit multiple 1.68x)", "source": "Flippa blog, digital business valuation multiples", "url": "https://flippa.com/blog/digital-business-valuation-multiples/", "asof": "2026", "trust": "estimate", "note": "This is the floor of a band, not a median price. The search snippet did not pin the band to this exact page."},
+    "max_drawdown": {"value": -37.9, "period": "H1 2023 to H1 2026: average Flippa ecommerce profit multiple fell from 2.48x to 1.54x", "source": "Flippa H1 2026 Insights Report", "url": "https://flippa.com/blog/the-new-era-of-digital-ma-flippas-h1-2026-insights-report/", "asof": "2026-07", "trust": "report", "note": "We computed this from the change in valuation multiples. It is not a price index."},
+    "volatility": {"value": null, "note": "No published volatility."},
+    "exit_cost": {"pct_low": 5, "pct_high": 15, "text": "Empire Flippers flat 15% success fee below $700k (minimum $10k); Flippa success fees 5-15%", "source": "Investors Club, Empire Flippers fees", "url": "https://investors.club/empire-flippers-fees-buyers-sellers/", "asof": "2026", "trust": "estimate"}
+   }
+  },
+  {
+   "way": "Domains",
+   "group": "Businesses",
+   "metrics": {
+    "time_to_sell": null,
+    "min_ticket": {"usd": 275, "text": "NameBio daily stats: gTLD median sale $275 (8 Nov 2025) and $303 (21 Dec 2025) for reported sales over $100", "source": "NamePros data-driven domain sales analysis (NameBio data)", "url": "https://www.namepros.com/threads/data-driven-domain-sales-analysis-of-november-9th-2025.1368440/", "asof": "2025-11-09", "trust": "report"},
+    "max_drawdown": null,
+    "volatility": {"value": null, "note": "No domain price index found."},
+    "exit_cost": {"pct_low": 15, "pct_high": 20, "text": "Afternic 15% direct, 20% through partner registrars (25-30% on some tiers per a competitor); Sedo 15% marketplace, 20% brokered", "source": "corg-com, understanding domain aftermarket fees (secondary)", "url": "https://corg-com.pages.dev/understanding-domain-aftermarket-fees/", "asof": "2026", "trust": "estimate"},
+    "note_time_to_sell": "No sourced sell-through rate or days to sell. Domains are sold to end users, and most listed names do not sell in a given year."
+   }
+  },
+  {
+   "way": "Vending and laundromats",
+   "group": "Businesses",
+   "metrics": {
+    "time_to_sell": {"days_low": 64, "days_high": 139, "text": "BizBuySell valuation benchmarks: vending machine businesses median 64 days on market; laundromats 139 days (855 sold listings)", "source": "BizBuySell valuation benchmarks", "url": "https://www.bizbuysell.com/learning-center/valuation-benchmarks/laundromats-coin-laundry/", "asof": "2026", "trust": "report", "note": "Another analysis of BizBuySell 2025 data puts laundromats at 412 days (lonelyentrepreneur.com). The period behind the benchmark is not stated."},
+    "min_ticket": {"usd": 83500, "text": "Median sale price: vending machine business $83,500; laundromat $250,000", "source": "BizBuySell valuation benchmarks (vending)", "url": "https://www.bizbuysell.com/learning-center/valuation-benchmarks/vending-machine-business/", "asof": "2026", "trust": "report"},
+    "max_drawdown": null,
+    "volatility": {"value": null, "note": "No price index exists."},
+    "exit_cost": {"pct_low": 8, "pct_high": 12, "text": "Business broker commission typically 8-12% for sub-$1m deals, with minimum fees of about $10k-25k", "source": "Investors Club, business broker fees 2026", "url": "https://investors.club/how-much-do-business-brokers-charge/", "asof": "2026", "trust": "estimate", "note": "On an $83.5k vending sale, a $10k minimum fee is about 12%."}
+   }
+  },
+  {
+   "way": "Music royalties",
+   "group": "Royalties and IP",
+   "metrics": {
+    "time_to_sell": {"days_low": 10, "days_high": null, "text": "Royalty Exchange auctions mostly run under one week. The buyer then has 2 business days to wire and 3 for inspection, and transfer time varies", "source": "Royalty Exchange, About Auctions (sellers)", "url": "https://royaltyexchange.com/how-auctions-work-sellers", "asof": "2026", "trust": "platform", "note": "The low bound is ours (about 7 days + 2 + 3 business days). Listing preparation and the payout after transfer are not given."},
+    "min_ticket": {"usd": 63, "text": "SongVest SongShares from $63 each, no minimum purchase. Royalty Exchange deals are often $25k-500k (third party)", "source": "SongVest, Learn about SongShares", "url": "https://songshares.songvest.com/learn_about_songshares/", "asof": "2026", "trust": "platform", "note": "SongShares have no secondary market."},
+    "max_drawdown": {"value": -25.0, "period": "1 Jan to 16 Oct 2023, Hipgnosis Songs Fund share price (trading at about a 50% discount to NAV)", "source": "interactive investor", "url": "https://ii.co.uk/analysis-commentary/music-royalties-trust-dives-dividend-scrapped-ahead-vote-future-ii529495", "asof": "2023-10-16", "trust": "report", "note": "Year-to-date fall of a listed proxy, not a full peak-to-trough. Shares later hit an all-time low of 54p after a 26% portfolio valuation cut."},
+    "volatility": {"value": null, "note": "No music royalty index found."},
+    "exit_cost": {"pct_low": 8, "pct_high": 15, "text": "Royalty Exchange seller fee: 15% of the final sale price (College Investor) or 8-12% (older WRAL report)", "source": "The College Investor, Royalty Exchange review", "url": "https://thecollegeinvestor.com/37474/royalty-exchange-review/", "asof": "2026", "trust": "estimate"}
+   }
+  },
+  {
+   "way": "Book rights",
+   "group": "Royalties and IP",
+   "metrics": {
+    "time_to_sell": {"days_low": 10, "days_high": null, "text": "Book royalties are sold on Royalty Exchange through the same auction process: under a week, then wire and inspection", "source": "Royalty Exchange, About Auctions (sellers)", "url": "https://royaltyexchange.com/how-auctions-work-sellers", "asof": "2026", "trust": "platform", "note": "Low bound is our estimate, as for music."},
+    "min_ticket": {"usd": 35000, "text": "Example: a catalogue of 100+ classic book republications opened at $35,000 and closed at $72,500 on Royalty Exchange", "source": "Royalty Exchange auction page", "url": "https://auctions.royaltyexchange.com/auctions/over-100-classic-book-republications/", "asof": "2016", "trust": "platform", "note": "Old single example, not a published minimum. Small Amazon KDP book portfolios also sell on Flippa."},
+    "max_drawdown": null,
+    "volatility": {"value": null, "note": "No book royalty index found."},
+    "exit_cost": {"pct_low": 8, "pct_high": 15, "text": "Royalty Exchange seller fee 8-15%", "source": "The College Investor, Royalty Exchange review", "url": "https://thecollegeinvestor.com/37474/royalty-exchange-review/", "asof": "2026", "trust": "estimate"}
+   }
+  },
+  {
+   "way": "Film and TV financing",
+   "group": "Royalties and IP",
+   "metrics": {
+    "time_to_sell": null,
+    "min_ticket": {"usd": 100, "text": "Wefunder film raises from $100 (ALULA Film revenue share, 1.20x payback multiple). Angel Studios Reg A+ minimum $151.20", "source": "Kingscrowd, ALULA Film on Wefunder", "url": "https://kingscrowd.com/alula-film-on-wefunder-2026/", "asof": "2026", "trust": "platform"},
+    "max_drawdown": null,
+    "volatility": {"value": null, "note": "No film-finance return index found."},
+    "exit_cost": null,
+    "note_time_to_sell": "Reg CF film revenue-share notes have no secondary market. Money comes back only through revenue share (target 1.1-1.25x), with no set timeline. Investors in a 2017 Wefunder film reported years without returns.",
+    "note_exit_cost": "No sale route, so no sale cost."
+   }
+  },
+  {
+   "way": "Patent licensing",
+   "group": "Royalties and IP",
+   "metrics": {
+    "time_to_sell": null,
+    "min_ticket": {"usd": 100000, "text": "Brokered patent market asking price about $100,000 per patent asset ($173,000 per US-issued patent)", "source": "Richardson Oliver Insights, Brokered Patent Market 2022 (IAM)", "url": "https://www.slideshare.net/slideshow/the-brokered-patent-market-in-2022-richardson-oliver-insights-iam-media-20230419-pdf/268628621", "asof": "2023-04-19", "trust": "report", "note": "Package sales rate about 27% a year, so most listed patents do not sell."},
+    "max_drawdown": null,
+    "volatility": {"value": null, "note": "No patent price index. Per-asset asking prices swung from $124k to $194k (2018-2019)."},
+    "exit_cost": {"pct_low": 15, "pct_high": 30, "text": "Ocean Tomo auction seller commission 15% plus $2,500 listing fee per lot; patent brokers 10-30%", "source": "Ocean Tomo, Intellectual Property Auctions", "url": "https://oceantomo.com/?p=328", "asof": "2023", "trust": "platform", "note": "The Ocean Tomo terms may be dated."},
+    "note_time_to_sell": "No sourced timeline. Auction buyers usually pay within 2 weeks of sale, but finding a buyer can take many months, and only about 27% of brokered packages sell each year."
+   }
+  },
+  {
+   "way": "Athlete income deals",
+   "group": "Royalties and IP",
+   "metrics": {
+    "time_to_sell": null,
+    "min_ticket": {"usd": 96, "text": "Finlete early offering: 12 shares at $8 (about $96). Later offerings had a $300 minimum", "source": "IBTimes, 'For small-time investors, bankrolling a young athlete can pay off'", "url": "https://www.ibtimes.com/small-time-investors-bankrolling-young-athlete-can-pay-off-3697191", "asof": "2024", "trust": "report"},
+    "max_drawdown": null,
+    "volatility": {"value": null, "note": "No index. If the athlete never reaches the majors, nothing is repaid, so a total loss is possible."},
+    "exit_cost": null,
+    "note_time_to_sell": "Finlete's secondary trading is only planned; no live market was confirmed. Money comes back only from the athlete's future earnings.",
+    "note_exit_cost": "No sale route found. Finlete deals reportedly carry a 20-25.7% management fee (AltStreet, not verified)."
+   }
+  }
+ ]
+}

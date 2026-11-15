@@ -236,6 +236,26 @@ public class Sources {
         return out;
     }
 
+    /** Several research files may cover the same way: keep existing figures, add the missing ones and all examples. */
+    static JsonNode merge(JsonNode base, JsonNode add) {
+        tools.jackson.databind.node.ObjectNode merged = (tools.jackson.databind.node.ObjectNode) base.deepCopy();
+        JsonNode bm = merged.get("metrics");
+        tools.jackson.databind.node.ObjectNode mm = bm instanceof tools.jackson.databind.node.ObjectNode o ? o : merged.putObject("metrics");
+        JsonNode am = add.get("metrics");
+        if (am != null && am.isObject())
+            for (Map.Entry<String, JsonNode> e : am.properties()) {
+                JsonNode cur = mm.get(e.getKey());
+                if (cur == null || cur.isNull()) mm.set(e.getKey(), e.getValue());
+            }
+        JsonNode ae = add.get("examples");
+        if (ae != null && ae.isArray() && !ae.isEmpty()) {
+            JsonNode be = merged.get("examples");
+            tools.jackson.databind.node.ArrayNode ex = be instanceof tools.jackson.databind.node.ArrayNode arr ? arr : merged.putArray("examples");
+            for (JsonNode x : ae) ex.add(x);
+        }
+        return merged;
+    }
+
     private static double tvl(JsonNode p) {
         Double v = Json.num(p, "tvlUsd");
         return v == null ? 0 : v;
@@ -268,7 +288,9 @@ public class Sources {
                 if (ways == null || !ways.isArray()) throw new IllegalStateException("no \"ways\" array");
                 for (JsonNode w : ways) {
                     String name = Json.str(w, "way");
-                    if (name != null) out.put(ALIASES.getOrDefault(name, name), w);
+                    if (name == null) continue;
+                    String key = ALIASES.getOrDefault(name, name);
+                    out.put(key, out.containsKey(key) ? merge(out.get(key), w) : w);
                 }
             } catch (Exception e) {
                 log.warn("research file {} skipped: {}", f.getFileName(), e.getMessage());

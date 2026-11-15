@@ -1,0 +1,341 @@
+{
+  "generated": "2026-11-15",
+  "notes": "Every non-null value comes from a page opened or seen in search results on 2026-11-15. 'asof' is the data date when the source states one, otherwise the access date (2026-11-15) with a note. Conversions: EUR->USD at 1.1142 (EUR/USD close 2026-11-06, poundsterlinglive.com/history/EUR-usd-2026); ETH->USD at ~$2,120 (ETH price 2026-11-10, coinedition.com). Where a market has no drawdown index, a default/failure rate is given in an extra 'default_rate' metric (positive %, annual or cumulative as stated) and max_drawdown is null. trust: report = third-party research/press/law firm; platform = the provider's own page; index = published index figure; estimate = secondary/marketing source or derived.",
+  "ways": [
+    {
+      "way": "Hedge funds",
+      "group": "Public markets",
+      "metrics": {
+        "time_to_sell": {"days_low": 30, "days_high": 120, "text": "Most common terms: quarterly redemption on 30-90 days' prior notice; US median redemption frequency is quarterly. Gates of 10-25% of NAV per quarter can stretch this.", "source": "Proskauer, Hedge Start: Key Hedge Fund Terms; The Hedge Fund Journal (Redemption Terms)", "url": "https://www.proskauer.com/pub/proskauer-hedge-start-key-hedge-fund-terms", "asof": "2026-11-15", "trust": "report", "note": "Law-firm guide, undated page; accessed 2026-11-15."},
+        "min_ticket": {"usd": 1000000, "text": "$1M is the common benchmark for established funds; reported range roughly $250k-$1M, elite funds $5M-$25M+. Accredited investor or qualified purchaser status also required.", "source": "Nasdaq, What Are Typical Investment Minimums in Hedge Funds?", "url": "https://www.nasdaq.com/articles/what-are-typical-investment-minimums-hedge-funds", "asof": "2026-11-15", "trust": "report", "note": "Range figures came from several search results (Nasdaq, Kubera, SmartAsset); page date not shown."},
+        "max_drawdown": {"value": -21.4, "period": "Nov 2007 - Feb 2009", "source": "AIMA research paper (hedge fund industry maximum drawdown)", "url": "https://www.aima.org/asset/6594A665-3392-488E-B6906001EB891303", "asof": "2009-02", "trust": "index", "note": "AIMA does not name the index in the excerpt (likely HFRI Fund Weighted Composite). HFRI FWC calendar 2008 was -18.3% (HFR via Hedgeweek/Cambridge Associates)."},
+        "volatility": {"value": null, "note": "HFR publishes since-1990 standard deviation only in subscriber reports; no public figure found."},
+        "exit_cost": {"pct_low": 0, "pct_high": 3.58, "text": "No fee after lock-up; soft lock-up early redemption fees averaged 3.58% in a 2013 industry terms survey.", "source": "J.P. Morgan Prime Brokerage 2013 Hedge Fund Terms Analysis", "url": "https://www.slideshare.net/slideshow/jp-morgan-prime-brokerage-2013-hedge-fund-terms-analysis/32128031", "asof": "2013", "trust": "report", "note": "Old data; seen via search result summary."}
+      }
+    },
+    {
+      "way": "Market-making and quant funds",
+      "group": "Public markets",
+      "metrics": {
+        "time_to_sell": {"days_low": 30, "days_high": 480, "text": "Base hedge fund terms: quarterly with 30-90 days notice. Mean hard lock-up across strategies was 1.05 years (2013); top multi-strategy/quant firms (Citadel, Millennium, DE Shaw) have lengthened terms, with DE Shaw reported on a four-year lockup in 2026.", "source": "J.P. Morgan 2013 Hedge Fund Terms Analysis; Proskauer; Hedgeweek (DE Shaw extends redemption timelines)", "url": "https://www.hedgeweek.com/de-shaw-extends-redemption-timelines-shutters-funds/", "asof": "2026", "trust": "estimate", "note": "days_high = 1.05-yr mean lock-up plus one quarterly notice cycle; staggered multi-year share classes at top firms can be far longer."},
+        "min_ticket": {"usd": 5000000, "text": "Most hedge funds $250k-$1M; many sought-after funds (Citadel, DE Shaw, Millennium, Two Sigma) require $5M-$10M+ and qualified purchasers. Renaissance Medallion is closed to outsiders.", "source": "HedgeTrace, Hedge Fund Minimum Investment", "url": "https://hedgetrace.com/learn/hedge-fund-minimum-investment", "asof": "2026-11-15", "trust": "estimate", "note": "No fund-specific minimums published; page undated."},
+        "max_drawdown": {"value": -20.4, "period": "May 2024 - May 2025", "source": "Cambridge Associates, Does Trend-Following's Recent Struggle Signal That the Strategy Is Structurally Broken? (SG Trend Index)", "url": "https://publishedresearch.cambridgeassociates.com/?p=19140", "asof": "2025-05", "trust": "index", "note": "Proxy: systematic/quant trend (SG Trend Index second-largest drawdown since 2000). No public index for market-making funds. Barclay CTA Index max drawdown -32.54% (Dec 1989 - Dec 2019) per Catalyst Funds."},
+        "volatility": {"value": null, "note": "Not found in public sources."},
+        "exit_cost": {"pct_low": 0, "pct_high": 3.58, "text": "Same structure as hedge funds: no fee after lock-up; soft lock-up early redemption fee averaged 3.58% (2013).", "source": "J.P. Morgan Prime Brokerage 2013 Hedge Fund Terms Analysis", "url": "https://www.slideshare.net/slideshow/jp-morgan-prime-brokerage-2013-hedge-fund-terms-analysis/32128031", "asof": "2013", "trust": "estimate", "note": "General hedge fund figure applied to quant funds."}
+      }
+    },
+    {
+      "way": "Structured notes",
+      "group": "Cash and yield",
+      "metrics": {
+        "time_to_sell": {"days_low": null, "days_high": null, "text": "Not exchange-listed; no guaranteed secondary market. Issuer may buy back or post indicative bids but is not obliged to; holder may be stuck until maturity.", "source": "FINRA, Understanding Structured Notes With Principal Protection", "url": "https://www.finra.org/investors/insights/structured-notes-principal-protection", "asof": "2026-11-15", "trust": "report", "note": "No day count published; depends on issuer buyback."},
+        "min_ticket": {"usd": null, "note": "No sourced minimum found (common $1,000 denominations not confirmed by any opened source)."},
+        "max_drawdown": {"value": null, "note": "No index; outcome depends on underlying and issuer credit."},
+        "volatility": {"value": null, "note": "No index."},
+        "exit_cost": {"pct_low": 2, "pct_high": 8, "text": "Embedded costs of roughly 2-8% of principal (not disclosed as a fee) per independent analyses cited by a securities law firm; issuer buyback often quoted at a significant discount to face (FINRA); one source cites a 3-5% issuer buyback spread.", "source": "Bakhtiari & Harrison, Structured Notes Attorneys; FINRA", "url": "https://bhseclaw.com/product-failure-law-firm/structured-notes-attorneys/", "asof": "2026-11-15", "trust": "estimate", "note": "Figures seen in search summary; law-firm (plaintiff-side) source."}
+      }
+    },
+    {
+      "way": "Peer-to-peer lending",
+      "group": "Credit and lending",
+      "metrics": {
+        "time_to_sell": {"days_low": null, "days_high": null, "text": "Mintos Secondary Market: sale speed depends on demand and price (discount sells faster); no guarantee of a buyer; cash credited after sale and settlement. Otherwise held to loan maturity.", "source": "Mintos Help Center, How can I exit my investments / What's the Secondary Market", "url": "https://help.mintos.com/hc/en-us/articles/7221175394961-How-can-I-exit-my-investments", "asof": "2026-11-15", "trust": "platform", "note": "Mintos publishes no typical days; liquidity article returned 403."},
+        "min_ticket": {"usd": 55.71, "text": "Mintos Notes: EUR 50 minimum per Set on primary market (EUR 1 on secondary). Converted at EUR/USD 1.1142 (2026-11-06).", "source": "Mintos Help Center, What is the minimum amount that can be invested", "url": "https://help.mintos.com/hc/en-us/articles/115002859905-What-is-the-minimum-amount-that-can-be-invested", "asof": "2026-11-15", "trust": "platform"},
+        "max_drawdown": {"value": null, "note": "No drawdown index for P2P loans; see default_rate."},
+        "default_rate": {"value": 4.5, "basis": "annual net charge-off ratio, HFI portfolio", "period": "FY2024 (6.6% in FY2023)", "source": "LendingClub Q4 and Full Year 2024 Results (SEC EX-99.1)", "url": "https://www.sec.gov/Archives/edgar/data/1409970/000140997025000003/q424exhibit991er.htm", "asof": "2024-12-31", "trust": "report"},
+        "volatility": {"value": null, "note": "Not applicable / not published."},
+        "exit_cost": {"pct_low": 0.85, "pct_high": 0.85, "text": "Mintos charges 0.85% on each Secondary Market sale, on the final price after any discount; any discount you set is an extra cost.", "source": "Mintos Help Center, What are the fees and charges on Mintos", "url": "https://help.mintos.com/hc/en-us/articles/33574547117457-What-are-the-fees-and-charges-on-Mintos", "asof": "2026-11-15", "trust": "platform"}
+      }
+    },
+    {
+      "way": "Private loans to businesses",
+      "group": "Credit and lending",
+      "metrics": {
+        "time_to_sell": {"days_low": 270, "days_high": 730, "text": "Usually held to maturity; recent Percent private credit deals ran 9-24 months.", "source": "Percent, FAQ / live offerings", "url": "https://percent.com/faq", "asof": "2026-11-15", "trust": "platform", "note": "Term range seen in search summary of Percent pages; no secondary market assumed."},
+        "min_ticket": {"usd": 500, "text": "Many Percent deals have a $500 minimum (accredited investors only, Reg D 506(c)).", "source": "Percent, FAQ", "url": "https://percent.com/faq", "asof": "2026-11-15", "trust": "platform"},
+        "max_drawdown": {"value": null, "note": "No index; see default_rate."},
+        "default_rate": {"value": 1.4, "basis": "platform-reported default rate; projected UK bad debt 2-4% (Euromoney)", "period": "c. 2016-2018", "source": "Risk.net, Growing P2P lenders confront 'profound' risks (Funding Circle)", "url": "https://www.risk.net/risk-management/credit-risk/2341031/growing-p2p-lenders-confront-profound-risks", "asof": "2018", "trust": "report", "note": "Old data; independent analysts viewed real losses as higher."},
+        "volatility": {"value": null, "note": "Not published."},
+        "exit_cost": {"pct_low": null, "pct_high": null, "note": "No secondary market on Percent-type deals found; exit = wait for maturity."}
+      }
+    },
+    {
+      "way": "Private credit funds",
+      "group": "Credit and lending",
+      "metrics": {
+        "time_to_sell": {"days_low": 30, "days_high": 270, "text": "Non-traded BDCs/interval funds: quarterly repurchases capped at 5% of shares. In Q2 and Q3 2026 BCRED requests reached ~10% of shares and were prorated (about half filled), so a full exit can take several quarters.", "source": "BCRED Offering Terms; AltsWire (BCRED to prorate Q2 tender)", "url": "https://altswire.com/blackstones-bcred-to-prorate-q2-tender-as-demand-hits-10-holds-5-cap-after-upsizing-in-q1/", "asof": "2026-09", "trust": "platform", "note": "days_high assumes ~50% proration over 2-3 quarterly cycles (derived)."},
+        "min_ticket": {"usd": 2500, "text": "BCRED minimum initial investment $2,500 (some broker-dealers higher).", "source": "BCRED, Offering Terms", "url": "https://www.bcred.com/offering-terms/", "asof": "2026-11-15", "trust": "platform"},
+        "max_drawdown": {"value": -6.5, "period": "Calendar 2008 total return (only negative year since 2005)", "source": "Future Standard, Private credit performance in downturns (Cliffwater Direct Lending Index)", "url": "https://futurestandard.com/insights/report/private-credit-performance-in-downturns", "asof": "2024-12-31", "trust": "index", "note": "Calendar-year return, not peak-to-trough; 2008 unrealized markdowns exceeded 16%. A StepStone table puts direct lending GFC max drawdown at -7.7%. Appraisal smoothing understates risk."},
+        "volatility": {"value": null, "note": "Not published in the opened sources."},
+        "exit_cost": {"pct_low": 0, "pct_high": 2, "text": "Shares held less than one year repurchased at 98% of NAV (2% early repurchase deduction); none after one year.", "source": "BCRED, Offering Terms", "url": "https://www.bcred.com/offering-terms/", "asof": "2026-11-15", "trust": "platform"}
+      }
+    },
+    {
+      "way": "Invoice factoring",
+      "group": "Credit and lending",
+      "metrics": {
+        "time_to_sell": {"days_low": 30, "days_high": 90, "text": "Investor is repaid when the invoice is paid; typical invoice financing tenors 30 and 90 days.", "source": "Funding Societies, Investing in invoice financing vs investing in term loans", "url": "https://blog.fundingsocieties.com/investments/investing-in-invoice-financing-vs-investing-in-term-loans/", "asof": "2026-11-15", "trust": "platform", "note": "Held to maturity; late payment extends this."},
+        "min_ticket": {"usd": null, "note": "No sourced investor minimum found."},
+        "max_drawdown": {"value": null, "note": "No published index or platform-wide default rate found (Kriya does not publish investor loss data)."},
+        "volatility": {"value": null, "note": "Not published."},
+        "exit_cost": {"pct_low": null, "pct_high": null, "note": "No secondary market found; exit at invoice maturity."}
+      }
+    },
+    {
+      "way": "Revenue-based financing",
+      "group": "Credit and lending",
+      "metrics": {
+        "time_to_sell": {"days_low": 1095, "days_high": 1825, "text": "Repayment capped at ~1.4-2x principal with term lengths of 3-5 years, paid as 2-5% of revenue; slower revenue lengthens the term.", "source": "Catalyze, The State of RBF & CDFIs Report", "url": "https://static1.squarespace.com/static/625985349b4421290f1251be/t/6581b943abb8962a7b83ae3f/1703000388470/Catalyze+%E2%80%94+The+State+of+RBF+%26+CDFIs+Report.pdf", "asof": "2023-12", "trust": "report", "note": "Held to repayment; no investor secondary market found."},
+        "min_ticket": {"usd": null, "note": "No RBF-specific investor minimum found."},
+        "max_drawdown": {"value": null, "note": "No default/loss data published for RBF investors."},
+        "volatility": {"value": null, "note": "Not published."},
+        "exit_cost": {"pct_low": null, "pct_high": null, "note": "No secondary market found."}
+      }
+    },
+    {
+      "way": "Staking",
+      "group": "Crypto and on-chain",
+      "metrics": {
+        "time_to_sell": {"days_low": 1, "days_high": 5, "text": "Lido stETH/wstETH withdrawals usually take 1-5 days via the protocol queue (longer in 'Bunker mode'); stETH can also be sold instantly on DEXs at the market price.", "source": "Lido Help Center, How long does an Ethereum withdrawal take?", "url": "https://help.lido.fi/en/articles/7858315-how-long-does-an-ethereum-withdrawal-take", "asof": "2026-11-15", "trust": "platform"},
+        "min_ticket": {"usd": null, "note": "No minimum stated in opened Lido sources."},
+        "max_drawdown": {"value": -79.5, "period": "Nov 2021 ATH ($4,812) - 2022 low", "source": "AMBCrypto (ETH peak drawdown), consistent with K33/CoinMarketCap price levels", "url": "https://ambcrypto.com/ethereums-eth-momentum-towards-equilibrium-position-could-mean/amp/", "asof": "2022", "trust": "report", "note": "Price risk of staked ETH; 2018 drawdown was ~-93.8% (CoinMarketCap)."},
+        "volatility": {"value": null, "note": "Not sourced."},
+        "exit_cost": {"pct_low": null, "pct_high": null, "text": "Lido fee is 10% of staking rewards (not principal). Exiting via the queue avoids any stETH/ETH market discount; selling on Curve means accepting it.", "source": "Lido, Protocol fee", "url": "https://lido.fi/how-lido-works/protocol-fee", "asof": "2026-11-15", "trust": "platform", "note": "No current stETH discount or gas figure sourced."}
+      }
+    },
+    {
+      "way": "Lending and liquidity pools",
+      "group": "Crypto and on-chain",
+      "metrics": {
+        "time_to_sell": {"days_low": 0, "days_high": 21, "text": "Withdrawals are instant when the pool has liquidity, but at 100% utilization deposits cannot be pulled: after the April 2026 Kelp DAO exploit about $5B of USDT/USDC on Aave was trapped; one user described a possible three-week wait.", "source": "Decrypt, Kelp DAO exploit sparks Aave liquidity crunch; Yahoo Finance (Why I withdrew everything from Aave)", "url": "https://decrypt.co/364849/kelp-dao-exploit-aave-liquidity-crunch-6-2-billion-withdrawal-panic", "asof": "2026-04", "trust": "report", "note": "days_high is one stress episode, not a protocol rule."},
+        "min_ticket": {"usd": null, "note": "No minimum sourced (gas costs make tiny positions uneconomic)."},
+        "max_drawdown": {"value": null, "note": "No index. Uniswap v3 study (Topaz Blue/Bancor, May-Sep 2021): 49.5% of LPs had negative returns; $260.1M impermanent loss vs $199.3M fees (Cointelegraph)."},
+        "volatility": {"value": null, "note": "Not published."},
+        "exit_cost": {"pct_low": null, "pct_high": null, "note": "Gas only; no figure sourced. Failed withdrawals at full utilization also cost gas."}
+      }
+    },
+    {
+      "way": "Market-making vaults",
+      "group": "Crypto and on-chain",
+      "metrics": {
+        "time_to_sell": {"days_low": 0, "days_high": 4, "text": "Hyperliquid HLP: 4-day lock-up from the most recent deposit, then withdraw (user vaults: 1 day).", "source": "Hyperliquid Docs, Protocol vaults", "url": "https://hyperliquid.gitbook.io/hyperliquid-docs/hypercore/vaults/protocol-vaults", "asof": "2026-11-15", "trust": "platform"},
+        "min_ticket": {"usd": null, "note": "No minimum stated in sources found."},
+        "max_drawdown": {"value": -9, "period": "HLP history through 2025 (incl. March 2025 JELLY incident)", "source": "Chaos Labs, Yield as a Risk Signal: Part II", "url": "https://chaoslabs.xyz/posts/yield-as-a-risk-signal-part-ii", "asof": "2025", "trust": "report", "note": "Chaos Labs gives 5-9% (upper bound used); Perp.wiki gives ~4-5% of TVL."},
+        "volatility": {"value": null, "note": "Not sourced."},
+        "exit_cost": {"pct_low": null, "pct_high": null, "note": "No withdrawal fee found in sources."}
+      }
+    },
+    {
+      "way": "Prediction markets",
+      "group": "Crypto and on-chain",
+      "metrics": {
+        "time_to_sell": {"days_low": 0, "days_high": null, "text": "Shares can be sold any time the market is open if there are bids; thin books may force holding to resolution (redeem winners after close).", "source": "StartPolymarket, How to sell", "url": "https://startpolymarket.com/guides/how-to-sell/", "asof": "2026-11-15", "trust": "estimate", "note": "days_high depends on event resolution date."},
+        "min_ticket": {"usd": 1, "text": "Polymarket market-order minimum $1.00; resting limit orders minimum 5 shares.", "source": "Polymarket fee/trading guides", "url": "https://www.predictionhunt.com/blog/polymarket-fees-complete-guide", "asof": "2026", "trust": "estimate", "note": "Third-party guide, not Polymarket's own docs."},
+        "max_drawdown": {"value": null, "note": "n/a: binary contracts can go to zero (-100% per position); no index."},
+        "volatility": {"value": null, "note": "n/a."},
+        "exit_cost": {"pct_low": 0, "pct_high": 1.75, "text": "Makers (limit orders) pay nothing; 2026 taker fees on sells reported at $1.00-$1.75 per 100 shares (up to ~1.75% of $1 face), plus the bid-ask spread.", "source": "Action Network, Polymarket fees explained (2026)", "url": "https://www.actionnetwork.com/news/polymarket-fees-explained-how-polymarket-trading-fees-work-in-2026", "asof": "2026", "trust": "estimate", "note": "Fee claims conflict between guides; % derived per $1 face."}
+      }
+    },
+    {
+      "way": "NFTs",
+      "group": "Crypto and on-chain",
+      "metrics": {
+        "time_to_sell": {"days_low": null, "days_high": null, "text": "No published median time to sale found; Nansen found about one in three newly minted NFTs never sells.", "source": "DailyCoin, One in Three NFTs Never Gets Sold: Report (Nansen)", "url": "https://dailycoin.com/one-in-three-nfts-never-gets-sold-report/", "asof": "2026-11-15", "trust": "report", "note": "Liquidity signal only, not a day count."},
+        "min_ticket": {"usd": null, "note": "Varies by collection floor price; not sourced."},
+        "max_drawdown": {"value": -40, "period": "Jul 2022 (12,394 ETH) - 2023 low (7,446 ETH), NFTGo Blue Chip Index in ETH terms", "source": "Cointelegraph, Popular NFT investments take a massive hit in 2023", "url": "https://cointelegraph.com/news/popular-nft-investments-take-a-massive-hit-in-2023", "asof": "2023-05", "trust": "index", "note": "ETH-denominated; USD losses deeper, e.g. Bored Ape floor -88% from April 2022 peak (Decrypt)."},
+        "volatility": {"value": null, "note": "Not sourced."},
+        "exit_cost": {"pct_low": 0.5, "pct_high": 1, "text": "OpenSea marketplace fee reported at 0.5% (OS2) or 1% since 2025-09-15; creator royalties extra where enforced; plus gas.", "source": "Spark, NFT Marketplace Fees Compared", "url": "https://www.spark.money/tools/nft-marketplace-fee-comparison", "asof": "2026", "trust": "estimate", "note": "Sources conflict on current OpenSea rate; royalties not included."}
+      }
+    },
+    {
+      "way": "Node and validator ownership",
+      "group": "Crypto and on-chain",
+      "metrics": {
+        "time_to_sell": {"days_low": 7, "days_high": 21, "text": "Ethereum validator exit: on 2026-11-15 exit queue wait 4 days 17 hours plus withdrawal sweep delay 6.9 days (~12 days). Exit queue ranged from 0 (July 2026) to ~14 days (Oct 2026).", "source": "validatorqueue.com; Arkham Research; CryptoBriefing", "url": "https://www.validatorqueue.com/", "asof": "2026-11-15", "trust": "index", "note": "low = ~sweep delay with empty queue; high = 14-day queue + sweep (derived)."},
+        "min_ticket": {"usd": 67840, "text": "32 ETH to run a solo validator x ~$2,120/ETH (2026-11-10).", "source": "CoinEdition, Ethereum Price Prediction November 2026 (ETH price)", "url": "https://coinedition.com/ethereum-price-prediction-november-2026-can-eth-reach-2415-or-fall-to-2170-in-november/", "asof": "2026-11-10", "trust": "estimate", "note": "32 ETH minimum is protocol rule (not separately fetched). Derived figure."},
+        "max_drawdown": {"value": -79.5, "period": "Nov 2021 - 2022 (ETH)", "source": "AMBCrypto (ETH peak drawdown)", "url": "https://ambcrypto.com/ethereums-eth-momentum-towards-equilibrium-position-could-mean/amp/", "asof": "2022", "trust": "report", "note": "Price risk of the staked ETH; slashing risk excluded."},
+        "volatility": {"value": null, "note": "Not sourced."},
+        "exit_cost": {"pct_low": null, "pct_high": null, "note": "Gas only; no figure sourced."}
+      }
+    },
+    {
+      "way": "Tokenized Treasuries and real assets",
+      "group": "Crypto and on-chain",
+      "metrics": {
+        "time_to_sell": {"days_low": 0, "days_high": 1, "text": "Ondo OUSG: instant 24/7/365 redemptions to USDC (up to limits); daily via USD. Instant liquidity is passed through from BlackRock BUIDL same-day redemption.", "source": "Ondo Finance, OUSG", "url": "https://ondo.finance/ousg", "asof": "2026-11-15", "trust": "platform"},
+        "min_ticket": {"usd": 5000, "text": "OUSG: $5K instant mints/redemptions, $100K non-instant; accredited/qualified purchasers only. BlackRock BUIDL: $5M (qualified purchasers). USDY (non-US only): minimum not stated on Ondo page. RealT tokenized homes ~ $50/token.", "source": "Ondo Finance, OUSG", "url": "https://ondo.finance/ousg", "asof": "2026-11-15", "trust": "platform"},
+        "max_drawdown": {"value": null, "note": "Short T-bill NAV funds; no drawdown series found. Tokenized real estate (RealT) has thin, wide-spread secondary trading."},
+        "volatility": {"value": null, "note": "Not published in opened sources."},
+        "exit_cost": {"pct_low": 0, "pct_high": 0, "text": "OUSG instant mints and redemptions carry a 0% fee (management fee 0.15%, waived until 2027-01-01).", "source": "Ondo Finance, OUSG", "url": "https://ondo.finance/ousg", "asof": "2026-11-15", "trust": "platform"}
+      }
+    },
+    {
+      "way": "Fan tokens",
+      "group": "Crypto and on-chain",
+      "metrics": {
+        "time_to_sell": {"days_low": null, "days_high": null, "text": "Exchange-traded; no sourced time-to-sell figure.", "note": "Not sourced."},
+        "min_ticket": {"usd": null, "note": "Not sourced."},
+        "max_drawdown": {"value": -98.5, "period": "Mar 2021 ATH ($0.8786) - Nov 2026 (CHZ, Chiliz/Socios chain token)", "source": "CoinGecko, Chiliz", "url": "https://www.coingecko.com/en/coins/chiliz", "asof": "2026-11-15", "trust": "index", "note": "Club tokens similar: PSG -99.26% (CryptoSlate), SPURS ~-98%, Barcelona -97%."},
+        "volatility": {"value": null, "note": "Not sourced."},
+        "exit_cost": {"pct_low": 0.075, "pct_high": 0.1, "text": "Binance standard spot fee 0.1% maker/taker; 0.075% when paying in BNB. Spread and withdrawal fees extra.", "source": "Binance Square, Binance transaction fee", "url": "https://www.binance.com/en/square/post/15016129003874", "asof": "2026-11-15", "trust": "estimate", "note": "Binance.US differs (0%/0.02%)."}
+      }
+    },
+    {
+      "way": "Venture capital funds",
+      "group": "Private markets",
+      "metrics": {
+        "time_to_sell": {"days_low": 3650, "days_high": 5110, "text": "10-year fund term; most LPAs allow at least two one-year extensions (12 years); Adams Street data argues for planning on 14+ years. Early exit only via secondary sale (venture at ~78% of NAV in 2025).", "source": "Institutional Investor, The New Reality of the 14-Year Venture Capital Fund", "url": "https://www.institutionalinvestor.com/article/2bsv31916hb46dpp501ds/portfolio/the-new-reality-of-the-14-year-venture-capital-fund", "asof": "2026-11-15", "trust": "report"},
+        "min_ticket": {"usd": 500, "text": "AngelList USVC registered venture fund, $500 minimum, open to non-accredited US investors (traditional VC fund LP minimums are far higher).", "source": "Crowdfund Insider, AngelList Launches USVC", "url": "https://www.crowdfundinsider.com/2026/04/274959-angellist-launches-usvc-a-regulated-venture-fund-available-to-everyone-minimum-investment-of-500/", "asof": "2026-04", "trust": "report"},
+        "max_drawdown": {"value": -20.8, "period": "Calendar 2022 (third-worst year; 2001 and 2002 were worse, figures not found)", "source": "Cambridge Associates, US PE/VC Benchmark Commentary: Calendar Year 2022", "url": "https://publishedresearch.cambridgeassociates.com/us-pe-vc-benchmark-commentary-calendar-year-2022/", "asof": "2022-12-31", "trust": "index", "note": "Calendar-year return of US VC Index, not peak-to-trough; understates the 2001-2002 losses."},
+        "volatility": {"value": null, "note": "Not sourced."},
+        "exit_cost": {"pct_low": 0, "pct_high": 22, "text": "0% if held to term; LP secondary sales of venture/growth funds priced ~78% of NAV in 2025 (22% discount).", "source": "Angel Investors Network citing Jefferies 2025 Global Secondary Market Review", "url": "https://angelinvestorsnetwork.com/private-equity/private-equity-secondaries-discount-to-nav-2026-data", "asof": "2025-12-31", "trust": "report", "note": "Secondary citation of Jefferies."}
+      }
+    },
+    {
+      "way": "Angel deals in startups",
+      "group": "Private markets",
+      "metrics": {
+        "time_to_sell": {"days_low": 1643, "days_high": 4453, "text": "Mean holding period 4.5 years to exit across 245 ventures; >30x winners held 11.0-12.2 years.", "source": "Angel Resource Institute, Angel Returns (2016, 2017 update)", "url": "https://angelresourceinstitute.org/reports/angel-returns-full-version-2016.pdf", "asof": "2016", "trust": "report", "note": "Days = 4.5 and 12.2 years x 365 (derived)."},
+        "min_ticket": {"usd": 1000, "text": "AngelList general guideline for LPs in syndicates/SPVs is $1,000; leads set actual minimum (often $1k-$10k).", "source": "AngelList Help Center, How does the LP minimum work?", "url": "https://help.angellist.com/hc/en-us/articles/35843109199245-How-does-the-LP-minimum-work", "asof": "2026-11-15", "trust": "platform"},
+        "max_drawdown": {"value": null, "note": "No index; see default_rate."},
+        "default_rate": {"value": 70, "basis": "share of angel investments that fail (cumulative)", "period": "Wiltbank angel study", "source": "KingsCrowd, Investment crowdfunding exits vs failures (citing Wiltbank)", "url": "https://kingscrowd.com/article/investment-crowdfunding-exits-vs-failures-a-2018-2024-data-analysis/", "asof": "2024", "trust": "report", "note": "10% of exits generated 85% of cash."},
+        "volatility": {"value": null, "note": "Not applicable."},
+        "exit_cost": {"pct_low": null, "pct_high": null, "note": "No secondary market cost sourced."}
+      }
+    },
+    {
+      "way": "Private equity",
+      "group": "Private markets",
+      "metrics": {
+        "time_to_sell": {"days_low": 3650, "days_high": 4818, "text": "10-year fund term; median PE fund lifespan has grown to 13.2 years (Palico). Early exit via LP secondaries (buyout ~92% of NAV in 2025).", "source": "Secondaries Investor, Median fund lifespan exceeds 13 years", "url": "https://www.secondariesinvestor.com/median-fund-lifespan-exceeds-13-years/", "asof": "2026-11-15", "trust": "report"},
+        "min_ticket": {"usd": 50000, "text": "Evergreen PE vehicles $50,000-$500,000; direct PE funds average $8.8M minimum commitment (Callan 2024).", "source": "Angel Investors Network, Fund of Funds explained (citing Callan)", "url": "https://angelinvestorsnetwork.com/alternative-investments/fund-of-funds-explained-accredited-investors", "asof": "2024", "trust": "estimate"},
+        "max_drawdown": {"value": -21, "period": "Oct 2008 - Mar 2009 (S&P 500 -30.5% over same span)", "source": "Cambridge Associates via GlobeNewswire (Q3 2009 PE/VC returns release)", "url": "https://www.globenewswire.com/news-release/2010/02/17/1209018/0/en/Private-Equity-and-Venture-Capital-Returns-Continued-to-Improve-in-Q3-2009-Though-Both-Lagged-Public-Equities-for-the-Quarter-Says-Cambridge-Associates.html", "asof": "2009-09-30", "trust": "index", "note": "Seen in search summary; appraisal-based (smoothed). 2022 calendar return -4.3%."},
+        "volatility": {"value": null, "note": "Not sourced."},
+        "exit_cost": {"pct_low": 0, "pct_high": 8, "text": "0% if held to term; LP secondary buyout fund stakes priced ~92% of NAV in 2025 (8% discount); funds over 10 years old ~73% of NAV.", "source": "Angel Investors Network citing Jefferies 2025 Global Secondary Market Review", "url": "https://angelinvestorsnetwork.com/private-equity/private-equity-secondaries-discount-to-nav-2026-data", "asof": "2025-12-31", "trust": "report"}
+      }
+    },
+    {
+      "way": "Pre-IPO shares",
+      "group": "Private markets",
+      "metrics": {
+        "time_to_sell": {"days_low": 30, "days_high": 60, "text": "Forge: company approval/ROFR typically 30-60 days; EquityZen deals ~30-60 days (6-8 weeks) from commitment to close; whole process can take several weeks to a few months.", "source": "Forge Global, How long does it take to sell private shares?", "url": "https://forgeglobal.com/insights/private-market-education/how-long-does-it-take-to-sell-private-shares-understanding-liquidity-timelines/", "asof": "2026-11-15", "trust": "platform"},
+        "min_ticket": {"usd": 10000, "text": "EquityZen standard minimum $10,000 ($5,000 on select deals).", "source": "EquityZen Help Center, How do I invest on EquityZen", "url": "https://help.equityzen.com/en/articles/2663417-how-do-i-invest-on-equityzen", "asof": "2026-11-15", "trust": "platform"},
+        "max_drawdown": {"value": null, "note": "No public pre-IPO index figure found."},
+        "volatility": {"value": null, "note": "Not sourced."},
+        "exit_cost": {"pct_low": 2, "pct_high": 4, "text": "Forge direct secondary transaction fee typically 2-4% (can be lower); price discount to last round not included.", "source": "Forge Global, How to sell private shares on Forge", "url": "https://forgeglobal.com/insights/private-market-education/how-to-sell-private-shares-on-forge-a-complete-guide/", "asof": "2026-11-15", "trust": "platform"}
+      }
+    },
+    {
+      "way": "Funds of funds",
+      "group": "Private markets",
+      "metrics": {
+        "time_to_sell": {"days_low": 3650, "days_high": 4818, "text": "Inherits underlying PE fund lives (10-year term; median lifespan 13.2 years); evergreen FoFs offer periodic liquidity instead.", "source": "Secondaries Investor, Median fund lifespan exceeds 13 years", "url": "https://www.secondariesinvestor.com/median-fund-lifespan-exceeds-13-years/", "asof": "2026-11-15", "trust": "estimate", "note": "Applied from PE fund data; no FoF-specific term found."},
+        "min_ticket": {"usd": 25000, "text": "Registered PE fund of funds accepting accredited investors at $25,000 minimum (institutional classes up to $25M).", "source": "Angel Investors Network, Fund of Funds explained", "url": "https://angelinvestorsnetwork.com/alternative-investments/fund-of-funds-explained-accredited-investors", "asof": "2026", "trust": "estimate"},
+        "max_drawdown": {"value": -17.0, "period": "One year to 30 Sep 2002 (pooled mean net return to FoF LPs)", "source": "Cambridge Associates, Private Equity Fund of Funds 2003", "url": "https://publishedresearch.cambridgeassociates.com/wp-content/uploads/2014/11/Private-Equity-Fund-of-Funds-2003.pdf", "asof": "2002-09-30", "trust": "index", "note": "One-year return, not peak-to-trough."},
+        "volatility": {"value": null, "note": "Not sourced."},
+        "exit_cost": {"pct_low": 0, "pct_high": 13, "text": "0% if held to term; LP portfolio secondaries averaged 87% of NAV in 2025. Extra fee layer (~0.5-1% mgmt + 5-10% carry) is ongoing, not exit.", "source": "Angel Investors Network citing Jefferies 2025 Global Secondary Market Review", "url": "https://angelinvestorsnetwork.com/private-equity/private-equity-secondaries-discount-to-nav-2026-data", "asof": "2025-12-31", "trust": "report"}
+      }
+    },
+    {
+      "way": "Equity crowdfunding",
+      "group": "Private markets",
+      "metrics": {
+        "time_to_sell": {"days_low": 365, "days_high": null, "text": "Reg CF securities cannot be resold in the first year (narrow exceptions); Wefunder has no in-house secondary market; exits come only via acquisition/IPO, typically years.", "source": "Republic, Risks / Selling", "url": "https://republic.com/learn/investors/selling", "asof": "2026-11-15", "trust": "platform"},
+        "min_ticket": {"usd": 100, "text": "Wefunder standard minimum $100 in most Community Rounds (Republic typically $100 too).", "source": "Wefunder Help, How much can I invest", "url": "https://wefunder.helpjuice.com/investing/how-much-can-i-invest", "asof": "2026-11-15", "trust": "platform"},
+        "max_drawdown": {"value": null, "note": "No index; see default_rate."},
+        "default_rate": {"value": 10.9, "basis": "3-year failure rate, worst cohort (2018 first-round Reg CF/Reg A+); 2022 cohort 3.7%", "period": "2018-2026", "source": "KingsCrowd, Mid-year 2026 investment crowdfunding exits & failures", "url": "https://kingscrowd.com/mid-year-2026-investment-crowdfunding-exits-failures/", "asof": "2026-06-30", "trust": "report", "note": "Another source puts Reg CF issuer failure rate at 19%."},
+        "volatility": {"value": null, "note": "Not applicable."},
+        "exit_cost": {"pct_low": 2, "pct_high": 5, "text": "Republic Europe (Seedrs) secondary market: 2% fee for seller (plus carry on profit); StartEngine seller fee reported at 5%.", "source": "Republic Europe, Secondary Market terms", "url": "https://europe.republic.com/pages/secondary-market-terms", "asof": "2026-11-15", "trust": "platform", "note": "StartEngine 5% from a single third-party source."}
+      }
+    },
+    {
+      "way": "Apartments and houses",
+      "group": "Property and land",
+      "metrics": {
+        "time_to_sell": {"days_low": 33, "days_high": 150, "text": "US median time on market 33 days (Sept 2026, before closing). UK listing-to-completion about 104 days (Connells) to ~5 months.", "source": "NAR existing-home sales Sept 2026 (via RISMedia); HOA UK guide", "url": "https://www.rismedia.com/2026/10/13/existing-home-sales-up-monthly-down-year-over-year/", "asof": "2026-09", "trust": "report"},
+        "min_ticket": {"usd": 417500, "text": "US median existing-home price $417,500 (Sept 2026).", "source": "NAR existing-home sales Sept 2026 (via RISMedia)", "url": "https://www.rismedia.com/2026/10/13/existing-home-sales-up-monthly-down-year-over-year/", "asof": "2026-09", "trust": "report", "note": "Full purchase price; mortgage down payment would be lower."},
+        "max_drawdown": {"value": -35.1, "period": "Q2 2006 - Q1 2012", "source": "Inman, Home prices at new lows (S&P/Case-Shiller National Composite)", "url": "https://www.inman.com/news/2012/05/29/home-prices-new-lows-downturn", "asof": "2012-03-31", "trust": "index", "note": "Other variants show -33% to -43%."},
+        "volatility": {"value": null, "note": "Not sourced."},
+        "exit_cost": {"pct_low": 7.25, "pct_high": 10, "text": "Average combined agent commission 5.44% (2025) + seller closing costs ~1.81% excluding commission (incl. transfer taxes, which range 0-4%); some guides put total at 8-10%.", "source": "Clever survey via finanzen.net; Bankrate (CoreLogic ClosingCorp)", "url": "https://www.bankrate.com/mortgages/closing-costs-for-sellers", "asof": "2025", "trust": "report", "note": "pct_low = 5.44 + 1.81 (derived)."}
+      }
+    },
+    {
+      "way": "Rental property shares",
+      "group": "Property and land",
+      "metrics": {
+        "time_to_sell": {"days_low": 1, "days_high": 90, "text": "Arrived: secondary market after 6-month hold, quarterly trading windows (Feb/May/Aug/Nov) from 2026, no guaranteed buyer. Fundrise: quarterly redemption, at least ~60 days after request.", "source": "Arrived Help Center, When will all property shares be available on the secondary market / What is the Arrived secondary market", "url": "https://help.arrived.com/en/articles/10513693-what-is-the-arrived-secondary-market", "asof": "2026-11-15", "trust": "platform", "note": "days_high = one quarterly window cycle (derived)."},
+        "min_ticket": {"usd": 10, "text": "Fundrise $10 minimum ($1,000 for IRAs); Arrived $100 per property.", "source": "NerdWallet, Fundrise Review 2026", "url": "https://www.nerdwallet.com/investing/reviews/fundrise", "asof": "2026", "trust": "report"},
+        "max_drawdown": {"value": -35.1, "period": "Q2 2006 - Q1 2012 (proxy: S&P/Case-Shiller National)", "source": "Inman (S&P/Case-Shiller)", "url": "https://www.inman.com/news/2012/05/29/home-prices-new-lows-downturn", "asof": "2012-03-31", "trust": "index", "note": "Proxy for underlying single-family rentals; no platform track record through a crash."},
+        "volatility": {"value": null, "note": "Not sourced."},
+        "exit_cost": {"pct_low": 0, "pct_high": 1, "text": "Fundrise flagship/income funds: no early redemption penalty; legacy eREIT/eFund shares 1% if held under 5 years (some reviews cite 1-3%). Arrived seller fee not published.", "source": "NerdWallet, Fundrise Review 2026", "url": "https://www.nerdwallet.com/investing/reviews/fundrise", "asof": "2026", "trust": "report"}
+      }
+    },
+    {
+      "way": "Commercial property",
+      "group": "Property and land",
+      "metrics": {
+        "time_to_sell": {"days_low": 180, "days_high": 365, "text": "Commercial sale typically 6-12 months from listing to completion; 60-90 days from LOI to close; auctions ~90 days.", "source": "Eddisons, How long does a commercial property sale actually take?", "url": "https://www.eddisons.com/insights/how-long-does-a-commercial-property-sale-actually-take", "asof": "2026-11-15", "trust": "report", "note": "UK broker source."},
+        "min_ticket": {"usd": null, "note": "Direct ownership: no sourced figure."},
+        "max_drawdown": {"value": -31.5, "period": "2008Q1 - 2010Q1 (NCREIF Property Index values)", "source": "Nareit, New online tool facilitates quicker understanding of real estate market", "url": "https://www.reit.com/news/blog/market-commentary/new-online-tool-facilitates-quicker-understanding-real-estate-market", "asof": "2010-03-31", "trust": "index", "note": "Appraisal-based; NCREIF transaction index -33.5% (2007Q2-2009Q4)."},
+        "volatility": {"value": null, "note": "Not sourced."},
+        "exit_cost": {"pct_low": 3, "pct_high": 6, "text": "Commercial sale commissions typically 3-6% of price (negotiable; up to 10% in some cities); transfer taxes extra.", "source": "Houzeo, Commercial Real Estate Commissions", "url": "https://www.houzeo.com/blog/commercial-real-estate-commissions/", "asof": "2026-11-15", "trust": "estimate"}
+      }
+    },
+    {
+      "way": "Farmland",
+      "group": "Property and land",
+      "metrics": {
+        "time_to_sell": {"days_low": 65, "days_high": 365, "text": "Auction: ~65-80 days listing to closing (DreamDirt), 76 days average (Reck Agri); private land sales in Iowa often 6-12 months. Platform deals (AcreTrader) target 5-10 year holds with no established secondary market.", "source": "DreamDirt, FAQs: Selling Farmland; Reck Agri; LandBoss (Iowa)", "url": "https://dreamdirt.com/about-us/faqs/", "asof": "2026-11-15", "trust": "report", "note": "Auction-firm sources have commercial interest."},
+        "min_ticket": {"usd": 15000, "text": "AcreTrader direct farm investments $15,000 minimum (evergreen fund $150,000).", "source": "AcreTrader, How it works", "url": "https://acretrader.com/resources/how-it-works", "asof": "2026-11-15", "trust": "platform"},
+        "max_drawdown": {"value": -1.03, "period": "Calendar 2024 (first negative annual return in NCREIF Farmland Index history)", "source": "FarmTogether, Breaking down the 2024 NCREIF farmland performance", "url": "https://farmtogether.com/learn/blog/breaking-down-the-2024-ncreif-farmland-performance-key-insights-and-trends", "asof": "2024-12-31", "trust": "index", "note": "Worst calendar year, not peak-to-trough; permanent cropland sub-index -10.18% in 2024. Appraisal-smoothed."},
+        "volatility": {"value": 6.82, "period": "1992-2024 annualized (NCREIF Farmland)", "source": "Angel Investors Network, Farmland Investing (citing NCREIF)", "url": "https://angelinvestorsnetwork.com/alternative-investments/farmland-investing-accredited-investors-platforms-returns-risks", "asof": "2024-12-31", "trust": "estimate", "note": "Attribution from search summary; smoothed series understates true volatility."},
+        "exit_cost": {"pct_low": 4, "pct_high": 10, "text": "Land broker commissions commonly 4-10% depending on size and price.", "source": "National Land Realty, Average realtor commission for selling land", "url": "https://nationalland.com/blog/average-realtor-commission-for-selling-land", "asof": "2026-11-15", "trust": "estimate"}
+      }
+    },
+    {
+      "way": "Forest and timber",
+      "group": "Property and land",
+      "metrics": {
+        "time_to_sell": {"days_low": 180, "days_high": 365, "text": "Land listing contracts generally run 6 months to 1 year as land sells slower than homes.", "source": "LandThink, What to expect at a listing appointment", "url": "https://www.landthink.com/landowners-heres-what-to-expect-at-a-listing-appointment", "asof": "2026-11-15", "trust": "estimate"},
+        "min_ticket": {"usd": null, "note": "Not sourced."},
+        "max_drawdown": {"value": -5.24, "period": "Calendar 2001 (worst year in table; 2009 -4.75%, 2010 -0.15%)", "source": "PEI Events presentation, Timber: challenges, opportunities and the market response (NCREIF Timberland Index table)", "url": "https://www.peievents.com/en/wp-content/uploads/2019/11/Day-1.-220PM.-Track-B_Timber-Challenges-opportunities-and-the-market-response.pdf", "asof": "2019", "trust": "index", "note": "Calendar-year returns; appraisal-smoothed."},
+        "volatility": {"value": null, "note": "Not sourced."},
+        "exit_cost": {"pct_low": 4, "pct_high": 10, "text": "Land brokers commonly charge 4-10%; consulting foresters on timber sales often ~10% of proceeds.", "source": "National Land Realty; Mississippi State Extension", "url": "https://nationalland.com/blog/average-realtor-commission-for-selling-land", "asof": "2026-11-15", "trust": "estimate"}
+      }
+    },
+    {
+      "way": "Parking and storage units",
+      "group": "Property and land",
+      "metrics": {
+        "time_to_sell": {"days_low": 120, "days_high": 240, "text": "Self-storage facility sale: about 4-8 months from broker engagement to closing.", "source": "The Storage Brief, Self storage selling process timeline", "url": "https://the-storage-brief.pages.dev/articles/self-storage-selling-process-timeline", "asof": "2026-11-15", "trust": "estimate", "note": "No parking-specific data found."},
+        "min_ticket": {"usd": null, "note": "Not sourced."},
+        "max_drawdown": {"value": -14.59, "period": "2008 (YTD to Dec 2008), self-storage REIT sector; equity REITs -49.16%", "source": "Inside Self Storage, Self-storage suffers least loss among REIT sectors (Nareit data)", "url": "https://www.insideselfstorage.com/reits/self-storage-suffers-least-loss-among-reit-sectors", "asof": "2008-12", "trust": "index", "note": "Listed REIT proxy, not private units; partial-year figure."},
+        "volatility": {"value": null, "note": "Not sourced."},
+        "exit_cost": {"pct_low": 3, "pct_high": 6, "text": "Proxy: commercial sale commissions typically 3-6%.", "source": "Houzeo, Commercial Real Estate Commissions", "url": "https://www.houzeo.com/blog/commercial-real-estate-commissions/", "asof": "2026-11-15", "trust": "estimate"}
+      }
+    },
+    {
+      "way": "Property development projects",
+      "group": "Property and land",
+      "metrics": {
+        "time_to_sell": {"days_low": 312, "days_high": 730, "text": "EstateGuru development/bridge loans: mostly 12-24 months; average term of repaid loans 10.4-11.4 months. Early exit via secondary market if a buyer exists; defaulted loans can take much longer in recovery.", "source": "EstateGuru reviews (Jean Galea; P2P Empire) and live primary-market listing", "url": "https://jeangalea.com/estateguru-review", "asof": "2026-11-15", "trust": "estimate", "note": "days_low = 10.4 months (derived)."},
+        "min_ticket": {"usd": 55.71, "text": "EstateGuru minimum EUR 50 (varies by deal), converted at EUR/USD 1.1142.", "source": "Jean Galea, EstateGuru review", "url": "https://jeangalea.com/estateguru-review", "asof": "2026-11-15", "trust": "estimate"},
+        "max_drawdown": {"value": null, "note": "No index; see default_rate."},
+        "default_rate": {"value": 7.7, "basis": "platform-reported default rate (share of loans), March 2021; rose sharply after 2022 (third-party sites report 17%-60% of live portfolio in recovery by 2024-25)", "period": "2014 - Mar 2021", "source": "Crowdfund Insider, EstateGuru Reports EUR 320.2M Financed, 7.7% Default Rate", "url": "https://www.crowdfundinsider.com/2021/03/173113-estateguru-reports-e320-2m-in-total-financed-loans-since-2014-7-7-default-rate-but-no-expected-capital-loss/", "asof": "2021-03", "trust": "report"},
+        "volatility": {"value": null, "note": "Not applicable."},
+        "exit_cost": {"pct_low": 2, "pct_high": 3, "text": "EstateGuru secondary market seller fee 2% (some sources 3%).", "source": "Jean Galea, EstateGuru review; FF News", "url": "https://ffnews.com/newsarticle/estateguru-investors-can-now-sell-their-investments-on-secondary-market/", "asof": "2026-11-15", "trust": "estimate"}
+      }
+    },
+    {
+      "way": "Community solar and wind projects",
+      "group": "Infrastructure and energy",
+      "metrics": {
+        "time_to_sell": {"days_low": 30, "days_high": 90, "text": "Community solar subscriptions: cancel with typically 30-90 days notice (some 90-120); utility removal may take up to 90 days. Investment notes (e.g. Green Liberty Notes 1-year, Climatize 24-month) are held to maturity.", "source": "EnergySage, Cancelling a community solar contract", "url": "https://blog.energysage.com/cancelling-community-solar-contract/", "asof": "2026-11-15", "trust": "report"},
+        "min_ticket": {"usd": 100, "text": "Raise Green clean-energy projects $100 minimum; Connecticut Green Bank Green Liberty Notes via Honeycomb $100.", "source": "Yale Center for Business and the Environment, Raise Green update", "url": "https://cleanenergyforum.yale.edu/2020/09/01/update-raise-green-rises-from-crowdfunding-concept-to-operating-platform-whats-next", "asof": "2020-09", "trust": "report"},
+        "max_drawdown": {"value": null, "note": "No index or default data found."},
+        "volatility": {"value": null, "note": "Not sourced."},
+        "exit_cost": {"pct_low": 0, "pct_high": null, "text": "Many providers charge no cancellation fee; where fees exist they are usually under $250 (New York caps at $200) rather than a %.", "source": "EnergySage, Common misconceptions about community solar", "url": "https://www.energysage.com/community-solar/top-misconceptions-community-solar/", "asof": "2026-11-15", "trust": "report"}
+      }
+    }
+  ]
+}

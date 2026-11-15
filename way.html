@@ -53,6 +53,16 @@
   var h = '<section style="display:flex;flex-direction:column;gap:14px;padding:8px 0 28px">' +
     '<div style="display:flex;flex-wrap:wrap;gap:8px"><span class="chip">' + esc(g.name) + '</span><span class="chip">' + K.ENTRY[w.entry] + '</span><span class="chip">' + w.risk + ' risk</span><span class="chip">liquidity ' + w.liq + '/5</span></div>' +
     '<h1 class="h2" style="font-size:38px">' + esc(w.name) + '</h1><p class="lead">' + esc(w.desc) + '</p></section>';
+  if (w.ratings) {
+    var RT = [['risk', 'Risk', function (v) { return v + ' risk'; }], ['liq', 'Liquidity', function (v) { return v + ' / 5'; }], ['entry', 'Entry', function (v) { return K.ENTRY[v]; }]];
+    h += '<section class="sec" style="padding-bottom:40px"><div class="sec-h"><h2 class="h3">How we rate it</h2><a class="link" href="methodology.html#ratings">Rules →</a></div><div class="stats">' + RT.map(function (r) {
+      var x = w.ratings[r[0]]; if (!x) return '';
+      var srcLabel = { measured: 'measured', research: 'published research', 'listed proxy': 'listed proxy', editorial: 'editorial estimate' }[x.source] || x.source;
+      return '<div class="stat"><span class="k">' + r[1] + '</span><span class="v" style="font-size:20px' + (r[0] === 'risk' && x.value === 'high' ? ';color:var(--down)' : '') + '">' + esc(r[2](x.value)) + '</span>' +
+        '<span class="s"><span class="trust ' + (x.source === 'measured' ? 'market' : '') + '">' + esc(srcLabel) + '</span></span><span class="s">' + esc(x.basis || '') + '</span>' +
+        (x.editorial != null && x.editorial !== x.value && x.source !== 'editorial' ? '<span class="s">Before: ' + esc(r[2](x.editorial)) + ' (editorial)</span>' : '') + '</div>';
+    }).join('') + '</div></section>';
+  }
   h += '<section class="sec"><div class="sec-h"><h2 class="h3">The numbers</h2><span class="note">Every figure links to its source.</span></div>' +
     (keys.length ? '<div class="stats">' + keys.map(function (k) { return stat(k, m[k]); }).join('') + '</div>' : '<div class="card empty">No published figures found yet for this way. That is an honest gap, not a zero: <a class="link" href="methodology.html#suggest">suggest a source →</a></div>');
   if (reportKeys.length) h += '<h3 class="h4" style="margin:28px 0 14px">Published figures for the whole market</h3><div class="stats">' + reportKeys.map(function (k) { return stat(k.replace('_report', ''), m[k], '(report)'); }).join('') + '</div>' +
