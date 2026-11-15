@@ -114,7 +114,6 @@
       '<header class="wrap hdr">' +
       '<a class="logo" href="index.html"><span class="logo-mark" aria-hidden="true"><i style="height:7px"></i><i style="height:12px"></i><i style="height:18px"></i></span>' + SITE.name + '</a>' +
       '<nav class="nav" id="nav">' + nav.map(function (n) { return '<a href="' + n[0] + '" class="' + (active === n[2] ? 'on' : '') + '">' + n[1] + '</a>'; }).join('') + '</nav>' +
-      '<span class="badge">Free · no sign-up</span>' +
       '<a class="btn wl" href="watchlist.html">' + 'Watchlist <span class="mono acc" id="wl-n"></span></a>' +
       '<button class="btn menu-btn" aria-label="Menu" aria-expanded="false" aria-controls="nav" onclick="var n=document.getElementById(\'nav\');n.classList.toggle(\'open\');this.setAttribute(\'aria-expanded\',n.classList.contains(\'open\'))"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>' +
       '</header>';

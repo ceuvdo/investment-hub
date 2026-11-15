@@ -38,7 +38,7 @@
   var legacy = { 1: 100, 2: 1000, 3: 25000, 4: 250000 }[K.q('b')];
   var amount = parseFloat((K.q('a') || '').replace(/[^0-9.]/g, '')) || legacy || null, risk = K.q('r') || 'all';
   function tip(w, k) { var r = w.ratings && w.ratings[k]; return r ? (r.source === 'editorial' ? 'Editorial estimate: ' : 'From ' + r.source + ' data: ') + r.basis : ''; }
-  function est(w, k) { var r = w.ratings && w.ratings[k]; return r && r.source === 'editorial' ? ' <span class="est" title="editorial estimate, no data yet">est.</span>' : ''; }
+  function est(w, k) { var r = w.ratings && w.ratings[k]; return r && r.source === 'editorial' ? ' <span class="est" title="editorial estimate">est.</span>' : ''; }
   function open(w) { return !amount || LIMIT[w.entry] <= amount; }
   function draw() {
     document.getElementById('amt').value = amount ? amount.toLocaleString('en-US') : '';

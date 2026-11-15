@@ -269,3 +269,11 @@ footer.ft nav a{color:var(--muted)}
 .groups-4{grid-template-columns:repeat(auto-fill,minmax(min(100%,272px),1fr))}
 .groups-4 .gcard img,.groups-4 .gph{height:120px}
 .more-menu button[aria-current]{color:var(--acc)}
+/* popular groups: identical heights across cards */
+.groups-4{align-items:stretch}
+.groups-4 .gcard{height:100%}
+.gname{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+.gdesc{margin-top:4px;line-height:19px;height:38px;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+.gtiles{margin-top:auto}
+.gtiles .k{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.grange{height:22px;min-height:22px;align-items:center}

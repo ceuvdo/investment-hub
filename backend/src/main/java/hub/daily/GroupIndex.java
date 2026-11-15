@@ -38,15 +38,8 @@ public final class GroupIndex {
         String last = ms.isEmpty() ? null : ms.get(ms.size() - 1);
 
         Integer years = null;
-        Window w10 = window(assets, ms, last, 10), w5 = window(assets, ms, last, 5);
-        Window head = null;
-        if (w10 != null && w10.n >= 3 && w10.n * 2 >= assets.size()) {
-            head = w10;
-            years = 10;
-        } else if (w5 != null) {
-            head = w5;
-            years = 5;
-        }
+        Window head = window(assets, ms, last, 10); // one period everywhere: 10 years
+        if (head != null) years = 10;
         out.put("idx_ret", head == null ? null : Metrics.round1(head.cagr));
         out.put("idx_years", years);
         out.put("idx_n", head == null ? 0 : head.n);
@@ -67,7 +60,7 @@ public final class GroupIndex {
         if (years != null)
             for (String end : ms) {
                 Window w = window(assets, ms, end, years);
-                if (w == null || w.n < Math.min(3, assets.size())) continue;
+                if (w == null || w.n < Math.min(head.n, 3)) continue;
                 if (rb == null || w.cagr > rb.cagr) rb = w;
                 if (rw == null || w.cagr < rw.cagr) rw = w;
             }

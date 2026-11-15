@@ -95,19 +95,21 @@
     var ws = C.ways.filter(function (w) { return w.group === slug; });
     var liqs = ws.map(function (w) { return w.liq; }).sort(); var medLiq = liqs[Math.floor(liqs.length / 2)];
     var minEntry = Math.min.apply(null, ws.map(function (w) { return w.entry; }));
-    var first = K.num(g.idx_ret)
-      ? '<div class="k">Return / yr · ' + g.idx_years + ' years</div><div class="v">' + K.pctc(g.idx_ret) + '</div>'
-      : '<div class="k">Entry</div><div class="v">' + esc(K.ENTRY[minEntry]) + '</div>';
+    var riskBand = (function () { var c = { low: 0, medium: 0, high: 0 }; ws.forEach(function (w) { c[w.risk]++; }); return Object.keys(c).sort(function (a, b) { return c[b] - c[a]; })[0]; })();
+    var SHORT = { crypto: 'Crypto', cards: 'Cards & games' };
+    var tile = function (k, v) { return '<div class="tile"><div class="k">' + k + '</div><div class="v">' + v + '</div></div>'; };
+    var tiles = [];
+    if (K.num(g.idx_ret)) tiles.push(tile('Return / yr', K.pctc(g.idx_ret)));
+    else tiles.push(tile('Entry', esc(K.ENTRY[minEntry])));
+    tiles.push(K.num(g.swing) ? tile('Risk: yearly swing', g.swing.toFixed(0) + '%') : tile('Risk', esc(riskBand)));
+    tiles.push(K.num(g.vol30) ? tile('Volume, 30 days', K.big(g.vol30)) : tile('Ways tracked', String(g.n)));
+    tiles.push(tile('Typical time to sell', SELLTXT[medLiq]));
     var img = g.img ? '<img src="assets/img/' + g.img + '" alt="" loading="lazy" style="object-position:' + (g.pos || 'center') + '">' : '<div class="gph" aria-hidden="true">' + esc(g.name) + '</div>';
     var range = K.num(g.range_best)
-      ? '<div class="grange"><span>' + g.range_years + ' years, worst → best</span><span class="mono">' + K.pctc(g.range_worst) + ' → ' + K.pctc(g.range_best) + '</span></div>'
-      : '<div class="grange"></div>';
+      ? '<span>10 years, worst → best</span><span class="mono">' + K.pctc(g.range_worst) + ' → ' + K.pctc(g.range_best) + '</span>' : '';
     return '<a class="card gcard" href="class.html?g=' + g.slug + '">' + img +
-      '<div><div class="t"><span>' + esc(g.name) + '</span><span class="mono acc" style="font-size:12px;white-space:nowrap">' + g.n + ' ways</span></div><div class="note" style="margin-top:4px">' + esc(TAGS[slug] || g.note) + '</div></div>' +
-      '<div class="two"><div class="tile">' + first + '</div>' +
-      '<div class="tile"><div class="k">Risk: yearly swing</div><div class="v">' + (K.num(g.swing) ? g.swing.toFixed(0) + '%' : '<span class="nodata">no data</span>') + '</div></div>' +
-      '<div class="tile"><div class="k">Volume, 30 days</div><div class="v">' + K.big(g.vol30) + '</div></div>' +
-      '<div class="tile"><div class="k">Typical time to sell</div><div class="v">' + SELLTXT[medLiq] + '</div></div></div>' + range + '</a>';
+      '<div><div class="t"><span class="gname">' + esc(SHORT[slug] || g.name) + '</span><span class="mono acc" style="font-size:12px;white-space:nowrap">' + g.n + ' ways</span></div><div class="note gdesc">' + esc(TAGS[slug] || g.note) + '</div></div>' +
+      '<div class="two gtiles">' + tiles.join('') + '</div><div class="grange">' + range + '</div></a>';
   }).join('');
 
   // ---- rankings with horizon ----
