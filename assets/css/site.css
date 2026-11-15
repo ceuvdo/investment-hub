@@ -323,3 +323,4 @@ html{scrollbar-width:thin;scrollbar-color:#474d57 transparent}
 .news-strip{--news-w:calc((100% - 32px) / 3)}
 @media (max-width:1000px){.news-strip{--news-w:calc((100% - 16px) / 2)}}
 @media (max-width:640px){.news-strip{--news-w:100%}}
+.ini-own{color:#0b0e11}.ini-own svg{width:62%;height:62%}

@@ -9,6 +9,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Onest:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/css/site.css">
 <script src="data/catalog.js"></script>
+<script src="assets/js/icons.js"></script>
 <script src="assets/js/core.js"></script>
 </head>
 <body>
@@ -54,7 +55,7 @@
         (ws.length ? '<div class="wgrid">' + ws.map(function (w) {
           var m = w.metrics, fig = m.ret_1y || m.ret_5y || m.ret_10y || m.yield;
           var figTxt = fig && K.num(fig.value) ? K.pctc(fig.value) + ' <span class="muted" style="font-size:11px">' + (fig === m.ret_1y ? '1y' : fig === m.ret_5y ? '5y/yr' : fig === m.ret_10y ? '10y/yr' : 'yield') + '</span>' : '<span class="nodata"></span>';
-          return '<a class="wcard" href="' + K.wayHref(w) + '"><span class="whead">' + K.ini({ way: w.name, group: w.group, id: w.slug, name: w.name }) + '<span class="nm">' + esc(w.name) + '</span></span>' +
+          return '<a class="wcard" href="' + K.wayHref(w) + '"><span class="whead">' + K.ini({ way: w.name, group: w.group, id: w.slug, name: w.name, waySlug: w.slug }) + '<span class="nm">' + esc(w.name) + '</span></span>' +
             '<span class="row"><span class="' + (w.risk === 'high' ? 'down' : '') + '" title="' + esc(tip(w, 'risk')) + '">' + w.risk + ' risk' + est(w, 'risk') + '</span><span class="mono" title="' + esc(fig && fig.source ? fig.source + ' · ' + (fig.asof || '') : '') + '">' + figTxt + '</span></span>' +
             '<span class="row"><span class="mono" style="color:var(--text)" title="' + esc(tip(w, 'entry')) + '">' + LABEL[w.entry] + est(w, 'entry') + '</span><span title="' + esc(tip(w, 'liq')) + '">exit <span class="exitbar" aria-hidden="true"><i style="width:' + (w.liq * 20) + '%"></i></span> <span class="mono">' + w.liq + '/5</span>' + est(w, 'liq') + '</span></span></a>';
         }).join('') + '</div>' : '<div class="note">Nothing here for this budget and risk.</div>') + '</div>';
