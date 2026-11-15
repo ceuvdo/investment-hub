@@ -57,7 +57,7 @@
       return '<tr><td><a href="' + K.wayHref(w) + '" style="font-family:var(--ff);font-weight:600">' + esc(w.name) + '</a><br><small class="muted" style="font-family:var(--ff)">' + K.ENTRY[w.entry] + ' · ' + w.risk + ' risk</small></td>' +
         '<td>' + fig(m, 'ret_1y') + '</td><td>' + fig(m, 'ret_5y') + '</td><td>' + fig(m, 'ret_10y') + '</td><td>' + fig(m, 'yield') + '</td>' +
         '<td>' + (m.swing && K.num(m.swing.value) ? m.swing.value.toFixed(0) + '%' : '<span class="nodata">–</span>') + '</td><td class="down">' + (m.dd && K.num(m.dd.value) ? K.pct(m.dd.value, 0) : '<span class="nodata">–</span>') + '</td>' +
-        '<td class="l">' + K.liq(w.liq) + '</td><td class="l sell" style="white-space:normal;min-width:120px">' + txt(m, 'time_to_sell') + '</td><td class="l sell" style="white-space:normal;min-width:140px">' + txt(m, 'exit_cost') + '</td><td class="l">' + (trustOf(w) || '<span class="nodata">none yet</span>') + '</td></tr>';
+        '<td class="l">' + K.liq(w.liq) + '</td><td class="l sell" style="white-space:normal;min-width:120px">' + txt(m, 'time_to_sell') + '</td><td class="l sell" style="white-space:normal;min-width:140px">' + txt(m, 'exit_cost') + '</td><td class="l">' + (trustOf(w) || '<span class="nodata"></span>') + '</td></tr>';
     }).join('');
     var as = assets.filter(function (a) { return tab === 'all' || a.way_slug === tab; });
     document.getElementById('a-title').textContent = 'Tracked assets' + (tab === 'all' ? '' : ': ' + K.waysBySlug[tab].name) + ' (' + as.length + ')';

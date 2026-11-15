@@ -94,7 +94,7 @@
   var sim = C.assets.filter(function (x) { return x.id !== a.id && K.num(x.swing) && K.num(x.ret_1y) && x.currency !== 'index'; }).sort(function (x, y) {
     var dx = Math.abs(x.swing - a.swing) + Math.abs(x.ret_5y - a.ret_5y || 0) * 0.5, dy = Math.abs(y.swing - a.swing) + Math.abs(y.ret_5y - a.ret_5y || 0) * 0.5; return dx - dy; }).slice(0, 5);
   h += '<section class="split"><div class="card pad"><span class="cap" style="font-size:13px">If you had put in $1,000</span>' +
-    [['a year ago', g1], ['5 years ago', g5], ['10 years ago', g10]].map(function (r) { return '<div class="k1000"><span class="muted">' + r[0] + '</span><b class="' + K.cls(r[1] - 1000) + '">' + (r[1] ? '$' + r[1].toLocaleString('en-US') : '<span class="nodata">not enough history</span>') + '</b></div>'; }).join('') +
+    [['a year ago', g1], ['5 years ago', g5], ['10 years ago', g10]].map(function (r) { return '<div class="k1000"><span class="muted">' + r[0] + '</span><b class="' + K.cls(r[1] - 1000) + '">' + (r[1] ? '$' + r[1].toLocaleString('en-US') : '<span class="nodata"></span>') + '</b></div>'; }).join('') +
     '<p class="note" style="margin-bottom:0">Before taxes and selling costs. ' + (isIdx ? 'Price index only: rent and costs of owning are not included.' : 'Dividends reinvested where paid.') + '</p></div>' +
     '<div class="card pad"><h2 class="h3" style="margin-bottom:6px">Similar risk and return</h2>' + sim.map(function (x) {
       return '<div class="ex"><div><a href="' + K.assetHref(x) + '" style="font-weight:500">' + esc(x.name) + '</a><div class="note">' + esc(x.way) + ' · swing ' + x.swing.toFixed(0) + '%</div></div><span class="v">' + K.pctc(x.ret_1y) + ' <span class="muted" style="font-size:11px">1y</span></span></div>'; }).join('') + '</div></section>';

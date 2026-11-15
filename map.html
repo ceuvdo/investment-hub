@@ -54,7 +54,7 @@
       return '<div><div class="grp-h"><a class="h3" href="class.html?g=' + g.slug + '">' + esc(g.name) + '</a><span class="mono acc" style="font-size:13px">' + ws.length + ' of ' + all.length + '</span><span class="note" style="font-size:14px">' + esc(g.note) + '</span></div>' +
         (ws.length ? '<div class="wgrid">' + ws.map(function (w) {
           var m = w.metrics, fig = m.ret_1y || m.ret_5y || m.ret_10y || m.yield;
-          var figTxt = fig && K.num(fig.value) ? K.pctc(fig.value) + ' <span class="muted" style="font-size:11px">' + (fig === m.ret_1y ? '1y' : fig === m.ret_5y ? '5y/yr' : fig === m.ret_10y ? '10y/yr' : 'yield') + '</span>' : '<span class="nodata">no figure yet</span>';
+          var figTxt = fig && K.num(fig.value) ? K.pctc(fig.value) + ' <span class="muted" style="font-size:11px">' + (fig === m.ret_1y ? '1y' : fig === m.ret_5y ? '5y/yr' : fig === m.ret_10y ? '10y/yr' : 'yield') + '</span>' : '<span class="nodata"></span>';
           return '<a class="wcard" href="' + K.wayHref(w) + '"><span class="nm">' + esc(w.name) + '</span>' +
             '<span class="row"><span class="' + (w.risk === 'high' ? 'down' : '') + '" title="' + esc(tip(w, 'risk')) + '">' + w.risk + ' risk' + est(w, 'risk') + '</span><span class="mono" title="' + esc(fig && fig.source ? fig.source + ' · ' + (fig.asof || '') : '') + '">' + figTxt + '</span></span>' +
             '<span class="row"><span class="mono" style="color:var(--text)" title="' + esc(tip(w, 'entry')) + '">' + LABEL[w.entry] + est(w, 'entry') + '</span><span title="' + esc(tip(w, 'liq')) + '">exit <span class="exitbar" aria-hidden="true"><i style="width:' + (w.liq * 20) + '%"></i></span> <span class="mono">' + w.liq + '/5</span>' + est(w, 'liq') + '</span></span></a>';
