@@ -84,7 +84,7 @@
     rows.forEach(function (r) {
       var w = K.num(r.v) ? Math.max(2, Math.abs(r.v) / max * 100) : 0;
       h += '<a class="race-row" href="' + K.assetHref(r.a) + '"><span class="nm">' + esc(r.name) + '</span>' +
-        '<span class="bar" aria-hidden="true">' + (K.num(r.v) ? '<i style="left:0;width:' + w + '%;background:' + (r.v < 0 ? 'var(--down)' : 'var(--acc)') + '"></i>' : '') + '</span>' +
+        '<span class="bar" aria-hidden="true">' + (K.num(r.v) ? '<i style="left:0;width:' + w + '%;background:' + (r.v < 0 ? 'var(--down)' : 'var(--up)') + '"></i>' : '') + '</span>' +
         '<span class="mono" style="text-align:right;font-size:13px">' + (K.num(r.v) ? K.pctc(r.v) : '') + '</span>' +
         '<span class="mono muted" style="text-align:right;font-size:13px">' + (K.num(r.a.swing) ? r.a.swing.toFixed(0) + '%' : '–') + '</span></a>';
     });

@@ -63,7 +63,7 @@
     ball: 'M12 3a9 9 0 1 0 .01 0zM12 7l3.5 2.5-1.3 4h-4.4l-1.3-4zM12 3v4M20.5 9.5l-5 0M3.5 9.5h5M7 19.5l2.8-6M17 19.5l-2.8-6',
     bolt: 'M13 3L5 14h6l-1 7 8-11h-6z', fx: 'M4 8h13l-3-3M20 16H7l3 3', card: 'M7 3h10a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2zM9 8h6M9 12h6'
   };
-  var ICON_COLORS = { chart: '#4f8dff', coin: '#f7a51c', shield: '#2fc28a', bulb: '#ff6fa8', house: '#22c3b5', leaf: '#6bcf5a', bar: '#f2c230', bond: '#8fb3ff', cash: '#9be37a', ball: '#ff8a3d', bolt: '#7cd4ff', fx: '#b49cff', card: '#ff8a3d' };
+  var ICON_COLORS = { chart: '#4f8dff', coin: '#f0b90b', shield: '#2fc28a', bulb: '#ff6fa8', house: '#22c3b5', leaf: '#6bcf5a', bar: '#f2c230', bond: '#8fb3ff', cash: '#9be37a', ball: '#3c8cff', bolt: '#7cd4ff', fx: '#b49cff', card: '#3c8cff' };
   function iconKind(a) {
     var w = a.way || '', g = a.group;
     if (/club/i.test(w)) return 'ball';
@@ -83,7 +83,7 @@
   }
   function ini(a) {
     var k = iconKind(a);
-    return '<span class="ini" style="background:' + ICON_COLORS[k] + '" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0c1424" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="' + ICONS[k] + '"/></svg></span>';
+    return '<span class="ini" style="background:' + ICON_COLORS[k] + '" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0b0e11" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="' + ICONS[k] + '"/></svg></span>';
   }
   var ENTRY = { 1: 'from $100', 2: 'from $1k', 3: 'from $25k', 4: 'from $250k' };
   function wayMetric(w, k) { var m = w.metrics[k]; return m && num(m.value) ? m.value : null; }
@@ -197,7 +197,7 @@
     f.innerHTML = '<div class="wrap"><span><span style="font-family:var(--ff-h);font-weight:700;color:var(--text)">' + SITE.name + '</span> · ' + SITE.tagline + '</span>' +
       '<nav><a href="methodology.html">Methodology</a><a href="methodology.html#sources">Sources</a><a href="methodology.html#photos">Photo credits</a><a href="data/catalog.json">Download data (JSON)</a></nav>' +
       '<span class="themes" role="group" aria-label="Palette">Palette ' +
-      [['navy', '#0c1424', '#d4af63'], ['a', '#f4f0e6', '#1f5c4a'], ['b', '#eef1f5', '#1f3a5f'], ['c', '#f2efe9', '#7a560e']].map(function (t) {
+      [['navy', '#0b0e11', '#f0b90b'], ['a', '#f4f0e6', '#1f5c4a'], ['b', '#eef1f5', '#1f3a5f'], ['c', '#f2efe9', '#7a560e']].map(function (t) {
         return '<button title="' + (t[0] === 'navy' ? 'Navy and brass' : 'Light ' + t[0].toUpperCase()) + '" aria-pressed="' + (theme === t[0]) + '" data-t="' + t[0] + '" style="background:linear-gradient(135deg,' + t[1] + ' 50%,' + t[2] + ' 50%)"></button>';
       }).join('') + '</span>' +
       '<span>Not investment advice. Past returns do not predict future ones.</span></div>';
