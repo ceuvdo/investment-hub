@@ -19,7 +19,7 @@
     <p class="lead" style="max-width:720px">From a savings account to a hedge fund seat. Each entry shows what it takes to get in, how risky it is and how hard it is to get out. Enter your budget to see what is open to you.</p>
     <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center">
       <form class="amount" id="amt-form" style="max-width:none;flex:0 1 auto">
-        <label style="flex:0 1 auto;border-radius:999px;height:44px">I can put in <input id="amt" type="text" inputmode="numeric" placeholder="$ amount" style="width:110px" aria-label="Amount in US dollars"></label>
+        <label for="amt" class="amt-label">I can put in</label><label style="flex:0 1 auto;border-radius:999px;height:44px"><input id="amt" type="text" inputmode="numeric" placeholder="$ amount" style="width:110px" aria-label="Amount in US dollars"></label>
       </form>
       <div class="pills" id="budget" role="group" aria-label="Budget"></div>
       <div class="pills" id="risk" role="group" aria-label="Risk" style="margin-left:8px"></div>
@@ -27,7 +27,6 @@
     </div>
   </section>
   <section class="sec" id="groups" style="display:flex;flex-direction:column;gap:36px"></section>
-  <p class="note sec" style="margin-top:-36px">Entry = smallest budget that can realistically buy in. Exit = liquidity 1–5 (5 sells in seconds). Risk, entry and exit are computed from data (our measurements, then published research); "est." marks the few still estimated by hand. Hover a rating for its basis. <a class="link" href="methodology.html">Methodology →</a></p>
 </main>
 <script>
 (function () {
@@ -55,7 +54,7 @@
         (ws.length ? '<div class="wgrid">' + ws.map(function (w) {
           var m = w.metrics, fig = m.ret_1y || m.ret_5y || m.ret_10y || m.yield;
           var figTxt = fig && K.num(fig.value) ? K.pctc(fig.value) + ' <span class="muted" style="font-size:11px">' + (fig === m.ret_1y ? '1y' : fig === m.ret_5y ? '5y/yr' : fig === m.ret_10y ? '10y/yr' : 'yield') + '</span>' : '<span class="nodata"></span>';
-          return '<a class="wcard" href="' + K.wayHref(w) + '"><span class="nm">' + esc(w.name) + '</span>' +
+          return '<a class="wcard" href="' + K.wayHref(w) + '"><span class="whead">' + K.ini({ way: w.name, group: w.group, id: w.slug, name: w.name }) + '<span class="nm">' + esc(w.name) + '</span></span>' +
             '<span class="row"><span class="' + (w.risk === 'high' ? 'down' : '') + '" title="' + esc(tip(w, 'risk')) + '">' + w.risk + ' risk' + est(w, 'risk') + '</span><span class="mono" title="' + esc(fig && fig.source ? fig.source + ' · ' + (fig.asof || '') : '') + '">' + figTxt + '</span></span>' +
             '<span class="row"><span class="mono" style="color:var(--text)" title="' + esc(tip(w, 'entry')) + '">' + LABEL[w.entry] + est(w, 'entry') + '</span><span title="' + esc(tip(w, 'liq')) + '">exit <span class="exitbar" aria-hidden="true"><i style="width:' + (w.liq * 20) + '%"></i></span> <span class="mono">' + w.liq + '/5</span>' + est(w, 'liq') + '</span></span></a>';
         }).join('') + '</div>' : '<div class="note">Nothing here for this budget and risk.</div>') + '</div>';

@@ -18,6 +18,12 @@
   <div class="hero-l">
     <h1>Everything you can invest in, <span>from a deposit to a hedge fund</span></h1>
     <p class="lead">Return, risk, volume and the real cost of getting out, measured the same way for stocks, crypto, funds, property, businesses and collectibles.</p>
+    <div class="search">
+      <label><span class="muted" id="sicon"></span><span class="sr">Search the catalog</span>
+        <input id="q" type="search" placeholder="Ticker, fund, country, wine, watch, club" autocomplete="off">
+        <a class="btn acc" href="rankings.html">Search</a></label>
+      <div class="results" id="res" hidden></div>
+    </div>
   </div>
   <div class="card race" id="race"></div>
 </section>
@@ -56,6 +62,8 @@
 (function () {
   var K = window.K, C = K.C, esc = K.esc;
   K.header('home');
+  document.getElementById('sicon').innerHTML = K.ICON.search;
+  K.attachSearch(document.getElementById('q'), document.getElementById('res'));
   document.getElementById('all-groups').textContent = 'All ' + C.groups.length + ' groups, ' + C.meta.n_ways + ' ways →';
 
   // ---- popular picks: return per year over 1/5/10 years ----
@@ -146,13 +154,7 @@
   function drawNews() {
     var strip = document.getElementById('news-strip');
     if (!items.length) { strip.innerHTML = '<div class="empty">Headlines are unavailable right now.</div>'; return; }
-    strip.innerHTML = '<div class="news-track" style="transform:translateX(calc(' + (-np) + ' * (var(--news-w) + 16px)))">' + items.map(function (n) {
-      var rel = K.related(n, 3);
-      return '<a class="card news-card" href="' + K.newsHref(n) + '"><span class="note">' + esc(n.cat) + ' · ' + esc(K.ago(n.ts)) + ' · ' + esc(n.src) + '</span>' +
-        '<span class="news-t">' + esc(n.t) + '</span>' + (n.sum ? '<span class="note">' + esc(n.sum) + '</span>' : '') +
-        (rel.length ? '<span class="news-rel"><span class="cap">May move</span>' + rel.map(function (a) { return '<span class="chip">' + esc(a.name.split(' (')[0]) + ' <span class="' + K.cls(a.chg_30d) + '">' + K.pct(a.chg_30d) + ' 30d</span></span>'; }).join('') + '</span>' : '') +
-        '<span class="note" style="margin-top:auto">Our take: coming soon</span></a>';
-    }).join('') + '</div>';
+    strip.innerHTML = '<div class="news-track" style="transform:translateX(calc(' + (-np) + ' * (var(--news-w) + 16px)))">' + items.map(K.newsCard).join('') + '</div>';
     document.getElementById('news-prev').disabled = np <= 0;
     document.getElementById('news-next').disabled = np >= items.length - 1;
   }

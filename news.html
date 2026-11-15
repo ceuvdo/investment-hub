@@ -32,9 +32,11 @@
       // all news
       main.innerHTML = '<h1 class="h2" style="font-size:36px;margin:8px 0 6px">News that moves prices</h1><p class="lead" style="margin:0 0 24px">Latest headlines from CNBC, Cointelegraph and Investing.com, refreshed every 10 minutes. Each one opens with the prices of the assets it may move.</p>' +
         (url ? '<p class="disclaimer">That story has dropped out of the latest headlines. <a class="link" href="' + (K.safeUrl(url) ? esc(url) : '#') + '" target="_blank" rel="noopener">Open it at the publisher →</a></p>' : '') +
-        '<div class="grid-auto">' + items.map(function (x) {
-          return '<a class="card news-card" href="' + K.newsHref(x) + '" style="flex:none"><span class="note">' + esc(x.cat) + ' · ' + esc(K.ago(x.ts)) + ' · ' + esc(x.src) + '</span><span class="news-t">' + esc(x.t) + '</span>' + (x.sum ? '<span class="note">' + esc(x.sum) + '</span>' : '') + '</a>';
-        }).join('') + '</div>';
+        '<div class="news-grid" id="ng"></div><div style="text-align:center;margin-top:20px"><button class="btn" id="more-news">Show more</button></div>';
+      var shown = 12;
+      var paint = function () { document.getElementById('ng').innerHTML = items.slice(0, shown).map(K.newsCard).join(''); document.getElementById('more-news').hidden = shown >= items.length; };
+      document.getElementById('more-news').onclick = function () { shown += 12; paint(); };
+      paint();
       return;
     }
     document.title = n.t + ' · Wyndton';

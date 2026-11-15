@@ -17,29 +17,34 @@
   <section style="padding:28px 0 24px;display:flex;flex-direction:column;gap:18px">
     <h1 class="h2" style="font-size:36px">Cross-asset rankings</h1>
     <p class="lead">Every asset with a live price, on the same scale. Click a column to sort. House prices are indexes, not prices you can pay.</p>
-    <div style="display:flex;flex-wrap:wrap;gap:12px;align-items:center">
-      <div class="pills" id="pills"></div>
-      <input id="f" type="search" class="btn" placeholder="Filter by name or ticker" style="font-weight:400;min-width:240px">
+    <div class="rank-bar">
+      <input id="f" type="search" class="btn" placeholder="Filter by name or ticker" aria-label="Filter by name or ticker">
+      <span class="more"><button class="pill" id="grp" aria-haspopup="menu" aria-expanded="false"></button><span id="grp-menu"></span></span>
     </div>
   </section>
   <section class="sec"><div class="card" style="overflow:hidden"><div id="rank"></div>
-    <div class="tbl-foot"><span class="note" id="src"></span><a class="link" href="data/catalog.json" download>Download data (JSON)</a></div></div></section>
+    <div class="tbl-foot"><span></span><a class="link" href="data/catalog.json" download>Download data (JSON)</a></div></div></section>
 </main>
 <script>
 (function () {
   var K = window.K, C = K.C, esc = K.esc;
   K.header('rank');
-  var grp = K.q('g') || 'all', f = '', state = { sort: 'ret_1y', dir: -1 };
+  var grp = K.q('g') || 'all', f = '', menuOpen = false, state = { sort: 'ret_1y', dir: -1 };
   function draw() {
-    document.getElementById('pills').innerHTML = [['all', 'All', C.assets.length]].concat(C.groups.map(function (g) { return [g.slug, g.name, C.assets.filter(function (a) { return a.group === g.slug; }).length]; })).filter(function (p) { return p[2]; })
-      .map(function (p) { return '<button class="pill" aria-pressed="' + (p[0] === grp) + '" data-g="' + p[0] + '">' + esc(p[1]) + ' <span class="n">' + p[2] + '</span></button>'; }).join('');
-    document.querySelectorAll('[data-g]').forEach(function (b) { b.onclick = function () { grp = b.dataset.g; history.replaceState(null, '', grp === 'all' ? '?' : '?g=' + grp); draw(); }; });
+    var opts = [['all', 'All groups', C.assets.length]].concat(C.groups.map(function (g) { return [g.slug, g.name, C.assets.filter(function (a) { return a.group === g.slug; }).length]; }));
+    var btn = document.getElementById('grp');
+    btn.textContent = (opts.filter(function (o) { return o[0] === grp; })[0] || opts[0])[1] + ' ▾';
+    btn.setAttribute('aria-expanded', menuOpen);
+    document.getElementById('grp-menu').innerHTML = menuOpen ? '<span class="more-menu" role="menu">' + opts.map(function (o) {
+      return '<button role="menuitem" data-g="' + o[0] + '"' + (o[2] ? '' : ' disabled') + (o[0] === grp ? ' aria-current="true"' : '') + '><span>' + esc(o[1]) + '</span><span class="mono note">' + (o[2] || '') + '</span></button>'; }).join('') + '</span>' : '';
+    document.querySelectorAll('[data-g]').forEach(function (b) { b.onclick = function () { grp = b.dataset.g; menuOpen = false; history.replaceState(null, '', grp === 'all' ? '?' : '?g=' + grp); draw(); }; });
     var rows = C.assets.filter(function (a) { return (grp === 'all' || a.group === grp) && (!f || (a.name + ' ' + a.symbol + ' ' + a.way + ' ' + a.sub).toLowerCase().indexOf(f) >= 0); });
     K.rankTable(document.getElementById('rank'), rows, state);
   }
+  document.getElementById('grp').onclick = function (e) { e.stopPropagation(); menuOpen = !menuOpen; draw(); };
+  document.addEventListener('click', function () { if (menuOpen) { menuOpen = false; draw(); } });
   document.getElementById('f').oninput = function (e) { f = e.target.value.toLowerCase().trim(); draw(); };
   draw();
-  document.getElementById('src').textContent = 'Yahoo Finance (prices, dividends reinvested), BIS via FRED (house prices). Built ' + C.meta.built + '. 5y and 10y returns are per year.';
   K.footer();
 })();
 </script>

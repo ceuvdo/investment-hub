@@ -51,7 +51,9 @@ async function readFeed(f) {
       const dot = sum.search(/[.!?](\s|$)/);
       if (dot > 40) sum = sum.slice(0, dot + 1);
       if (sum.length > 220) sum = sum.slice(0, 217) + '…';
-      return { t: decode(tag(it, 'title')), url: /^https?:\/\//.test(link) ? link : null, src: f.src, cat: f.cat, ts, sum };
+      const im = it.match(/<(?:media:content|media:thumbnail)[^>]*url="([^"]+)"/i) || it.match(/<enclosure[^>]*url="([^"]+)"[^>]*type="image/i) || it.match(/<img[^>]*src="([^"]+)"/i);
+      const img = im && /^https:\/\//.test(im[1]) ? im[1].replace(/&amp;/g, '&') : null;
+      return { t: decode(tag(it, 'title')), url: /^https?:\/\//.test(link) ? link : null, src: f.src, cat: f.cat, ts, sum, img };
     }).filter((n) => n.t && n.url);
   } catch (e) {
     return [];
@@ -60,7 +62,7 @@ async function readFeed(f) {
 
 async function news(req, ctx) {
   const cache = caches.default;
-  const key = new Request('https://cache.local/news-v1');
+  const key = new Request('https://cache.local/news-v2');
   let res = await cache.match(key);
   if (!res) {
     const lists = await Promise.all(FEEDS.map(readFeed));

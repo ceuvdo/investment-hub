@@ -104,7 +104,7 @@
   function header(active) {
     var m = C.meta;
     var built = m.built;
-    var nav = [['map.html', 'All ways to invest', 'map'], ['rankings.html', 'Rankings', 'rank'], ['compare.html', 'Compare', 'cmp'], ['news.html', 'News', 'news'], ['theme.html', 'Football', 'theme'], ['methodology.html', 'Methodology', 'meth']];
+    var nav = [['map.html', 'All ways to invest', 'map'], ['rankings.html', 'Rankings', 'rank'], ['compare.html', 'Compare', 'cmp'], ['news.html', 'News', 'news'], ['methodology.html', 'Methodology', 'meth']];
     var h = '<div class="strip"><div class="wrap">' +
       '<span>Ways to invest <b>' + m.n_ways + '</b></span>' +
       '<span>Assets tracked <b>' + m.n_assets + '</b></span>' +
@@ -361,6 +361,23 @@
     return out.map(function (id) { return byId[id]; });
   }
   function ago(ts) { var m = Math.max(1, Math.round((Date.now() - ts) / 60000)); return m < 60 ? m + ' min ago' : m < 1440 ? Math.round(m / 60) + ' h ago' : Math.round(m / 1440) + ' days ago'; }
+  var CAT_IMG = { Crypto: 'crypto.jpg', Stocks: 'stocks.jpg', Markets: 'stocks.jpg', Economy: 'cash-v2.jpg' };
+  function newsImg(n) {
+    if (n.img && /^https:\/\//.test(n.img)) return n.img;
+    var rel = related(n, 1)[0], g = rel && groupsBySlug[rel.group];
+    return 'assets/img/' + ((g && g.img) || CAT_IMG[n.cat] || 'stocks.jpg');
+  }
+  function newsChips(n) {
+    var rel = related(n, 3);
+    return rel.length ? '<span class="news-rel"><span class="cap">May move</span>' + rel.map(function (a) {
+      var c = a.chg_30d; return '<span class="chip">' + esc(a.name.split(' (')[0]) + ' <span class="' + cls(c) + '">' + (num(c) ? (c < 0 ? '▼' : '▲') + ' ' + Math.abs(c).toFixed(1) + '%' : '') + '</span></span>';
+    }).join('') + '</span>' : '';
+  }
+  function newsCard(n) {
+    return '<a class="card news-card" href="' + newsHref(n) + '"><img class="news-img" src="' + esc(newsImg(n)) + '" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.onerror=null;this.src=&quot;assets/img/stocks.jpg&quot;">' +
+      '<span class="note">' + esc(n.cat) + ' · ' + esc(ago(n.ts)) + ' · ' + esc(n.src) + '</span><span class="news-t">' + esc(n.t) + '</span>' +
+      (n.sum ? '<span class="note news-sum">' + esc(n.sum) + '</span>' : '') + newsChips(n) + '</a>';
+  }
   function newsHref(n) { return 'news.html?u=' + encodeURIComponent(n.url); }
   function loadNews() { return fetch(NEWS_URL).then(function (r) { return r.json(); }).then(function (d) { return d.items || []; }); }
 
@@ -370,7 +387,7 @@
   }
 
   window.K = {
-    live: live, paint: paint, sellTip: sellTip, safeUrl: safeUrl, related: related, ago: ago, newsHref: newsHref, loadNews: loadNews,
+    live: live, paint: paint, sellTip: sellTip, safeUrl: safeUrl, related: related, ago: ago, newsHref: newsHref, loadNews: loadNews, newsCard: newsCard,
     C: C, byId: byId, waysBySlug: waysBySlug, waysByName: waysByName, groupsBySlug: groupsBySlug, SITE: SITE,
     esc: esc, num: num, pct: pct, pctc: pctc, cls: cls, arrow: arrow, money: money, big: big, corr: corr, liq: liq, trust: trust, src: src,
     color: color, ini: ini, ENTRY: ENTRY, wayMetric: wayMetric, wayHref: wayHref, assetHref: assetHref, q: q, fmtDate: fmtDate,
