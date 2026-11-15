@@ -75,7 +75,7 @@
       ['Volume, 30 days', '', function (a) { return a.vol30_usd; }, 'max', K.big],
       ['Liquidity', '1–5', function (a) { return wOf(a).liq; }, 'max', function (v) { return K.liq(v) + ' ' + v; }],
       ['Time to sell', '', function (a) { return a.sell; }, null, function (v) { return '<span style="font-family:var(--ff)">' + esc(v) + '</span>'; }],
-      ['Cost to exit', 'this way of investing', function (a) { var x = wOf(a).metrics.exit_cost; return x && x.text; }, null, function (v) { return v ? '<span class="h">' + esc(v) + '</span>' : '<span class="nodata">no data</span>'; }],
+      ['Cost to exit', 'this way of investing', function (a) { var x = wOf(a).metrics.exit_cost; return x && x.text; }, null, function (v) { return v ? '<span class="h">' + esc(v) + '</span>' : '<span class="nodata"></span>'; }],
       ['Minimum ticket', '', function (a) { return a.min; }, null, function (v) { return '<span style="font-family:var(--ff)">' + esc(v) + '</span>'; }],
       ['Data', '', function (a) { return a.source + ' · ' + a.asof; }, null, function (v) { return '<span class="h">' + esc(v) + '</span>'; }]
     ];

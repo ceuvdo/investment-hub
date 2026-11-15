@@ -33,7 +33,7 @@
   };
   function val(k, x) {
     var t = LABEL[k] ? LABEL[k][1] : 'pct';
-    if (t === 'text' || !K.num(x.value)) return x.text ? '<span style="font-family:var(--ff);font-size:16px;line-height:1.35">' + esc(x.text) + '</span>' : (K.num(x.value) ? K.pctc(x.value) : '<span class="nodata">no data</span>');
+    if (t === 'text' || !K.num(x.value)) return x.text ? '<span style="font-family:var(--ff);font-size:16px;line-height:1.35">' + esc(x.text) + '</span>' : (K.num(x.value) ? K.pctc(x.value) : '<span class="nodata"></span>');
     if (t === 'pct0') return (k === 'dd' ? '<span class="down">' + K.pct(x.value, 0) + '</span>' : x.value.toFixed(0) + '%');
     if (t === 'corr') return K.corr(x.value);
     if (t === 'big') return K.big(x.value);

@@ -18,7 +18,7 @@
   function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
   function num(v) { return typeof v === 'number' && isFinite(v); }
   function pct(v, d) {
-    if (!num(v)) return '<span class="nodata">no data</span>';
+    if (!num(v)) return '<span class="nodata"></span>';
     var s = Math.abs(v).toFixed(d == null ? 1 : d);
     return (v > 0 ? '+' : v < 0 ? '−' : '') + s + '%';
   }
@@ -27,7 +27,7 @@
   function arrow(v) { return !num(v) ? '' : v < 0 ? '▼ ' : '▲ '; }
   var CUR = { USD: '$', EUR: '€', GBP: '£', GBp: '', JPY: '¥' };
   function money(v, cur) {
-    if (!num(v)) return '<span class="nodata">no data</span>';
+    if (!num(v)) return '<span class="nodata"></span>';
     if (cur === 'index') return v.toLocaleString('en-US', { maximumFractionDigits: 1 }) + ' pts';
     var d = v >= 1000 ? 0 : v >= 10 ? 2 : v >= 1 ? 3 : 4;
     var s = Math.abs(v) < 0.01 ? Number(v.toPrecision(4)).toString()
@@ -36,12 +36,12 @@
     return (CUR[cur] != null ? CUR[cur] : '') + s + (CUR[cur] == null && cur ? ' ' + cur : '');
   }
   function big(v) {
-    if (!num(v)) return '<span class="nodata">no data</span>';
+    if (!num(v)) return '<span class="nodata"></span>';
     var u = [[1e12, 'T'], [1e9, 'B'], [1e6, 'M'], [1e3, 'k']];
     for (var i = 0; i < u.length; i++) if (Math.abs(v) >= u[i][0]) return '$' + (v / u[i][0]).toFixed(v / u[i][0] >= 100 ? 0 : 1) + u[i][1];
     return '$' + Math.round(v);
   }
-  function corr(v) { return num(v) ? v.toFixed(2) : '<span class="nodata">no data</span>'; }
+  function corr(v) { return num(v) ? v.toFixed(2) : '<span class="nodata"></span>'; }
   function liq(n) { var s = '<span class="liq" role="img" aria-label="liquidity ' + n + ' of 5">'; for (var i = 1; i <= 5; i++) s += '<i class="' + (i <= n ? 'on' : '') + '"></i>'; return s + '</span>'; }
   var TRUST = { market: 'market price', index: 'index', report: 'report', platform: 'platform figure', estimate: 'estimate' };
   function safeUrl(u) { return typeof u === 'string' && /^https?:\/\//i.test(u); }
