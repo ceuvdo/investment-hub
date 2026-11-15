@@ -73,7 +73,7 @@ relay\deploy-relay.ps1
 
 ## Safety nets
 
-- **Validation before publishing.** A build is published only if it has all 77 ways and at least 90% of the previous asset count, contains no impossible prices or returns, has no more than 20% of market assets older than a week, and every research link is `https`. Otherwise the old site stays online and `/api/status` explains why.
+- **Validation before publishing.** A build is published only if it has at least 64 ways (the catalog has 77) and at least 90% of the previous asset count, contains no impossible prices or returns, has no more than 20% of market assets older than a week, and every research link is `https`. Otherwise the old site stays online and `/api/status` explains why.
 - **Code and data are published separately.** The site's code is published from the last git commit, and only the freshly built data comes from the working folder.
 - **Missed builds catch up.** If the PC was off at 09:00, the build runs at the next startup.
 - **Nightly backup** to `E:ackups\hub` at 03:30, keeping 14 days. This is the same disk; an off-site copy is still on the to-do list.
