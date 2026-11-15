@@ -1,71 +1,96 @@
-# Investment hub: MVP
+# Investment hub
 
-Free, independent catalog of 64 ways to invest in 9 groups. Every number has a source and a date. Static site: plain HTML, CSS and JS, no build step. The data comes from one Python script (standard library only).
+A free, independent catalog of 64 ways to invest. Every number has a source and a date. Crypto and currency prices are live.
 
-## Run locally
+- **Site:** https://investment-hub.ceuvdo.workers.dev (static HTML, CSS and JS on Cloudflare)
+- **Live relay:** https://investment-hub-live.ceuvdo.workers.dev (Cloudflare Worker + Durable Object)
+- **Backend:** Java 21 + Spring Boot 4 on this PC, with PostgreSQL 17 + TimescaleDB. See [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md).
 
-From this folder:
+## How it runs
 
-```bash
-python -m http.server 8765
-```
+The Windows Task Scheduler task **investment-hub backend** starts at logon. It runs `backend/start-backend.ps1`, which:
 
-Then open http://localhost:8765. You can also open `index.html` straight from disk: the data is also written as `data/*.js`.
+1. starts PostgreSQL (`E:\data\pg`) if it is not running;
+2. starts the backend (`backend/target/hub-backend.jar`) on http://127.0.0.1:8080. The backend only listens locally.
 
-## Update the data
+The backend then does three things:
 
-```bash
-python pipeline/build_data.py
-```
+- **Live feeds over public websockets.**
+  - Prices: Binance (24 crypto pairs and tokenised gold) and Kraken (6 currency pairs).
+  - Network timing: mempool.space (Bitcoin blocks), a public Ethereum node (blocks) and Solana RPC (slots).
+  - Every 30 s it measures the round trip to the Binance and Kraken APIs.
+  - Every minute it writes 1-minute candles to TimescaleDB. Hourly and daily candles are aggregated automatically.
+  - About every 3 s it sends changed prices, signed with HMAC, to the Cloudflare relay. Visitors' browsers connect to the relay, never to this PC.
+- **Daily build at 09:00.**
+  - Sources: Yahoo Finance closes (10+ years, weekly), BIS house prices and US days on market via FRED, World Bank deposit rates and inflation, DefiLlama yields, plus `data/research/*.json`.
+  - It computes returns, risk and time to sell, then writes `data/catalog.*` and `data/series.*` and runs `deploy.ps1`.
+- **API** (local):
+  - `GET /api/status`
+  - `GET /api/catalog`
+  - `GET /api/assets/{id}`
+  - `GET /api/series/{id}?range=1d|7d|30d|10y`
+  - `GET /api/live`
+  - `WS /live`
+  - `POST /api/admin/build?deploy=true`
 
-Raw responses are cached in `pipeline/cache/` for 12 hours. Add `--fresh` to refetch everything. A full run takes about 1–2 minutes. On GitHub, `.github/workflows/refresh-data.yml` does this every day at 06:15 UTC and commits the new data. You can also start it by hand from the Actions tab.
+## Common tasks
 
-## Deploy to Cloudflare Pages
-
-Node.js and Wrangler are installed on `E:\tools` because drive C: is full. The script reads `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID` from the user environment variables, so the token never appears in commands or logs.
+Check that everything is alive:
 
 ```powershell
-.\deploy.ps1
+Invoke-RestMethod http://127.0.0.1:8080/api/status
 ```
 
-On the first run it creates the `investment-hub` project. After that, every run publishes a new version to `https://investment-hub.pages.dev`, or to a similar address if that name is taken. Only `*.html`, `assets/` and `data/` are uploaded.
+Rebuild the data and publish the site now:
 
-## Where the numbers come from
+```powershell
+Invoke-RestMethod -Method Post "http://127.0.0.1:8080/api/admin/build?deploy=true"
+```
 
-| Data | Source | How often |
-| --- | --- | --- |
-| Prices, 1y/5y/10y return, swing, worst drop, correlation, 30-day volume for 73 ETFs, stocks, coins, FX, clubs | Yahoo Finance chart API (weekly, dividend-adjusted) | every build |
-| House prices in 16 countries | BIS via FRED (quarterly) | every build |
-| Deposit rates and inflation in 152 countries, Ukraine included | World Bank API | every build |
-| Staking, lending and vault yields | DefiLlama yields API | every build |
-| Private markets, property indexes, businesses, collectibles, sport | `data/research/*.json`: Cambridge Associates, NCREIF, HFR, Cliffwater, Knight Frank, Liv-ex, BizBuySell and others, each with a URL and date | by hand, when a new edition comes out |
+Rebuild the backend after a code change. Tools live on `E:\tools`, because drive C: is full.
 
-45 of 64 ways have a return or yield figure. The other 19 show "no data" instead of a made-up number: structured notes, NFTs, angel deals, the business ways, sneakers, skins and some others. Their pages still show market size, fees and examples where these were found.
+```powershell
+$env:JAVA_HOME='E:\tools\jdk'; & E:\tools\maven\bin\mvn.cmd -q -f backend\pom.xml -DskipTests package
+```
+
+Then restart the task:
+
+```powershell
+Stop-ScheduledTask 'investment-hub backend'; Start-ScheduledTask 'investment-hub backend'
+```
+
+**Add an asset:** add it to `backend/src/main/resources/universe.json`, then rebuild. For a Yahoo symbol, put it under `assets`. For a live feed, add it under `live.binance` or `live.kraken`. For a new country, add its BIS series id under `houses`.
+
+**Redeploy the relay Worker:**
+
+```powershell
+relay\deploy-relay.ps1
+```
+
+**Logs:** `E:\tools\logs` (`hub-backend.log`, `postgres.log`, `deploy-last.log`).
+
+## Secrets
+
+All secrets are Windows user environment variables. None of them are in the repo.
+
+| Variable | Used for |
+| --- | --- |
+| `CLOUDFLARE_API_TOKEN` (`CLOUDFLARE_ACCOUNT_ID` optional) | Deploying the site and the relay |
+| `HUB_DB_PASSWORD`, `HUB_PG_SUPERUSER_PASSWORD` | Local database |
+| `HUB_RELAY_SECRET`, `HUB_RELAY_URL` | Signing pushes to the relay |
+
+## Data and honesty rules
+
+- **Live data:** only crypto and currencies. Shares, funds, bonds and indexes use daily closing prices. Free sources do not allow showing live stock prices publicly; a licensed feed is needed for that.
+- **Time to sell** has two parts:
+  - **Order fills:** the measured network round trip for crypto and currencies; under 1 s in trading hours for exchanges.
+  - **Money is yours:** the market's settlement rule (US T+1, EU and UK T+2, India T+1), or for coins the measured block or finality time.
+- **Empty fields:** where no reliable figure exists, the site says "no data" instead of a made-up number.
 
 ## Before a public launch
 
-- **Yahoo Finance is not licensed for republishing.** For production, switch to a licensed feed (for example Twelve Data, Polygon or EOD Historical Data) or to official exchange and issuer data. Only the `yahoo()` function in `build_data.py` needs to change.
-- **Some research figures need checking at the source.** They were seen only in search results (HFR, BizBuySell, Card Ladder, WatchCharts, PCGS), and each one's `note` in `data/research/*.json` says so. The Knight Frank PDF link points to a third-party mirror and should be replaced with the official one.
-- **Photo licence.** crypto.jpg is CC BY-SA 2.0: the author's name still has to be added on the methodology page.
-- **Working name.** "kapitalog" is a placeholder and is set in one line in `assets/js/core.js` (`SITE.name`).
-- **Legal review.** The disclaimer and methodology pages exist; the legal check has not been done.
-
-## Structure
-
-```
-index.html        home: search, budget entry, return vs risk by group, groups, rankings, head-to-heads
-map.html          all 64 ways, filters by budget and risk
-class.html?g=     a group: equal-weight chart, ways table, tracked assets
-way.html?w=       a way: every figure with source, chart, assets, DeFi yields, deposits by country
-asset.html?id=    an asset: price, returns, risk, chart vs S&P 500, liquidity, $1,000 then vs now
-compare.html?ids= up to 4 assets side by side
-rankings.html     every tracked asset, sortable
-watchlist.html    saved in the browser (localStorage)
-methodology.html  definitions, trust levels, full source list, photo credits
-pipeline/         universe.py (what is tracked) + build_data.py (fetch and compute)
-data/             catalog.json, series.json (+ .js copies), research/*.json
-```
-
-To add an asset, add a line to `ASSETS` in `pipeline/universe.py` with any Yahoo symbol, then rebuild. House price countries go in `HOUSES` (BIS series ids from FRED).
-
-Palette: dark navy by default. The light palettes A, B and C can be switched in the footer, so the team can compare them on the real site.
+- Yahoo Finance data is not licensed for republishing; switch `Sources.yahoo()` to a licensed feed.
+- Some research figures were seen only in search results; each one's `note` in `data/research/*.json` says so.
+- crypto.jpg (CC BY-SA 2.0) still needs its author named on the methodology page.
+- "kapitalog" is a working name, set in `assets/js/core.js` (`SITE.name`).
+- The PC must stay on for live prices. When it is off, the site falls back to the daily snapshot. Moving to a server means the same jar, PostgreSQL and environment variables there.

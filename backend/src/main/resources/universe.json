@@ -1,0 +1,2149 @@
+{
+ "groups": [
+  {
+   "slug": "public",
+   "name": "Public markets",
+   "note": "Anyone with a brokerage account",
+   "img": "stocks.jpg",
+   "pos": "center",
+   "about": "Shares, funds, bonds, currencies and commodities that trade on exchanges. Prices are public every second, selling takes seconds and costs little."
+  },
+  {
+   "slug": "cash",
+   "name": "Cash and yield",
+   "note": "Low risk, paid for waiting",
+   "img": "cash.jpg",
+   "pos": "center 40%",
+   "about": "Money that earns interest or a share of income: deposits, money market funds, loans and royalties. Returns come mostly from payments, not price growth."
+  },
+  {
+   "slug": "crypto",
+   "name": "Crypto and on-chain",
+   "note": "Open around the clock",
+   "img": "crypto.jpg",
+   "pos": "center",
+   "about": "Coins and the on-chain ways to earn on them: staking, lending, liquidity pools, vaults. Trades 24/7, swings far harder than stocks."
+  },
+  {
+   "slug": "funds",
+   "name": "Funds and private markets",
+   "note": "Where most large fortunes sit",
+   "img": "funds.jpg",
+   "pos": "center",
+   "about": "Venture, private equity, hedge funds and private credit. High minimums, money locked for years; listed proxies show how the strategies move."
+  },
+  {
+   "slug": "property",
+   "name": "Property and land",
+   "note": "Slow to sell, easy to borrow against",
+   "img": "estate.jpg",
+   "pos": "center 45%",
+   "about": "Homes, commercial buildings, farmland and forest. Return is price growth plus rent; selling takes months and costs several percent."
+  },
+  {
+   "slug": "business",
+   "name": "Businesses",
+   "note": "You buy the cash flow, sometimes the job",
+   "img": "business.jpg",
+   "pos": "center",
+   "about": "Small companies, franchises, websites and domains. Priced as a multiple of yearly profit; often comes with work to do."
+  },
+  {
+   "slug": "collectibles",
+   "name": "Collectibles",
+   "note": "Scarce things people want to own",
+   "img": "cards.jpg",
+   "pos": "center 30%",
+   "about": "Cards, watches, art, wine, cars, LEGO and more. Prices come from auctions and marketplaces; fees to sell are high and fakes are a risk."
+  },
+  {
+   "slug": "games",
+   "name": "Games and digital items",
+   "note": "Markets that live inside games",
+   "img": "games.jpg",
+   "pos": "center",
+   "about": "Skins, cases, in-game currencies, rare accounts and virtual land. Markets are run by game publishers who can change the rules."
+  },
+  {
+   "slug": "sport",
+   "name": "Sport",
+   "note": "Football first, then everything else",
+   "img": "football.jpg",
+   "pos": "center 60%",
+   "about": "Listed club shares, player cards, match-worn shirts, racehorse shares. Prices react to results, transfers and trophies, not to interest rates."
+  }
+ ],
+ "ways": [
+  {
+   "name": "Stocks",
+   "group": "public",
+   "entry": 1,
+   "liq": 5,
+   "risk": "medium",
+   "desc": "Shares of single listed companies."
+  },
+  {
+   "name": "ETFs and index funds",
+   "group": "public",
+   "entry": 1,
+   "liq": 5,
+   "risk": "low",
+   "desc": "One fund that holds hundreds of stocks of a market or country."
+  },
+  {
+   "name": "Government bonds",
+   "group": "public",
+   "entry": 1,
+   "liq": 5,
+   "risk": "low",
+   "desc": "Loans to governments that pay fixed interest."
+  },
+  {
+   "name": "Corporate bonds",
+   "group": "public",
+   "entry": 2,
+   "liq": 4,
+   "risk": "low",
+   "desc": "Loans to companies; more interest than government bonds, more default risk."
+  },
+  {
+   "name": "Options and futures",
+   "group": "public",
+   "entry": 2,
+   "liq": 5,
+   "risk": "high",
+   "desc": "Contracts on future prices; shown here through option-income strategies."
+  },
+  {
+   "name": "Currencies",
+   "group": "public",
+   "entry": 1,
+   "liq": 5,
+   "risk": "high",
+   "desc": "Holding one currency against another."
+  },
+  {
+   "name": "Gold and commodities",
+   "group": "public",
+   "entry": 1,
+   "liq": 5,
+   "risk": "low",
+   "desc": "Gold, silver, copper, energy and farm goods, via exchange-traded funds."
+  },
+  {
+   "name": "Listed real estate funds",
+   "group": "public",
+   "entry": 1,
+   "liq": 5,
+   "risk": "low",
+   "desc": "REITs: companies that own buildings and pay out most of the rent."
+  },
+  {
+   "name": "Savings and deposits",
+   "group": "cash",
+   "entry": 1,
+   "liq": 5,
+   "risk": "low",
+   "desc": "Bank deposits. Real return = deposit rate minus inflation."
+  },
+  {
+   "name": "Money market funds",
+   "group": "cash",
+   "entry": 1,
+   "liq": 5,
+   "risk": "low",
+   "desc": "Funds holding short government debt; tracks central bank rates."
+  },
+  {
+   "name": "Peer-to-peer lending",
+   "group": "cash",
+   "entry": 1,
+   "liq": 2,
+   "risk": "high",
+   "desc": "Lending to people or small firms through a platform."
+  },
+  {
+   "name": "Private loans to businesses",
+   "group": "cash",
+   "entry": 3,
+   "liq": 1,
+   "risk": "medium",
+   "desc": "Direct loans to mid-sized companies; listed BDCs show the market."
+  },
+  {
+   "name": "Structured notes",
+   "group": "cash",
+   "entry": 3,
+   "liq": 2,
+   "risk": "medium",
+   "desc": "Bank-made products mixing a bond with an option payoff."
+  },
+  {
+   "name": "Royalties: music, books, patents",
+   "group": "cash",
+   "entry": 2,
+   "liq": 2,
+   "risk": "medium",
+   "desc": "A share of income from songs, books, drug patents or mines."
+  },
+  {
+   "name": "Coins and tokens",
+   "group": "crypto",
+   "entry": 1,
+   "liq": 5,
+   "risk": "high",
+   "desc": "Bitcoin, Ether and other cryptocurrencies."
+  },
+  {
+   "name": "Staking",
+   "group": "crypto",
+   "entry": 1,
+   "liq": 4,
+   "risk": "high",
+   "desc": "Locking coins to secure a network for a yield."
+  },
+  {
+   "name": "Lending and liquidity pools",
+   "group": "crypto",
+   "entry": 1,
+   "liq": 4,
+   "risk": "high",
+   "desc": "Lending coins or providing trading liquidity in DeFi protocols."
+  },
+  {
+   "name": "Market-making vaults",
+   "group": "crypto",
+   "entry": 2,
+   "liq": 3,
+   "risk": "high",
+   "desc": "Pooled vaults that run market-making or liquidation strategies."
+  },
+  {
+   "name": "Prediction markets",
+   "group": "crypto",
+   "entry": 1,
+   "liq": 4,
+   "risk": "high",
+   "desc": "Betting on real-world outcomes with tradable shares."
+  },
+  {
+   "name": "NFTs",
+   "group": "crypto",
+   "entry": 1,
+   "liq": 2,
+   "risk": "high",
+   "desc": "Unique on-chain tokens: art, collectibles, names."
+  },
+  {
+   "name": "Fan tokens",
+   "group": "crypto",
+   "entry": 1,
+   "liq": 4,
+   "risk": "high",
+   "desc": "Club-branded tokens with voting perks."
+  },
+  {
+   "name": "Node and validator ownership",
+   "group": "crypto",
+   "entry": 3,
+   "liq": 2,
+   "risk": "high",
+   "desc": "Running or owning validator nodes for network rewards."
+  },
+  {
+   "name": "Venture capital funds",
+   "group": "funds",
+   "entry": 4,
+   "liq": 1,
+   "risk": "high",
+   "desc": "Funds that back startups; money locked 10+ years."
+  },
+  {
+   "name": "Angel deals in startups",
+   "group": "funds",
+   "entry": 3,
+   "liq": 1,
+   "risk": "high",
+   "desc": "Investing directly in early-stage startups."
+  },
+  {
+   "name": "Private equity",
+   "group": "funds",
+   "entry": 4,
+   "liq": 1,
+   "risk": "medium",
+   "desc": "Buying whole companies, improving and selling them."
+  },
+  {
+   "name": "Hedge funds",
+   "group": "funds",
+   "entry": 4,
+   "liq": 2,
+   "risk": "medium",
+   "desc": "Funds using long/short, macro and other strategies."
+  },
+  {
+   "name": "Market-making and quant funds",
+   "group": "funds",
+   "entry": 4,
+   "liq": 2,
+   "risk": "medium",
+   "desc": "Systematic and trend-following funds."
+  },
+  {
+   "name": "Private credit funds",
+   "group": "funds",
+   "entry": 3,
+   "liq": 2,
+   "risk": "medium",
+   "desc": "Funds that lend directly to companies."
+  },
+  {
+   "name": "Pre-IPO shares",
+   "group": "funds",
+   "entry": 3,
+   "liq": 2,
+   "risk": "high",
+   "desc": "Shares of late-stage private companies before listing."
+  },
+  {
+   "name": "Funds of funds",
+   "group": "funds",
+   "entry": 4,
+   "liq": 1,
+   "risk": "medium",
+   "desc": "One fund investing in many private funds."
+  },
+  {
+   "name": "Equity crowdfunding",
+   "group": "funds",
+   "entry": 1,
+   "liq": 1,
+   "risk": "high",
+   "desc": "Small stakes in startups through online platforms."
+  },
+  {
+   "name": "Apartments and houses",
+   "group": "property",
+   "entry": 3,
+   "liq": 1,
+   "risk": "low",
+   "desc": "Residential property: price growth plus rent."
+  },
+  {
+   "name": "Rental property shares",
+   "group": "property",
+   "entry": 1,
+   "liq": 2,
+   "risk": "low",
+   "desc": "Fractions of rental homes or residential REITs."
+  },
+  {
+   "name": "Commercial property",
+   "group": "property",
+   "entry": 4,
+   "liq": 1,
+   "risk": "low",
+   "desc": "Offices, warehouses, shops, leased to businesses."
+  },
+  {
+   "name": "Farmland",
+   "group": "property",
+   "entry": 3,
+   "liq": 1,
+   "risk": "low",
+   "desc": "Agricultural land leased to farmers."
+  },
+  {
+   "name": "Forest and timber",
+   "group": "property",
+   "entry": 4,
+   "liq": 1,
+   "risk": "low",
+   "desc": "Forest land earning from timber harvests."
+  },
+  {
+   "name": "Parking and storage units",
+   "group": "property",
+   "entry": 3,
+   "liq": 1,
+   "risk": "medium",
+   "desc": "Parking spaces and self-storage units."
+  },
+  {
+   "name": "Property development projects",
+   "group": "property",
+   "entry": 3,
+   "liq": 1,
+   "risk": "high",
+   "desc": "Financing new construction for a share of profit or interest."
+  },
+  {
+   "name": "Buying a small business",
+   "group": "business",
+   "entry": 4,
+   "liq": 1,
+   "risk": "medium",
+   "desc": "Buying an existing profitable small company."
+  },
+  {
+   "name": "Franchises",
+   "group": "business",
+   "entry": 3,
+   "liq": 1,
+   "risk": "medium",
+   "desc": "Opening a unit of an existing brand."
+  },
+  {
+   "name": "Websites and online stores",
+   "group": "business",
+   "entry": 2,
+   "liq": 2,
+   "risk": "medium",
+   "desc": "Buying content sites, SaaS or e-commerce stores."
+  },
+  {
+   "name": "Domains",
+   "group": "business",
+   "entry": 1,
+   "liq": 2,
+   "risk": "high",
+   "desc": "Buying domain names to resell or lease."
+  },
+  {
+   "name": "Vending and laundromats",
+   "group": "business",
+   "entry": 3,
+   "liq": 1,
+   "risk": "medium",
+   "desc": "Machines and self-service businesses."
+  },
+  {
+   "name": "Revenue-share deals",
+   "group": "business",
+   "entry": 2,
+   "liq": 1,
+   "risk": "high",
+   "desc": "Funding a business for a share of its revenue."
+  },
+  {
+   "name": "Trading cards",
+   "group": "collectibles",
+   "entry": 1,
+   "liq": 2,
+   "risk": "high",
+   "desc": "Graded sports and game cards."
+  },
+  {
+   "name": "Watches",
+   "group": "collectibles",
+   "entry": 2,
+   "liq": 3,
+   "risk": "medium",
+   "desc": "Luxury watches on the secondary market."
+  },
+  {
+   "name": "Sneakers",
+   "group": "collectibles",
+   "entry": 1,
+   "liq": 3,
+   "risk": "high",
+   "desc": "Limited sneakers resold on marketplaces."
+  },
+  {
+   "name": "Art",
+   "group": "collectibles",
+   "entry": 2,
+   "liq": 1,
+   "risk": "medium",
+   "desc": "Paintings, prints and sculpture at auction."
+  },
+  {
+   "name": "Wine and whisky",
+   "group": "collectibles",
+   "entry": 2,
+   "liq": 2,
+   "risk": "medium",
+   "desc": "Fine wine and rare whisky held in bond."
+  },
+  {
+   "name": "Classic cars",
+   "group": "collectibles",
+   "entry": 3,
+   "liq": 1,
+   "risk": "medium",
+   "desc": "Collector cars."
+  },
+  {
+   "name": "LEGO sets",
+   "group": "collectibles",
+   "entry": 1,
+   "liq": 2,
+   "risk": "medium",
+   "desc": "Sealed retired LEGO sets."
+  },
+  {
+   "name": "Coins and banknotes",
+   "group": "collectibles",
+   "entry": 1,
+   "liq": 2,
+   "risk": "medium",
+   "desc": "Rare coins and notes."
+  },
+  {
+   "name": "Comics",
+   "group": "collectibles",
+   "entry": 1,
+   "liq": 2,
+   "risk": "high",
+   "desc": "Graded key-issue comic books."
+  },
+  {
+   "name": "Handbags",
+   "group": "collectibles",
+   "entry": 2,
+   "liq": 3,
+   "risk": "medium",
+   "desc": "Hermès, Chanel and other collectible bags."
+  },
+  {
+   "name": "Jewellery and gemstones",
+   "group": "collectibles",
+   "entry": 2,
+   "liq": 1,
+   "risk": "medium",
+   "desc": "Jewellery, coloured diamonds and gems."
+  },
+  {
+   "name": "Skins and cases",
+   "group": "games",
+   "entry": 1,
+   "liq": 3,
+   "risk": "high",
+   "desc": "CS2 and other game skins traded on markets."
+  },
+  {
+   "name": "In-game currencies",
+   "group": "games",
+   "entry": 1,
+   "liq": 3,
+   "risk": "high",
+   "desc": "Currencies inside games, traded for real money."
+  },
+  {
+   "name": "Game accounts and rare items",
+   "group": "games",
+   "entry": 1,
+   "liq": 2,
+   "risk": "high",
+   "desc": "Accounts and rare items; often against game rules."
+  },
+  {
+   "name": "Virtual land",
+   "group": "games",
+   "entry": 1,
+   "liq": 1,
+   "risk": "high",
+   "desc": "Land in metaverse worlds, priced in their tokens."
+  },
+  {
+   "name": "Club shares",
+   "group": "sport",
+   "entry": 1,
+   "liq": 5,
+   "risk": "high",
+   "desc": "Shares of football clubs listed on stock exchanges."
+  },
+  {
+   "name": "Player cards",
+   "group": "sport",
+   "entry": 1,
+   "liq": 2,
+   "risk": "high",
+   "desc": "Graded football and other sport cards."
+  },
+  {
+   "name": "Match-worn shirts and memorabilia",
+   "group": "sport",
+   "entry": 2,
+   "liq": 1,
+   "risk": "high",
+   "desc": "Shirts, balls and items with provenance."
+  },
+  {
+   "name": "Racehorse shares",
+   "group": "sport",
+   "entry": 2,
+   "liq": 1,
+   "risk": "high",
+   "desc": "Shares in racehorses through syndicates."
+  },
+  {
+   "name": "Athlete income deals",
+   "group": "sport",
+   "entry": 3,
+   "liq": 1,
+   "risk": "high",
+   "desc": "Funding athletes for a share of future earnings."
+  }
+ ],
+ "assets": [
+  {
+   "id": "vt",
+   "name": "Vanguard Total World Stock ETF",
+   "symbol": "VT",
+   "source": "yahoo",
+   "way": "ETFs and index funds",
+   "sub": "World · all stocks",
+   "min": "$1"
+  },
+  {
+   "id": "spy",
+   "name": "S&P 500 ETF (SPY)",
+   "symbol": "SPY",
+   "source": "yahoo",
+   "way": "ETFs and index funds",
+   "sub": "USA · 500 largest",
+   "min": "$1"
+  },
+  {
+   "id": "qqq",
+   "name": "Nasdaq-100 ETF (QQQ)",
+   "symbol": "QQQ",
+   "source": "yahoo",
+   "way": "ETFs and index funds",
+   "sub": "USA · tech-heavy",
+   "min": "$1"
+  },
+  {
+   "id": "vea",
+   "name": "Developed markets ex-US ETF",
+   "symbol": "VEA",
+   "source": "yahoo",
+   "way": "ETFs and index funds",
+   "sub": "Europe, Japan, Pacific",
+   "min": "$1"
+  },
+  {
+   "id": "eem",
+   "name": "Emerging markets ETF",
+   "symbol": "EEM",
+   "source": "yahoo",
+   "way": "ETFs and index funds",
+   "sub": "Emerging markets",
+   "min": "$1"
+  },
+  {
+   "id": "ewu",
+   "name": "UK stocks ETF",
+   "symbol": "EWU",
+   "source": "yahoo",
+   "way": "ETFs and index funds",
+   "sub": "United Kingdom",
+   "min": "$1"
+  },
+  {
+   "id": "ewg",
+   "name": "Germany stocks ETF",
+   "symbol": "EWG",
+   "source": "yahoo",
+   "way": "ETFs and index funds",
+   "sub": "Germany",
+   "min": "$1"
+  },
+  {
+   "id": "ewj",
+   "name": "Japan stocks ETF",
+   "symbol": "EWJ",
+   "source": "yahoo",
+   "way": "ETFs and index funds",
+   "sub": "Japan",
+   "min": "$1"
+  },
+  {
+   "id": "inda",
+   "name": "India stocks ETF",
+   "symbol": "INDA",
+   "source": "yahoo",
+   "way": "ETFs and index funds",
+   "sub": "India",
+   "min": "$1"
+  },
+  {
+   "id": "mchi",
+   "name": "China stocks ETF",
+   "symbol": "MCHI",
+   "source": "yahoo",
+   "way": "ETFs and index funds",
+   "sub": "China",
+   "min": "$1"
+  },
+  {
+   "id": "ewz",
+   "name": "Brazil stocks ETF",
+   "symbol": "EWZ",
+   "source": "yahoo",
+   "way": "ETFs and index funds",
+   "sub": "Brazil",
+   "min": "$1"
+  },
+  {
+   "id": "epol",
+   "name": "Poland stocks ETF",
+   "symbol": "EPOL",
+   "source": "yahoo",
+   "way": "ETFs and index funds",
+   "sub": "Poland",
+   "min": "$1"
+  },
+  {
+   "id": "aapl",
+   "name": "Apple",
+   "symbol": "AAPL",
+   "source": "yahoo",
+   "way": "Stocks",
+   "sub": "USA · technology",
+   "min": "$1"
+  },
+  {
+   "id": "msft",
+   "name": "Microsoft",
+   "symbol": "MSFT",
+   "source": "yahoo",
+   "way": "Stocks",
+   "sub": "USA · technology",
+   "min": "$1"
+  },
+  {
+   "id": "nvda",
+   "name": "Nvidia",
+   "symbol": "NVDA",
+   "source": "yahoo",
+   "way": "Stocks",
+   "sub": "USA · chips",
+   "min": "$1"
+  },
+  {
+   "id": "amzn",
+   "name": "Amazon",
+   "symbol": "AMZN",
+   "source": "yahoo",
+   "way": "Stocks",
+   "sub": "USA · retail, cloud",
+   "min": "$1"
+  },
+  {
+   "id": "googl",
+   "name": "Alphabet",
+   "symbol": "GOOGL",
+   "source": "yahoo",
+   "way": "Stocks",
+   "sub": "USA · internet",
+   "min": "$1"
+  },
+  {
+   "id": "tsla",
+   "name": "Tesla",
+   "symbol": "TSLA",
+   "source": "yahoo",
+   "way": "Stocks",
+   "sub": "USA · cars",
+   "min": "$1"
+  },
+  {
+   "id": "brk",
+   "name": "Berkshire Hathaway B",
+   "symbol": "BRK-B",
+   "source": "yahoo",
+   "way": "Stocks",
+   "sub": "USA · conglomerate",
+   "min": "$1"
+  },
+  {
+   "id": "tsm",
+   "name": "TSMC",
+   "symbol": "TSM",
+   "source": "yahoo",
+   "way": "Stocks",
+   "sub": "Taiwan · chips",
+   "min": "$1"
+  },
+  {
+   "id": "asml",
+   "name": "ASML",
+   "symbol": "ASML",
+   "source": "yahoo",
+   "way": "Stocks",
+   "sub": "Netherlands · chip machines",
+   "min": "$1"
+  },
+  {
+   "id": "nvo",
+   "name": "Novo Nordisk",
+   "symbol": "NVO",
+   "source": "yahoo",
+   "way": "Stocks",
+   "sub": "Denmark · pharma",
+   "min": "$1"
+  },
+  {
+   "id": "govt",
+   "name": "US Treasury bond ETF",
+   "symbol": "GOVT",
+   "source": "yahoo",
+   "way": "Government bonds",
+   "sub": "USA · all maturities",
+   "min": "$1"
+  },
+  {
+   "id": "tlt",
+   "name": "US 20+ year Treasury ETF",
+   "symbol": "TLT",
+   "source": "yahoo",
+   "way": "Government bonds",
+   "sub": "USA · long bonds",
+   "min": "$1"
+  },
+  {
+   "id": "bwx",
+   "name": "International government bond ETF",
+   "symbol": "BWX",
+   "source": "yahoo",
+   "way": "Government bonds",
+   "sub": "Ex-US, local currencies",
+   "min": "$1"
+  },
+  {
+   "id": "emb",
+   "name": "Emerging market bond ETF",
+   "symbol": "EMB",
+   "source": "yahoo",
+   "way": "Government bonds",
+   "sub": "Emerging markets, USD",
+   "min": "$1"
+  },
+  {
+   "id": "lqd",
+   "name": "Investment-grade corporate bond ETF",
+   "symbol": "LQD",
+   "source": "yahoo",
+   "way": "Corporate bonds",
+   "sub": "USA · high grade",
+   "min": "$1"
+  },
+  {
+   "id": "hyg",
+   "name": "High-yield corporate bond ETF",
+   "symbol": "HYG",
+   "source": "yahoo",
+   "way": "Corporate bonds",
+   "sub": "USA · junk bonds",
+   "min": "$1"
+  },
+  {
+   "id": "qyld",
+   "name": "Nasdaq-100 covered call ETF",
+   "symbol": "QYLD",
+   "source": "yahoo",
+   "way": "Options and futures",
+   "sub": "Option income fund",
+   "min": "$1"
+  },
+  {
+   "id": "eurusd",
+   "name": "Euro / US dollar",
+   "symbol": "EURUSD=X",
+   "source": "yahoo",
+   "way": "Currencies",
+   "sub": "FX pair",
+   "min": "$1"
+  },
+  {
+   "id": "gbpusd",
+   "name": "British pound / US dollar",
+   "symbol": "GBPUSD=X",
+   "source": "yahoo",
+   "way": "Currencies",
+   "sub": "FX pair",
+   "min": "$1"
+  },
+  {
+   "id": "usdjpy",
+   "name": "US dollar / Japanese yen",
+   "symbol": "JPY=X",
+   "source": "yahoo",
+   "way": "Currencies",
+   "sub": "FX pair",
+   "min": "$1"
+  },
+  {
+   "id": "usdchf",
+   "name": "US dollar / Swiss franc",
+   "symbol": "CHF=X",
+   "source": "yahoo",
+   "way": "Currencies",
+   "sub": "FX pair",
+   "min": "$1"
+  },
+  {
+   "id": "dxy",
+   "name": "US dollar index",
+   "symbol": "DX-Y.NYB",
+   "source": "yahoo",
+   "way": "Currencies",
+   "sub": "USD vs six currencies",
+   "min": "n/a (index)"
+  },
+  {
+   "id": "gld",
+   "name": "Gold (SPDR Gold Shares)",
+   "symbol": "GLD",
+   "source": "yahoo",
+   "way": "Gold and commodities",
+   "sub": "Physical gold",
+   "min": "$1"
+  },
+  {
+   "id": "slv",
+   "name": "Silver (iShares Silver Trust)",
+   "symbol": "SLV",
+   "source": "yahoo",
+   "way": "Gold and commodities",
+   "sub": "Physical silver",
+   "min": "$1"
+  },
+  {
+   "id": "pplt",
+   "name": "Platinum ETF",
+   "symbol": "PPLT",
+   "source": "yahoo",
+   "way": "Gold and commodities",
+   "sub": "Physical platinum",
+   "min": "$1"
+  },
+  {
+   "id": "cper",
+   "name": "Copper ETF",
+   "symbol": "CPER",
+   "source": "yahoo",
+   "way": "Gold and commodities",
+   "sub": "Copper futures",
+   "min": "$1"
+  },
+  {
+   "id": "dbc",
+   "name": "Broad commodities ETF",
+   "symbol": "DBC",
+   "source": "yahoo",
+   "way": "Gold and commodities",
+   "sub": "Energy, metals, farm",
+   "min": "$1"
+  },
+  {
+   "id": "vnq",
+   "name": "US real estate ETF (VNQ)",
+   "symbol": "VNQ",
+   "source": "yahoo",
+   "way": "Listed real estate funds",
+   "sub": "USA · REITs",
+   "min": "$1"
+  },
+  {
+   "id": "reet",
+   "name": "Global REIT ETF",
+   "symbol": "REET",
+   "source": "yahoo",
+   "way": "Listed real estate funds",
+   "sub": "World · REITs",
+   "min": "$1"
+  },
+  {
+   "id": "vnqi",
+   "name": "International real estate ETF",
+   "symbol": "VNQI",
+   "source": "yahoo",
+   "way": "Listed real estate funds",
+   "sub": "Ex-US · REITs",
+   "min": "$1"
+  },
+  {
+   "id": "bil",
+   "name": "1-3 month T-bill ETF",
+   "symbol": "BIL",
+   "source": "yahoo",
+   "way": "Money market funds",
+   "sub": "USA · cash equivalent",
+   "min": "$1"
+  },
+  {
+   "id": "sgov",
+   "name": "0-3 month Treasury ETF",
+   "symbol": "SGOV",
+   "source": "yahoo",
+   "way": "Money market funds",
+   "sub": "USA · cash equivalent",
+   "min": "$1"
+  },
+  {
+   "id": "bizd",
+   "name": "BDC income ETF",
+   "symbol": "BIZD",
+   "source": "yahoo",
+   "way": "Private loans to businesses",
+   "sub": "Listed business lenders",
+   "min": "$1"
+  },
+  {
+   "id": "rprx",
+   "name": "Royalty Pharma",
+   "symbol": "RPRX",
+   "source": "yahoo",
+   "way": "Royalties: music, books, patents",
+   "sub": "Drug patent royalties",
+   "min": "$1"
+  },
+  {
+   "id": "fnv",
+   "name": "Franco-Nevada",
+   "symbol": "FNV",
+   "source": "yahoo",
+   "way": "Royalties: music, books, patents",
+   "sub": "Mining royalties",
+   "min": "$1"
+  },
+  {
+   "id": "btc",
+   "name": "Bitcoin",
+   "symbol": "BTC-USD",
+   "source": "yahoo",
+   "way": "Coins and tokens",
+   "sub": "Coin",
+   "min": "$1"
+  },
+  {
+   "id": "eth",
+   "name": "Ether",
+   "symbol": "ETH-USD",
+   "source": "yahoo",
+   "way": "Coins and tokens",
+   "sub": "Coin",
+   "min": "$1"
+  },
+  {
+   "id": "sol",
+   "name": "Solana",
+   "symbol": "SOL-USD",
+   "source": "yahoo",
+   "way": "Coins and tokens",
+   "sub": "Coin",
+   "min": "$1"
+  },
+  {
+   "id": "xrp",
+   "name": "XRP",
+   "symbol": "XRP-USD",
+   "source": "yahoo",
+   "way": "Coins and tokens",
+   "sub": "Coin",
+   "min": "$1"
+  },
+  {
+   "id": "bnb",
+   "name": "BNB",
+   "symbol": "BNB-USD",
+   "source": "yahoo",
+   "way": "Coins and tokens",
+   "sub": "Coin",
+   "min": "$1"
+  },
+  {
+   "id": "doge",
+   "name": "Dogecoin",
+   "symbol": "DOGE-USD",
+   "source": "yahoo",
+   "way": "Coins and tokens",
+   "sub": "Coin",
+   "min": "$1"
+  },
+  {
+   "id": "ada",
+   "name": "Cardano",
+   "symbol": "ADA-USD",
+   "source": "yahoo",
+   "way": "Coins and tokens",
+   "sub": "Coin",
+   "min": "$1"
+  },
+  {
+   "id": "chz",
+   "name": "Chiliz (fan token platform)",
+   "symbol": "CHZ-USD",
+   "source": "yahoo",
+   "way": "Fan tokens",
+   "sub": "Token behind Socios fan tokens",
+   "min": "$1"
+  },
+  {
+   "id": "psp",
+   "name": "Listed private equity ETF",
+   "symbol": "PSP",
+   "source": "yahoo",
+   "way": "Private equity",
+   "sub": "Listed PE firms and funds",
+   "min": "$1"
+  },
+  {
+   "id": "qai",
+   "name": "Hedge fund replication ETF",
+   "symbol": "QAI",
+   "source": "yahoo",
+   "way": "Hedge funds",
+   "sub": "Tracks hedge fund index returns",
+   "min": "$1"
+  },
+  {
+   "id": "dbmf",
+   "name": "Managed futures ETF",
+   "symbol": "DBMF",
+   "source": "yahoo",
+   "way": "Market-making and quant funds",
+   "sub": "Replicates trend-following funds",
+   "min": "$1"
+  },
+  {
+   "id": "arcc",
+   "name": "Ares Capital",
+   "symbol": "ARCC",
+   "source": "yahoo",
+   "way": "Private credit funds",
+   "sub": "Largest listed private credit lender",
+   "min": "$1"
+  },
+  {
+   "id": "dxyz",
+   "name": "Destiny Tech100",
+   "symbol": "DXYZ",
+   "source": "yahoo",
+   "way": "Pre-IPO shares",
+   "sub": "Listed fund of private tech companies",
+   "min": "$1"
+  },
+  {
+   "id": "rez",
+   "name": "Residential REIT ETF",
+   "symbol": "REZ",
+   "source": "yahoo",
+   "way": "Rental property shares",
+   "sub": "USA · apartments, homes",
+   "min": "$1"
+  },
+  {
+   "id": "o",
+   "name": "Realty Income",
+   "symbol": "O",
+   "source": "yahoo",
+   "way": "Commercial property",
+   "sub": "USA, Europe · retail leases",
+   "min": "$1"
+  },
+  {
+   "id": "pld",
+   "name": "Prologis",
+   "symbol": "PLD",
+   "source": "yahoo",
+   "way": "Commercial property",
+   "sub": "World · warehouses",
+   "min": "$1"
+  },
+  {
+   "id": "fpi",
+   "name": "Farmland Partners",
+   "symbol": "FPI",
+   "source": "yahoo",
+   "way": "Farmland",
+   "sub": "USA · farmland owner",
+   "min": "$1"
+  },
+  {
+   "id": "wood",
+   "name": "Global timber ETF",
+   "symbol": "WOOD",
+   "source": "yahoo",
+   "way": "Forest and timber",
+   "sub": "World · forestry companies",
+   "min": "$1"
+  },
+  {
+   "id": "psa",
+   "name": "Public Storage",
+   "symbol": "PSA",
+   "source": "yahoo",
+   "way": "Parking and storage units",
+   "sub": "USA · self-storage",
+   "min": "$1"
+  },
+  {
+   "id": "mana",
+   "name": "Decentraland (MANA)",
+   "symbol": "MANA-USD",
+   "source": "yahoo",
+   "way": "Virtual land",
+   "sub": "Metaverse land token",
+   "min": "$1"
+  },
+  {
+   "id": "sand",
+   "name": "The Sandbox (SAND)",
+   "symbol": "SAND-USD",
+   "source": "yahoo",
+   "way": "Virtual land",
+   "sub": "Metaverse land token",
+   "min": "$1"
+  },
+  {
+   "id": "manu",
+   "name": "Manchester United",
+   "symbol": "MANU",
+   "source": "yahoo",
+   "way": "Club shares",
+   "sub": "England · NYSE",
+   "min": "$1"
+  },
+  {
+   "id": "juve",
+   "name": "Juventus",
+   "symbol": "JUVE.MI",
+   "source": "yahoo",
+   "way": "Club shares",
+   "sub": "Italy · Milan",
+   "min": "€1"
+  },
+  {
+   "id": "bvb",
+   "name": "Borussia Dortmund",
+   "symbol": "BVB.DE",
+   "source": "yahoo",
+   "way": "Club shares",
+   "sub": "Germany · Frankfurt",
+   "min": "€1"
+  },
+  {
+   "id": "ajax",
+   "name": "Ajax",
+   "symbol": "AJAX.AS",
+   "source": "yahoo",
+   "way": "Club shares",
+   "sub": "Netherlands · Amsterdam",
+   "min": "€1"
+  },
+  {
+   "id": "celtic",
+   "name": "Celtic",
+   "symbol": "CCP.L",
+   "source": "yahoo",
+   "way": "Club shares",
+   "sub": "Scotland · London",
+   "min": "£1"
+  },
+  {
+   "id": "benfica",
+   "name": "Benfica",
+   "symbol": "SLBEN.LS",
+   "source": "yahoo",
+   "way": "Club shares",
+   "sub": "Portugal · Lisbon",
+   "min": "€1"
+  },
+  {
+   "id": "porto",
+   "name": "FC Porto",
+   "symbol": "FCP.LS",
+   "source": "yahoo",
+   "way": "Club shares",
+   "sub": "Portugal · Lisbon",
+   "min": "€1"
+  },
+  {
+   "id": "lazio",
+   "name": "Lazio",
+   "symbol": "SSL.MI",
+   "source": "yahoo",
+   "way": "Club shares",
+   "sub": "Italy · Milan",
+   "min": "€1"
+  },
+  {
+   "id": "gala",
+   "name": "Galatasaray",
+   "symbol": "GSRAY.IS",
+   "source": "yahoo",
+   "way": "Club shares",
+   "sub": "Turkey · Istanbul",
+   "min": "₺1"
+  },
+  {
+   "id": "fener",
+   "name": "Fenerbahçe",
+   "symbol": "FENER.IS",
+   "source": "yahoo",
+   "way": "Club shares",
+   "sub": "Turkey · Istanbul",
+   "min": "₺1"
+  },
+  {
+   "id": "msgs",
+   "name": "Madison Square Garden Sports",
+   "symbol": "MSGS",
+   "source": "yahoo",
+   "way": "Club shares",
+   "sub": "USA · Knicks, Rangers",
+   "min": "$1"
+  },
+  {
+   "id": "meta",
+   "name": "Meta Platforms",
+   "symbol": "META",
+   "source": "yahoo",
+   "way": "Stocks",
+   "sub": "USA · internet",
+   "min": "$1"
+  },
+  {
+   "id": "avgo",
+   "name": "Broadcom",
+   "symbol": "AVGO",
+   "source": "yahoo",
+   "way": "Stocks",
+   "sub": "USA · chips",
+   "min": "$1"
+  },
+  {
+   "id": "jpm",
+   "name": "JPMorgan Chase",
+   "symbol": "JPM",
+   "source": "yahoo",
+   "way": "Stocks",
+   "sub": "USA · bank",
+   "min": "$1"
+  },
+  {
+   "id": "v",
+   "name": "Visa",
+   "symbol": "V",
+   "source": "yahoo",
+   "way": "Stocks",
+   "sub": "USA · payments",
+   "min": "$1"
+  },
+  {
+   "id": "lly",
+   "name": "Eli Lilly",
+   "symbol": "LLY",
+   "source": "yahoo",
+   "way": "Stocks",
+   "sub": "USA · pharma",
+   "min": "$1"
+  },
+  {
+   "id": "wmt",
+   "name": "Walmart",
+   "symbol": "WMT",
+   "source": "yahoo",
+   "way": "Stocks",
+   "sub": "USA · retail",
+   "min": "$1"
+  },
+  {
+   "id": "xom",
+   "name": "Exxon Mobil",
+   "symbol": "XOM",
+   "source": "yahoo",
+   "way": "Stocks",
+   "sub": "USA · oil",
+   "min": "$1"
+  },
+  {
+   "id": "cost",
+   "name": "Costco",
+   "symbol": "COST",
+   "source": "yahoo",
+   "way": "Stocks",
+   "sub": "USA · retail",
+   "min": "$1"
+  },
+  {
+   "id": "nflx",
+   "name": "Netflix",
+   "symbol": "NFLX",
+   "source": "yahoo",
+   "way": "Stocks",
+   "sub": "USA · streaming",
+   "min": "$1"
+  },
+  {
+   "id": "sap",
+   "name": "SAP",
+   "symbol": "SAP",
+   "source": "yahoo",
+   "way": "Stocks",
+   "sub": "Germany · software",
+   "min": "$1"
+  },
+  {
+   "id": "tm",
+   "name": "Toyota",
+   "symbol": "TM",
+   "source": "yahoo",
+   "way": "Stocks",
+   "sub": "Japan · cars",
+   "min": "$1"
+  },
+  {
+   "id": "shel",
+   "name": "Shell",
+   "symbol": "SHEL",
+   "source": "yahoo",
+   "way": "Stocks",
+   "sub": "UK · oil",
+   "min": "$1"
+  },
+  {
+   "id": "baba",
+   "name": "Alibaba",
+   "symbol": "BABA",
+   "source": "yahoo",
+   "way": "Stocks",
+   "sub": "China · e-commerce",
+   "min": "$1"
+  },
+  {
+   "id": "tcehy",
+   "name": "Tencent",
+   "symbol": "0700.HK",
+   "source": "yahoo",
+   "way": "Stocks",
+   "sub": "China · games, social",
+   "min": "HK$ board lot"
+  },
+  {
+   "id": "samsung",
+   "name": "Samsung Electronics",
+   "symbol": "005930.KS",
+   "source": "yahoo",
+   "way": "Stocks",
+   "sub": "South Korea · chips",
+   "min": "₩1 share"
+  },
+  {
+   "id": "lvmh",
+   "name": "LVMH",
+   "symbol": "MC.PA",
+   "source": "yahoo",
+   "way": "Stocks",
+   "sub": "France · luxury",
+   "min": "€1 share"
+  },
+  {
+   "id": "nestle",
+   "name": "Nestlé",
+   "symbol": "NESN.SW",
+   "source": "yahoo",
+   "way": "Stocks",
+   "sub": "Switzerland · food",
+   "min": "CHF1 share"
+  },
+  {
+   "id": "reliance",
+   "name": "Reliance Industries",
+   "symbol": "RELIANCE.NS",
+   "source": "yahoo",
+   "way": "Stocks",
+   "sub": "India · conglomerate",
+   "min": "₹1 share"
+  },
+  {
+   "id": "aramco",
+   "name": "Saudi Aramco",
+   "symbol": "2222.SR",
+   "source": "yahoo",
+   "way": "Stocks",
+   "sub": "Saudi Arabia · oil",
+   "min": "SAR1 share"
+  },
+  {
+   "id": "hsbc",
+   "name": "HSBC",
+   "symbol": "HSBA.L",
+   "source": "yahoo",
+   "way": "Stocks",
+   "sub": "UK · bank",
+   "min": "£1 share"
+  },
+  {
+   "id": "ewc",
+   "name": "Canada stocks ETF",
+   "symbol": "EWC",
+   "source": "yahoo",
+   "way": "ETFs and index funds",
+   "sub": "Canada",
+   "min": "$1"
+  },
+  {
+   "id": "ewa",
+   "name": "Australia stocks ETF",
+   "symbol": "EWA",
+   "source": "yahoo",
+   "way": "ETFs and index funds",
+   "sub": "Australia",
+   "min": "$1"
+  },
+  {
+   "id": "ewy",
+   "name": "South Korea stocks ETF",
+   "symbol": "EWY",
+   "source": "yahoo",
+   "way": "ETFs and index funds",
+   "sub": "South Korea",
+   "min": "$1"
+  },
+  {
+   "id": "ewt",
+   "name": "Taiwan stocks ETF",
+   "symbol": "EWT",
+   "source": "yahoo",
+   "way": "ETFs and index funds",
+   "sub": "Taiwan",
+   "min": "$1"
+  },
+  {
+   "id": "ewl",
+   "name": "Switzerland stocks ETF",
+   "symbol": "EWL",
+   "source": "yahoo",
+   "way": "ETFs and index funds",
+   "sub": "Switzerland",
+   "min": "$1"
+  },
+  {
+   "id": "ewq",
+   "name": "France stocks ETF",
+   "symbol": "EWQ",
+   "source": "yahoo",
+   "way": "ETFs and index funds",
+   "sub": "France",
+   "min": "$1"
+  },
+  {
+   "id": "ewi",
+   "name": "Italy stocks ETF",
+   "symbol": "EWI",
+   "source": "yahoo",
+   "way": "ETFs and index funds",
+   "sub": "Italy",
+   "min": "$1"
+  },
+  {
+   "id": "ewp",
+   "name": "Spain stocks ETF",
+   "symbol": "EWP",
+   "source": "yahoo",
+   "way": "ETFs and index funds",
+   "sub": "Spain",
+   "min": "$1"
+  },
+  {
+   "id": "ewn",
+   "name": "Netherlands stocks ETF",
+   "symbol": "EWN",
+   "source": "yahoo",
+   "way": "ETFs and index funds",
+   "sub": "Netherlands",
+   "min": "$1"
+  },
+  {
+   "id": "eww",
+   "name": "Mexico stocks ETF",
+   "symbol": "EWW",
+   "source": "yahoo",
+   "way": "ETFs and index funds",
+   "sub": "Mexico",
+   "min": "$1"
+  },
+  {
+   "id": "eido",
+   "name": "Indonesia stocks ETF",
+   "symbol": "EIDO",
+   "source": "yahoo",
+   "way": "ETFs and index funds",
+   "sub": "Indonesia",
+   "min": "$1"
+  },
+  {
+   "id": "tur",
+   "name": "Turkey stocks ETF",
+   "symbol": "TUR",
+   "source": "yahoo",
+   "way": "ETFs and index funds",
+   "sub": "Turkey",
+   "min": "$1"
+  },
+  {
+   "id": "ksa",
+   "name": "Saudi Arabia stocks ETF",
+   "symbol": "KSA",
+   "source": "yahoo",
+   "way": "ETFs and index funds",
+   "sub": "Saudi Arabia",
+   "min": "$1"
+  },
+  {
+   "id": "eza",
+   "name": "South Africa stocks ETF",
+   "symbol": "EZA",
+   "source": "yahoo",
+   "way": "ETFs and index funds",
+   "sub": "South Africa",
+   "min": "$1"
+  },
+  {
+   "id": "vnm",
+   "name": "Vietnam stocks ETF",
+   "symbol": "VNM",
+   "source": "yahoo",
+   "way": "ETFs and index funds",
+   "sub": "Vietnam",
+   "min": "$1"
+  },
+  {
+   "id": "argt",
+   "name": "Argentina stocks ETF",
+   "symbol": "ARGT",
+   "source": "yahoo",
+   "way": "ETFs and index funds",
+   "sub": "Argentina",
+   "min": "$1"
+  },
+  {
+   "id": "tip",
+   "name": "US inflation-linked bond ETF",
+   "symbol": "TIP",
+   "source": "yahoo",
+   "way": "Government bonds",
+   "sub": "USA · TIPS",
+   "min": "$1"
+  },
+  {
+   "id": "bndx",
+   "name": "International bond ETF (USD-hedged)",
+   "symbol": "BNDX",
+   "source": "yahoo",
+   "way": "Government bonds",
+   "sub": "Ex-US, hedged",
+   "min": "$1"
+  },
+  {
+   "id": "uso",
+   "name": "Oil (US Oil Fund)",
+   "symbol": "USO",
+   "source": "yahoo",
+   "way": "Gold and commodities",
+   "sub": "WTI crude futures",
+   "min": "$1"
+  },
+  {
+   "id": "ung",
+   "name": "Natural gas fund",
+   "symbol": "UNG",
+   "source": "yahoo",
+   "way": "Gold and commodities",
+   "sub": "US natural gas futures",
+   "min": "$1"
+  },
+  {
+   "id": "weat",
+   "name": "Wheat fund",
+   "symbol": "WEAT",
+   "source": "yahoo",
+   "way": "Gold and commodities",
+   "sub": "Wheat futures",
+   "min": "$1"
+  },
+  {
+   "id": "ura",
+   "name": "Uranium miners ETF",
+   "symbol": "URA",
+   "source": "yahoo",
+   "way": "Gold and commodities",
+   "sub": "Uranium",
+   "min": "$1"
+  },
+  {
+   "id": "audusd",
+   "name": "Australian dollar / US dollar",
+   "symbol": "AUDUSD=X",
+   "source": "yahoo",
+   "way": "Currencies",
+   "sub": "FX pair",
+   "min": "$1"
+  },
+  {
+   "id": "usdcad",
+   "name": "US dollar / Canadian dollar",
+   "symbol": "CAD=X",
+   "source": "yahoo",
+   "way": "Currencies",
+   "sub": "FX pair",
+   "min": "$1"
+  },
+  {
+   "id": "trx",
+   "name": "TRON",
+   "symbol": "TRX-USD",
+   "source": "yahoo",
+   "way": "Coins and tokens",
+   "sub": "Coin",
+   "min": "$1"
+  },
+  {
+   "id": "avax",
+   "name": "Avalanche",
+   "symbol": "AVAX-USD",
+   "source": "yahoo",
+   "way": "Coins and tokens",
+   "sub": "Coin",
+   "min": "$1"
+  },
+  {
+   "id": "link",
+   "name": "Chainlink",
+   "symbol": "LINK-USD",
+   "source": "yahoo",
+   "way": "Coins and tokens",
+   "sub": "Token",
+   "min": "$1"
+  },
+  {
+   "id": "dot",
+   "name": "Polkadot",
+   "symbol": "DOT-USD",
+   "source": "yahoo",
+   "way": "Coins and tokens",
+   "sub": "Coin",
+   "min": "$1"
+  },
+  {
+   "id": "ltc",
+   "name": "Litecoin",
+   "symbol": "LTC-USD",
+   "source": "yahoo",
+   "way": "Coins and tokens",
+   "sub": "Coin",
+   "min": "$1"
+  },
+  {
+   "id": "bch",
+   "name": "Bitcoin Cash",
+   "symbol": "BCH-USD",
+   "source": "yahoo",
+   "way": "Coins and tokens",
+   "sub": "Coin",
+   "min": "$1"
+  },
+  {
+   "id": "xlm",
+   "name": "Stellar",
+   "symbol": "XLM-USD",
+   "source": "yahoo",
+   "way": "Coins and tokens",
+   "sub": "Coin",
+   "min": "$1"
+  },
+  {
+   "id": "shib",
+   "name": "Shiba Inu",
+   "symbol": "SHIB-USD",
+   "source": "yahoo",
+   "way": "Coins and tokens",
+   "sub": "Token",
+   "min": "$1"
+  },
+  {
+   "id": "atom",
+   "name": "Cosmos",
+   "symbol": "ATOM-USD",
+   "source": "yahoo",
+   "way": "Coins and tokens",
+   "sub": "Coin",
+   "min": "$1"
+  },
+  {
+   "id": "near",
+   "name": "NEAR Protocol",
+   "symbol": "NEAR-USD",
+   "source": "yahoo",
+   "way": "Coins and tokens",
+   "sub": "Coin",
+   "min": "$1"
+  },
+  {
+   "id": "etc",
+   "name": "Ethereum Classic",
+   "symbol": "ETC-USD",
+   "source": "yahoo",
+   "way": "Coins and tokens",
+   "sub": "Coin",
+   "min": "$1"
+  },
+  {
+   "id": "hbar",
+   "name": "Hedera",
+   "symbol": "HBAR-USD",
+   "source": "yahoo",
+   "way": "Coins and tokens",
+   "sub": "Coin",
+   "min": "$1"
+  },
+  {
+   "id": "fil",
+   "name": "Filecoin",
+   "symbol": "FIL-USD",
+   "source": "yahoo",
+   "way": "Coins and tokens",
+   "sub": "Token",
+   "min": "$1"
+  },
+  {
+   "id": "paxg",
+   "name": "PAX Gold (tokenised gold)",
+   "symbol": "PAXG-USD",
+   "source": "yahoo",
+   "way": "Gold and commodities",
+   "sub": "1 token = 1 troy oz in a London vault",
+   "min": "$1"
+  },
+  {
+   "id": "eqix",
+   "name": "Equinix",
+   "symbol": "EQIX",
+   "source": "yahoo",
+   "way": "Commercial property",
+   "sub": "World · data centres",
+   "min": "$1"
+  },
+  {
+   "id": "amt",
+   "name": "American Tower",
+   "symbol": "AMT",
+   "source": "yahoo",
+   "way": "Commercial property",
+   "sub": "World · cell towers",
+   "min": "$1"
+  },
+  {
+   "id": "exr",
+   "name": "Extra Space Storage",
+   "symbol": "EXR",
+   "source": "yahoo",
+   "way": "Parking and storage units",
+   "sub": "USA · self-storage",
+   "min": "$1"
+  },
+  {
+   "id": "wy",
+   "name": "Weyerhaeuser",
+   "symbol": "WY",
+   "source": "yahoo",
+   "way": "Forest and timber",
+   "sub": "USA · timberland owner",
+   "min": "$1"
+  },
+  {
+   "id": "land",
+   "name": "Gladstone Land",
+   "symbol": "LAND",
+   "source": "yahoo",
+   "way": "Farmland",
+   "sub": "USA · farmland owner",
+   "min": "$1"
+  }
+ ],
+ "houses": [
+  {
+   "id": "hp_us",
+   "country": "United States",
+   "series": "QUSN628BIS"
+  },
+  {
+   "id": "hp_gb",
+   "country": "United Kingdom",
+   "series": "QGBN628BIS"
+  },
+  {
+   "id": "hp_de",
+   "country": "Germany",
+   "series": "QDEN628BIS"
+  },
+  {
+   "id": "hp_fr",
+   "country": "France",
+   "series": "QFRN628BIS"
+  },
+  {
+   "id": "hp_es",
+   "country": "Spain",
+   "series": "QESN628BIS"
+  },
+  {
+   "id": "hp_it",
+   "country": "Italy",
+   "series": "QITN628BIS"
+  },
+  {
+   "id": "hp_nl",
+   "country": "Netherlands",
+   "series": "QNLN628BIS"
+  },
+  {
+   "id": "hp_pl",
+   "country": "Poland",
+   "series": "QPLN628BIS"
+  },
+  {
+   "id": "hp_jp",
+   "country": "Japan",
+   "series": "QJPN628BIS"
+  },
+  {
+   "id": "hp_cn",
+   "country": "China",
+   "series": "QCNN628BIS"
+  },
+  {
+   "id": "hp_in",
+   "country": "India",
+   "series": "QINN628BIS"
+  },
+  {
+   "id": "hp_ca",
+   "country": "Canada",
+   "series": "QCAN628BIS"
+  },
+  {
+   "id": "hp_au",
+   "country": "Australia",
+   "series": "QAUN628BIS"
+  },
+  {
+   "id": "hp_br",
+   "country": "Brazil",
+   "series": "QBRN628BIS"
+  },
+  {
+   "id": "hp_ae",
+   "country": "United Arab Emirates",
+   "series": "QAEN628BIS"
+  },
+  {
+   "id": "hp_tr",
+   "country": "Turkey",
+   "series": "QTRN628BIS"
+  },
+  {
+   "id": "hp_kr",
+   "country": "South Korea",
+   "series": "QKRN628BIS"
+  },
+  {
+   "id": "hp_se",
+   "country": "Sweden",
+   "series": "QSEN628BIS"
+  },
+  {
+   "id": "hp_no",
+   "country": "Norway",
+   "series": "QNON628BIS"
+  },
+  {
+   "id": "hp_dk",
+   "country": "Denmark",
+   "series": "QDKN628BIS"
+  },
+  {
+   "id": "hp_ch",
+   "country": "Switzerland",
+   "series": "QCHN628BIS"
+  },
+  {
+   "id": "hp_ie",
+   "country": "Ireland",
+   "series": "QIEN628BIS"
+  },
+  {
+   "id": "hp_pt",
+   "country": "Portugal",
+   "series": "QPTN628BIS"
+  },
+  {
+   "id": "hp_be",
+   "country": "Belgium",
+   "series": "QBEN628BIS"
+  },
+  {
+   "id": "hp_at",
+   "country": "Austria",
+   "series": "QATN628BIS"
+  },
+  {
+   "id": "hp_nz",
+   "country": "New Zealand",
+   "series": "QNZN628BIS"
+  },
+  {
+   "id": "hp_mx",
+   "country": "Mexico",
+   "series": "QMXN628BIS"
+  },
+  {
+   "id": "hp_za",
+   "country": "South Africa",
+   "series": "QZAN628BIS"
+  },
+  {
+   "id": "hp_sg",
+   "country": "Singapore",
+   "series": "QSGN628BIS"
+  },
+  {
+   "id": "hp_hk",
+   "country": "Hong Kong",
+   "series": "QHKN628BIS"
+  },
+  {
+   "id": "hp_cz",
+   "country": "Czechia",
+   "series": "QCZN628BIS"
+  },
+  {
+   "id": "hp_hu",
+   "country": "Hungary",
+   "series": "QHUN628BIS"
+  },
+  {
+   "id": "hp_gr",
+   "country": "Greece",
+   "series": "QGRN628BIS"
+  },
+  {
+   "id": "hp_fi",
+   "country": "Finland",
+   "series": "QFIN628BIS"
+  }
+ ],
+ "defi": [
+  {
+   "way": "Staking",
+   "name": "Lido staked ETH",
+   "project": "lido",
+   "chain": "Ethereum",
+   "symbol": "STETH"
+  },
+  {
+   "way": "Staking",
+   "name": "Rocket Pool rETH",
+   "project": "rocket-pool",
+   "chain": "Ethereum",
+   "symbol": "RETH"
+  },
+  {
+   "way": "Node and validator ownership",
+   "name": "Rocket Pool rETH (node operators earn more)",
+   "project": "rocket-pool",
+   "chain": "Ethereum",
+   "symbol": "RETH"
+  },
+  {
+   "way": "Lending and liquidity pools",
+   "name": "Aave v3 USDC lending",
+   "project": "aave-v3",
+   "chain": "Ethereum",
+   "symbol": "USDC"
+  },
+  {
+   "way": "Lending and liquidity pools",
+   "name": "Aave v3 USDT lending",
+   "project": "aave-v3",
+   "chain": "Ethereum",
+   "symbol": "USDT"
+  },
+  {
+   "way": "Lending and liquidity pools",
+   "name": "Compound v3 USDC lending",
+   "project": "compound-v3",
+   "chain": "Ethereum",
+   "symbol": "USDC"
+  },
+  {
+   "way": "Market-making vaults",
+   "name": "Hyperliquid HLP vault",
+   "project": "hyperliquid-hlp",
+   "chain": null,
+   "symbol": null
+  }
+ ],
+ "live": {
+  "binance": {
+   "btc": "BTCUSDT",
+   "eth": "ETHUSDT",
+   "sol": "SOLUSDT",
+   "xrp": "XRPUSDT",
+   "bnb": "BNBUSDT",
+   "doge": "DOGEUSDT",
+   "ada": "ADAUSDT",
+   "chz": "CHZUSDT",
+   "mana": "MANAUSDT",
+   "sand": "SANDUSDT",
+   "trx": "TRXUSDT",
+   "avax": "AVAXUSDT",
+   "link": "LINKUSDT",
+   "dot": "DOTUSDT",
+   "ltc": "LTCUSDT",
+   "bch": "BCHUSDT",
+   "xlm": "XLMUSDT",
+   "shib": "SHIBUSDT",
+   "atom": "ATOMUSDT",
+   "near": "NEARUSDT",
+   "etc": "ETCUSDT",
+   "hbar": "HBARUSDT",
+   "fil": "FILUSDT",
+   "paxg": "PAXGUSDT"
+  },
+  "kraken": {
+   "eurusd": "EUR/USD",
+   "gbpusd": "GBP/USD",
+   "usdjpy": "USD/JPY",
+   "usdchf": "USD/CHF",
+   "audusd": "AUD/USD",
+   "usdcad": "USD/CAD"
+  }
+ },
+ "chain": {
+  "btc": "bitcoin",
+  "bch": "bitcoin-cash",
+  "ltc": "litecoin",
+  "eth": "ethereum",
+  "etc": "ethereum-classic",
+  "sol": "solana",
+  "xrp": "xrp",
+  "bnb": "bnb",
+  "doge": "dogecoin",
+  "ada": "cardano",
+  "trx": "tron",
+  "avax": "avalanche",
+  "dot": "polkadot",
+  "xlm": "stellar",
+  "atom": "cosmos",
+  "near": "near",
+  "hbar": "hedera",
+  "fil": "filecoin"
+ }
+}

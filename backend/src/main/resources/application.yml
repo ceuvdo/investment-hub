@@ -1,0 +1,37 @@
+server:
+  port: 8080
+  address: 127.0.0.1          # local only; the public gets data through the Cloudflare relay
+
+spring:
+  application.name: hub-backend
+  datasource:
+    url: jdbc:postgresql://127.0.0.1:5432/hub
+    username: hub
+    password: ${HUB_DB_PASSWORD:hub-local}
+  flyway:
+    enabled: true
+  web:
+    resources:
+      static-locations: file:${hub.site-dir}/   # serve the site itself at http://127.0.0.1:8080
+
+management:
+  endpoints.web.exposure.include: health,info,metrics
+
+hub:
+  site-dir: ${HUB_SITE_DIR:E:/booty ass/hub}
+  research-dir: ${hub.site-dir}/data/research
+  daily-cron: "0 0 9 * * *"             # daily build at 09:00 local time
+  daily-on-start: false                 # set true (or call POST /api/admin/build) to build right away
+  deploy:
+    enabled: true
+    script: ${hub.site-dir}/deploy.ps1
+  relay:
+    url: ${HUB_RELAY_URL:}               # e.g. https://investment-hub-live.ceuvdo.workers.dev/push
+    secret: ${HUB_RELAY_SECRET:}
+    interval-ms: 2000
+  live:
+    flush-ms: 60000                     # write 1-minute candles to the database every minute
+
+logging:
+  file.name: E:/tools/logs/hub-backend.log
+  logback.rollingpolicy.max-history: 14

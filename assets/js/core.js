@@ -78,7 +78,7 @@
       '<span>Assets tracked <b>' + m.n_assets + '</b></span>' +
       '<span>Countries <b>' + m.n_countries + '</b></span>' +
       '<span>Data sources <b>' + m.n_sources + '</b></span>' +
-      '<span class="live">● real data · built ' + esc(built) + '</span></div></div>' +
+      '<span class="live" id="live-badge" title="Daily data: prices at close, indexes and reports">● daily data · built ' + esc(built) + '</span></div></div>' +
       '<header class="wrap hdr">' +
       '<a class="logo" href="index.html"><span class="logo-mark" aria-hidden="true"><i style="height:7px"></i><i style="height:12px"></i><i style="height:18px"></i></span>' + SITE.name + '</a>' +
       '<nav class="nav" id="nav">' + nav.map(function (n) { return '<a href="' + n[0] + '" class="' + (active === n[2] ? 'on' : '') + '">' + n[1] + '</a>'; }).join('') + '</nav>' +
@@ -92,6 +92,69 @@
     tb.innerHTML = tabs.map(function (t) { return '<a href="' + t[0] + '" class="' + (active === t[3] ? 'on' : '') + '">' + ICON[t[2]] + t[1] + '</a>'; }).join('');
     document.body.appendChild(tb);
     updateWl();
+    startLive();
+  }
+
+  // ---------- live prices ----------
+  // Local backend (site served by it on :8080) streams at /live; everyone else gets the Cloudflare relay.
+  var RELAY = 'wss://investment-hub-live.ceuvdo.workers.dev/live';
+  var live = { q: {}, timing: {}, t: 0, ws: null, wait: 1000, ok: false };
+  function liveUrl() {
+    if (location.port === '8080') return (location.protocol === 'https:' ? 'wss://' : 'ws://') + location.host + '/live';
+    return RELAY;
+  }
+  function startLive() {
+    if (!('WebSocket' in window)) return;
+    var ws;
+    try { ws = new WebSocket(liveUrl()); } catch (e) { return; }
+    live.ws = ws;
+    ws.onopen = function () { live.wait = 1000; };
+    ws.onmessage = function (e) {
+      if (e.data === 'pong') return;
+      var m; try { m = JSON.parse(e.data); } catch (x) { return; }
+      if (!m || !m.q) return;
+      live.t = m.t || Date.now(); live.timing = m.timing || live.timing;
+      var ids = Object.keys(m.q);
+      ids.forEach(function (id) { live.q[id] = m.q[id]; });
+      live.ok = Object.keys(live.q).length > 0 && Date.now() - live.t < 120000;
+      paint(m.snapshot ? Object.keys(live.q) : ids, !m.snapshot);
+      badge();
+      if (window.onLive) window.onLive(live, ids);
+    };
+    ws.onclose = function () {
+      live.ok = false; badge();
+      setTimeout(startLive, live.wait); live.wait = Math.min(60000, live.wait * 2);
+    };
+    ws.onerror = function () { try { ws.close(); } catch (x) { } };
+  }
+  setInterval(function () { if (live.ws && live.ws.readyState === 1) try { live.ws.send('ping'); } catch (e) { } badge(); }, 30000);
+  function paint(ids, flash) {
+    ids.forEach(function (id) {
+      var x = live.q[id]; if (!x) return;
+      var a = byId[id], cur = a ? a.currency : 'USD';
+      document.querySelectorAll('[data-lp="' + id + '"]').forEach(function (el) {
+        var old = parseFloat(el.dataset.v || 'NaN');
+        el.innerHTML = money(x[0], cur);
+        el.dataset.v = x[0];
+        el.title = 'Live, ' + new Date(x[2]).toLocaleTimeString() + (a && a.live ? '' : '');
+        if (flash && isFinite(old) && old !== x[0]) {
+          el.classList.remove('tick-up', 'tick-down'); void el.offsetWidth;
+          el.classList.add(x[0] > old ? 'tick-up' : 'tick-down');
+        }
+      });
+      document.querySelectorAll('[data-lc="' + id + '"]').forEach(function (el) { el.innerHTML = num(x[1]) ? pctc(x[1], 2) : ''; });
+    });
+  }
+  function badge() {
+    var b = document.getElementById('live-badge'); if (!b) return;
+    var n = Object.keys(live.q).length;
+    if (live.ok && n) {
+      var r = live.timing['binance.rtt_ms'];
+      b.innerHTML = '● live · ' + n + ' prices' + (r && r.median ? ' · Binance ' + (r.median / 1000).toFixed(2) + ' s' : '') + ' · ' + Math.max(0, Math.round((Date.now() - live.t) / 1000)) + ' s ago';
+      b.title = 'Crypto from Binance, currencies from Kraken, via our backend. Stocks and funds: daily close prices.';
+    } else {
+      b.textContent = '● daily data · built ' + C.meta.built;
+    }
   }
   function footer() {
     var f = document.createElement('footer'); f.className = 'ft';
@@ -225,6 +288,7 @@
       var k = state.sort, d = state.dir;
       var r = rows.slice().sort(function (a, b) {
         var x = a[k], y = b[k];
+        if (k === 'sell') { x = a.sell_s; y = b.sell_s; }
         if (typeof x === 'string' || typeof y === 'string') return d * String(x || '').localeCompare(String(y || ''));
         if (!num(x)) return 1; if (!num(y)) return -1; return d * (x - y);
       });
@@ -232,13 +296,13 @@
         return '<th class="' + (c[2] || '') + '"><button ' + (state.sort === c[0] ? 'aria-sort="' + (d > 0 ? 'ascending' : 'descending') + '"' : '') + ' data-k="' + c[0] + '">' + c[1] + (state.sort === c[0] ? (d > 0 ? ' ↑' : ' ↓') : '') + '</button></th>';
       }).join('') + '</tr></thead><tbody>' + r.map(function (a) {
         return '<tr><td><div class="asset-cell">' + ini(a) + '<div style="min-width:0"><a href="' + assetHref(a) + '">' + esc(a.name) + '</a><small>' + esc(a.way) + ' · ' + esc(a.sub) + '</small></div></div></td>' +
-          '<td>' + money(a.price, a.currency) + '</td><td>' + pctc(a.chg_30d) + '</td><td>' + pctc(a.ret_1y) + '</td><td>' + pctc(a.ret_5y) + '</td><td>' + pctc(a.ret_10y) + '</td>' +
+          '<td data-lp="' + a.id + '">' + (live.q[a.id] ? money(live.q[a.id][0], a.currency) : money(a.price, a.currency)) + '</td><td>' + pctc(a.chg_30d) + '</td><td>' + pctc(a.ret_1y) + '</td><td>' + pctc(a.ret_5y) + '</td><td>' + pctc(a.ret_10y) + '</td>' +
           '<td>' + (num(a.swing) ? a.swing.toFixed(0) + '%' : pct(null)) + '</td><td class="down">' + pct(a.dd, 0) + '</td><td class="muted">' + corr(a.corr) + '</td>' +
-          '<td>' + big(a.vol30_usd) + '</td><td class="sell">' + esc(a.sell) + '</td><td class="muted">' + esc(a.min) + '</td></tr>';
+          '<td>' + big(a.vol30_usd) + '</td><td class="sell" title="' + esc(sellTip(a)) + '">' + esc(a.sell || '') + '</td><td class="muted">' + esc(a.min) + '</td></tr>';
       }).join('') + '</tbody></table></div>';
       h += '<div class="mob-list">' + r.slice(0, state.mobileLimit || 999).map(function (a) {
-        return '<a class="mob-row" href="' + assetHref(a) + '">' + ini(a) + '<span style="min-width:0"><span class="nm">' + esc(a.name) + '</span><small>' + esc(a.way) + ' · sells in ' + esc(a.sell.split(',')[0]) + '</small></span>' +
-          '<span class="r">' + money(a.price, a.currency) + '<br><small>' + pctc(a.ret_1y) + ' 1y · ± ' + (num(a.swing) ? a.swing.toFixed(0) + '%' : '–') + '</small></span></a>';
+        return '<a class="mob-row" href="' + assetHref(a) + '">' + ini(a) + '<span style="min-width:0"><span class="nm">' + esc(a.name) + '</span><small>' + esc(a.way) + ' · ' + esc(a.sell || '') + '</small></span>' +
+          '<span class="r"><span data-lp="' + a.id + '">' + money(a.price, a.currency) + '</span><br><small>' + pctc(a.ret_1y) + ' 1y · ± ' + (num(a.swing) ? a.swing.toFixed(0) + '%' : '–') + '</small></span></a>';
       }).join('') + '</div>';
       el.innerHTML = h;
       el.querySelectorAll('th button').forEach(function (b) {
@@ -248,7 +312,13 @@
     draw();
   }
 
+  function sellTip(a) {
+    var d = a.sell_detail; if (!d) return '';
+    return [d.exec && 'Order: ' + d.exec, d.hours && 'Hours: ' + d.hours, d.settle && 'Yours after: ' + d.settle].filter(Boolean).join('\n');
+  }
+
   window.K = {
+    live: live, paint: paint, sellTip: sellTip,
     C: C, byId: byId, waysBySlug: waysBySlug, waysByName: waysByName, groupsBySlug: groupsBySlug, SITE: SITE,
     esc: esc, num: num, pct: pct, pctc: pctc, cls: cls, arrow: arrow, money: money, big: big, corr: corr, liq: liq, trust: trust, src: src,
     color: color, ini: ini, ENTRY: ENTRY, wayMetric: wayMetric, wayHref: wayHref, assetHref: assetHref, q: q, fmtDate: fmtDate,

@@ -189,6 +189,14 @@ footer.ft nav a{color:var(--muted)}
 .themes button{width:22px;height:22px;border-radius:50%;border:2px solid var(--line3);padding:0}
 .themes button[aria-pressed="true"]{border-color:var(--acc)}
 
+/* live price flash */
+@keyframes tick-up{from{background:color-mix(in srgb,var(--acc) 35%,transparent)}to{background:transparent}}
+@keyframes tick-down{from{background:color-mix(in srgb,var(--down) 35%,transparent)}to{background:transparent}}
+.tick-up{animation:tick-up 1.2s ease-out}.tick-down{animation:tick-down 1.2s ease-out}
+@media (prefers-reduced-motion:reduce){.tick-up,.tick-down{animation:none}}
+.sell-row{display:grid;grid-template-columns:120px minmax(0,1fr);gap:4px 12px;padding:8px 0;border-bottom:1px solid var(--line2);font-size:14px}
+.sell-row b{font-weight:500}
+
 /* mobile */
 .tabbar{display:none}
 .mob-list{display:none}
