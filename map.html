@@ -51,7 +51,7 @@
       var all = C.ways.filter(function (w) { return w.group === g.slug; });
       var ws = all.filter(function (w) { return open(w) && (risk === 'all' || w.risk === risk); });
       shown += ws.length;
-      return '<div><div class="grp-h"><a class="h3" href="class.html?g=' + g.slug + '">' + esc(g.name) + '</a><span class="mono acc" style="font-size:13px">' + ws.length + ' of ' + all.length + '</span><span class="note" style="font-size:14px">' + esc(g.note) + '</span></div>' +
+      return '<div><div class="grp-h">' + K.ini({ group: g.slug, groupSlug: g.slug, name: g.name, id: g.slug }) + '<a class="h3" href="class.html?g=' + g.slug + '">' + esc(g.name) + '</a><span class="mono acc" style="font-size:13px">' + ws.length + ' of ' + all.length + '</span><span class="note" style="font-size:14px">' + esc(g.note) + '</span></div>' +
         (ws.length ? '<div class="wgrid">' + ws.map(function (w) {
           var m = w.metrics, fig = m.ret_1y || m.ret_5y || m.ret_10y || m.yield;
           var figTxt = fig && K.num(fig.value) ? K.pctc(fig.value) + ' <span class="muted" style="font-size:11px">' + (fig === m.ret_1y ? '1y' : fig === m.ret_5y ? '5y/yr' : fig === m.ret_10y ? '10y/yr' : 'yield') + '</span>' : '<span class="nodata"></span>';

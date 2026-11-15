@@ -324,3 +324,4 @@ html{scrollbar-width:thin;scrollbar-color:#474d57 transparent}
 @media (max-width:1000px){.news-strip{--news-w:calc((100% - 16px) / 2)}}
 @media (max-width:640px){.news-strip{--news-w:100%}}
 .ini-own{color:#0b0e11}.ini-own svg{width:62%;height:62%}
+.grp-h{align-items:center}.grp-h .ini{flex:0 0 30px;width:30px;height:30px;border-radius:8px}

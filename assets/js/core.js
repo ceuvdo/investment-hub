@@ -83,7 +83,8 @@
   }
   function ini(a) {
     var k = iconKind(a);
-    var own = window.ICONS && ((a.waySlug && window.ICONS.ways[a.waySlug]) || (a.groupSlug && window.ICONS.groups[a.groupSlug]));
+    var ws = a.waySlug || a.way_slug;
+    var own = window.ICONS && ((ws && window.ICONS.ways[ws]) || (a.groupSlug && window.ICONS.groups[a.groupSlug]));
     if (own) return '<span class="ini ini-own" style="background:' + ICON_COLORS[k] + '" aria-hidden="true">' + own + '</span>';
     return '<span class="ini" style="background:' + ICON_COLORS[k] + '" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0b0e11" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="' + ICONS[k] + '"/></svg></span>';
   }
