@@ -24,6 +24,7 @@
         <a class="btn acc" href="rankings.html">Search</a></label>
       <div class="results" id="res" hidden></div>
     </div>
+    <div class="hot" id="hot"></div>
   </div>
   <div class="card race" id="race"></div>
 </section>
@@ -64,6 +65,8 @@
   K.header('home');
   document.getElementById('sicon').innerHTML = K.ICON.search;
   K.attachSearch(document.getElementById('q'), document.getElementById('res'));
+  document.getElementById('hot').innerHTML = '<span class="hot-l">🔥 Popular</span>' + ['btc', 'spy', 'nvda', 'aapl', 'gld', 'tsla', 'eth', 'qqq'].map(function (id) {
+    var a = K.byId[id]; return a ? '<a class="chip" href="' + K.assetHref(a) + '">' + esc(a.name.split(' (')[0]) + '</a>' : ''; }).join('');
   document.getElementById('all-groups').textContent = 'All ' + C.groups.length + ' groups, ' + C.meta.n_ways + ' ways →';
 
   // ---- popular picks: return per year over 1/5/10 years ----
@@ -73,7 +76,7 @@
   function drawRace() {
     var key = per === '1' ? 'ret_1y' : per === '5' ? 'ret_5y' : 'ret_10y';
     var rows = PICKS.map(function (p) { var a = K.byId[p[0]]; return a ? { a: a, name: p[1], v: a[key] } : null; }).filter(Boolean)
-      .sort(function (x, y) { return (K.num(y.v) ? y.v : -1e9) - (K.num(x.v) ? x.v : -1e9); });
+      .filter(function (r) { return K.num(r.v); }).sort(function (x, y) { return y.v - x.v; }).slice(0, 5);
     var max = Math.max.apply(null, rows.map(function (r) { return K.num(r.v) ? Math.abs(r.v) : 0; })) || 1;
     var h = '<div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap"><span class="cap" style="font-size:13px;letter-spacing:.08em">Popular picks · ' + (per === '1' ? 'last 12 months' : 'average per year') + '</span>' +
       '<div class="pills">' + [['1', '1Y'], ['5', '5Y'], ['10', '10Y']].map(function (p) { return '<button class="pill" style="height:34px" aria-pressed="' + (p[0] === per) + '" data-per="' + p[0] + '">' + p[1] + '</button>'; }).join('') + '</div></div>' +
@@ -154,12 +157,22 @@
   function drawNews() {
     var strip = document.getElementById('news-strip');
     if (!items.length) { strip.innerHTML = '<div class="empty">Headlines are unavailable right now.</div>'; return; }
-    strip.innerHTML = '<div class="news-track" style="transform:translateX(calc(' + (-np) + ' * (var(--news-w) + 16px)))">' + items.map(K.newsCard).join('') + '</div>';
+    strip.innerHTML = '<div class="news-track">' + items.map(K.newsCard).join('') + '</div>';
+    var first = strip.querySelector('.news-card');
+    if (first) strip.firstChild.style.transform = 'translateX(' + (-np * (first.getBoundingClientRect().width + 16)) + 'px)';
     document.getElementById('news-prev').disabled = np <= 0;
-    document.getElementById('news-next').disabled = np >= items.length - 1;
+    document.getElementById('news-next').disabled = np >= maxNp();
   }
   document.getElementById('news-prev').onclick = function () { np = Math.max(0, np - 1); drawNews(); };
-  document.getElementById('news-next').onclick = function () { np = Math.min(items.length - 1, np + 1); drawNews(); };
+  // last step shows the last card flush right: no empty space after it
+  function maxNp() {
+    var strip = document.getElementById('news-strip'), card = strip.querySelector('.news-card');
+    if (!card) return 0;
+    var per = Math.max(1, Math.floor((strip.clientWidth + 16) / (card.getBoundingClientRect().width + 16)));
+    return Math.max(0, items.length - per);
+  }
+  window.addEventListener('resize', function () { if (np > maxNp()) { np = maxNp(); drawNews(); } });
+  document.getElementById('news-next').onclick = function () { np = Math.min(maxNp(), np + 1); drawNews(); };
   K.loadNews().then(function (all) { items = all.slice(0, 9); drawNews(); }).catch(function () { drawNews(); });
 
   // ---- head to head ----
@@ -168,10 +181,10 @@
     if (as.length < 2) return '';
     var line = as.map(function (a) { return esc(a.name.split(' (')[0]) + ' ' + K.pct(a.ret_10y != null ? a.ret_10y : a.ret_5y) + '/yr'; }).join(' vs ');
     var p = as.every(function (a) { return a.ret_10y != null; }) ? '10 years' : '5 years';
-    return '<a class="card" href="compare.html?ids=' + ids.join(',') + '" style="' + (accent ? 'background:var(--acc);color:var(--on-acc);border-color:var(--acc);' : '') + 'padding:26px;display:flex;flex-direction:column;gap:28px;min-height:220px">' +
+    return '<a class="card" href="compare.html?ids=' + ids.join(',') + '" style="' + (accent ? 'background:var(--acc);color:var(--on-acc);border-color:var(--acc);' : '') + 'padding:26px;display:grid;grid-template-rows:auto 96px 1fr;gap:20px;min-height:240px">' +
       '<span class="mono" style="font-size:12px;text-transform:uppercase;letter-spacing:.08em;' + (accent ? '' : 'color:var(--muted)') + '">Head to head · ' + p + '</span>' +
-      '<span style="font-family:var(--ff-h);font-weight:' + (accent ? 700 : 500) + ';font-size:22px;line-height:1.25;margin-top:auto">' + title + '</span>' +
-      '<span class="mono" style="font-size:13px;' + (accent ? '' : 'color:var(--muted)') + '">' + line + '</span></a>';
+      '<span style="font-family:var(--ff-h);font-weight:' + (accent ? 700 : 500) + ';font-size:22px;line-height:1.25;align-self:end;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden">' + title + '</span>' +
+      '<span class="mono" style="font-size:13px;align-self:start;' + (accent ? '' : 'color:var(--muted)') + '">' + line + '</span></a>';
   }
   document.getElementById('h2h').innerHTML =
     card(['btc', 'gld', 'spy'], 'Bitcoin, gold or the S&amp;P 500: the last ten years', true) +

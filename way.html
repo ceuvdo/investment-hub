@@ -92,7 +92,6 @@
   }
   var sib = C.ways.filter(function (x) { return x.group === w.group && x.slug !== w.slug; });
   h += '<section class="sec"><div class="sec-h"><h2 class="h3">More in ' + esc(g.name) + '</h2><a class="link" href="class.html?g=' + g.slug + '">The whole group →</a></div><div class="pills">' + sib.map(function (x) { return '<a class="pill" href="' + K.wayHref(x) + '">' + esc(x.name) + '</a>'; }).join('') + '</div></section>';
-  h += '<p class="disclaimer" style="margin-bottom:32px">Not investment advice. The catalog shows what happened, with sources; it does not say what to buy. Past returns do not predict future ones.</p>';
   document.getElementById('main').innerHTML = h;
 
   if (assets.length) {
