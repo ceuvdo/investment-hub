@@ -309,3 +309,7 @@ html{scrollbar-width:thin;scrollbar-color:#43567a transparent}
 .wcard .row{white-space:nowrap}
 #amt-form{flex-wrap:nowrap;align-items:center;gap:10px}
 .amount label.amt-label{flex:none;height:auto;padding:0;border:0;background:none;border-radius:0}
+/* home news strip: every card the same height, chips pinned to the bottom */
+.news-track{align-items:stretch}
+.news-track .news-card{height:auto;align-self:stretch}
+.news-track .news-card .news-t{min-height:78px}
