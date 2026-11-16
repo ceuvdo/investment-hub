@@ -33,7 +33,7 @@
   var h = '<section class="a-head"><div style="flex:1 1 520px;min-width:0;display:flex;flex-direction:column;gap:14px">' +
     '<h1 style="margin-top:0">' + esc(a.name) + '</h1>' +
     '<div style="display:flex;flex-wrap:wrap;gap:8px"><span class="chip">' + esc(w.name) + '</span><span class="chip">' + esc(a.sub) + '</span><span class="chip mono">' + esc(a.symbol) + '</span></div>' +
-    (a.kind === 'EQUITY' ? '<figure class="co-photo" id="co-photo" hidden><img alt=""><figcaption class="note"></figcaption></figure>' : '') +
+    (a.kind === 'EQUITY' ? '<figure class="co-photo" id="co-photo" hidden><img alt=""></figure>' : '') +
     '<p class="lead" style="font-size:16px">' + esc(w.desc) + ' ' + (isIdx ? 'Shown as an index of prices, not a price you can pay.' : isSkin ? 'The price is the median of real sales on Skinport. We record it every day, so returns and risk appear as our own history grows.' : 'Returns below include dividends where the asset pays them.') + '</p></div>' +
     '<div class="card pad" style="flex:0 1 420px;display:flex;flex-direction:column;gap:12px"><span class="note">' + (a.live ? 'Live price (daily close ' + esc(a.asof) + ' until the stream connects)' : (isIdx ? 'Index level, ' : isSkin ? 'Median sale, last ' + (a.price_basis === '30d' ? '30' : '7') + ' days · ' : 'Last close, ') + esc(a.asof)) + '</span><span class="a-price" data-lp="' + a.id + '">' + K.money(a.price, a.currency) + '</span>' +
     (a.live ? '<span class="note">Live, change over 24 h: <span class="mono" data-lc="' + a.id + '">connecting…</span></span>' : '') +
@@ -168,7 +168,7 @@
           var meta = best.i.extmetadata || {}, lic = meta.LicenseShortName ? meta.LicenseShortName.value : '';
           var by = meta.Artist ? meta.Artist.value.replace(/<[^>]+>/g, '').trim() : '';
           fig.querySelector('img').src = best.i.thumburl;
-          fig.querySelector('figcaption').innerHTML = 'Photo: ' + (by ? esc(by) + ', ' : '') + '<a class="link" href="' + esc(best.i.descriptionurl) + '" target="_blank" rel="noopener">Wikimedia Commons</a>' + (lic ? ', ' + esc(lic) : '');
+          fig.querySelector('img').title = 'Photo: ' + (by ? by + ', ' : '') + 'Wikimedia Commons' + (lic ? ', ' + lic : ''); // credit on hover
           fig.hidden = false;
         }).catch(function () {});
     }

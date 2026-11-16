@@ -7,8 +7,7 @@
     set: function (k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) { } }
   };
   // theme first, to avoid a flash
-  var theme = store.get('theme', 'navy');
-  if (theme !== 'navy') document.documentElement.setAttribute('data-theme', theme);
+  var theme = 'navy'; // one palette only
 
   var byId = {}, waysBySlug = {}, waysByName = {}, groupsBySlug = {};
   C.assets.forEach(function (a) { byId[a.id] = a; });
@@ -118,9 +117,9 @@
       '<a class="logo" href="index.html"><span class="logo-mark" aria-hidden="true"><i style="height:7px"></i><i style="height:12px"></i><i style="height:18px"></i></span>' + SITE.name + '</a>' +
       '<nav class="nav" id="nav">' + nav.map(function (n) { return '<a href="' + n[0] + '" class="' + (active === n[2] ? 'on' : '') + '">' + n[1] + '</a>'; }).join('') + '</nav>' +
       '<a class="btn wl" href="watchlist.html">' + 'Watchlist <span class="mono acc" id="wl-n"></span></a>' +
-      '<button class="btn menu-btn" aria-label="Menu" aria-expanded="false" aria-controls="nav" onclick="var n=document.getElementById(\'nav\');n.classList.toggle(\'open\');this.setAttribute(\'aria-expanded\',n.classList.contains(\'open\'))"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>' +
+      '<button class="btn menu-btn" aria-label="Menu" aria-expanded="false" aria-controls="nav" onclick="document.body.classList.toggle(\'nav-open\');this.setAttribute(\'aria-expanded\',document.body.classList.contains(\'nav-open\'))"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>' +
       '</header>';
-    document.getElementById('top').innerHTML = h;
+    document.getElementById('top').innerHTML = h + '<div class="nav-scrim" onclick="document.body.classList.remove(\'nav-open\')"></div>';
     var tabs = [['index.html', 'Home', 'home', 'home'], ['map.html', 'Map', 'map', 'map'], ['rankings.html', 'Rankings', 'rank', 'rank'], ['compare.html', 'Compare', 'cmp', 'cmp'], ['watchlist.html', 'Watchlist', 'star', 'wl']];
     var tb = document.createElement('nav'); tb.className = 'tabbar'; tb.setAttribute('aria-label', 'Sections');
     tb.innerHTML = tabs.map(function (t) { return '<a href="' + t[0] + '" class="' + (active === t[3] ? 'on' : '') + '">' + ICON[t[2]] + t[1] + '</a>'; }).join('');
@@ -197,22 +196,10 @@
   }
   function footer() {
     var f = document.createElement('footer'); f.className = 'ft';
-    f.innerHTML = '<div class="wrap"><span><span style="font-family:var(--ff-h);font-weight:700;color:var(--text)">' + SITE.name + '</span> · ' + SITE.tagline + '</span>' +
+    f.innerHTML = '<div class="wrap"><span><span style="font-family:var(--ff-h);font-weight:700;color:var(--text)">' + SITE.name + '</span></span>' +
       '<nav><a href="methodology.html">Methodology</a><a href="methodology.html#sources">Sources</a><a href="methodology.html#photos">Photo credits</a><a href="data/catalog.json">Download data (JSON)</a></nav>' +
-      '<span class="themes" role="group" aria-label="Palette">Palette ' +
-      [['navy', '#0b0e11', '#f0b90b'], ['a', '#f4f0e6', '#1f5c4a'], ['b', '#eef1f5', '#1f3a5f'], ['c', '#f2efe9', '#7a560e']].map(function (t) {
-        return '<button title="' + (t[0] === 'navy' ? 'Navy and brass' : 'Light ' + t[0].toUpperCase()) + '" aria-pressed="' + (theme === t[0]) + '" data-t="' + t[0] + '" style="background:linear-gradient(135deg,' + t[1] + ' 50%,' + t[2] + ' 50%)"></button>';
-      }).join('') + '</span>' +
       '<span>Not investment advice. Past returns do not predict future ones.</span></div>';
     document.body.insertBefore(f, document.querySelector('.tabbar'));
-    f.querySelectorAll('.themes button').forEach(function (b) {
-      b.onclick = function () {
-        theme = b.dataset.t; store.set('theme', theme);
-        if (theme === 'navy') document.documentElement.removeAttribute('data-theme'); else document.documentElement.setAttribute('data-theme', theme);
-        f.querySelectorAll('.themes button').forEach(function (x) { x.setAttribute('aria-pressed', x === b); });
-        if (window.onThemeChange) window.onThemeChange();
-      };
-    });
   }
 
   // ---------- watchlist ----------
@@ -289,9 +276,9 @@
     var years = {}; months.forEach(function (m) { years[m.slice(0, 4)] = 1; });
     var ys = Object.keys(years); var step = Math.ceil(ys.length / 8);
     var axis = '<div class="axis">' + ys.filter(function (y, i) { return i % step === 0; }).map(function (y) { return '<span>' + y + '</span>'; }).join('') + '</div>';
-    el.innerHTML = '<div class="chart-box">' + s + '<div class="tip" hidden></div></div>' + axis;
+    el.innerHTML = '<div class="chart-box">' + s + prepared.map(function (p) { return '<span class="chart-dot" hidden style="border-color:' + (p.l.color || 'var(--acc)') + '"></span>'; }).join('') + '<div class="tip" hidden></div></div>' + axis;
     // hover readout
-    var svg = el.querySelector('svg'), tip = el.querySelector('.tip'), hair = el.querySelector('#hair');
+    var svg = el.querySelector('svg'), tip = el.querySelector('.tip'), hair = el.querySelector('#hair'), dots = el.querySelectorAll('.chart-dot');
     function move(e) {
       var r = svg.getBoundingClientRect();
       var x = ((e.touches ? e.touches[0].clientX : e.clientX) - r.left) / r.width;
@@ -304,9 +291,15 @@
       tip.innerHTML = '<div class="muted">' + m + '</div>' + rows;
       tip.hidden = false; tip.style.left = (x * 100) + '%'; tip.style.top = '30px';
       hair.setAttribute('x1', X(m)); hair.setAttribute('x2', X(m)); hair.setAttribute('visibility', 'visible');
+      // a dot where the line meets each series
+      prepared.forEach(function (p, k) {
+        var hit = p.pts.filter(function (x) { return x[0] === m; })[0], d = dots[k];
+        if (!hit) { d.hidden = true; return; }
+        d.hidden = false; d.style.left = (X(m) / W * 100) + '%'; d.style.top = (Y(hit[1]) / H * 100) + '%';
+      });
     }
     svg.addEventListener('mousemove', move); svg.addEventListener('touchmove', move, { passive: true });
-    svg.addEventListener('mouseleave', function () { tip.hidden = true; hair.setAttribute('visibility', 'hidden'); });
+    svg.addEventListener('mouseleave', function () { tip.hidden = true; hair.setAttribute('visibility', 'hidden'); dots.forEach(function (d) { d.hidden = true; }); });
     return prepared.map(function (p) { return { id: p.l.id, end: p.pts[p.pts.length - 1][1], from: p.pts[0][0] }; });
   }
   function fromMonth(range) {

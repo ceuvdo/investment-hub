@@ -20,6 +20,7 @@
     <h1 class="h2" style="font-size:36px">Compare anything with anything</h1>
     <p class="lead">An index fund, a coin, a football club and a country's house prices on the same axes: return, risk, and what it costs to get your money back out.</p>
     <div class="picked" id="picked"></div>
+    <div class="presets"><span class="cap">Ready comparisons</span><div class="pills" id="presets"></div></div>
   </section>
   <section class="sec"><div class="card pad">
     <div style="display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px;align-items:center;margin-bottom:10px"><h2 class="h3" id="ct">Growth of $1,000</h2><div class="pills" id="rng"></div></div>
@@ -36,6 +37,17 @@
   var ids = (K.q('ids') || 'spy,btc,gld').split(',').filter(function (i) { return K.byId[i]; }).slice(0, 4);
   var range = '5y';
   var PAL = ['var(--text)', 'var(--acc)', '#a99bc4', '#77b3a8'], DASH = ['', '10 5', '2 6', '6 3'];
+  var PRESETS = [
+    ['Bitcoin vs gold vs S&P 500', ['btc', 'gld', 'spy']], ['Apple vs Microsoft vs Nvidia', ['aapl', 'msft', 'nvda']],
+    ['Bitcoin vs Ether vs Solana', ['btc', 'eth', 'sol']], ['US vs world vs emerging stocks', ['spy', 'vt', 'eem']],
+    ['Gold vs silver vs oil', ['gld', 'slv', 'uso']], ['Football clubs', ['manu', 'juve', 'bvb', 'ajax']],
+    ['Clean energy vs oil', ['icln', 'xom', 'uso']], ['House prices: US vs UK vs Germany', ['hp_us', 'hp_gb', 'hp_de']],
+    ['T-bills vs bonds vs stocks', ['bil', 'govt', 'spy']], ['Property: REITs vs homes', ['vnq', 'hp_us', 'o']],
+    ['Tesla vs Toyota', ['tsla', 'tm']], ['India vs China vs Japan', ['inda', 'mchi', 'ewj']]
+  ].filter(function (p) { return p[1].every(function (i) { return K.byId[i]; }); });
+  document.getElementById('presets').innerHTML = PRESETS.map(function (p, i) { return '<button class="pill" data-ps="' + i + '">' + esc(p[0]) + '</button>'; }).join('');
+  document.querySelectorAll('[data-ps]').forEach(function (b) { b.onclick = function () { ids = PRESETS[+b.dataset.ps][1].slice(); sync(); window.scrollTo({ top: 0, behavior: 'smooth' }); }; });
+  document.addEventListener('click', function (e) { var b = document.getElementById('addres'); if (b && !e.target.closest('.picked .search')) b.hidden = true; });
   function sync() { history.replaceState(null, '', '?ids=' + ids.join(',')); draw(); }
   function draw() {
     var as = ids.map(function (i) { return K.byId[i]; });
@@ -46,10 +58,16 @@
     var add = document.getElementById('add');
     if (add) {
       var box = document.getElementById('addres');
-      add.oninput = function () {
-        var v = add.value.toLowerCase().trim(); if (!v) { box.hidden = true; return; }
-        var hits = C.assets.filter(function (a) { return ids.indexOf(a.id) < 0 && (a.name + ' ' + a.symbol + ' ' + a.way + ' ' + a.sub).toLowerCase().indexOf(v) >= 0; }).slice(0, 10);
-        box.innerHTML = hits.length ? hits.map(function (a) { return '<a href="#" data-add="' + a.id + '"><span>' + esc(a.name) + '</span><small>' + esc(a.way) + '</small></a>'; }).join('') : '<div class="empty">No tracked asset matches.</div>';
+      // empty field: the whole list, grouped; typing filters it
+      add.oninput = add.onfocus = function () {
+        var v = add.value.toLowerCase().trim();
+        var pool = C.assets.filter(function (a) { return ids.indexOf(a.id) < 0 && (!v || (a.name + ' ' + a.symbol + ' ' + a.way + ' ' + a.sub).toLowerCase().indexOf(v) >= 0); });
+        var html = C.groups.map(function (g) {
+          var xs = pool.filter(function (a) { return a.group === g.slug; }); if (!xs.length) return '';
+          return '<div class="dd-h">' + esc(g.name) + ' <span class="mono">' + xs.length + '</span></div>' + xs.map(function (a) { return '<a href="#" data-add="' + a.id + '">' + K.ini(a) + '<span>' + esc(a.name) + '</span><small>' + esc(a.way) + '</small></a>'; }).join('');
+        }).join('');
+        box.innerHTML = html || '<div class="empty">No tracked asset matches.</div>';
+        box.classList.add('dd-all');
         box.hidden = false;
         box.querySelectorAll('[data-add]').forEach(function (x) { x.onclick = function (e) { e.preventDefault(); ids.push(x.dataset.add); sync(); }; });
       };
