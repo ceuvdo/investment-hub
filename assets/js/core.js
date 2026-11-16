@@ -385,7 +385,7 @@
   }
 
   window.K = {
-    live: live, paint: paint, sellTip: sellTip, safeUrl: safeUrl, related: related, ago: ago, newsHref: newsHref, loadNews: loadNews, newsCard: newsCard,
+    live: live, paint: paint, sellTip: sellTip, safeUrl: safeUrl, related: related, ago: ago, newsHref: newsHref, loadNews: loadNews, newsCard: newsCard, newsImg: newsImg,
     C: C, byId: byId, waysBySlug: waysBySlug, waysByName: waysByName, groupsBySlug: groupsBySlug, SITE: SITE,
     esc: esc, num: num, pct: pct, pctc: pctc, cls: cls, arrow: arrow, money: money, big: big, corr: corr, liq: liq, trust: trust, src: src,
     color: color, ini: ini, ENTRY: ENTRY, wayMetric: wayMetric, wayHref: wayHref, assetHref: assetHref, q: q, fmtDate: fmtDate,

@@ -43,20 +43,32 @@
     document.title = n.t + ' · Wyndton';
     document.getElementById('crumbs').innerHTML = '<a href="index.html">Home</a> / <a href="news.html">News</a> / <span>' + esc(n.cat) + '</span>';
     var rel = K.related(n, 5);
-    var h = '<section class="split" style="align-items:flex-start;padding-top:8px"><article style="flex:999 1 640px;display:flex;flex-direction:column;gap:20px">' +
-      '<span class="mono note" style="text-transform:uppercase;letter-spacing:.08em">' + esc(n.cat) + ' · ' + esc(K.ago(n.ts)) + ' · ' + esc(n.src) + '</span>' +
-      '<h1 class="h2" style="font-size:36px;line-height:1.15">' + esc(n.t) + '</h1>' +
+    var h = '<article class="story">' +
+      '<span class="mono note" style="text-transform:uppercase;letter-spacing:.08em">' + esc(n.cat) + ' · ' + esc(K.ago(n.ts)) + '</span>' +
+      '<h1 class="h2" style="font-size:36px;line-height:1.15;margin:0">' + esc(n.t) + '</h1>' +
+      '<img class="story-img" src="' + esc(K.newsImg(n)) + '" alt="" referrerpolicy="no-referrer" onerror="this.remove()">' +
       (n.sum ? '<p class="lead" style="margin:0">' + esc(n.sum) + '</p>' : '') +
-      '<div class="card pad" style="display:flex;flex-direction:column;gap:10px"><h2 class="h4">The full story</h2><span class="note">We show the headline and the publisher\'s own summary. The article itself is on ' + esc(n.src) + '.</span>' +
-      '<a class="btn acc" style="align-self:flex-start" href="' + (K.safeUrl(n.url) ? esc(n.url) : '#') + '" target="_blank" rel="noopener">Read at ' + esc(n.src) + ' →</a></div>' +
-      '<div class="card" style="overflow:hidden"><div class="pad" style="padding-bottom:12px"><h2 class="h4">What it may move</h2></div>' +
-      (rel.length ? '<div class="tbl-wrap"><table class="tbl"><thead><tr><th class="l">Asset</th><th>Price</th><th>30 days</th><th>1 year</th><th>Swing</th></tr></thead><tbody>' + rel.map(function (a) {
-        return '<tr><td><div class="asset-cell">' + K.ini(a) + '<div><a href="' + K.assetHref(a) + '">' + esc(a.name) + '</a><small>' + esc(a.way) + '</small></div></div></td><td data-lp="' + a.id + '">' + K.money(a.price, a.currency) + '</td><td>' + K.pctc(a.chg_30d) + '</td><td>' + K.pctc(a.ret_1y) + '</td><td>' + (K.num(a.swing) ? a.swing.toFixed(0) + '%' : '–') + '</td></tr>';
-      }).join('') + '</tbody></table></div><div class="tbl-foot"><span class="note">Matched by keywords in the headline. Prices: Yahoo Finance, close ' + esc(K.fmtDate(rel[0].asof)) + '; crypto and currencies update live. Not a forecast.</span></div>'
-        : '<div class="empty">No tracked asset is named in this headline.</div>') + '</div>' +
-      '<div class="card pad" style="border-style:dashed;display:flex;flex-direction:column;gap:8px"><h2 class="h4">Our take</h2><span class="note">Coming soon: a short read on what this changes, for whom, and how sure we are.</span></div>' +
-      '</article><aside style="flex:1 1 300px;display:flex;flex-direction:column;gap:12px"><h2 class="h4">More news</h2>' + moreList(items, n.url) + '<a class="link" href="news.html">All news →</a></aside></section>';
+      '<span class="note story-src">Source: <a class="link" href="' + (K.safeUrl(n.url) ? esc(n.url) : '#') + '" target="_blank" rel="noopener">' + esc(n.src) + '</a></span>' +
+      (rel.length ? '<div class="card" style="overflow:hidden"><div class="pad" style="padding-bottom:12px"><h2 class="h4">What it may move</h2></div><div class="tbl-wrap"><table class="tbl"><thead><tr><th class="l">Asset</th><th>Price</th><th>30 days</th><th>1 year</th><th>Swing</th></tr></thead><tbody>' + rel.map(function (a) {
+        return '<tr><td><div class="asset-cell">' + K.ini(a) + '<div><a href="' + K.assetHref(a) + '">' + esc(a.name) + '</a><small>' + esc(a.way) + '</small></div></div></td><td data-lp="' + a.id + '">' + K.money(a.price, a.currency) + '</td><td>' + K.pctc(a.chg_30d) + '</td><td>' + K.pctc(a.ret_1y) + '</td><td>' + (K.num(a.swing) ? a.swing.toFixed(0) + '%' : '') + '</td></tr>';
+      }).join('') + '</tbody></table></div></div>' : '') +
+      '</article>' +
+      '<section class="sec"><div class="sec-h"><h2 class="h3">More news</h2><div style="display:flex;gap:8px;align-items:center"><a class="link" href="news.html">All news →</a>' +
+      '<button class="btn sm news-nav" id="more-prev" aria-label="Previous">‹</button><button class="btn sm news-nav" id="more-next" aria-label="Next">›</button></div></div>' +
+      '<div class="news-strip" id="more-strip"></div></section>';
     main.innerHTML = h;
+    // more news: horizontal strip with arrows, same as the home page
+    var more = items.filter(function (x) { return x.url !== n.url; }).slice(0, 12), mp = 0;
+    var strip = document.getElementById('more-strip');
+    function maxMp() { var c = strip.querySelector('.news-card'); if (!c) return 0; var per = Math.max(1, Math.floor((strip.clientWidth + 16) / (c.getBoundingClientRect().width + 16))); return Math.max(0, more.length - per); }
+    function drawMore() {
+      strip.innerHTML = '<div class="news-track">' + more.map(K.newsCard).join('') + '</div>';
+      var c = strip.querySelector('.news-card'); if (c) strip.firstChild.style.transform = 'translateX(' + (-mp * (c.getBoundingClientRect().width + 16)) + 'px)';
+      document.getElementById('more-prev').disabled = mp <= 0; document.getElementById('more-next').disabled = mp >= maxMp();
+    }
+    document.getElementById('more-prev').onclick = function () { mp = Math.max(0, mp - 1); drawMore(); };
+    document.getElementById('more-next').onclick = function () { mp = Math.min(maxMp(), mp + 1); drawMore(); };
+    drawMore();
   }).catch(function () {
     document.getElementById('main').innerHTML = '<div class="empty">Headlines are unavailable right now.</div>';
   });

@@ -347,3 +347,7 @@ html{scrollbar-width:thin;scrollbar-color:#474d57 transparent}
 .results.dd-all a small{margin-left:auto;text-align:right}
 .dd-h{position:sticky;top:0;background:var(--card);padding:8px 12px 4px;font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);border-bottom:1px solid var(--line2)}
 .chart-add{position:relative}.chart-add .results{min-width:min(92vw,360px)}
+.story{display:flex;flex-direction:column;gap:18px;max-width:860px;padding:8px 0 24px}
+.story-img{width:100%;aspect-ratio:16/8;object-fit:cover;border-radius:16px;background:var(--tile)}
+.story .lead{font-size:19px;line-height:1.55;color:var(--text)}
+.story-src{font-size:12px}
