@@ -106,7 +106,7 @@
   function header(active) {
     var m = C.meta;
     var built = m.built;
-    var nav = [['map.html', 'All ways to invest', 'map'], ['rankings.html', 'Rankings', 'rank'], ['compare.html', 'Compare', 'cmp'], ['news.html', 'News', 'news'], ['methodology.html', 'Methodology', 'meth']];
+    var nav = [['map.html', 'All ways to invest', 'map'], ['rankings.html', 'Rankings', 'rank'], ['compare.html', 'Compare', 'cmp'], ['news.html', 'News', 'news']];
     var h = '<div class="strip"><div class="wrap">' +
       '<span>Ways to invest <b>' + m.n_ways + '</b></span>' +
       '<span>Assets tracked <b>' + m.n_assets + '</b></span>' +
@@ -197,7 +197,7 @@
   function footer() {
     var f = document.createElement('footer'); f.className = 'ft';
     f.innerHTML = '<div class="wrap"><span><span style="font-family:var(--ff-h);font-weight:700;color:var(--text)">' + SITE.name + '</span></span>' +
-      '<nav><a href="methodology.html">Methodology</a><a href="methodology.html#sources">Sources</a><a href="methodology.html#photos">Photo credits</a><a href="data/catalog.json">Download data (JSON)</a></nav>' +
+      '<nav><a href="methodology.html">Sources &amp; credits</a><a href="data/catalog.json">Download data (JSON)</a></nav>' +
       '<span>Not investment advice. Past returns do not predict future ones.</span></div>';
     document.body.insertBefore(f, document.querySelector('.tabbar'));
   }
