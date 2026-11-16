@@ -21,6 +21,7 @@ public class Backup {
 
     @Value("${hub.backup.dir:}") String dir;
     @Value("${hub.backup.pg-dump:}") String pgDump;
+    @Value("${HUB_PG_PORT:5432}") String port;
     @Value("${hub.backup.keep:14}") int keep;
     @Value("${spring.datasource.password:}") String password;
 
@@ -34,7 +35,7 @@ public class Backup {
         try {
             Files.createDirectories(Path.of(dir));
             Path out = Path.of(dir, "hub-" + LocalDate.now() + ".dump");
-            ProcessBuilder pb = new ProcessBuilder(pgDump, "-h", "127.0.0.1", "-U", "hub", "-d", "hub", "-Fc", "-f", out.toString())
+            ProcessBuilder pb = new ProcessBuilder(pgDump, "-h", "127.0.0.1", "-p", port, "-U", "hub", "-d", "hub", "-Fc", "-f", out.toString())
                     .redirectErrorStream(true).redirectOutput(Path.of(dir, "last-backup.log").toFile());
             pb.environment().put("PGPASSWORD", password);
             Process p = pb.start();

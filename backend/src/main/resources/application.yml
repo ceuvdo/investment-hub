@@ -6,7 +6,7 @@ spring:
   application.name: hub-backend
   task.scheduling.pool.size: 4   # live pushes, candle flushes and probes must not wait for each other
   datasource:
-    url: jdbc:postgresql://127.0.0.1:5432/hub
+    url: jdbc:postgresql://127.0.0.1:${HUB_PG_PORT:5432}/hub
     username: hub
     password: ${HUB_DB_PASSWORD}
   flyway:
@@ -20,23 +20,24 @@ management:
 
 hub:
   site-dir: ${HUB_SITE_DIR:E:/booty ass/hub}
+  log-dir: ${HUB_LOG_DIR:E:/tools/logs}   # paths default to the main PC; set HUB_* user variables elsewhere
   research-dir: ${hub.site-dir}/data/research
   daily-cron: "0 0 9 * * *"             # daily build at 09:00 local time
   daily-on-start: false                 # set true (or call POST /api/admin/build) to build right away
   deploy:
-    enabled: true
+    enabled: ${HUB_DEPLOY:true}           # false on a local copy that must not publish the site
     script: ${hub.site-dir}/deploy.ps1
   relay:
     url: ${HUB_RELAY_URL:}               # e.g. https://investment-hub-live.ceuvdo.workers.dev/push
     secret: ${HUB_RELAY_SECRET:}
     interval-ms: 3000                    # while visitors are connected; every 60 s when nobody is watching
   backup:
-    dir: E:/backups/hub
-    pg-dump: E:/tools/pgsql/bin/pg_dump.exe
+    dir: ${HUB_BACKUP_DIR:E:/backups/hub}
+    pg-dump: ${HUB_PG_BIN:E:/tools/pgsql/bin}/pg_dump.exe
     keep: 14
   live:
     flush-ms: 60000                     # write 1-minute candles to the database every minute
 
 logging:
-  file.name: E:/tools/logs/hub-backend.log
+  file.name: ${hub.log-dir}/hub-backend.log
   logback.rollingpolicy.max-history: 14

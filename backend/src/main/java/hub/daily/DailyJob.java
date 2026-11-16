@@ -27,6 +27,8 @@ public class DailyJob {
     private final CatalogBuilder builder;
     private final JdbcTemplate jdbc;
     private final HubProperties props;
+    @org.springframework.beans.factory.annotation.Value("${hub.log-dir:E:/tools/logs}")
+    String logDir = "E:/tools/logs";
     private final AtomicBoolean running = new AtomicBoolean();
     private volatile String lastResult = "not run yet";
 
@@ -116,13 +118,13 @@ public class DailyJob {
         try {
             Process p = new ProcessBuilder("pwsh", "-NoProfile", "-NonInteractive", "-ExecutionPolicy", "Bypass", "-File", props.deploy().script())
                     .redirectErrorStream(true)
-                    .redirectOutput(Path.of("E:/tools/logs/deploy-last.log").toFile())
+                    .redirectOutput(Path.of(logDir, "deploy-last.log").toFile())
                     .start();
             if (!p.waitFor(10, TimeUnit.MINUTES)) {
                 p.destroyForcibly();
                 return "deploy timed out";
             }
-            return p.exitValue() == 0 ? "deployed" : "deploy failed (exit " + p.exitValue() + ", see E:/tools/logs/deploy-last.log)";
+            return p.exitValue() == 0 ? "deployed" : "deploy failed (exit " + p.exitValue() + ", see " + logDir + "/deploy-last.log)";
         } catch (Exception e) {
             return "deploy failed: " + e.getMessage();
         }

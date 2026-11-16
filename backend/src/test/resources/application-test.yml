@@ -4,7 +4,7 @@ server:
 
 spring:
   datasource:
-    url: jdbc:postgresql://127.0.0.1:5432/hub_test
+    url: jdbc:postgresql://127.0.0.1:${HUB_PG_PORT:5432}/hub_test
     username: hub
     password: ${HUB_DB_PASSWORD:hub-local}
 

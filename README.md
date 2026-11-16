@@ -71,6 +71,21 @@ relay\deploy-relay.ps1
 
 **Logs:** `E:\tools\logs` (`hub-backend.log`, `postgres.log`, `deploy-last.log`).
 
+## A second PC (local copy)
+
+Paths default to the main PC (drive E:). On another PC, set these user environment variables and the same jar runs there:
+
+| Variable | Example | Used for |
+| --- | --- | --- |
+| `HUB_PG_BIN`, `HUB_PG_DATA` | `D:\hub\pgsql\bin`, `D:\hub\data\pg` | PostgreSQL binaries and data |
+| `HUB_LOG_DIR`, `HUB_TMP`, `HUB_BACKUP_DIR` | `D:\hub\logs`, `D:\hub\tmp`, `D:\hub\backups` | Logs, temp files, nightly dumps |
+| `HUB_JAVA` | `C:\Program Files\Java\jdk-26.0.2\bin\java.exe` | Java used by `start-backend.ps1` |
+| `HUB_SITE_DIR` | the repository folder | Where the daily build writes `data/` |
+| `HUB_PG_PORT` | `5433` | When another PostgreSQL already uses 5432 |
+| `HUB_DEPLOY` | `false` | A local copy must not publish the site |
+
+With Windows Smart App Control on, the unsigned TimescaleDB library cannot load into a native PostgreSQL; run the database in Docker (`timescale/timescaledb:2.32.0-pg17`) instead. Leave `HUB_RELAY_URL` and `HUB_RELAY_SECRET` unset on a local copy: only the main PC pushes live prices to the relay. Build with `mvn "-Dmaven.repo.local=D:/hub/m2" -f backend\pom.xml -DskipTests package`, because `backend/.mvn/maven.config` points at `E:/tools/m2`.
+
 ## Safety nets
 
 - **Validation before publishing.** A build is published only if it has at least 64 ways (the catalog has 77) and at least 90% of the previous asset count, contains no impossible prices or returns, has no more than 20% of market assets older than a week, and every research link is `https`. Otherwise the old site stays online and `/api/status` explains why.
