@@ -346,3 +346,4 @@ html{scrollbar-width:thin;scrollbar-color:#474d57 transparent}
 .results.dd-all a .ini{flex:0 0 28px;width:28px;height:28px;border-radius:8px}
 .results.dd-all a small{margin-left:auto;text-align:right}
 .dd-h{position:sticky;top:0;background:var(--card);padding:8px 12px 4px;font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);border-bottom:1px solid var(--line2)}
+.chart-add{position:relative}.chart-add .results{min-width:min(92vw,360px)}

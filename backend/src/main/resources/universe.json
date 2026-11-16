@@ -57,14 +57,6 @@
    "about": "Homes, commercial buildings, farmland and forest. Return is price growth plus rent; selling takes months and costs several percent."
   },
   {
-   "slug": "infra",
-   "name": "Infrastructure and energy",
-   "note": "Roads, grids and power plants that earn for decades",
-   "img": null,
-   "pos": null,
-   "about": "Companies and funds that own towers, pipelines, grids and power plants, plus clean energy. Long contracts, steady income, sensitive to interest rates."
-  },
-  {
    "slug": "business",
    "name": "Businesses",
    "note": "You buy the cash flow, sometimes the job",
@@ -177,6 +169,30 @@
    "liq": 2,
    "risk": "medium",
    "desc": "Systematic and trend-following funds."
+  },
+  {
+   "name": "Infrastructure company shares",
+   "group": "public",
+   "entry": 1,
+   "liq": 5,
+   "risk": "medium",
+   "desc": "Listed owners of towers, grids, pipelines and utilities."
+  },
+  {
+   "name": "Infrastructure ETFs",
+   "group": "public",
+   "entry": 1,
+   "liq": 5,
+   "risk": "low",
+   "desc": "Funds holding many infrastructure companies."
+  },
+  {
+   "name": "Clean energy ETFs",
+   "group": "public",
+   "entry": 1,
+   "liq": 5,
+   "risk": "high",
+   "desc": "Funds of solar, wind and other clean energy companies."
   },
   {
    "name": "Savings and deposits",
@@ -459,32 +475,8 @@
    "desc": "Financing new construction for a share of profit or interest."
   },
   {
-   "name": "Infrastructure company shares",
-   "group": "infra",
-   "entry": 1,
-   "liq": 5,
-   "risk": "medium",
-   "desc": "Listed owners of towers, grids, pipelines and utilities."
-  },
-  {
-   "name": "Infrastructure ETFs",
-   "group": "infra",
-   "entry": 1,
-   "liq": 5,
-   "risk": "low",
-   "desc": "Funds holding many infrastructure companies."
-  },
-  {
-   "name": "Clean energy ETFs",
-   "group": "infra",
-   "entry": 1,
-   "liq": 5,
-   "risk": "high",
-   "desc": "Funds of solar, wind and other clean energy companies."
-  },
-  {
    "name": "Community solar and wind projects",
-   "group": "infra",
+   "group": "property",
    "entry": 2,
    "liq": 1,
    "risk": "medium",

@@ -363,8 +363,10 @@
     var rel = related(n, 1)[0], g = rel && groupsBySlug[rel.group];
     return 'assets/img/' + ((g && g.img) || CAT_IMG[n.cat] || 'stocks.jpg');
   }
+  var CAT_ASSET = { Crypto: 'btc', Stocks: 'spy', Markets: 'spy', Economy: 'bil' };
   function newsChips(n) {
     var rel = related(n, 3);
+    if (!rel.length && byId[CAT_ASSET[n.cat]]) rel = [byId[CAT_ASSET[n.cat]]]; // nothing named: the market the story is about
     return rel.length ? '<span class="news-rel"><span class="cap">May move</span>' + rel.map(function (a) {
       var c = a.chg_30d; return '<span class="chip">' + esc(a.name.split(' (')[0]) + ' <span class="' + cls(c) + '">' + (num(c) ? (c < 0 ? '▼' : '▲') + ' ' + Math.abs(c).toFixed(1) + '%' : '') + '</span></span>';
     }).join('') + '</span>' : '';

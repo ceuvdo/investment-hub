@@ -23,12 +23,12 @@
     <div class="presets"><span class="cap">Ready comparisons</span><div class="pills" id="presets"></div></div>
   </section>
   <section class="sec"><div class="card pad">
-    <div style="display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px;align-items:center;margin-bottom:10px"><h2 class="h3" id="ct">Growth of $1,000</h2><div class="pills" id="rng"></div></div>
+    <div style="display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px;align-items:center;margin-bottom:10px"><h2 class="h3" id="ct">Growth of $1,000</h2><div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap"><span class="search chart-add" id="chart-add"></span><div class="pills" id="rng"></div></div></div>
     <div class="legend" id="lg" style="margin-bottom:10px"></div><div id="chart"></div>
   </div></section>
   <section class="sec"><div class="card" style="overflow:hidden"><div class="tbl-wrap"><table class="tbl cmp" id="mt"></table></div>
-    <div class="tbl-foot"><span class="note"><span class="acc">Highlighted</span> = best on that metric. Prices: Yahoo Finance; house prices: BIS via FRED.</span></div></div></section>
-  <section class="sec callouts" id="calls"></section>
+    </div></section>
+  <div id="calls" hidden></div>
 </main>
 <script>
 (function () {
@@ -47,7 +47,23 @@
   ].filter(function (p) { return p[1].every(function (i) { return K.byId[i]; }); });
   document.getElementById('presets').innerHTML = PRESETS.map(function (p, i) { return '<button class="pill" data-ps="' + i + '">' + esc(p[0]) + '</button>'; }).join('');
   document.querySelectorAll('[data-ps]').forEach(function (b) { b.onclick = function () { ids = PRESETS[+b.dataset.ps][1].slice(); sync(); window.scrollTo({ top: 0, behavior: 'smooth' }); }; });
-  document.addEventListener('click', function (e) { var b = document.getElementById('addres'); if (b && !e.target.closest('.picked .search')) b.hidden = true; });
+  document.addEventListener('click', function (e) { if (e.target.closest('.search')) return; ['addres', 'addres2'].forEach(function (id) { var b = document.getElementById(id); if (b) b.hidden = true; }); });
+  // empty field: the whole list, grouped; typing filters it; a pick is added to the chart and the table at once
+  function picker(add, box) {
+    if (!add || !box) return;
+    add.oninput = add.onfocus = function () {
+      var v = add.value.toLowerCase().trim();
+      var pool = C.assets.filter(function (a) { return ids.indexOf(a.id) < 0 && (!v || (a.name + ' ' + a.symbol + ' ' + a.way + ' ' + a.sub).toLowerCase().indexOf(v) >= 0); });
+      var html = C.groups.map(function (g) {
+        var xs = pool.filter(function (a) { return a.group === g.slug; }); if (!xs.length) return '';
+        return '<div class="dd-h">' + esc(g.name) + ' <span class="mono">' + xs.length + '</span></div>' + xs.map(function (a) { return '<a href="#" data-add="' + a.id + '">' + K.ini(a) + '<span>' + esc(a.name) + '</span><small>' + esc(a.way) + '</small></a>'; }).join('');
+      }).join('');
+      box.innerHTML = html || '<div class="empty">No tracked asset matches.</div>';
+      box.classList.add('dd-all');
+      box.hidden = false;
+      box.querySelectorAll('[data-add]').forEach(function (x) { x.onclick = function (e) { e.preventDefault(); ids.push(x.dataset.add); sync(); }; });
+    };
+  }
   function sync() { history.replaceState(null, '', '?ids=' + ids.join(',')); draw(); }
   function draw() {
     var as = ids.map(function (i) { return K.byId[i]; });
@@ -55,23 +71,9 @@
       return '<span class="pick"><i style="background:' + PAL[i] + '"></i><span style="font-weight:600">' + esc(a.name) + '</span><span class="note">' + esc(a.way) + '</span><button aria-label="Remove ' + esc(a.name) + '" data-rm="' + a.id + '"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button></span>';
     }).join('') + (ids.length < 4 ? '<span class="search" style="min-width:260px;flex:0 1 320px"><label style="height:48px;border-radius:12px"><span class="sr">Add asset</span><input id="add" type="search" placeholder="+ Add asset: name or ticker" autocomplete="off"></label><div class="results" id="addres" hidden style="top:54px"></div></span>' : '');
     document.querySelectorAll('[data-rm]').forEach(function (b) { b.onclick = function () { ids = ids.filter(function (i) { return i !== b.dataset.rm; }); sync(); }; });
-    var add = document.getElementById('add');
-    if (add) {
-      var box = document.getElementById('addres');
-      // empty field: the whole list, grouped; typing filters it
-      add.oninput = add.onfocus = function () {
-        var v = add.value.toLowerCase().trim();
-        var pool = C.assets.filter(function (a) { return ids.indexOf(a.id) < 0 && (!v || (a.name + ' ' + a.symbol + ' ' + a.way + ' ' + a.sub).toLowerCase().indexOf(v) >= 0); });
-        var html = C.groups.map(function (g) {
-          var xs = pool.filter(function (a) { return a.group === g.slug; }); if (!xs.length) return '';
-          return '<div class="dd-h">' + esc(g.name) + ' <span class="mono">' + xs.length + '</span></div>' + xs.map(function (a) { return '<a href="#" data-add="' + a.id + '">' + K.ini(a) + '<span>' + esc(a.name) + '</span><small>' + esc(a.way) + '</small></a>'; }).join('');
-        }).join('');
-        box.innerHTML = html || '<div class="empty">No tracked asset matches.</div>';
-        box.classList.add('dd-all');
-        box.hidden = false;
-        box.querySelectorAll('[data-add]').forEach(function (x) { x.onclick = function (e) { e.preventDefault(); ids.push(x.dataset.add); sync(); }; });
-      };
-    }
+    picker(document.getElementById('add'), document.getElementById('addres'));
+    document.getElementById('chart-add').innerHTML = ids.length < 4 ? '<label style="height:36px;border-radius:999px;padding:0 12px"><span class="sr">Add to chart</span><input id="add2" type="search" placeholder="+ Add to chart" autocomplete="off" style="font-size:13px;width:150px"></label><div class="results" id="addres2" hidden style="top:42px;right:0;left:auto"></div>' : '';
+    picker(document.getElementById('add2'), document.getElementById('addres2'));
     if (!as.length) { document.getElementById('chart').innerHTML = '<div class="empty">Add an asset to start.</div>'; document.getElementById('mt').innerHTML = ''; document.getElementById('calls').innerHTML = ''; return; }
 
     document.getElementById('rng').innerHTML = ['1y', '5y', '10y'].map(function (r) { return '<button class="pill" style="height:34px" aria-pressed="' + (r === range) + '" data-r="' + r + '">' + r.toUpperCase() + '</button>'; }).join('');
