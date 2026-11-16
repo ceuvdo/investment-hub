@@ -60,7 +60,7 @@ async function readFeed(f) {
   }
 }
 
-async function news(req, ctx) {
+async function news(req, env, ctx) {
   const cache = caches.default;
   const key = new Request('https://cache.local/news-v2');
   let res = await cache.match(key);
@@ -74,7 +74,16 @@ async function news(req, ctx) {
     ctx.waitUntil(cache.put(key, res.clone()));
   }
   const origin = req.headers.get('Origin') || '';
-  const out = new Response(res.body, res);
+    // add our own briefs (written by the backend) to the cached headlines
+    let body = await res.text();
+    try {
+      const hub = env.HUB.get(env.HUB.idFromName('main'));
+      const briefs = await (await hub.fetch('https://hub/briefs')).json();
+      const d = JSON.parse(body);
+      d.items = (d.items || []).map((n) => (briefs[n.url] ? { ...n, ours: briefs[n.url] } : n));
+      body = JSON.stringify(d);
+    } catch (e) { /* headlines without briefs */ }
+    const out = new Response(body, res);
   for (const [k, v] of Object.entries(cors(origin))) out.headers.set(k, v);
   return out;
 }
@@ -85,8 +94,8 @@ export default {
     const origin = req.headers.get('Origin') || '';
     if (req.method === 'OPTIONS') return new Response(null, { headers: cors(origin) });
     if (url.pathname === '/health') return new Response('ok');
-    if (url.pathname === '/news') return news(req, ctx);
-    if (!['/push', '/live', '/snapshot'].includes(url.pathname)) return new Response('not found', { status: 404 });
+    if (url.pathname === '/news') return news(req, env, ctx);
+    if (!['/push', '/push-briefs', '/live', '/snapshot'].includes(url.pathname)) return new Response('not found', { status: 404 });
     // browsers always send Origin on websocket upgrades: only our site may use the feed (and our quota)
     if (url.pathname === '/live' && !ORIGINS.includes(origin)) return new Response('forbidden origin', { status: 403 });
     const hub = env.HUB.get(env.HUB.idFromName('main'));
@@ -160,6 +169,26 @@ export class LiveHub {
         await this.state.storage.put('latest', latest);
       }
       return new Response(JSON.stringify({ ok: true, sockets: sockets.length }), { headers: { 'Content-Type': 'application/json' } });
+    }
+
+    if (url.pathname === '/briefs') {
+      return new Response(JSON.stringify((await this.state.storage.get('briefs')) || {}), { headers: { 'Content-Type': 'application/json' } });
+    }
+
+    if (url.pathname === '/push-briefs') {
+      if (req.method !== 'POST') return new Response('POST only', { status: 405 });
+      const body = await req.text();
+      if (body.length > MAX_BODY) return new Response('too large', { status: 413 });
+      if (!(await verify(this.env.RELAY_SECRET, body, req.headers.get('X-Signature')))) return new Response('bad signature', { status: 401 });
+      let m;
+      try { m = JSON.parse(body); } catch (e) { return new Response('bad json', { status: 400 }); }
+      if (typeof m.t !== 'number' || Math.abs(m.t - Date.now()) > MAX_SKEW_MS) return new Response('stale', { status: 409 });
+      const briefs = {};
+      for (const [u, t] of Object.entries(m.briefs || {})) {
+        if (/^https?:\/\//.test(u) && typeof t === 'string' && t.length <= 900) briefs[u] = t;
+      }
+      await this.state.storage.put('briefs', briefs);
+      return new Response(JSON.stringify({ ok: true, n: Object.keys(briefs).length }), { headers: { 'Content-Type': 'application/json' } });
     }
 
     if (url.pathname === '/snapshot') {

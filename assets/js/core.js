@@ -374,7 +374,7 @@
   function newsCard(n) {
     return '<a class="card news-card" href="' + newsHref(n) + '"><img class="news-img" src="' + esc(newsImg(n)) + '" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.onerror=null;this.src=&quot;assets/img/stocks.jpg&quot;">' +
       '<span class="note">' + esc(n.cat) + ' · ' + esc(ago(n.ts)) + ' · ' + esc(n.src) + '</span><span class="news-t">' + esc(n.t) + '</span>' +
-      (n.sum ? '<span class="note news-sum">' + esc(n.sum) + '</span>' : '') + newsChips(n) + '</a>';
+      ((n.ours || n.sum) ? '<span class="note news-sum">' + esc(n.ours || n.sum) + '</span>' : '') + newsChips(n) + '</a>';
   }
   function newsHref(n) { return 'news.html?u=' + encodeURIComponent(n.url); }
   function loadNews() { return fetch(NEWS_URL).then(function (r) { return r.json(); }).then(function (d) { return d.items || []; }); }

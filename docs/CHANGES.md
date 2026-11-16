@@ -3,6 +3,7 @@
 Short list of small edits, newest first. Every edit is deployed right away.
 
 ## 16.11.2026
+- новини: свої короткі тексти через Claude замість опису видання (вмикається API-ключем)
 - прибрав Methodology з меню, у футері лишив Sources & credits
 - сторінка новини: велике фото, без порожніх блоків, прибрав Our take
 - більше новин внизу стрічкою зі стрілками

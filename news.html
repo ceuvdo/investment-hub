@@ -47,7 +47,7 @@
       '<span class="mono note" style="text-transform:uppercase;letter-spacing:.08em">' + esc(n.cat) + ' · ' + esc(K.ago(n.ts)) + '</span>' +
       '<h1 class="h2" style="font-size:36px;line-height:1.15;margin:0">' + esc(n.t) + '</h1>' +
       '<img class="story-img" src="' + esc(K.newsImg(n)) + '" alt="" referrerpolicy="no-referrer" onerror="this.remove()">' +
-      (n.sum ? '<p class="lead" style="margin:0">' + esc(n.sum) + '</p>' : '') +
+      ((n.ours || n.sum) ? '<p class="lead" style="margin:0">' + esc(n.ours || n.sum) + '</p>' : '') +
       '<span class="note story-src">Source: <a class="link" href="' + (K.safeUrl(n.url) ? esc(n.url) : '#') + '" target="_blank" rel="noopener">' + esc(n.src) + '</a></span>' +
       (rel.length ? '<div class="card" style="overflow:hidden"><div class="pad" style="padding-bottom:12px"><h2 class="h4">What it may move</h2></div><div class="tbl-wrap"><table class="tbl"><thead><tr><th class="l">Asset</th><th>Price</th><th>30 days</th><th>1 year</th><th>Swing</th></tr></thead><tbody>' + rel.map(function (a) {
         return '<tr><td><div class="asset-cell">' + K.ini(a) + '<div><a href="' + K.assetHref(a) + '">' + esc(a.name) + '</a><small>' + esc(a.way) + '</small></div></div></td><td data-lp="' + a.id + '">' + K.money(a.price, a.currency) + '</td><td>' + K.pctc(a.chg_30d) + '</td><td>' + K.pctc(a.ret_1y) + '</td><td>' + (K.num(a.swing) ? a.swing.toFixed(0) + '%' : '') + '</td></tr>';

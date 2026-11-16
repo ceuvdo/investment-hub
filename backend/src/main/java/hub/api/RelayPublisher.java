@@ -86,7 +86,7 @@ public class RelayPublisher {
         }
     }
 
-    static String sign(String secret, String body) throws Exception {
+    public static String sign(String secret, String body) throws Exception {
         Mac mac = Mac.getInstance("HmacSHA256");
         mac.init(new SecretKeySpec(secret.getBytes(StandardCharsets.UTF_8), "HmacSHA256"));
         return HexFormat.of().formatHex(mac.doFinal(body.getBytes(StandardCharsets.UTF_8)));

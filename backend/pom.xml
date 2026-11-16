@@ -27,6 +27,8 @@
     <dependency><groupId>org.flywaydb</groupId><artifactId>flyway-database-postgresql</artifactId></dependency>
     <!-- Skinport's API answers only with Brotli-compressed bodies; java.net.http cannot decode them -->
     <dependency><groupId>org.brotli</groupId><artifactId>dec</artifactId><version>0.1.2</version></dependency>
+    <!-- Claude API: our own short news briefs -->
+    <dependency><groupId>com.anthropic</groupId><artifactId>anthropic-java</artifactId><version>3.8.0</version></dependency>
     <dependency><groupId>org.postgresql</groupId><artifactId>postgresql</artifactId><scope>runtime</scope></dependency>
     <dependency><groupId>org.springframework.boot</groupId><artifactId>spring-boot-starter-test</artifactId><scope>test</scope></dependency>
   </dependencies>

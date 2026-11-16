@@ -14,7 +14,7 @@ if ($LASTEXITCODE -ne 0) {
   }
 }
 
-foreach ($n in 'HUB_DB_PASSWORD', 'HUB_RELAY_URL', 'HUB_RELAY_SECRET', 'CLOUDFLARE_API_TOKEN', 'CLOUDFLARE_ACCOUNT_ID') {
+foreach ($n in 'HUB_DB_PASSWORD', 'HUB_RELAY_URL', 'HUB_RELAY_SECRET', 'CLOUDFLARE_API_TOKEN', 'CLOUDFLARE_ACCOUNT_ID', 'ANTHROPIC_API_KEY') {
   $v = [Environment]::GetEnvironmentVariable($n, 'User')
   if ($v) { [Environment]::SetEnvironmentVariable($n, $v, 'Process') }
 }
